@@ -278,6 +278,7 @@
 		function treeip(e) {
             // 입력된 수병트리를 구글DB 검색값으로 보내는 부분
             input = e.value;
+            document.getElementById("tree_sel").innerHTML = input;
             document.getElementById("tree_sel1").innerHTML = input;
 			params["treeinput"] = input;
 			gen_url();
@@ -286,7 +287,7 @@
         function searchTree(e) {
             // 입력된 국가를 구글DB 검색값으로 보내는 부분
             input = e.value;
-
+            document.getElementById("nation_sel").innerHTML = input;
             document.getElementById("nation_sel1").innerHTML = input;
 			params["nationinput"] = input;
 			gen_url();
