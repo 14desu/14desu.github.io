@@ -17,13 +17,14 @@
         <div class="w3-top">
             <div class="w3-bar w3-black w3-card">
                 <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-                <a href="#" class="w3-bar-item w3-button w3-padding-large">Navyfield Simulator &nbsp;&nbsp;&nbsp; by g_dori</a>
+                <a href="./" class="w3-bar-item w3-button w3-padding-large">Navyfield Simulator &nbsp;&nbsp;&nbsp; by g_dori</a>
                 <a href="https://nfsim.blogspot.com/" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BLOG</a>
                 <a href="https://gall.dcinside.com/board/view/?id=nf&no=363613" class="w3-bar-item w3-button w3-padding-large w3-hide-small">코코마지침서</a>
                 <div class="w3-dropdown-hover w3-hide-small">
                     <button class="w3-padding-large w3-button" title="More">수병계산기 <i class="fa fa-caret-down"></i></button>     
                     <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="#" class="w3-bar-item w3-button">수병계산기 KR server</a>
+                        <a href="./" class="w3-bar-item w3-button">수병계산기 KR server</a>
+                        <a href="./Global/" class="w3-bar-item w3-button">수병계산기 Global server</a>
                     </div>
                 </div>
                 <div class="w3-dropdown-hover w3-hide-small">
@@ -632,7 +633,7 @@
                 var abiltotal = [25,25,25,25,25,25,25,25,25,25,25,55];
 
                 // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
-                for(i=0;i<12;i++){
+                for(i=0;i<11;i++){
                     if(abilgrowth[i] == 14){
                         abiltotal[i] = 30;
                         if(i==1||i==2){
@@ -717,6 +718,13 @@
                     abildata[i][0] = treelev[i];
                 }
                 
+                //늦직입력 - 전직안하는 트리분 반영
+                for(i=tree_n; i>1; i--){
+                    if(treelev[i-1] == "" && treelev[i-2] != ""){
+                        tree_n = i-1;
+                    }
+                }
+
                 // 수병트리영향분 계산
                 for(i=0; i<tree_n; i++){
                     if(levinput*1 < abildata[i][0]){
@@ -800,7 +808,7 @@
                 
 
                 //기관오버힛시간계산
-                if(treedata[3].indexOf("기관")>0){
+                if(treedata[2].indexOf("기관")>0){
                     document.getElementById("ENGT100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
                     document.getElementById("ENGT150").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*150)/10000)/10;
                     document.getElementById("ENGT180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
@@ -812,7 +820,7 @@
                 }
 
                 //기관오버힛증가율계산
-                if(treedata[3].indexOf("기관")>0){
+                if(treedata[2].indexOf("기관")>0){
                     document.getElementById("ENGR100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
                     document.getElementById("ENGR150").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*150)/8000)/2)/10;
                     document.getElementById("ENGR180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
@@ -824,7 +832,7 @@
                 }     
 
                 //음탐만시야계산
-                if(treedata[3].indexOf("음파")>-1){
+                if(treedata[2].indexOf("음파")>-1){
                     document.getElementById("SONAR100").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/3000)/10;
                     document.getElementById("SONAR150").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*150)/3000)/10;
                     document.getElementById("SONAR180").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/3000)/10;
