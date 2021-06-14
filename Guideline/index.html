@@ -149,14 +149,17 @@
             var FCS = document.getElementById("FCSIP").value;
 
             // 에러메세지 출력
+            if(POT == ""){
+                alert("잠재누적어빌을 입력해 주세요")
+            }
             if(NUM < VET+EXP+NEW){
                 alert("[사관수+숙련병수+신병수]가 총수병수 보다 많습니다")
             }
             if(VET > NUM*0.45){
-                alert("사관수가 한도(총수병수의 45%)보다 많습니다")
+                alert("경고 : 사관수가 한도(총수병수의 45%)보다 많습니다")
             }
             if(FCS == ""){
-                alert("FCS 가이드라인 길이 입력이 필요합니다")
+                alert("FCS 기본가이드라인 길이를 입력해 주세요")
             }
 
             // 수병빈혈도 계산
