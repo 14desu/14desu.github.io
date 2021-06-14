@@ -213,6 +213,9 @@
             var TARGETS = TARGET - FCS;
 
             var EXPT2 = Math.ceil(Math.sqrt(TARGETS*NUM*1000/POT+VET*VET*2.25)-VET*2.5);
+            if(NUM<VET+EXPT2){
+                EXPT2 = NUM - VET;
+            }
             var NUMR2 = (VET*1+EXPT2*1)/NUM*1;
             var SR2 = (VET*4+EXPT2)*NUMR2*1;
 
