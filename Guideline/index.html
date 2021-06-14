@@ -85,15 +85,19 @@
             <label for="NEWIP">신병</label><input type="number" id="NEWIP" name="NEWIP" min="0" max="1200" size="2">
 
             <br>
-            <h4>사통정보 입력</h4>
-            FCS 기본가이드라인 길이&nbsp;&nbsp;&nbsp;<input type="number" id="FCSIP" name="FCSIP" min="0" max="2000" size="2">
+        <h4>사통정보 입력</h4>
+        FCS 기본가이드라인 길이&nbsp;&nbsp;&nbsp;<input type="number" id="FCSIP" name="FCSIP" min="0" max="2000" size="2">
+        <br>
+        <h4>(옵션) 함장 신병0세팅 검토</h4>
+        목표 가이드라인 길이&nbsp;&nbsp;&nbsp;<input type="number" id="TARGETIP" name="TARGETIP" min="0" max="3100" size="2">
+
+
         </form>
 
         <h3><button onclick="get_result()">실행</button></h3>
         <br>
         <br>
         <h3>계산결과</h3>
-        <br>
         <table cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
             <tr>
                 <td>
@@ -120,7 +124,45 @@
                     <span id="guideSailor"></span>
                 </td>
                 <td>
-                    <span id="REPSailor"></span>
+                    <span id="REPS1"></span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <h3>(옵션)계산결과</h3>
+        <table cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
+            <tr>
+                <td>
+                    함선 가이드라인
+                </td>
+                <td>
+                    함장 사관수
+                </td>
+                <td>
+                    함장 숙병수
+                </td>
+                <td>
+                    함장 신병수
+                </td>
+                <td>
+                    함장 수리속도[/s]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span id="guideT2"></span>
+                </td>
+                <td>
+                    <span id="VETT"></span>
+                </td>
+                <td>
+                    <span id="EXPT"></span>
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    <span id="REPS2"></span>
                 </td>
             </tr>
         </table>
@@ -162,11 +204,22 @@
             var SR = (VET*4+EXP*1)*NUMR*1;
 
             // 함장빨랫줄 계산
-
-            document.getElementById("guideT").innerHTML = FCS*1+Math.floor(POT*SR/2000)*2;;
+            document.getElementById("guideT").innerHTML = FCS*1+Math.floor(POT*SR/2000)*2;
             document.getElementById("guideFCS").innerHTML = FCS*1;
-            document.getElementById("guideSailor").innerHTML = Math.floor(POT*SR/2000)*2;;
-            document.getElementById("REPSailor").innerHTML = Math.floor(Math.floor(REP*SR/480)/25.6)/10;
+            document.getElementById("guideSailor").innerHTML = Math.floor(POT*SR/2000)*2;
+            document.getElementById("REPS1").innerHTML = Math.floor(Math.floor(REP*SR/480)/25.6)/10;
+
+            var TARGET = document.getElementById("TARGETIP").value;
+            var TARGETS = TARGET - FCS;
+
+            var EXPT2 = Math.ceil(Math.sqrt(TARGETS*NUM*1000/POT+VET*VET*2.25)-VET*2.5);
+            var NUMR2 = (VET*1+EXPT2*1)/NUM*1;
+            var SR2 = (VET*4+EXPT2)*NUMR2*1;
+
+            document.getElementById("guideT2").innerHTML = FCS*1+Math.floor(POT*SR2/2000)*2;
+            document.getElementById("VETT").innerHTML = VET;
+            document.getElementById("EXPT").innerHTML = EXPT2;
+            document.getElementById("REPS2").innerHTML = Math.floor(Math.floor(REP*SR2/480)/25.6)/10;
 
 		}
 
