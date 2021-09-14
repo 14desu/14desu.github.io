@@ -214,12 +214,18 @@
                 </tr>
             </table>
         </form>
+
+        <h4>연사속도입력</h4>
+        <label for="GUNreload">함포연사속도:&nbsp;</label><input type="number" id="GUNreload" name="GUNreload" size="4" onchange="reloadip(this);">
+        입력확인: 
+        <span id="reload_ip">함포연사속도를 입력해 주세요</span>
+
         <h3><button onclick="get_result()">실행</button></h3>
         # 늦직계산시에는 늦직Lv 입력후에 한번 더 실행버튼 눌러주세요
         <br>
         <br>
         <h3>계산결과</h3>
-        입력확인 // <span id="nation_sel1"></span> <span id="tree_sel1"></span> <span id="LEVIP1"></span> <span id="BOOSTIP1"></span>
+        입력확인 // <span id="nation_sel1"></span> <span id="tree_sel1"></span> <span id="LEVIP1"></span> <span id="BOOSTIP1"></span> <span id="reload_ip1"></span>
         <br>
         <br>
         <table cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
@@ -344,6 +350,86 @@
                 </td>
                 <td>
                     <span id="NUMT"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    갑판어빌
+                </td>
+                <td>
+                    <span id="POTTS"></span>
+                </td>
+                <td>
+                    <span id="ACCTS"></span>
+                </td>
+                <td>
+                    <span id="RLDTS"></span>
+                </td>
+                <td>
+                    <span id="TORTS"></span>
+                </td>
+                <td>
+                    <span id="AAWTS"></span>
+                </td>
+                <td>
+                    <span id="REPTS"></span>
+                </td>
+                <td>
+                    <span id="RESTS"></span>
+                </td>
+                <td>
+                    <span id="ENGTS"></span>
+                </td>
+                <td>
+                    <span id="AIRTS"></span>
+                </td>
+                <td>
+                    <span id="FIGTS"></span>
+                </td>
+                <td>
+                    <span id="BOMTS"></span>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    갑판보정 [%]
+                </td>
+                <td>
+                    <span id="POTTSR"></span>
+                </td>
+                <td>
+                    <span id="ACCTSR"></span>
+                </td>
+                <td>
+                    <span id="RLDTSR"></span>
+                </td>
+                <td>
+                    <span id="TORTSR"></span>
+                </td>
+                <td>
+                    <span id="AAWTSR"></span>
+                </td>
+                <td>
+                    <span id="REPTSR"></span>
+                </td>
+                <td>
+                    <span id="RESTSR"></span>
+                </td>
+                <td>
+                    <span id="ENGTSR"></span>
+                </td>
+                <td>
+                    <span id="AIRTSR"></span>
+                </td>
+                <td>
+                    <span id="FIGTSR"></span>
+                </td>
+                <td>
+                    <span id="BOMTSR"></span>
+                </td>
+                <td>
                 </td>
             </tr>
         </table>
@@ -525,11 +611,127 @@
                     <span id="SONAR45"></span>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    수병연사구간
+                </td>
+                <td>
+                    <span id="SR100"></span>
+                </td>
+                <td>
+                    <span id="SR150"></span>
+                </td>
+                <td>
+                    <span id="SR180"></span>
+                </td>
+                <td>
+                    <span id="SR200"></span>
+                </td>
+                <td>
+                    <span id="SR250"></span>
+                </td>
+                <td>
+                    <span id="SR300"></span>
+                </td>
+                <td>
+                    <span id="SR40"></span>
+                </td>
+                <td>
+                    <span id="SR45"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    연사속도 [s]
+                </td>
+                <td>
+                    <span id="GR100"></span>
+                </td>
+                <td>
+                    <span id="GR150"></span>
+                </td>
+                <td>
+                    <span id="GR180"></span>
+                </td>
+                <td>
+                    <span id="GR200"></span>
+                </td>
+                <td>
+                    <span id="GR250"></span>
+                </td>
+                <td>
+                    <span id="GR300"></span>
+                </td>
+                <td>
+                    <span id="GR40"></span>
+                </td>
+                <td>
+                    <span id="GR45"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    연사구간업 필요갑판보정 [%]
+                </td>
+                <td>
+                    <span id="SRU100"></span>
+                </td>
+                <td>
+                    <span id="SRU150"></span>
+                </td>
+                <td>
+                    <span id="SRU180"></span>
+                </td>
+                <td>
+                    <span id="SRU200"></span>
+                </td>
+                <td>
+                    <span id="SRU250"></span>
+                </td>
+                <td>
+                    <span id="SRU300"></span>
+                </td>
+                <td>
+                    <span id="SRU40"></span>
+                </td>
+                <td>
+                    <span id="SRU45"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    연사구간업 연사속도 [s]
+                </td>
+                <td>
+                    <span id="GRU100"></span>
+                </td>
+                <td>
+                    <span id="GRU150"></span>
+                </td>
+                <td>
+                    <span id="GRU180"></span>
+                </td>
+                <td>
+                    <span id="GRU200"></span>
+                </td>
+                <td>
+                    <span id="GRU250"></span>
+                </td>
+                <td>
+                    <span id="GRU300"></span>
+                </td>
+                <td>
+                    <span id="GRU40"></span>
+                </td>
+                <td>
+                    <span id="GRU45"></span>
+                </td>
+            </tr>
         </table>
         <span id="tentativeout"></span>
-
+        연사속도는 실제측정 데이터가 존재할 경우에만 출력됩니다
 		<br>
-
+        <span id="tentativeout1"></span>
 	</body>
 
 
@@ -540,9 +742,10 @@
 		var params = {};
 		params["nationinput"] = "";
 		params["treeinput"] = "";
+		params["reloadinput"] = "";
         
 		function gen_url(){
-			var param = "input=" + params["nationinput"] + " - " + params["treeinput"];
+			var param = "input=" + params["nationinput"] + " - " + params["treeinput"] + "&input2=" + params["reloadinput"];
 			var encoderUrl = encodeURI(origUrl + param);
 			return encoderUrl
 		}
@@ -551,6 +754,8 @@
 			var encoderUrl = gen_url();
             var treedata = [];
             var abildata = [];
+            var reloadcutdata = [];
+            var reloadtimedata = [];
 
 			fetch(encoderUrl)
 			.then(response => response.json())
@@ -558,6 +763,8 @@
 
                 treedata = response["data"]["tree"];
                 abildata = response["data"]["abil"];
+                reloadcutdata = response["data"]["reloadcut"];
+                reloadtimedata = response["data"]["reloadtime"];
 
                 //abildata 값으로 검색된 전직횟수 판정
                 var tree_n = 0;
@@ -751,6 +958,15 @@
                     }
                 }
 
+                //영국 갑판병 보너스 어빌
+                if(params["nationinput"] == "영국"){
+                    if(treedata[2].indexOf("갑판")>0){
+                        for(r=0; r<11; r++){
+                            abiltotal[r] = abiltotal[r] + 50;
+                        }
+                    }
+                }
+
                 //성장어빌-수병수
                 document.getElementById("POTG").innerHTML = abilgrowth[0];
                 document.getElementById("ACCG").innerHTML = abilgrowth[1];
@@ -778,6 +994,36 @@
                 document.getElementById("FIGT").innerHTML = abiltotal[9];
                 document.getElementById("BOMT").innerHTML = abiltotal[10];
                 document.getElementById("NUMT").innerHTML = abiltotal[11];
+
+                //갑판어빌
+                if(treedata[2].indexOf("갑판")>0){
+                    document.getElementById("POTTS").innerHTML = Math.floor(abiltotal[0]*0.07);
+                    document.getElementById("ACCTS").innerHTML = Math.floor(abiltotal[1]*0.07);
+                    document.getElementById("RLDTS").innerHTML = Math.floor(abiltotal[2]*0.07);
+                    document.getElementById("TORTS").innerHTML = Math.floor(abiltotal[3]*0.07);
+                    document.getElementById("AAWTS").innerHTML = Math.floor(abiltotal[4]*0.07);
+                    document.getElementById("REPTS").innerHTML = Math.floor(abiltotal[5]*0.07);
+                    document.getElementById("RESTS").innerHTML = Math.floor(abiltotal[6]*0.07);
+                    document.getElementById("ENGTS").innerHTML = Math.floor(abiltotal[7]*0.07);
+                    document.getElementById("AIRTS").innerHTML = Math.floor(abiltotal[8]*0.07);
+                    document.getElementById("FIGTS").innerHTML = Math.floor(abiltotal[9]*0.07);
+                    document.getElementById("BOMTS").innerHTML = Math.floor(abiltotal[10]*0.07);
+                }
+
+                //갑판보정율
+                if(treedata[2].indexOf("갑판")>0){
+                    document.getElementById("POTTSR").innerHTML = Math.floor(abiltotal[0]/300);
+                    document.getElementById("ACCTSR").innerHTML = Math.floor(abiltotal[1]/300);
+                    document.getElementById("RLDTSR").innerHTML = Math.floor(abiltotal[2]/300);
+                    document.getElementById("TORTSR").innerHTML = Math.floor(abiltotal[3]/300);
+                    document.getElementById("AAWTSR").innerHTML = Math.floor(abiltotal[4]/300);
+                    document.getElementById("REPTSR").innerHTML = Math.floor(abiltotal[5]/300);
+                    document.getElementById("RESTSR").innerHTML = Math.floor(abiltotal[6]/300);
+                    document.getElementById("ENGTSR").innerHTML = Math.floor(abiltotal[7]/300);
+                    document.getElementById("AIRTSR").innerHTML = Math.floor(abiltotal[8]/300);
+                    document.getElementById("FIGTSR").innerHTML = Math.floor(abiltotal[9]/300);
+                    document.getElementById("BOMTSR").innerHTML = Math.floor(abiltotal[10]/300);
+                }
 
                 //사관숫자계산
                 var NUM40 = Math.floor(abiltotal[11]*0.4);
@@ -843,6 +1089,89 @@
                     document.getElementById("SONAR40").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/3000)/10;
                     document.getElementById("SONAR45").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/3000)/10;
                 }
+
+                //연사구간계산
+                if(treedata[1].indexOf("병기")>0){
+
+                    //연사어빌 배열준비 + 리얼어빌ip
+                    var reloadcalc = new Array(8);
+                        reloadcalc[0] = abiltotal[2]*(abiltotal[11] + 3*100);
+                        reloadcalc[1] = abiltotal[2]*(abiltotal[11] + 3*150);
+                        reloadcalc[2] = abiltotal[2]*(abiltotal[11] + 3*180);
+                        reloadcalc[3] = abiltotal[2]*(abiltotal[11] + 3*200);
+                        reloadcalc[4] = abiltotal[2]*(abiltotal[11] + 3*250);
+                        reloadcalc[5] = abiltotal[2]*(abiltotal[11] + 3*300);
+                        reloadcalc[6] = abiltotal[2]*(abiltotal[11] + 3*NUM40);
+                        reloadcalc[7] = abiltotal[2]*(abiltotal[11] + 3*NUM45);
+
+                    //연사어빌컷 구간 판정용 배열준비
+                    var reloadcutcalc = new Array(8);
+                    for(i=0; i<reloadcutcalc.length; i++){
+                        reloadcutcalc[i] = 0;
+                    }
+
+                    //연사구간판정
+                    for(i=0; i<reloadcalc.length; i++){
+                        for(j=0; j<reloadcutdata.length; j++){
+                            if(reloadcutdata[j] < reloadcalc[i]){
+                                    reloadcutcalc[i] = reloadcutcalc[i] + 1;
+                            }
+                        }
+                    }
+
+                    //연사속도 프레임>속도
+                    for(i=0; i<reloadtimedata.length; i++){
+                        if(reloadtimedata[i] > 0){
+                            reloadtimedata[i] = reloadtimedata[i]/25;
+                        }
+                    }
+
+                    //연사구간
+                    document.getElementById("SR100").innerHTML = reloadcutcalc[0];
+                    document.getElementById("SR150").innerHTML = reloadcutcalc[1];
+                    document.getElementById("SR180").innerHTML = reloadcutcalc[2];
+                    document.getElementById("SR200").innerHTML = reloadcutcalc[3];
+                    document.getElementById("SR250").innerHTML = reloadcutcalc[4];
+                    document.getElementById("SR300").innerHTML = reloadcutcalc[5];
+                    document.getElementById("SR40").innerHTML = reloadcutcalc[6];
+                    document.getElementById("SR45").innerHTML = reloadcutcalc[7];
+
+                    //연사구간 필요갑판보정
+                    document.getElementById("SRU100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
+                    document.getElementById("SRU150").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[1]]/reloadcalc[1]*100 - 100);
+                    document.getElementById("SRU180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
+                    document.getElementById("SRU200").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[3]]/reloadcalc[3]*100 - 100);
+                    document.getElementById("SRU250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
+                    document.getElementById("SRU300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
+                    document.getElementById("SRU40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
+                    document.getElementById("SRU45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
+
+
+                    var reload_ip_x = document.getElementById("reload_ip").innerHTML;
+                    if(reload_ip_x > 0){
+
+                        document.getElementById("GR100").innerHTML = reloadtimedata[reloadcutcalc[0]-1];
+                        document.getElementById("GR150").innerHTML = reloadtimedata[reloadcutcalc[1]-1];
+                        document.getElementById("GR180").innerHTML = reloadtimedata[reloadcutcalc[2]-1];
+                        document.getElementById("GR200").innerHTML = reloadtimedata[reloadcutcalc[3]-1];
+                        document.getElementById("GR250").innerHTML = reloadtimedata[reloadcutcalc[4]-1];
+                        document.getElementById("GR300").innerHTML = reloadtimedata[reloadcutcalc[5]-1];
+                        document.getElementById("GR40").innerHTML = reloadtimedata[reloadcutcalc[6]-1];
+                        document.getElementById("GR45").innerHTML = reloadtimedata[reloadcutcalc[7]-1];
+
+                        document.getElementById("GRU100").innerHTML = reloadtimedata[reloadcutcalc[0]];
+                        document.getElementById("GRU150").innerHTML = reloadtimedata[reloadcutcalc[1]];
+                        document.getElementById("GRU180").innerHTML = reloadtimedata[reloadcutcalc[2]];
+                        document.getElementById("GRU200").innerHTML = reloadtimedata[reloadcutcalc[3]];
+                        document.getElementById("GRU250").innerHTML = reloadtimedata[reloadcutcalc[4]];
+                        document.getElementById("GRU300").innerHTML = reloadtimedata[reloadcutcalc[5]];
+                        document.getElementById("GRU40").innerHTML = reloadtimedata[reloadcutcalc[6]];
+                        document.getElementById("GRU45").innerHTML = reloadtimedata[reloadcutcalc[7]];
+
+                    }
+
+                }
+
             }
 			);
 		}
@@ -853,6 +1182,15 @@
             document.getElementById("tree_sel").innerHTML = input;
             document.getElementById("tree_sel1").innerHTML = "병종 - " + input + " / ";
 			params["treeinput"] = input;
+			gen_url();
+		}
+
+		function reloadip(e) {
+            // 입력된 수병트리를 구글DB 검색값으로 보내는 부분
+            input = e.value;
+            document.getElementById("reload_ip").innerHTML = input;
+            document.getElementById("reload_ip1").innerHTML = "함포연사속도 - " + input + " / ";
+			params["reloadinput"] = input;
 			gen_url();
 		}
 
