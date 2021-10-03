@@ -39,6 +39,7 @@
                 <div class="w3-dropdown-hover w3-hide-small">
                     <button class="w3-padding-large w3-button" title="More">정보<i class="fa fa-caret-down"></i></button>     
                     <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                        <a href="https://nfsim.blogspot.com/2021/10/blog-post.html" class="w3-bar-item w3-button">연사속도공식</a>
                         <a href="https://nfsim.blogspot.com/2021/04/blog-post_88.html" class="w3-bar-item w3-button">찰기건너뛰기 전직</a>
                         <a href="https://nfsim.blogspot.com/2021/05/2.html" class="w3-bar-item w3-button">갑판병효율</a>
                         <a href="https://nfsim.blogspot.com/2021/05/blog-post_3.html" class="w3-bar-item w3-button">이벤트수병의 초기어빌</a>
@@ -642,7 +643,7 @@
             </tr>
             <tr>
                 <td>
-                    연사속도 [s]
+                    평균연사속도 [s]
                 </td>
                 <td>
                     <span id="GR100"></span>
@@ -700,7 +701,7 @@
             </tr>
             <tr>
                 <td>
-                    연사구간업 연사속도 [s]
+                    연사구간업 평균연사속도 [s]
                 </td>
                 <td>
                     <span id="GRU100"></span>
@@ -729,9 +730,7 @@
             </tr>
         </table>
         <span id="tentativeout"></span>
-        &nbsp;&nbsp;※연사속도는 실제측정 데이터가 존재할 경우에만 출력됩니다
-		<br>
-        &nbsp;&nbsp;※연사속도는 평균치 입니다  
+        &nbsp;&nbsp;※평균 연사속도의 예)  
 		<br>
         &nbsp;&nbsp;&nbsp;&nbsp;　　avg 2.12s ->  2.16s - 2.16s - 2.16s - 2.16s - 1.92s - 2.16s - ...  
 		<br>
@@ -1158,23 +1157,23 @@
                     var reload_ip_x = document.getElementById("reload_ip").innerHTML;
                     if(reload_ip_x > 0){
 
-                        document.getElementById("GR100").innerHTML = reloadtimedata[reloadcutcalc[0]-1];
-                        document.getElementById("GR150").innerHTML = reloadtimedata[reloadcutcalc[1]-1];
-                        document.getElementById("GR180").innerHTML = reloadtimedata[reloadcutcalc[2]-1];
-                        document.getElementById("GR200").innerHTML = reloadtimedata[reloadcutcalc[3]-1];
-                        document.getElementById("GR250").innerHTML = reloadtimedata[reloadcutcalc[4]-1];
-                        document.getElementById("GR300").innerHTML = reloadtimedata[reloadcutcalc[5]-1];
-                        document.getElementById("GR40").innerHTML = reloadtimedata[reloadcutcalc[6]-1];
-                        document.getElementById("GR45").innerHTML = reloadtimedata[reloadcutcalc[7]-1];
+                        document.getElementById("GR100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+                        document.getElementById("GR150").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[1]))*1.3 + 1.87)/25;
+                        document.getElementById("GR180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+                        document.getElementById("GR200").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[3]))*1.3 + 1.87)/25;
+                        document.getElementById("GR250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+                        document.getElementById("GR300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+                        document.getElementById("GR40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+                        document.getElementById("GR45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
 
-                        document.getElementById("GRU100").innerHTML = reloadtimedata[reloadcutcalc[0]];
-                        document.getElementById("GRU150").innerHTML = reloadtimedata[reloadcutcalc[1]];
-                        document.getElementById("GRU180").innerHTML = reloadtimedata[reloadcutcalc[2]];
-                        document.getElementById("GRU200").innerHTML = reloadtimedata[reloadcutcalc[3]];
-                        document.getElementById("GRU250").innerHTML = reloadtimedata[reloadcutcalc[4]];
-                        document.getElementById("GRU300").innerHTML = reloadtimedata[reloadcutcalc[5]];
-                        document.getElementById("GRU40").innerHTML = reloadtimedata[reloadcutcalc[6]];
-                        document.getElementById("GRU45").innerHTML = reloadtimedata[reloadcutcalc[7]];
+                        document.getElementById("GRU100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU150").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[1]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU200").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[3]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+                        document.getElementById("GRU45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
 
                     }
 
