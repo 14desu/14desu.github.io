@@ -122,25 +122,28 @@
             <br>
             <br>
             <h4>강화여부 입력</h4>
-            <input type="radio" id="잠재2강" name="BOOST" value="잠재2강"><label for="잠재2강">잠재2강</label>
-            <input type="radio" id="명중2강" name="BOOST" value="명중2강"><label for="명중2강">명중2강</label>
-            <input type="radio" id="연사2강" name="BOOST" value="연사2강"><label for="연사2강">연사2강</label>
-            <input type="radio" id="어뢰2강" name="BOOST" value="어뢰2강"><label for="어뢰2강">어뢰2강</label>
-            <input type="radio" id="수리2강" name="BOOST" value="수리2강"><label for="수리2강">수리2강</label>
-            <input type="radio" id="보수2강" name="BOOST" value="보수2강"><label for="보수2강">보수2강</label>
-            <input type="radio" id="기관2강" name="BOOST" value="기관2강"><label for="기관2강">기관2강</label>
-            <input type="radio" id="전투2강" name="BOOST" value="전투2강"><label for="전투2강">전투2강</label>
-            <input type="radio" id="폭격2강" name="BOOST" value="폭격2강"><label for="폭격2강">폭격2강</label>
-            <br>
-            <input type="radio" id="잠재1강" name="BOOST" value="잠재1강"><label for="잠재1강">잠재1강</label>
-            <input type="radio" id="명중1강" name="BOOST" value="명중1강"><label for="명중1강">명중1강</label>
-            <input type="radio" id="연사1강" name="BOOST" value="연사1강"><label for="연사1강">연사1강</label>
-            <input type="radio" id="어뢰1강" name="BOOST" value="어뢰1강"><label for="어뢰1강">어뢰1강</label>
-            <input type="radio" id="수리1강" name="BOOST" value="수리1강"><label for="수리1강">수리1강</label>
-            <input type="radio" id="보수1강" name="BOOST" value="보수1강"><label for="보수1강">보수1강</label>
-            <input type="radio" id="기관1강" name="BOOST" value="기관1강"><label for="기관1강">기관1강</label>
-            <input type="radio" id="전투1강" name="BOOST" value="전투1강"><label for="전투1강">전투1강</label>
-            <input type="radio" id="폭격1강" name="BOOST" value="폭격1강"><label for="폭격1강">폭격1강</label>
+            <label for="boostip">강화입력:</label>
+            <select name="boostip" id="boostip">
+                <option>--강화선택/없음--</option>
+                <option value="잠재1강">잠재1강</option>
+                <option value="잠재2강">잠재2강</option>
+                <option value="명중1강">명중1강</option>
+                <option value="명중2강">명중2강</option>
+                <option value="연사1강">연사1강</option>
+                <option value="연사2강">연사2강</option>
+                <option value="어뢰1강">어뢰1강</option>
+                <option value="어뢰2강">어뢰2강</option>
+                <option value="수리1강">수리1강</option>
+                <option value="수리2강">수리2강</option>
+                <option value="보수1강">보수1강</option>
+                <option value="보수2강">보수2강</option>
+                <option value="기관1강">기관1강</option>
+                <option value="기관2강">기관2강</option>
+                <option value="전투1강">전투1강</option>
+                <option value="전투2강">전투2강</option>
+                <option value="폭격1강">폭격1강</option>
+                <option value="폭격2강">폭격2강</option>
+            </select>
             <br>
             <br>
             <h4>전직트리 확인 & 늦직Lv 입력</h4>
@@ -876,7 +879,7 @@
 
                 //강화여부체크 > 적용
                 var boostcheck = {};
-                boostcheck = form.BOOST.value;
+                boostcheck = form.boostip.value;
                 if(boostcheck == ""){
                     boostcheck = "없음"
                 }
