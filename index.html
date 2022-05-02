@@ -586,11 +586,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td>포병2</td>
             </tr>
             <tr>
-              <td>수병계산기연동</td>
-              <td><button class="w3-button w3-black" onclick="load_reload1()">불러오기</button></td>
-              <td><button class="w3-button w3-black" onclick="load_reload2()">불러오기</button></td>
-            </tr>
-            <tr>
               <td>연사어빌</td>
               <td><input type="number" id="reloadabil1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="reloadabil2" min="0" max="5000" size="2"></td>
@@ -733,32 +728,28 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <form name="pompom_calc_form">
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
             <tr>
-              <td>수병계산기연동</td>
-              <td><button class="w3-button w3-black" onclick="load_pompom()">불러오기</button></td>
-            </tr>
-            <tr>
               <td>연사누적어빌</td>
-              <td><input type="number" id="PPRLDIP" name="PPRLDIP" step="1" min="0" max="5000" size="2"></td>
+              <td><input type="number" id="ppRLDIP" name="ppRLDIP" step="1" min="0" max="5000" size="2"></td>
             </tr>
             <tr>
               <td>수리누적어빌</td>
-              <td><input type="number" id="PPREPIP" name="PPREPIP" step="1" min="0" max="5000" size="2"></td>
+              <td><input type="number" id="ppREPIP" name="ppREPIP" step="1" min="0" max="5000" size="2"></td>
             </tr>
             <tr>
               <td>총수병수</td>
-              <td><input type="number" id="PPNUMIP" name="PPNUMIP" step="1" min="55" max="1200" size="2"></td>
+              <td><input type="number" id="ppNUMIP" name="ppNUMIP" step="1" min="55" max="1200" size="2"></td>
             </tr>
             <tr>
               <td>사관수</td>
-              <td><input type="number" id="PPVETIP" name="PPVETIP" step="1" min="55" max="1000" size="2"></td>
+              <td><input type="number" id="ppVETIP" name="ppVETIP" step="1" min="55" max="1000" size="2"></td>
             </tr>
             <tr>
               <td>숙련병수</td>
-              <td><input type="number" id="PPEXPIP" name="PPEXPIP" step="1" min="55" max="1200" size="2"></td>
+              <td><input type="number" id="ppEXPIP" name="ppEXPIP" step="1" min="55" max="1200" size="2"></td>
             </tr>
             <tr>
               <td>신병수</td>
-              <td><input type="number" id="PPNEWIP" name="PPNEWIP" step="1" min="55" max="1200" size="2"></td>
+              <td><input type="number" id="ppNEWIP" name="ppNEWIP" step="1" min="55" max="1200" size="2"></td>
             </tr>
           </table>
         </form>
@@ -837,10 +828,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <h3>수병정보입력</h3>
         <form name="guideline_calc_form">
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-            <tr>
-              <td>수병계산기연동</td>
-              <td><button class="w3-button w3-black" onclick="load_guideline()">불러오기</button></td>
-            </tr>
             <tr>
               <td>잠재누적어빌</td>
               <td><input type="number" id="GLPOTIP" name="GLPOTIP" step="1" min="0" max="5000" size="2"></td>
@@ -1258,17 +1245,26 @@ function get_result_sailor(){
     
     //누적어빌-수병수
     document.getElementById("POTT").innerHTML = abiltotal[0];
+    document.getElementById("GLPOTIP").value = abiltotal[0];
     document.getElementById("ACCT").innerHTML = abiltotal[1];
     document.getElementById("RLDT").innerHTML = abiltotal[2];
+    document.getElementById("reloadabil1").value = abiltotal[2];
+    document.getElementById("ppRLDIP").value = abiltotal[2];
     document.getElementById("TORT").innerHTML = abiltotal[3];
     document.getElementById("AAWT").innerHTML = abiltotal[4];
     document.getElementById("REPT").innerHTML = abiltotal[5];
+    document.getElementById("repairabil1").value = abiltotal[5];
+    document.getElementById("ppREPIP").value = abiltotal[5];
+    document.getElementById("GLREPIP").value = abiltotal[5];
     document.getElementById("REST").innerHTML = abiltotal[6];
     document.getElementById("ENGT").innerHTML = abiltotal[7];
     document.getElementById("AIRT").innerHTML = abiltotal[8];
     document.getElementById("FIGT").innerHTML = abiltotal[9];
     document.getElementById("BOMT").innerHTML = abiltotal[10];
     document.getElementById("NUMT").innerHTML = abiltotal[11];
+    document.getElementById("sailornum1").value =  abiltotal[11];
+    document.getElementById("ppNUMIP").value =  abiltotal[11];
+    document.getElementById("GLNUMIP").value =  abiltotal[11];
 
 
     if(treedata[2].indexOf("갑판")>0){
@@ -1304,6 +1300,9 @@ function get_result_sailor(){
 
     document.getElementById("NUM40").innerHTML = NUM40;
     document.getElementById("NUM45").innerHTML = NUM45;
+    document.getElementById("vetnum1").value = NUM45;
+    document.getElementById("ppVETIP").value = NUM45;
+    document.getElementById("GLVETIP").value = NUM45;
 
 
     //수리속도계산
@@ -1562,35 +1561,6 @@ function autoabilip(e){
     document.getElementById("BOMIP").value = 14;
   }
 
-}
-
-function load_reload1(){
-  document.getElementById("reloadabil1").value = document.getElementById("RLDT").innerHTML;
-  document.getElementById("repairabil1").value = document.getElementById("REPT").innerHTML;
-  document.getElementById("sailornum1").value = document.getElementById("NUMT").innerHTML;
-  document.getElementById("vetnum1").value = document.getElementById("NUM45").innerHTML;
-  document.getElementById("expnum1").value = document.getElementById("sailornum1").value*1 - document.getElementById("vetnum1").value*1;
-}
-function load_reload2(){
-  document.getElementById("reloadabil2").value = document.getElementById("RLDT").innerHTML;
-  document.getElementById("repairabil2").value = document.getElementById("REPT").innerHTML;
-  document.getElementById("sailornum2").value = document.getElementById("NUMT").innerHTML;
-  document.getElementById("vetnum2").value = document.getElementById("NUM45").innerHTML;
-  document.getElementById("expnum2").value = document.getElementById("sailornum2").value*1 - document.getElementById("vetnum2").value*1;
-}
-function load_pompom(){
-  document.getElementById("PPRLDIP").value = document.getElementById("RLDT").innerHTML;
-  document.getElementById("PPREPIP").value = document.getElementById("REPT").innerHTML;
-  document.getElementById("PPNUMIP").value = document.getElementById("NUMT").innerHTML;
-  document.getElementById("PPVETIP").value = document.getElementById("NUM45").innerHTML;
-  document.getElementById("PPEXPIP").value = document.getElementById("PPNUMIP").value*1 - document.getElementById("PPVETIP").value*1;
-}
-function load_guideline(){
-  document.getElementById("GLPOTIP").value = document.getElementById("POTT").innerHTML;
-  document.getElementById("GLREPIP").value = document.getElementById("REPT").innerHTML;
-  document.getElementById("GLNUMIP").value = document.getElementById("NUMT").innerHTML;
-  document.getElementById("GLVETIP").value = document.getElementById("NUM45").innerHTML;
-  document.getElementById("GLEXPIP").value = document.getElementById("GLNUMIP").value*1 - document.getElementById("GLVETIP").value*1;
 }
 
 function get_result_reload(){
