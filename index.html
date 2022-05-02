@@ -1025,6 +1025,10 @@ function get_result_sailor(){
     abildata.length = tree_n;
 
     //수병트리/전직Lv정보 output
+    document.getElementById("tree3output").style.display = "";
+    document.getElementById("tree4output").style.display = "";
+    document.getElementById("tree5output").style.display = "";
+    document.getElementById("tree6output").style.display = "";
     document.getElementById("tree_1").innerHTML = treedata[0];
     if(tree_n > 1){
       document.getElementById("tree_2").innerHTML = treedata[1];
@@ -1166,7 +1170,6 @@ function get_result_sailor(){
       abiltotal[r] = abiltotal[r] + ( (levinput*1-1)*abilgrowth[r]);
     }
 
-
     //늦직입력분 반영
 
     var treelev = new Array(6);
@@ -1227,7 +1230,7 @@ function get_result_sailor(){
       }
     }
 
-    //document.getElementById("tentativeout").innerHTML = abiltotal;
+
 
     //성장어빌-수병수
     document.getElementById("POTG").innerHTML = abilgrowth[0];
@@ -1267,7 +1270,8 @@ function get_result_sailor(){
     document.getElementById("GLNUMIP").value =  abiltotal[11];
 
 
-    if(treedata[2].indexOf("갑판")>0){
+    
+    if(params["treeinput"] == "갑판병"){
       //갑판어빌
       document.getElementById("POTTS").innerHTML = Math.floor(abiltotal[0]*0.07);
       document.getElementById("ACCTS").innerHTML = Math.floor(abiltotal[1]*0.07);
@@ -1294,15 +1298,20 @@ function get_result_sailor(){
       document.getElementById("BOMTSR").innerHTML = Math.floor(abiltotal[10]/300);
     }
 
+    //document.getElementById("tentativeout").innerHTML = abiltotal;
     //사관숫자계산
+
     var NUM40 = Math.floor(abiltotal[11]*0.4);
     var NUM45 = Math.floor(abiltotal[11]*0.45);
+
+
 
     document.getElementById("NUM40").innerHTML = NUM40;
     document.getElementById("NUM45").innerHTML = NUM45;
     document.getElementById("vetnum1").value = NUM45;
     document.getElementById("ppVETIP").value = NUM45;
     document.getElementById("GLVETIP").value = NUM45;
+
 
 
     //수리속도계산
@@ -1323,7 +1332,7 @@ function get_result_sailor(){
             
 
     //기관오버힛시간계산
-    if(treedata[2].indexOf("기관")>0){
+    if(params["treeinput"] == "기관병"){
       document.getElementById("ENGTROW").style.display = "";
       document.getElementById("ENGT100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
       document.getElementById("ENGT180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
