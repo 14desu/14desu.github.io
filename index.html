@@ -94,7 +94,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <h1 class="w3-text-black">1. 수병계산기 KR server</h1>
       </summary>
       <div>
-        <h3><button onclick="get_result_sailor()">수병계산기실행</button></h3>
+        <h3><button class="w3-button w3-black" onclick="get_result_sailor()">수병계산기실행</button></h3>
       </div>
       <form id="sailor_calc_kr_form">
         <div>
@@ -574,7 +574,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <h1 class="w3-text-black">2. 연사속도계산기</h1>
       </summary>
       <div>
-        <h3><button onclick="get_result_reload()">연사속도계산기실행</button></h3>
+        <h3><button class="w3-button w3-black" onclick="get_result_reload()">연사속도계산기실행</button></h3>
       </div>
       <div>
         <form name="reload_calc_form">
@@ -584,6 +584,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td></td>
               <td>포병1</td>
               <td>포병2</td>
+            </tr>
+            <tr>
+              <td>수병계산기연동</td>
+              <td><button class="w3-button w3-black" onclick="load_reload1()">불러오기</button></td>
+              <td><button class="w3-button w3-black" onclick="load_reload2()">불러오기</button></td>
             </tr>
             <tr>
               <td>연사어빌</td>
@@ -721,12 +726,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <h1 class="w3-text-black">3. 폼폼이계산기</h1>
       </summary>
       <div>
-        <h3><button onclick="get_result_pompom()">폼폼이계산기실행</button></h3>
+        <h3><button class="w3-button w3-black" onclick="get_result_pompom()">폼폼이계산기실행</button></h3>
       </div>
       <div class="w3-half">
         <h3>수병정보입력</h3>
         <form name="pompom_calc_form">
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td>수병계산기연동</td>
+              <td><button class="w3-button w3-black" onclick="load_pompom()">불러오기</button></td>
+            </tr>
             <tr>
               <td>연사누적어빌</td>
               <td><input type="number" id="PPRLDIP" name="PPRLDIP" step="1" min="0" max="5000" size="2"></td>
@@ -822,12 +831,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <h1 class="w3-text-black">4. 빨랫줄계산기</h1>
       </summary>
       <div>
-        <h3><button onclick="get_result_guideline()">빨랫줄계산기실행</button></h3>
+        <h3><button class="w3-button w3-black" onclick="get_result_guideline()">빨랫줄계산기실행</button></h3>
       </div>
       <div class="w3-half">
         <h3>수병정보입력</h3>
         <form name="guideline_calc_form">
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td>수병계산기연동</td>
+              <td><button class="w3-button w3-black" onclick="load_guideline()">불러오기</button></td>
+            </tr>
             <tr>
               <td>잠재누적어빌</td>
               <td><input type="number" id="GLPOTIP" name="GLPOTIP" step="1" min="0" max="5000" size="2"></td>
@@ -1549,6 +1562,35 @@ function autoabilip(e){
     document.getElementById("BOMIP").value = 14;
   }
 
+}
+
+function load_reload1(){
+  document.getElementById("reloadabil1").value = document.getElementById("RLDT").innerHTML;
+  document.getElementById("repairabil1").value = document.getElementById("REPT").innerHTML;
+  document.getElementById("sailornum1").value = document.getElementById("NUMT").innerHTML;
+  document.getElementById("vetnum1").value = document.getElementById("NUM45").innerHTML;
+  document.getElementById("expnum1").value = document.getElementById("sailornum1").value*1 - document.getElementById("vetnum1").value*1;
+}
+function load_reload2(){
+  document.getElementById("reloadabil2").value = document.getElementById("RLDT").innerHTML;
+  document.getElementById("repairabil2").value = document.getElementById("REPT").innerHTML;
+  document.getElementById("sailornum2").value = document.getElementById("NUMT").innerHTML;
+  document.getElementById("vetnum2").value = document.getElementById("NUM45").innerHTML;
+  document.getElementById("expnum2").value = document.getElementById("sailornum2").value*1 - document.getElementById("vetnum2").value*1;
+}
+function load_pompom(){
+  document.getElementById("PPRLDIP").value = document.getElementById("RLDT").innerHTML;
+  document.getElementById("PPREPIP").value = document.getElementById("REPT").innerHTML;
+  document.getElementById("PPNUMIP").value = document.getElementById("NUMT").innerHTML;
+  document.getElementById("PPVETIP").value = document.getElementById("NUM45").innerHTML;
+  document.getElementById("PPEXPIP").value = document.getElementById("PPNUMIP").value*1 - document.getElementById("PPVETIP").value*1;
+}
+function load_guideline(){
+  document.getElementById("GLPOTIP").value = document.getElementById("POTT").innerHTML;
+  document.getElementById("GLREPIP").value = document.getElementById("REPT").innerHTML;
+  document.getElementById("GLNUMIP").value = document.getElementById("NUMT").innerHTML;
+  document.getElementById("GLVETIP").value = document.getElementById("NUM45").innerHTML;
+  document.getElementById("GLEXPIP").value = document.getElementById("GLNUMIP").value*1 - document.getElementById("GLVETIP").value*1;
 }
 
 function get_result_reload(){
