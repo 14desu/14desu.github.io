@@ -1,1145 +1,1640 @@
+<!DOCTYPE html>
 <html>
-	<head>
-        <title>네이비필드 수병계산기 KR server</title>
-    </head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {font-family: "Lato", sans-serif}
-        .mySlides {display: none}
-    </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
-	<body>
-        <!-- Navbar -->
-        <div class="w3-top">
-            <div class="w3-bar w3-black w3-card">
-                <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-                <a href="https://14desu.github.io/" class="w3-bar-item w3-button w3-padding-large">Navyfield Simulator &nbsp;&nbsp;&nbsp; by g_dori</a>
-                <a href="https://nfsim.blogspot.com/" class="w3-bar-item w3-button w3-padding-large w3-hide-small">BLOG</a>
-                <a href="https://gall.dcinside.com/board/view/?id=nf&no=363613" class="w3-bar-item w3-button w3-padding-large w3-hide-small">코코마지침서</a>
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-padding-large w3-button" title="More">수병계산기 <i class="fa fa-caret-down"></i></button>     
-                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="https://14desu.github.io/" class="w3-bar-item w3-button">수병계산기 KR server</a>
-                        <a href="https://14desu.github.io/Global/" class="w3-bar-item w3-button">수병계산기 Global server</a>
-                    </div>
-                </div>
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-padding-large w3-button" title="More">그 외 계산기<i class="fa fa-caret-down"></i></button>     
-                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="https://14desu.github.io/Reload/" class="w3-bar-item w3-button">연사속도 계산기</a>
-                        <a href="https://nfsim.blogspot.com/2021/05/blog-post_5.html" class="w3-bar-item w3-button">함선전체 수리/기관 계산기</a>
-                        <a href="https://14desu.github.io/Pompom/" class="w3-bar-item w3-button">폼폼이 만연사 계산기</a>
-                        <a href="https://14desu.github.io/Guideline/" class="w3-bar-item w3-button">함장 빨랫줄 계산기</a>
-                    </div>
-                </div>
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-padding-large w3-button" title="More">늦전직학개론<i class="fa fa-caret-down"></i></button>     
-                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="https://nfsim.blogspot.com/2021/05/1.html" class="w3-bar-item w3-button">1) 늦전직개념/영국연사포병</a>
-                        <a href="https://nfsim.blogspot.com/2021/10/2.html" class="w3-bar-item w3-button">2) 일본양용포병</a>
-                        <a href="https://nfsim.blogspot.com/2021/10/3.html" class="w3-bar-item w3-button">3) 독일대공포병</a>
-                    </div>
-                </div>
-                <div class="w3-dropdown-hover w3-hide-small">
-                    <button class="w3-padding-large w3-button" title="More">정보<i class="fa fa-caret-down"></i></button>     
-                    <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                        <a href="https://nfsim.blogspot.com/2021/10/blog-post.html" class="w3-bar-item w3-button">연사속도공식</a>
-                        <a href="https://nfsim.blogspot.com/2021/05/blog-post.html" class="w3-bar-item w3-button">함포 연사속도 단위</a>
-                        <a href="https://nfsim.blogspot.com/2021/04/blog-post_88.html" class="w3-bar-item w3-button">찰기건너뛰기 전직</a>
-                        <a href="https://nfsim.blogspot.com/2021/05/2.html" class="w3-bar-item w3-button">갑판병효율</a>
-                        <a href="https://nfsim.blogspot.com/2022/01/blog-post_10.html" class="w3-bar-item w3-button">영국 구갑</a>
-                        <a href="https://nfsim.blogspot.com/2021/05/blog-post_3.html" class="w3-bar-item w3-button">이벤트수병의 초기어빌</a>
-                    </div>
-                </div>
-                <!-- Start of CuterCounter Code -->
-                <img src="https://www.cutercounter.com/hits.php?id=hvvxaddan&nd=7&style=2">
-                <!-- End of CuterCounter Code -->
-                <a href="javascript:void(0)" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
-            </div>
+<head>
+<title>네이비필드 수병계산기 / 연구소</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="https://14desu.github.io/" class="w3-bar-item w3-button w3-theme-l1">Navyfield Simulator & Laboratory by g_dori</a>
+    <a href="https://14desu.github.io/" class="w3-bar-item w3-button w3-hide-small w3-hover-white">수병계산기</a>
+    <a href="https://nfsim.blogspot.com/" class="w3-bar-item w3-button w3-hide-small w3-hover-white">BLOG</a>
+    <a href="https://gall.dcinside.com/board/view/?id=nf&no=363613" class="w3-bar-item w3-button w3-hide-small w3-hover-white">코코마지침서</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white">NF연구실</a>
+    <a href="https://nfsim.blogspot.com/2021/05/1.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">늦전직학개론</a>
+    <!-- Start of CuterCounter Code -->
+    <img src="https://www.cutercounter.com/hits.php?id=hvvxaddan&nd=7&style=2">
+    <!-- End of CuterCounter Code -->
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/"><h4><b>BLOG</b></h4></a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://gall.dcinside.com/board/view/?id=nf&no=363613"><h4><b>코코마지침서</b></h4></a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://14desu.github.io/"><h4><b>NF계산기</b></h4></a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://14desu.github.io/index.html#sailor_calc_kr">수병계산기KR</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://14desu.github.io/index.html#reload_calc">연사속도계산기</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://14desu.github.io/index.html#pompom_calc">폼폼이만연사계산기</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://14desu.github.io/index.html#guideline_calc">함장빨랫줄계산기</a>
+  <h4 class="w3-bar-item"><b>NF연구실</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/05/blog-post.html">연사속도 단위</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/10/blog-post.html">연사속도 공식</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2022/01/blog-post.html">국가별 연사속도비교</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/04/blog-post_88.html">찰기건너뛰기 전직</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/05/2.html">갑판병효율</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2022/01/blog-post_10.html">영국 구갑</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/05/blog-post_3.html">이벤트수병의 초기어빌</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/05/1.html"><h4><b>늦전직학개론</b></h4></a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/05/1.html">1) 늦전직개념/영국연사포병</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/10/2.html">2) 일본양용포병</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="https://nfsim.blogspot.com/2021/10/3.html">3) 독일대공포병</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+  <!-- 목차 -->
+  <div class="w3-row w3-padding-64">
+    <div class="w3-third w3-container">
+      <table class="w3-table w3-striped w3-bordered w3-border">
+        <tr>
+          <td>
+            <h4>Navyfield Simulator Contents<br></h4>
+            <a class="w3-button" href="#sailor_calc_kr">1. 수병계산기 KR server </a><br>
+            <a class="w3-button" href="#reload_calc">2. 연사속도계산기 </a><br>
+            <a class="w3-button" href="#pompom_calc">3. 폼폼이계산기 </a><br>
+            <a class="w3-button" href="#guideline_calc">4. 빨랫줄계산기 </a><br>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <span id="tentativeout"></span>
+  <!-- 1. 수병계산기 -->
+  <div class="w3-container" id="sailor_calc_kr">
+    <details open>
+      <summary>
+          <h1 class="w3-text-black">1. 수병계산기 KR server</h1>
+      </summary>
+      <div>
+        <h3><button onclick="get_result_sailor()">수병계산기실행</button></h3>
+      </div>
+      <form id="sailor_calc_kr_form">
+        <div>
+          <h3>기본정보 입력</h3>
+          <!--국적입력-->
+          <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset();">
+            <option>--국가선택--</option>
+            <option value="미국">미국</option>
+            <option value="영국">영국</option>
+            <option value="일본">일본</option>
+            <option value="독일">독일</option>
+            <option value="프랑스">프랑스</option>
+            <option value="소련">소련</option>
+            <option value="이탈리아">이탈리아</option>
+          </select><br>
+          <!--병종입력-->
+          <select id="tree_sel" name="tree_sel" onchange="treeipreset();">
+            <option>--병종선택--</option>
+            <option value="함장">함장</option>
+            <option id="UN_RRRG" value="연연연포병">연연연포병</option>
+            <option id="RN_RG" value="연사포병">연사포병</option>
+            <option id="RN_SG" value="대공포병 (늦직권장)">대공포병 (늦직권장)</option>
+            <option id="RG" value="포병">포병</option>
+            <option id="IN_SG" value="양용포병 (늦직권장)">양용포병 (늦직권장)</option>
+            <option id="KM_SG" value="대공포병">대공포병</option>
+            <option value="기관병">기관병</option>
+            <option value="수리병">수리병</option>
+            <option value="정찰기">정찰기</option>
+            <option value="전투기">전투기</option>
+            <option value="뇌격기">뇌격기</option>
+            <option value="급강하폭격기">급강하폭격기</option>
+            <option value="어뢰병">어뢰병</option>
+            <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
+            <option value="잠항병">잠항병</option>
+            <option value="갑판병">갑판병</option>
+            <option id="SM" value="의무병">의무병</option>
+            <option value="보수병 (안씀)">보수병 (안씀)</option>
+          </select><br>
+
+          <!--수병레벨입력-->
+          <label for="LEVIP">수병레벨:&nbsp;</label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="120">
+          <br>
+
+          <!--수병강화입력-->
+          <label for="boostip">강화입력:</label>
+          <select name="boostip" id="boostip">
+            <option>--강화선택/없음--</option>
+            <option value="잠재1강">잠재1강</option><option value="잠재2강">잠재2강</option>
+            <option value="명중1강">명중1강</option><option value="명중2강">명중2강</option>
+            <option value="연사1강">연사1강</option><option value="연사2강">연사2강</option>
+            <option value="어뢰1강">어뢰1강</option><option value="어뢰2강">어뢰2강</option>
+            <option value="수리1강">수리1강</option><option value="수리2강">수리2강</option>
+            <option value="보수1강">보수1강</option><option value="보수2강">보수2강</option>
+            <option value="기관1강">기관1강</option><option value="기관2강">기관2강</option>
+            <option value="전투1강">전투1강</option><option value="전투2강">전투2강</option>
+            <option value="폭격1강">폭격1강</option><option value="폭격2강">폭격2강</option>
+          </select>
+          <div id="RLDIPROW">
+            <label for="reload_ip">함포연사속도:&nbsp;</label><input type="number" id="reload_ip" name="reload_ip" step="0.4" size="4">
+          </div>
         </div>
-
-        <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
-        <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-            <a href="https://14desu.github.io/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">수병계산기 KR server</a>
-            <a href="https://14desu.github.io/Global/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">수병계산기 Global server</a>
-            <a href="https://14desu.github.io/Reload/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">연사속도 계산기</a>
-            <a href="https://14desu.github.io/Pompom/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">폼폼이 만연사 계산기</a>
-            <a href="https://14desu.github.io/Guideline/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">함장 빨랫줄 계산기</a>
-            <a href="https://nfsim.blogspot.com/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">NF정보 BLOG</a>
-            <a href="https://gall.dcinside.com/board/view/?id=nf&no=363613" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">코코마지침서</a>
+        <div>
+          <h3>초기어빌 입력/계산</h3>
+          <!--수병자동입력-->
+          <label for="AUTOIP">수병자동입력:</label>
+          <select name="AUTOIP" id="AUTOIP" onchange="autoabilip(this);">
+            <option>일반수병/직접입력</option>
+            <option value="개근">개근</option>
+            <option value="전설보조">전설보조</option>
+            <option value="전설특무">전설특무</option>
+            <option value="잠재플미">잠재플미</option>
+            <option value="명중플미">명중플미</option>
+            <option value="연사플미">연사플미</option>
+            <option value="어뢰플미">어뢰플미</option>
+            <option value="수리플미">수리플미</option>
+            <option value="보수플미">보수플미</option>
+            <option value="기관플미">기관플미</option>
+            <option value="전투플미">전투플미</option>
+            <option value="폭격플미">폭격플미</option>
+          </select>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <th></th>
+              <th>초기어빌입력</th>
+              <th>성장어빌</th>
+              <th>누적어빌</th>
+              <th>갑판어빌</th>
+              <th>갑판보정[%]</th>
+            </tr>
+            <tr>
+              <td>잠재</td>
+              <td><input type="number" id="POTIP" name="POTIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="POTG"></span></td>
+              <td><span id="POTT"></span></td>
+              <td><span id="POTTS"></span></td>
+              <td><span id="POTTSR"></span></td>
+            </tr>
+            <tr>
+              <td>명중</td>
+              <td><input type="number" id="ACCIP" name="ACCIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="ACCG"></span></td>
+              <td><span id="ACCT"></span></td>
+              <td><span id="ACCTS"></span></td>
+              <td><span id="ACCTSR"></span></td>
+            </tr>
+            <tr>
+              <td>연사</td>
+              <td><input type="number" id="RLDIP" name="RLDIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="RLDG"></span></td>
+              <td><span id="RLDT"></span></td>
+              <td><span id="RLDTS"></span></td>
+              <td><span id="RLDTSR"></span></td>
+            </tr>
+            <tr>
+              <td>어뢰</td>
+              <td><input type="number" id="TORIP" name="TORIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="TORG"></span></td>
+              <td><span id="TORT"></span></td>
+              <td><span id="TORTS"></span></td>
+              <td><span id="TORTSR"></span></td>
+            </tr>
+            <tr>
+              <td>대공</td>
+              <td><input type="number" id="AAWIP" name="AAWIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="AAWG"></span></td>
+              <td><span id="AAWT"></span></td>
+              <td><span id="AAWTS"></span></td>
+              <td><span id="AAWTSR"></span></td>
+            </tr>
+            <tr>
+              <td>수리</td>
+              <td><input type="number" id="REPIP" name="REPIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="REPG"></span></td>
+              <td><span id="REPT"></span></td>
+              <td><span id="REPTS"></span></td>
+              <td><span id="REPTSR"></span></td>
+            </tr>
+            <tr>
+              <td>보수</td>
+              <td><input type="number" id="RESIP" name="RESIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="RESG"></span></td>
+              <td><span id="REST"></span></td>
+              <td><span id="RESTS"></span></td>
+              <td><span id="RESTSR"></span></td>
+            </tr>
+            <tr>
+              <td>기관</td>
+              <td><input type="number" id="ENGIP" name="ENGIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="ENGG"></span></td>
+              <td><span id="ENGT"></span></td>
+              <td><span id="ENGTS"></span></td>
+              <td><span id="ENGTSR"></span></td>
+            </tr>
+            <tr>
+              <td>함재</td>
+              <td><input type="number" id="AIRIP" name="AIRIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="AIRG"></span></td>
+              <td><span id="AIRT"></span></td>
+              <td><span id="AIRTS"></span></td>
+              <td><span id="AIRTSR"></span></td>
+            </tr>
+            <tr>
+              <td>전투</td>
+              <td><input type="number" id="FIGIP" name="FIGIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="FIGG"></span></td>
+              <td><span id="FIGT"></span></td>
+              <td><span id="FIGTS"></span></td>
+              <td><span id="FIGTSR"></span></td>
+            </tr>
+            <tr>
+              <td>폭격</td>
+              <td><input type="number" id="BOMIP" name="BOMIP" step="1" value="9" min="7" max="18" size="2"></td>
+              <td><span id="BOMG"></span></td>
+              <td><span id="BOMT"></span></td>
+              <td><span id="BOMTS"></span></td>
+              <td><span id="BOMTSR"></span></td>
+            </tr>
+            <tr>
+              <td>수병수</td>
+              <td></td>
+              <td><span id="NUMG"></span></td>
+              <td><span id="NUMT"></span></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
         </div>
+        <div>
+          <!--수병트리/늦전직입력-->
+          <h3>전직트리 확인 & 늦직Lv 입력</h3>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr id="tree1output">
+              <td>전직1</td>
+              <td><span id="tree_1"></span></td>
+              <td><span id="tree_1LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree1" step="1" min="12" max="25" size="2"></td>
+            </tr>
+            <tr id="tree2output">
+              <td>전직2</td>
+              <td><span id="tree_2"></span></td>
+              <td><span id="tree_2LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree2" step="1" min="12" max="120" size="2"></td>
+            </tr>
+            <tr id="tree3output">
+              <td>전직3</td>
+              <td><span id="tree_3"></span></td>
+              <td><span id="tree_3LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree3" step="1" min="12" max="120" size="2"></td>
+            </tr>
+            <tr id="tree4output">
+              <td>전직4</td>
+              <td><span id="tree_4"></span></td>
+              <td><span id="tree_4LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree4" step="1" min="12" max="120" size="2"></td>
+            </tr>
+            <tr id="tree5output">
+              <td>전직5</td>
+              <td><span id="tree_5"></span></td>
+              <td><span id="tree_5LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree5" step="1" min="12" max="120" size="2"></td>
+            </tr>
+            <tr id="tree6output">
+              <td>전직6 </td>
+              <td><span id="tree_6"></span></td>
+              <td><span id="tree_6LV"></span></td>
+              <td>늦직Lv입력: <input type="number" id="tree6" step="1" min="12" max="120" size="2"></td>
+            </tr>
+          </table>
+        </div>
+      </form>
 
+      <div>
+        <h3>수병능력 계산결과</h3>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+          <tr>
+              <td>
+                  사관 [명]
+              </td>
+              <td>
+                  100
+              </td>
+              <td>
+                  180
+              </td>
+              <td>
+                  250
+              </td>
+              <td>
+                  300
+              </td>
+              <td>
+                  40% <br>
+                  <span id="NUM40"></span>
+              </td>
+              <td>
+                  45% <br>
+                  <span id="NUM45"></span>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  수리속도[/s]
+              </td>
+              <td>
+                  <span id="REP100"></span>
+              </td>
+              <td>
+                  <span id="REP180"></span>
+              </td>
+              <td>
+                  <span id="REP250"></span>
+              </td>
+              <td>
+                  <span id="REP300"></span>
+              </td>
+              <td>
+                  <span id="REP40"></span>
+              </td>
+              <td>
+                  <span id="REP45"></span>
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  구조방어
+              </td>
+              <td>
+                  <span id="RES100"></span>
+              </td>
+              <td>
+                  <span id="RES180"></span>
+              </td>
+              <td>
+                  <span id="RES250"></span>
+              </td>
+              <td>
+                  <span id="RES300"></span>
+              </td>
+              <td>
+                  <span id="RES40"></span>
+              </td>
+              <td>
+                  <span id="RES45"></span>
+              </td>
+          </tr>
+          <tr id="ENGTROW">
+              <td>
+                  <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
+              </td>
+              <td>
+                  <span id="ENGT100"></span>
+              </td>
+              <td>
+                  <span id="ENGT180"></span>
+              </td>
+              <td>
+                  <span id="ENGT250"></span>
+              </td>
+              <td>
+                  <span id="ENGT300"></span>
+              </td>
+              <td>
+                  <span id="ENGT40"></span>
+              </td>
+              <td>
+                  <span id="ENGT45"></span>
+              </td>
+          </tr>
+          <tr id="ENGRROW">
+              <td>
+                  <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
+              </td>
+              <td>
+                  <span id="ENGR100"></span>
+              </td>
+              <td>
+                  <span id="ENGR180"></span>
+              </td>
+              <td>
+                  <span id="ENGR250"></span>
+              </td>
+              <td>
+                  <span id="ENGR300"></span>
+              </td>
+              <td>
+                  <span id="ENGR40"></span>
+              </td>
+              <td>
+                  <span id="ENGR45"></span>
+              </td>
+          </tr>
+          <tr id="SONARROW">
+              <td>
+                  음탐만시야 [%]
+              </td>
+              <td>
+                  <span id="SONAR100"></span>
+              </td>
+              <td>
+                  <span id="SONAR180"></span>
+              </td>
+              <td>
+                  <span id="SONAR250"></span>
+              </td>
+              <td>
+                  <span id="SONAR300"></span>
+              </td>
+              <td>
+                  <span id="SONAR40"></span>
+              </td>
+              <td>
+                  <span id="SONAR45"></span>
+              </td>
+          </tr>
+          <tr id="SRROW">
+              <td>
+                  수병연사구간
+              </td>
+              <td>
+                  <span id="SR100"></span>
+              </td>
+              <td>
+                  <span id="SR180"></span>
+              </td>
+              <td>
+                  <span id="SR250"></span>
+              </td>
+              <td>
+                  <span id="SR300"></span>
+              </td>
+              <td>
+                  <span id="SR40"></span>
+              </td>
+              <td>
+                  <span id="SR45"></span>
+              </td>
+          </tr>
+          <tr id="GRROW">
+              <td>
+                  평균연사속도 [s]
+              </td>
+              <td>
+                  <span id="GR100"></span>
+              </td>
+              <td>
+                  <span id="GR180"></span>
+              </td>
+              <td>
+                  <span id="GR250"></span>
+              </td>
+              <td>
+                  <span id="GR300"></span>
+              </td>
+              <td>
+                  <span id="GR40"></span>
+              </td>
+              <td>
+                  <span id="GR45"></span>
+              </td>
+          </tr>
+          <tr id="SRUROW">
+              <td>
+                  연사구간업 필요갑판보정 [%]
+              </td>
+              <td>
+                  <span id="SRU100"></span>
+              </td>
+              <td>
+                  <span id="SRU180"></span>
+              </td>
+              <td>
+                  <span id="SRU250"></span>
+              </td>
+              <td>
+                  <span id="SRU300"></span>
+              </td>
+              <td>
+                  <span id="SRU40"></span>
+              </td>
+              <td>
+                  <span id="SRU45"></span>
+              </td>
+          </tr>
+          <tr id="GRUROW">
+              <td>
+                  연사구간업 평균연사속도 [s]
+              </td>
+              <td>
+                  <span id="GRU100"></span>
+              </td>
+              <td>
+                  <span id="GRU180"></span>
+              </td>
+              <td>
+                  <span id="GRU250"></span>
+              </td>
+              <td>
+                  <span id="GRU300"></span>
+              </td>
+              <td>
+                  <span id="GRU40"></span>
+              </td>
+              <td>
+                  <span id="GRU45"></span>
+              </td>
+          </tr>
+      </table>
+      <br>
+      </div>
+    </details>
+  </div>
 
-
-
-        <div class="w3-content" style="max-width:2000px;margin-top:46px">
-
-
-
-
-
-        <h1>수병계산기 KR server</h1>
-        by g_dori # DCinside 네이비필드갤러리
-        <br>
-        <br>
-        <h4>수병정보 입력</h4>
-        <form name="sailor_search">
-            <label for="nation_sel">국가선택:</label>
-            <select name="nation_sel" onchange="searchTree(this);">
-                <option>--국가선택--</option>
-                <option value="미국">미국</option>
-                <option value="영국">영국</option>
-                <option value="일본">일본</option>
-                <option value="독일">독일</option>
-                <option value="프랑스">프랑스</option>
-                <option value="소련">소련</option>
-                <option value="이탈리아">이탈리아</option>
-            </select>
-              입력확인: 
-            <span id="nation_sel">국가를 선택해주세요</span>
-            <br>
-            <label for="tree_sel">병종선택:</label>
-            <select name="tree_sel" onchange="treeip(this);">
-                <option>--병종선택--</option>
-            </select>
-              입력확인: 
-            <span id="tree_sel">병종을 선택해주세요</span>
-            <br>
-            <label for="LEVIP">수병레벨: </label><input type="number" id="LEVIP" name="LEVIP" value="120" min="2" max="120">
-            <br>
-            <br>
-            <h4>초기어빌 입력</h4>
-            <label for="POTIP">잠재:&nbsp;</label><input type="number" id="POTIP" name="POTIP" value="9" min="7" max="18" size="2">
-            <label for="ACCIP">명중:&nbsp;</label><input type="number" id="ACCIP" name="ACCIP" value="9" min="7" max="18" size="2">
-            <label for="RLDIP">연사:&nbsp;</label><input type="number" id="RLDIP" name="RLDIP" value="9" min="7" max="18" size="2">
-
-            <label for="TORIP">어뢰:&nbsp;</label><input type="number" id="TORIP" name="TORIP" value="9" min="7" max="18" size="2">
-            <label for="AAWIP">대공:&nbsp;</label><input type="number" id="AAWIP" name="AAWIP" value="9" min="7" max="18" size="2">
-            <br>
-            <label for="REPIP">수리:&nbsp;</label><input type="number" id="REPIP" name="REPIP" value="9" min="7" max="18" size="2">
-            <label for="RESIP">보수:&nbsp;</label><input type="number" id="RESIP" name="RESIP" value="9" min="7" max="18" size="2">
-            <label for="ENGIP">기관:&nbsp;</label><input type="number" id="ENGIP" name="ENGIP" value="9" min="7" max="18" size="2">
-
-            <label for="AIRIP">함재:&nbsp;</label><input type="number" id="AIRIP" name="AIRIP" value="9" min="7" max="18" size="2">
-            <label for="FIGIP">전투:&nbsp;</label><input type="number" id="FIGIP" name="FIGIP" value="9" min="7" max="18" size="2">
-            <label for="BOMIP">폭격:&nbsp;</label><input type="number" id="BOMIP" name="BOMIP" value="9" min="7" max="18" size="2">
-            <br>
-            <br>
-            <h4>강화여부 입력</h4>
-            <label for="boostip">강화입력:</label>
-            <select name="boostip" id="boostip">
-                <option>--강화선택/없음--</option>
-                <option value="잠재1강">잠재1강</option>
-                <option value="잠재2강">잠재2강</option>
-                <option value="명중1강">명중1강</option>
-                <option value="명중2강">명중2강</option>
-                <option value="연사1강">연사1강</option>
-                <option value="연사2강">연사2강</option>
-                <option value="어뢰1강">어뢰1강</option>
-                <option value="어뢰2강">어뢰2강</option>
-                <option value="수리1강">수리1강</option>
-                <option value="수리2강">수리2강</option>
-                <option value="보수1강">보수1강</option>
-                <option value="보수2강">보수2강</option>
-                <option value="기관1강">기관1강</option>
-                <option value="기관2강">기관2강</option>
-                <option value="전투1강">전투1강</option>
-                <option value="전투2강">전투2강</option>
-                <option value="폭격1강">폭격1강</option>
-                <option value="폭격2강">폭격2강</option>
-            </select>
-            <br>
-            <br>
-            <h4>전직트리 확인 & 늦직Lv 입력</h4>
-            <table cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
-                <tr>
-                    <td>전직1 </td>
-                    <td>
-                        <span id="tree_1"></span>
-                    </td>
-                    <td>
-                        <span id="tree_1LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree1" min="12" max="25" size="2">
-                    </td>
-                </tr>
-                <tr>
-                    <td>전직2 </td>
-                    <td>
-                        <span id="tree_2"></span>
-                    </td>
-                    <td>
-                        <span id="tree_2LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree2" min="12" max="120" size="2">
-                    </td>
-                </tr>
-                <tr>
-                    <td>전직3 </td>
-                    <td>
-                        <span id="tree_3"></span>
-                    </td>
-                    <td>
-                        <span id="tree_3LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree3" min="12" max="120" size="2">
-                    </td>
-                </tr>
-                <tr>
-                    <td>전직4 </td>
-                    <td>
-                        <span id="tree_4"></span>
-                    </td>
-                    <td>
-                        <span id="tree_4LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree4" min="12" max="120" size="2">
-                    </td>
-                </tr>
-                <tr>
-                    <td>전직5 </td>
-                    <td>
-                        <span id="tree_5"></span>
-                    </td>
-                    <td>
-                        <span id="tree_5LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree5" min="12" max="120" size="2">
-                    </td>
-                </tr>
-                <tr>
-                    <td>전직6 </td>
-                    <td>
-                        <span id="tree_6"></span>
-                    </td>
-                    <td>
-                        <span id="tree_6LV"></span>
-                    </td>
-                    <td>
-                        늦직Lv입력: <input type="number" id="tree6" min="12" max="120" size="2">
-                    </td>
-                </tr>
-            </table>
+  <!-- 2. 연사속도계산기 -->
+  <div class="w3-container" id="reload_calc">
+    <details open>
+      <summary>
+        <h1 class="w3-text-black">2. 연사속도계산기</h1>
+      </summary>
+      <div>
+        <h3><button onclick="get_result_reload()">연사속도계산기실행</button></h3>
+      </div>
+      <div>
+        <form name="reload_calc_form">
+          <h3>포병정보 입력</h3>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td></td>
+              <td>포병1</td>
+              <td>포병2</td>
+            </tr>
+            <tr>
+              <td>연사어빌</td>
+              <td><input type="number" id="reloadabil1" min="0" max="5000" size="2"></td>
+              <td><input type="number" id="reloadabil2" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>수리어빌</td>
+              <td><input type="number" id="repairabil1" min="0" max="5000" size="2"></td>
+              <td><input type="number" id="repairabil2" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>수병수</td>
+              <td><input type="number" id="sailornum1" min="0" max="1200" size="2"></td>
+              <td><input type="number" id="sailornum2" min="0" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>사관수</td>
+              <td><input type="number" id="vetnum1" min="0" max="600" size="2"></td>
+              <td><input type="number" id="vetnum2" min="0" max="600" size="2"></td>
+            </tr>
+            <tr>
+              <td>숙련병수</td>
+              <td><input type="number" id="expnum1" min="0" max="1200" size="2"></td>
+              <td><input type="number" id="expnum2" min="0" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>신병수</td>
+              <td><input type="number" id="newnum1" min="0" max="1200" size="2"></td>
+              <td><input type="number" id="newnum2" min="0" max="1200" size="2"></td>
+            </tr>
+          </table>
+          <h3>갑판병정보 입력</h3>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+              <tr>
+                <td></td>
+                <td>갑판병1</td>
+                <td>갑판병2</td>
+                <td>갑판병3</td>
+              </tr>
+              <tr>
+                <td>연사어빌</td>
+                <td><input type="number" id="mateabil1" min="0" max="200" size="2"></td>
+                <td><input type="number" id="mateabil2" min="0" max="200" size="2"></td>
+                <td><input type="number" id="mateabil3" min="0" max="200" size="2"></td>
+              </tr>
+          </table>
+          <h3>함포정보 입력</h3>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td></td>
+              <td>함포1</td>
+              <td>함포2</td>
+            </tr>
+            <tr>
+              <td>함포연사속도</td>
+              <td><input type="number" id="gunreload1" step="0.04" min="0" max="100" size="3"></td>
+              <td><input type="number" id="gunreload2" step="0.04" min="0" max="100" size="3"></td>
+            </tr>
+          </table>
         </form>
-
-        <h4>연사속도입력</h4>
-        <label for="GUNreload">함포연사속도:&nbsp;</label><input type="number" id="GUNreload" name="GUNreload" size="4" onchange="reloadip(this);">
-        입력확인: 
-        <span id="reload_ip">함포연사속도를 입력해 주세요</span>
-
-        <h3><button onclick="get_result()">실행</button></h3>
-        # 늦직계산시에는 늦직Lv 입력후에 한번 더 실행버튼 눌러주세요
-        <br>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
-                    crossorigin="anonymous"></script>
-            <!-- 수병계산기 홈페이지 -->
-            <ins class="adsbygoogle"
-                    style="display:block"
-                    data-ad-client="ca-pub-6857135903814462"
-                    data-ad-slot="6906525489"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"></ins>
-            <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        <br>
+      </div>
+      <div>
         <h3>계산결과</h3>
-        입력확인 // <span id="nation_sel1"></span> <span id="tree_sel1"></span> <span id="LEVIP1"></span> <span id="BOOSTIP1"></span> <span id="reload_ip1"></span>
-        <br>
-        <br>
-        <table cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+                <td colspan="2"></td>
+                <td>포병1</td>
+                <td>포병2</td>
+            </tr>
+            <tr>
+                <td colspan="2">수병빈혈도 [%]</td>
+                <td><span id="SR1"></span></td>
+                <td><span id="SR2"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">수리속도 [/s]</td>
+                <td><span id="RS1"></span></td>
+                <td><span id="RS2"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">연사구간(포병)</td>
+                <td><span id="RC1"></span></td>
+                <td><span id="RC2"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">연사구간상승 필요보정율 [%]</td>
+                <td><span id="RU1"></span></td>
+                <td><span id="RU2"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">갑판병탑승인원</td>
+                <td colspan="2"><span id="maten"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">갑판병보정율 [%]</td>
+                <td colspan="2"><span id="matetotal"></span></td>
+            </tr>
+            <tr>
+                <td colspan="2">연사구간(포병+갑판)</td>
+                <td><span id="RCM1"></span></td>
+                <td><span id="RCM2"></span></td>
+            </tr>
+            <tr>
+                <td rowspan="2">함포1</td>
+                <td>연사속도(포병) [s]</td>
+                <td><span id="reloadT11"></span></td>
+                <td><span id="reloadT12"></span></td>
+            </tr>
+            <tr>
+                <td>연사속도(포병+갑판) [s]</td>
+                <td><span id="reloadTM11"></span></td>
+                <td><span id="reloadTM12"></span></td>
+            </tr>
+            <tr>
+                <td rowspan="2">함포2</td>
+                <td>연사속도(포병) [s]</td>
+                <td><span id="reloadT21"></span></td>
+                <td><span id="reloadT22"></span></td>
+            </tr>
+            <tr>
+                <td>연사속도(포병+갑판) [s]</td>
+                <td><span id="reloadTM21"></span></td>
+                <td><span id="reloadTM22"></span></td>
+            </tr>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <!-- 3. 폼폼이계산기 -->
+  <div class="w3-container" id="pompom_calc">
+    <details open>
+      <summary>
+        <h1 class="w3-text-black">3. 폼폼이계산기</h1>
+      </summary>
+      <div>
+        <h3><button onclick="get_result_pompom()">폼폼이계산기실행</button></h3>
+      </div>
+      <div class="w3-half">
+        <h3>수병정보입력</h3>
+        <form name="pompom_calc_form">
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td>연사누적어빌</td>
+              <td><input type="number" id="PPRLDIP" name="PPRLDIP" step="1" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>수리누적어빌</td>
+              <td><input type="number" id="PPREPIP" name="PPREPIP" step="1" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>총수병수</td>
+              <td><input type="number" id="PPNUMIP" name="PPNUMIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>사관수</td>
+              <td><input type="number" id="PPVETIP" name="PPVETIP" step="1" min="55" max="1000" size="2"></td>
+            </tr>
+            <tr>
+              <td>숙련병수</td>
+              <td><input type="number" id="PPEXPIP" name="PPEXPIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>신병수</td>
+              <td><input type="number" id="PPNEWIP" name="PPNEWIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div class="w3-row">
+        <h3>계산결과</h3>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
             <tr>
                 <td>
-                    
+                    폼폼이 만연사 [%]
                 </td>
                 <td>
-                    잠재
-                </td>
-                <td>
-                    명중
-                </td>
-                <td>
-                    연사
-                </td>
-                <td>
-                    어뢰
-                </td>
-                <td>
-                    대공
-                </td>
-                <td>
-                    수리
-                </td>
-                <td>
-                    보수
-                </td>
-                <td>
-                    기관
-                </td>
-                <td>
-                    함재
-                </td>
-                <td>
-                    전투
-                </td>
-                <td>
-                    폭격
-                </td>
-                <td>
-                    수병수
+                    수병 수리속도[/s]
                 </td>
             </tr>
             <tr>
                 <td>
-                    성장치
+                    <span id="RLDIVR1"></span>
                 </td>
                 <td>
-                    <span id="POTG"></span>
-                </td>
-                <td>
-                    <span id="ACCG"></span>
-                </td>
-                <td>
-                    <span id="RLDG"></span>
-                </td>
-                <td>
-                    <span id="TORG"></span>
-                </td>
-                <td>
-                    <span id="AAWG"></span>
-                </td>
-                <td>
-                    <span id="REPG"></span>
-                </td>
-                <td>
-                    <span id="RESG"></span>
-                </td>
-                <td>
-                    <span id="ENGG"></span>
-                </td>
-                <td>
-                    <span id="AIRG"></span>
-                </td>
-                <td>
-                    <span id="FIGG"></span>
-                </td>
-                <td>
-                    <span id="BOMG"></span>
-                </td>
-                <td>
-                    <span id="NUMG"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    누적치
-                </td>
-                <td>
-                    <span id="POTT"></span>
-                </td>
-                <td>
-                    <span id="ACCT"></span>
-                </td>
-                <td>
-                    <span id="RLDT"></span>
-                </td>
-                <td>
-                    <span id="TORT"></span>
-                </td>
-                <td>
-                    <span id="AAWT"></span>
-                </td>
-                <td>
-                    <span id="REPT"></span>
-                </td>
-                <td>
-                    <span id="REST"></span>
-                </td>
-                <td>
-                    <span id="ENGT"></span>
-                </td>
-                <td>
-                    <span id="AIRT"></span>
-                </td>
-                <td>
-                    <span id="FIGT"></span>
-                </td>
-                <td>
-                    <span id="BOMT"></span>
-                </td>
-                <td>
-                    <span id="NUMT"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    갑판어빌
-                </td>
-                <td>
-                    <span id="POTTS"></span>
-                </td>
-                <td>
-                    <span id="ACCTS"></span>
-                </td>
-                <td>
-                    <span id="RLDTS"></span>
-                </td>
-                <td>
-                    <span id="TORTS"></span>
-                </td>
-                <td>
-                    <span id="AAWTS"></span>
-                </td>
-                <td>
-                    <span id="REPTS"></span>
-                </td>
-                <td>
-                    <span id="RESTS"></span>
-                </td>
-                <td>
-                    <span id="ENGTS"></span>
-                </td>
-                <td>
-                    <span id="AIRTS"></span>
-                </td>
-                <td>
-                    <span id="FIGTS"></span>
-                </td>
-                <td>
-                    <span id="BOMTS"></span>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    갑판보정 [%]
-                </td>
-                <td>
-                    <span id="POTTSR"></span>
-                </td>
-                <td>
-                    <span id="ACCTSR"></span>
-                </td>
-                <td>
-                    <span id="RLDTSR"></span>
-                </td>
-                <td>
-                    <span id="TORTSR"></span>
-                </td>
-                <td>
-                    <span id="AAWTSR"></span>
-                </td>
-                <td>
-                    <span id="REPTSR"></span>
-                </td>
-                <td>
-                    <span id="RESTSR"></span>
-                </td>
-                <td>
-                    <span id="ENGTSR"></span>
-                </td>
-                <td>
-                    <span id="AIRTSR"></span>
-                </td>
-                <td>
-                    <span id="FIGTSR"></span>
-                </td>
-                <td>
-                    <span id="BOMTSR"></span>
-                </td>
-                <td>
+                    <span id="REPS1"></span>
                 </td>
             </tr>
         </table>
-		<br>
-        <table  cellpadding="5" cellspacing="0" border="1" style="border-collapse:collapse; border:1px gray solid;">
+        <h3>계산결과 - 신병0셋팅 검토</h3>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
             <tr>
                 <td>
-                    사관 [명]
+                    폼폼이 만연사 [%]
                 </td>
                 <td>
-                    100
+                    수병 사관수
                 </td>
                 <td>
-                    150
+                    수병 숙병수
                 </td>
                 <td>
-                    180
+                    수병 신병수
                 </td>
                 <td>
-                    200
-                </td>
-                <td>
-                    250
-                </td>
-                <td>
-                    300
-                </td>
-                <td>
-                    40% <br>
-                    <span id="NUM40"></span>
-                </td>
-                <td>
-                    45% <br>
-                    <span id="NUM45"></span>
+                    수병 수리속도[/s]
                 </td>
             </tr>
             <tr>
                 <td>
-                    수리속도[/s] @ KR
+                    <span id="RLDIVR2"></span>
                 </td>
                 <td>
-                    <span id="REP100"></span>
+                    <span id="VETT"></span>
                 </td>
                 <td>
-                    <span id="REP150"></span>
+                    <span id="EXPT"></span>
                 </td>
                 <td>
-                    <span id="REP180"></span>
+                    0
                 </td>
                 <td>
-                    <span id="REP200"></span>
-                </td>
-                <td>
-                    <span id="REP250"></span>
-                </td>
-                <td>
-                    <span id="REP300"></span>
-                </td>
-                <td>
-                    <span id="REP40"></span>
-                </td>
-                <td>
-                    <span id="REP45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    구조방어 @ KR
-                </td>
-                <td>
-                    <span id="RES100"></span>
-                </td>
-                <td>
-                    <span id="RES150"></span>
-                </td>
-                <td>
-                    <span id="RES180"></span>
-                </td>
-                <td>
-                    <span id="RES200"></span>
-                </td>
-                <td>
-                    <span id="RES250"></span>
-                </td>
-                <td>
-                    <span id="RES300"></span>
-                </td>
-                <td>
-                    <span id="RES40"></span>
-                </td>
-                <td>
-                    <span id="RES45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
-                </td>
-                <td>
-                    <span id="ENGT100"></span>
-                </td>
-                <td>
-                    <span id="ENGT150"></span>
-                </td>
-                <td>
-                    <span id="ENGT180"></span>
-                </td>
-                <td>
-                    <span id="ENGT200"></span>
-                </td>
-                <td>
-                    <span id="ENGT250"></span>
-                </td>
-                <td>
-                    <span id="ENGT300"></span>
-                </td>
-                <td>
-                    <span id="ENGT40"></span>
-                </td>
-                <td>
-                    <span id="ENGT45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
-                </td>
-                <td>
-                    <span id="ENGR100"></span>
-                </td>
-                <td>
-                    <span id="ENGR150"></span>
-                </td>
-                <td>
-                    <span id="ENGR180"></span>
-                </td>
-                <td>
-                    <span id="ENGR200"></span>
-                </td>
-                <td>
-                    <span id="ENGR250"></span>
-                </td>
-                <td>
-                    <span id="ENGR300"></span>
-                </td>
-                <td>
-                    <span id="ENGR40"></span>
-                </td>
-                <td>
-                    <span id="ENGR45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    음탐만시야 [%]
-                </td>
-                <td>
-                    <span id="SONAR100"></span>
-                </td>
-                <td>
-                    <span id="SONAR150"></span>
-                </td>
-                <td>
-                    <span id="SONAR180"></span>
-                </td>
-                <td>
-                    <span id="SONAR200"></span>
-                </td>
-                <td>
-                    <span id="SONAR250"></span>
-                </td>
-                <td>
-                    <span id="SONAR300"></span>
-                </td>
-                <td>
-                    <span id="SONAR40"></span>
-                </td>
-                <td>
-                    <span id="SONAR45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    수병연사구간
-                </td>
-                <td>
-                    <span id="SR100"></span>
-                </td>
-                <td>
-                    <span id="SR150"></span>
-                </td>
-                <td>
-                    <span id="SR180"></span>
-                </td>
-                <td>
-                    <span id="SR200"></span>
-                </td>
-                <td>
-                    <span id="SR250"></span>
-                </td>
-                <td>
-                    <span id="SR300"></span>
-                </td>
-                <td>
-                    <span id="SR40"></span>
-                </td>
-                <td>
-                    <span id="SR45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    평균연사속도 [s]
-                </td>
-                <td>
-                    <span id="GR100"></span>
-                </td>
-                <td>
-                    <span id="GR150"></span>
-                </td>
-                <td>
-                    <span id="GR180"></span>
-                </td>
-                <td>
-                    <span id="GR200"></span>
-                </td>
-                <td>
-                    <span id="GR250"></span>
-                </td>
-                <td>
-                    <span id="GR300"></span>
-                </td>
-                <td>
-                    <span id="GR40"></span>
-                </td>
-                <td>
-                    <span id="GR45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    연사구간업 필요갑판보정 [%]
-                </td>
-                <td>
-                    <span id="SRU100"></span>
-                </td>
-                <td>
-                    <span id="SRU150"></span>
-                </td>
-                <td>
-                    <span id="SRU180"></span>
-                </td>
-                <td>
-                    <span id="SRU200"></span>
-                </td>
-                <td>
-                    <span id="SRU250"></span>
-                </td>
-                <td>
-                    <span id="SRU300"></span>
-                </td>
-                <td>
-                    <span id="SRU40"></span>
-                </td>
-                <td>
-                    <span id="SRU45"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    연사구간업 평균연사속도 [s]
-                </td>
-                <td>
-                    <span id="GRU100"></span>
-                </td>
-                <td>
-                    <span id="GRU150"></span>
-                </td>
-                <td>
-                    <span id="GRU180"></span>
-                </td>
-                <td>
-                    <span id="GRU200"></span>
-                </td>
-                <td>
-                    <span id="GRU250"></span>
-                </td>
-                <td>
-                    <span id="GRU300"></span>
-                </td>
-                <td>
-                    <span id="GRU40"></span>
-                </td>
-                <td>
-                    <span id="GRU45"></span>
+                    <span id="REPS2"></span>
                 </td>
             </tr>
         </table>
-        <span id="tentativeout"></span>
-        &nbsp;&nbsp;※평균 연사속도의 예)  
-		<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;　　avg 2.12s ->  2.16s - 2.16s - 2.16s - 2.16s - 1.92s - 2.16s - ...  
-		<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;　　avg 0.24s = 레이저 -> 0.24s - 0.24s - 0.24s - 0.24s - 0.24s - 0.24s - ... 
-		<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;　　avg 0.28s = 5~6연발 -> 0.24s - 0.24s - 0.24s - 0.24s - 0.24s - 0.48s - ... 
-		<br>
-        <span id="tentativeout1"></span>
-	</body>
+      </div>
+    </details>
+  </div>
+
+  <!-- 4. 빨랫줄계산기 -->
+  <div class="w3-container" id="guideline_calc">
+    <details open>
+      <summary>
+        <h1 class="w3-text-black">4. 빨랫줄계산기</h1>
+      </summary>
+      <div>
+        <h3><button onclick="get_result_guideline()">빨랫줄계산기실행</button></h3>
+      </div>
+      <div class="w3-half">
+        <h3>수병정보입력</h3>
+        <form name="guideline_calc_form">
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td>잠재누적어빌</td>
+              <td><input type="number" id="GLPOTIP" name="GLPOTIP" step="1" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>수리누적어빌</td>
+              <td><input type="number" id="GLREPIP" name="GLREPIP" step="1" min="0" max="5000" size="2"></td>
+            </tr>
+            <tr>
+              <td>총수병수</td>
+              <td><input type="number" id="GLNUMIP" name="GLNUMIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>사관수</td>
+              <td><input type="number" id="GLVETIP" name="GLVETIP" step="1" min="55" max="1000" size="2"></td>
+            </tr>
+            <tr>
+              <td>숙련병수</td>
+              <td><input type="number" id="GLEXPIP" name="GLEXPIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>신병수</td>
+              <td><input type="number" id="GLNEWIP" name="GLNEWIP" step="1" min="55" max="1200" size="2"></td>
+            </tr>
+            <tr>
+              <td>FCS 가이드라인 길이</td>
+              <td><input type="number" id="FCSIP" name="FCSIP" step="1" min="0" max="2000" size="2"></td>
+            </tr>
+            <tr>
+              <td>목표 함선 가이드라인 길이</td>
+              <td><input type="number" id="TARGETIP" name="TARGETIP" step="1" min="0" max="2000" size="2"></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div class="w3-row">
+        <h3>계산결과</h3>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+                <td>
+                    함선 가이드라인
+                </td>
+                <td>
+                    FCS 가이드라인
+                </td>
+                <td>
+                    함장 가이드라인
+                </td>
+                <td>
+                    함장 수리속도[/s]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span id="guideT"></span>
+                </td>
+                <td>
+                    <span id="guideFCS"></span>
+                </td>
+                <td>
+                    <span id="guideSailor"></span>
+                </td>
+                <td>
+                    <span id="GLREPS1"></span>
+                </td>
+            </tr>
+        </table>
+        <h3>계산결과 - 신병0셋팅 검토</h3>
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+                <td>
+                    함선 가이드라인
+                </td>
+                <td>
+                    함장 사관수
+                </td>
+                <td>
+                    함장 숙병수
+                </td>
+                <td>
+                    함장 신병수
+                </td>
+                <td>
+                    함장 수리속도[/s]
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span id="guideT2"></span>
+                </td>
+                <td>
+                    <span id="GLVETT"></span>
+                </td>
+                <td>
+                    <span id="GLEXPT"></span>
+                </td>
+                <td>
+                    0
+                </td>
+                <td>
+                    <span id="GLREPS2"></span>
+                </td>
+            </tr>
+        </table>
+      </div>
+    </details>
+  </div>
+
+  <div class="w3-row w3-padding-32">
+  </div>
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h4>Footer</h4>
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by g_dori / <a href="https://gall.dcinside.com/board/lists/?id=nf" target="_blank">DCinside Navyfield Gallery</a></p>
+    </div>
+
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+
+var origUrl = "https://script.google.com/macros/s/AKfycbwAqd78Yftsnd0xLAs6JfOUNDx2HggsAUgn0L1Cjjp1N__I4L6M/exec?";
+var params = {};
+params["nationinput"] = "";
+params["treeinput"] = "";
+
+document.getElementById("RLDIPROW").style.display = "none";
+document.getElementById("ENGTROW").style.display = "none";
+document.getElementById("ENGRROW").style.display = "none";
+document.getElementById("SONARROW").style.display = "none";
+document.getElementById("SRROW").style.display = "none";
+document.getElementById("GRROW").style.display = "none";
+document.getElementById("SRUROW").style.display = "none";
+document.getElementById("GRUROW").style.display = "none";
+    
+function gen_url(){
+  var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
+  var encoderUrl = encodeURI(origUrl + param);
+  return encoderUrl
+}
+
+function get_result_sailor(){
+  var encoderUrl = gen_url();
+  var treedata = [];
+  var abildata = [];
+  var reloadcutdata = [];
+  var reloadtimedata = [];
+
+  fetch(encoderUrl)
+  .then(response => response.json())
+  .then(response => {
+
+    treedata = response["data"]["tree"];
+    abildata = response["data"]["abil"];
+    reloadcutdata = response["data"]["reloadcut"];
+    reloadtimedata = response["data"]["reloadtime"];
+
+    //abildata 값으로 검색된 전직횟수 판정
+    var tree_n = 0;
+    for(i=0; i<treedata.length; i++){
+      if(abildata[i][0] > 0){
+        tree_n = tree_n + 1;
+      }
+    }
+    //판정한 전직횟수로 배열길이 조정
+    treedata.length = tree_n;
+    abildata.length = tree_n;
+
+    //수병트리/전직Lv정보 output
+    document.getElementById("tree_1").innerHTML = treedata[0];
+    if(tree_n > 1){
+      document.getElementById("tree_2").innerHTML = treedata[1];
+      if(tree_n > 2){
+        document.getElementById("tree_3").innerHTML = treedata[2];
+        if(tree_n > 3){
+          document.getElementById("tree_4").innerHTML = treedata[3];
+          if(tree_n > 4){
+            document.getElementById("tree_5").innerHTML = treedata[4];
+            if(tree_n > 5){
+              document.getElementById("tree_6").innerHTML = treedata[5];
+            }
+            else{
+              document.getElementById("tree6output").style.display = "none";
+            }
+          }
+          else{
+            document.getElementById("tree5output").style.display = "none";
+            document.getElementById("tree6output").style.display = "none";
+          }
+        }
+        else{
+          document.getElementById("tree4output").style.display = "none";
+          document.getElementById("tree5output").style.display = "none";
+          document.getElementById("tree6output").style.display = "none";
+        }
+      }
+      else{
+        document.getElementById("tree3output").style.display = "none";
+        document.getElementById("tree4output").style.display = "none";
+        document.getElementById("tree5output").style.display = "none";
+        document.getElementById("tree6output").style.display = "none";
+      }
+    }
+    document.getElementById("tree_1LV").innerHTML = "전직Lv: " + abildata[0][0];
+    if(tree_n > 1){
+      document.getElementById("tree_2LV").innerHTML = "전직Lv: " + abildata[1][0];
+      if(tree_n > 2){
+        document.getElementById("tree_3LV").innerHTML = "전직Lv: " + abildata[2][0];
+        if(tree_n > 3){
+          document.getElementById("tree_4LV").innerHTML = "전직Lv: " + abildata[3][0];
+          if(tree_n > 4){
+            document.getElementById("tree_5LV").innerHTML = "전직Lv: " + abildata[4][0];
+            if(tree_n > 5){
+              document.getElementById("tree_6LV").innerHTML = "전직Lv: " + abildata[5][0];
+            }
+          }
+        }
+      }
+    }
+
+    //입력Lv가져오기
+    var levinput = document.getElementById("LEVIP").value;
+    if(levinput > 120){
+      alert("수병Lv은 120을 넘을 수 없습니다")
+    }
+
+    //입력초기어빌가져오기
+
+    var abilgrowth = new Array(12);
+    abilgrowth[0] = document.getElementById("POTIP").value;
+    abilgrowth[1] = document.getElementById("ACCIP").value;
+    abilgrowth[2] = document.getElementById("RLDIP").value;
+    abilgrowth[3] = document.getElementById("TORIP").value;
+    abilgrowth[4] = document.getElementById("AAWIP").value;
+    abilgrowth[5] = document.getElementById("REPIP").value;
+    abilgrowth[6] = document.getElementById("RESIP").value;
+    abilgrowth[7] = document.getElementById("ENGIP").value;
+    abilgrowth[8] = document.getElementById("AIRIP").value;
+    abilgrowth[9] = document.getElementById("FIGIP").value;
+    abilgrowth[10] = document.getElementById("BOMIP").value;
+    abilgrowth[11] = 5;
+
+    var abilcalc = Array.from(Array(tree_n), () => Array(12).fill(0));
+    var abiltotal = [25,25,25,25,25,25,25,25,25,25,25,55];
+
+    // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
+    for(i=0;i<11;i++){
+      if(abilgrowth[i] == 14){
+        abiltotal[i] = 30;
+        if(i==1||i==2){
+          abiltotal[1] = 30;
+          abiltotal[2] = 30;
+        }
+      }
+    }
+
+    //강화여부체크 > 적용
+    var boostcheck = {};
+    boostcheck = document.getElementById("boostip").value;
+    if(boostcheck == ""){
+      boostcheck = "없음"
+    }
+
+    if(boostcheck == "잠재2강")     { abilgrowth[0] = abilgrowth[0]*1 + 2; abiltotal[0] = abiltotal[0] + 2; }
+    else if(boostcheck == "잠재1강"){ abilgrowth[0] = abilgrowth[0]*1 + 1; abiltotal[0] = abiltotal[0] + 1; }
+    else if(boostcheck == "명중2강"){ abilgrowth[1] = abilgrowth[1]*1 + 2; abiltotal[1] = abiltotal[1] + 2; }
+    else if(boostcheck == "명중1강"){ abilgrowth[1] = abilgrowth[1]*1 + 1; abiltotal[1] = abiltotal[1] + 1; }
+    else if(boostcheck == "연사2강"){ abilgrowth[2] = abilgrowth[2]*1 + 2; abiltotal[2] = abiltotal[2] + 2; }
+    else if(boostcheck == "연사1강"){ abilgrowth[2] = abilgrowth[2]*1 + 1; abiltotal[2] = abiltotal[2] + 1; }
+    else if(boostcheck == "어뢰2강"){ abilgrowth[3] = abilgrowth[3]*1 + 2; abiltotal[3] = abiltotal[3] + 2; }
+    else if(boostcheck == "어뢰1강"){ abilgrowth[3] = abilgrowth[3]*1 + 1; abiltotal[3] = abiltotal[3] + 1; }
+    else if(boostcheck == "수리2강"){ abilgrowth[5] = abilgrowth[5]*1 + 2; abiltotal[5] = abiltotal[5] + 2; }
+    else if(boostcheck == "수리1강"){ abilgrowth[5] = abilgrowth[5]*1 + 1; abiltotal[5] = abiltotal[5] + 1; }
+    else if(boostcheck == "보수2강"){ abilgrowth[6] = abilgrowth[6]*1 + 2; abiltotal[6] = abiltotal[6] + 2; }
+    else if(boostcheck == "보수1강"){ abilgrowth[6] = abilgrowth[6]*1 + 1; abiltotal[6] = abiltotal[6] + 1; }
+    else if(boostcheck == "기관2강"){ abilgrowth[7] = abilgrowth[7]*1 + 2; abiltotal[7] = abiltotal[7] + 2; }
+    else if(boostcheck == "기관1강"){ abilgrowth[7] = abilgrowth[7]*1 + 1; abiltotal[7] = abiltotal[7] + 1; }
+    else if(boostcheck == "전투2강"){ abilgrowth[9] = abilgrowth[9]*1 + 2; abiltotal[9] = abiltotal[9] + 2; }
+    else if(boostcheck == "전투1강"){ abilgrowth[9] = abilgrowth[9]*1 + 1; abiltotal[9] = abiltotal[9] + 1; }
+    else if(boostcheck == "폭격2강"){ abilgrowth[10] = abilgrowth[10]*1 + 2; abiltotal[10] = abiltotal[10] + 2; }
+    else if(boostcheck == "폭격1강"){ abilgrowth[10] = abilgrowth[10]*1 + 1; abiltotal[10] = abiltotal[10] + 1; }
+
+    //국가보너스 어빌 계산
+    if(params["nationinput"] == "미국"){
+      abiltotal[9] = abiltotal[9] + 5; }
+    else if(params["nationinput"] == "영국"){
+      abiltotal[5] = abiltotal[5] + 3; }
+    else if(params["nationinput"] == "일본"){
+      abiltotal[3] = abiltotal[3] + 2; }
+    else if(params["nationinput"] == "독일"){
+      abiltotal[1] = abiltotal[1] + 4;
+      abiltotal[2] = abiltotal[2] + 4;
+      abiltotal[7] = abiltotal[7] + 2;
+      abiltotal[9] = abiltotal[9] + 2; }
+    else if(params["nationinput"] == "프랑스"){
+      abiltotal[6] = abiltotal[6] + 2; }
+    else if(params["nationinput"] == "소련"){
+      abiltotal[1] = abiltotal[1] + 4;
+      abiltotal[2] = abiltotal[2] + 4;
+      abiltotal[7] = abiltotal[7] + 2;
+      abiltotal[9] = abiltotal[9] + 2; }
+    else if(params["nationinput"] == "이탈리아"){
+      abiltotal[2] = abiltotal[2] + 8;
+      abiltotal[9] = abiltotal[9] + 2; }
+
+    //입력초기어빌분 계산
+    for(r=0;r<12;r++){
+      abiltotal[r] = abiltotal[r] + ( (levinput*1-1)*abilgrowth[r]);
+    }
 
 
+    //늦직입력분 반영
 
-    <script type="text/javascript">
+    var treelev = new Array(6);
+    treelev[0] = document.getElementById("tree1").value;
+    treelev[1] = document.getElementById("tree2").value;
+    treelev[2] = document.getElementById("tree3").value;
+    treelev[3] = document.getElementById("tree4").value;
+    treelev[4] = document.getElementById("tree5").value;
+    treelev[5] = document.getElementById("tree6").value;
 
-		var origUrl = "https://script.google.com/macros/s/AKfycbwAqd78Yftsnd0xLAs6JfOUNDx2HggsAUgn0L1Cjjp1N__I4L6M/exec?";
-		var params = {};
-		params["nationinput"] = "";
-		params["treeinput"] = "";
-		params["reloadinput"] = "";
-        
-		function gen_url(){
-			var param = "input=" + params["nationinput"] + " - " + params["treeinput"] + "&input2=" + params["reloadinput"];
-			var encoderUrl = encodeURI(origUrl + param);
-			return encoderUrl
-		}
+    for(i=0; i<tree_n; i++){
+      if(treelev[i] == ""){
+        continue;
+      }
+      if(abildata[i][0] > treelev[i]){
+        alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
+      }
+      abildata[i][0] = treelev[i];
+    }
+    
+    //늦직입력 - 전직안하는 트리분 반영
+    for(i=tree_n; i>1; i--){
+      if(treelev[i-1] == "" && treelev[i-2] != ""){
+        tree_n = i-1;
+      }
+    }
 
-		function get_result(){
+    // 수병트리영향분 계산
+    for(i=0; i<tree_n; i++){
+      if(levinput*1 < abildata[i][0]){
+        continue;
+      }
+      for(r=0; r<12; r++){
+        if(abildata[i][r+1] == ""){
+          abildata[i][r+1] = 0;
+        }
+        abilgrowth[r] = abilgrowth[r]*1 + abildata[i][r+1]*1;
+        abilcalc[i][r] = abilcalc[i][r] + ((levinput*1-abildata[i][0]*1)*abildata[i][r+1]);
+      }
+    }
+
+    // 입력초기어빌 + 수병트리영향분 합산
+    for(i=0; i<tree_n; i++){
+      for(r=0; r<12; r++){
+        abiltotal[r] = abiltotal[r] + abilcalc[i][r];
+        if(abiltotal[r] < 0){
+          abiltotal[r] = 0;
+        }
+      }
+    }
+
+    //영국 갑판병 보너스 어빌
+    if(params["nationinput"] == "영국"){
+      if(params["treeinput"] == "갑판병"){
+        for(r=0; r<11; r++){
+          abiltotal[r] = abiltotal[r] + 50;
+        }
+      }
+    }
+
+    //document.getElementById("tentativeout").innerHTML = abiltotal;
+
+    //성장어빌-수병수
+    document.getElementById("POTG").innerHTML = abilgrowth[0];
+    document.getElementById("ACCG").innerHTML = abilgrowth[1];
+    document.getElementById("RLDG").innerHTML = abilgrowth[2];
+    document.getElementById("TORG").innerHTML = abilgrowth[3];
+    document.getElementById("AAWG").innerHTML = abilgrowth[4];
+    document.getElementById("REPG").innerHTML = abilgrowth[5];
+    document.getElementById("RESG").innerHTML = abilgrowth[6];
+    document.getElementById("ENGG").innerHTML = abilgrowth[7];
+    document.getElementById("AIRG").innerHTML = abilgrowth[8];
+    document.getElementById("FIGG").innerHTML = abilgrowth[9];
+    document.getElementById("BOMG").innerHTML = abilgrowth[10];
+    document.getElementById("NUMG").innerHTML = abilgrowth[11];
+    
+    //누적어빌-수병수
+    document.getElementById("POTT").innerHTML = abiltotal[0];
+    document.getElementById("ACCT").innerHTML = abiltotal[1];
+    document.getElementById("RLDT").innerHTML = abiltotal[2];
+    document.getElementById("TORT").innerHTML = abiltotal[3];
+    document.getElementById("AAWT").innerHTML = abiltotal[4];
+    document.getElementById("REPT").innerHTML = abiltotal[5];
+    document.getElementById("REST").innerHTML = abiltotal[6];
+    document.getElementById("ENGT").innerHTML = abiltotal[7];
+    document.getElementById("AIRT").innerHTML = abiltotal[8];
+    document.getElementById("FIGT").innerHTML = abiltotal[9];
+    document.getElementById("BOMT").innerHTML = abiltotal[10];
+    document.getElementById("NUMT").innerHTML = abiltotal[11];
+
+
+    if(treedata[2].indexOf("갑판")>0){
+      //갑판어빌
+      document.getElementById("POTTS").innerHTML = Math.floor(abiltotal[0]*0.07);
+      document.getElementById("ACCTS").innerHTML = Math.floor(abiltotal[1]*0.07);
+      document.getElementById("RLDTS").innerHTML = Math.floor(abiltotal[2]*0.07);
+      document.getElementById("TORTS").innerHTML = Math.floor(abiltotal[3]*0.07);
+      document.getElementById("AAWTS").innerHTML = Math.floor(abiltotal[4]*0.07);
+      document.getElementById("REPTS").innerHTML = Math.floor(abiltotal[5]*0.07);
+      document.getElementById("RESTS").innerHTML = Math.floor(abiltotal[6]*0.07);
+      document.getElementById("ENGTS").innerHTML = Math.floor(abiltotal[7]*0.07);
+      document.getElementById("AIRTS").innerHTML = Math.floor(abiltotal[8]*0.07);
+      document.getElementById("FIGTS").innerHTML = Math.floor(abiltotal[9]*0.07);
+      document.getElementById("BOMTS").innerHTML = Math.floor(abiltotal[10]*0.07);
+      //갑판보정율
+      document.getElementById("POTTSR").innerHTML = Math.floor(abiltotal[0]/300);
+      document.getElementById("ACCTSR").innerHTML = Math.floor(abiltotal[1]/300);
+      document.getElementById("RLDTSR").innerHTML = Math.floor(abiltotal[2]/300);
+      document.getElementById("TORTSR").innerHTML = Math.floor(abiltotal[3]/300);
+      document.getElementById("AAWTSR").innerHTML = Math.floor(abiltotal[4]/300);
+      document.getElementById("REPTSR").innerHTML = Math.floor(abiltotal[5]/300);
+      document.getElementById("RESTSR").innerHTML = Math.floor(abiltotal[6]/300);
+      document.getElementById("ENGTSR").innerHTML = Math.floor(abiltotal[7]/300);
+      document.getElementById("AIRTSR").innerHTML = Math.floor(abiltotal[8]/300);
+      document.getElementById("FIGTSR").innerHTML = Math.floor(abiltotal[9]/300);
+      document.getElementById("BOMTSR").innerHTML = Math.floor(abiltotal[10]/300);
+    }
+
+    //사관숫자계산
+    var NUM40 = Math.floor(abiltotal[11]*0.4);
+    var NUM45 = Math.floor(abiltotal[11]*0.45);
+
+    document.getElementById("NUM40").innerHTML = NUM40;
+    document.getElementById("NUM45").innerHTML = NUM45;
+
+
+    //수리속도계산
+    document.getElementById("REP100").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*100)/480)/25.6)/10;
+    document.getElementById("REP180").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*180)/480)/25.6)/10;
+    document.getElementById("REP250").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*250)/480)/25.6)/10;
+    document.getElementById("REP300").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*300)/480)/25.6)/10;
+    document.getElementById("REP40").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM40)/480)/25.6)/10;
+    document.getElementById("REP45").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM45)/480)/25.6)/10;
+
+    //구조방어계산
+    document.getElementById("RES100").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*100)/480)/16);
+    document.getElementById("RES180").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*180)/480)/16);
+    document.getElementById("RES250").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*250)/480)/16);
+    document.getElementById("RES300").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*300)/480)/16);
+    document.getElementById("RES40").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM40)/480)/16);
+    document.getElementById("RES45").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM45)/480)/16);
+            
+
+    //기관오버힛시간계산
+    if(treedata[2].indexOf("기관")>0){
+      document.getElementById("ENGTROW").style.display = "";
+      document.getElementById("ENGT100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
+      document.getElementById("ENGT180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
+      document.getElementById("ENGT250").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*250)/10000)/10;
+      document.getElementById("ENGT300").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*300)/10000)/10;
+      document.getElementById("ENGT40").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM40)/10000)/10;
+      document.getElementById("ENGT45").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM45)/10000)/10;
+
+    //기관오버힛증가율계산
+      document.getElementById("ENGRROW").style.display = "";
+      document.getElementById("ENGR100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
+      document.getElementById("ENGR180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
+      document.getElementById("ENGR250").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*250)/8000)/2)/10;
+      document.getElementById("ENGR300").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*300)/8000)/2)/10;
+      document.getElementById("ENGR40").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM40)/8000)/2)/10;
+      document.getElementById("ENGR45").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM45)/8000)/2)/10;
+    }     
+
+    //음탐만시야계산
+    if(treedata[2].indexOf("음파")>-1){
+        document.getElementById("SONAR100").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/3000)/10;
+        document.getElementById("SONAR180").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/3000)/10;
+        document.getElementById("SONAR250").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*250)/3000)/10;
+        document.getElementById("SONAR300").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*300)/3000)/10;
+        document.getElementById("SONAR40").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/3000)/10;
+        document.getElementById("SONAR45").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/3000)/10;
+    }
+
+    //연사구간계산
+    if(treedata[1].indexOf("병기")>0){
+
+      //연사어빌 배열준비 + 리얼어빌ip
+      var reloadcalc = new Array(8);
+      reloadcalc[0] = abiltotal[2]*(abiltotal[11] + 3*100);
+      reloadcalc[1] = abiltotal[2]*(abiltotal[11] + 3*150);
+      reloadcalc[2] = abiltotal[2]*(abiltotal[11] + 3*180);
+      reloadcalc[3] = abiltotal[2]*(abiltotal[11] + 3*200);
+      reloadcalc[4] = abiltotal[2]*(abiltotal[11] + 3*250);
+      reloadcalc[5] = abiltotal[2]*(abiltotal[11] + 3*300);
+      reloadcalc[6] = abiltotal[2]*(abiltotal[11] + 3*NUM40);
+      reloadcalc[7] = abiltotal[2]*(abiltotal[11] + 3*NUM45);
+
+      //연사어빌컷 구간 판정용 배열준비
+      var reloadcutcalc = new Array(8);
+      for(i=0; i<reloadcutcalc.length; i++){
+        reloadcutcalc[i] = 0;
+      }
+
+      //연사구간판정
+      for(i=0; i<reloadcalc.length; i++){
+        for(j=0; j<reloadcutdata.length; j++){
+          if(reloadcutdata[j] < reloadcalc[i]){
+            reloadcutcalc[i] = reloadcutcalc[i] + 1;
+          }
+        }
+      }
+
+      //연사속도 프레임>속도
+      for(i=0; i<reloadtimedata.length; i++){
+        if(reloadtimedata[i] > 0){
+          reloadtimedata[i] = reloadtimedata[i]/25;
+        }
+      }
+
+      //연사구간
+      document.getElementById("SRROW").style.display = "";
+      document.getElementById("SR100").innerHTML = reloadcutcalc[0];
+      document.getElementById("SR180").innerHTML = reloadcutcalc[2];
+      document.getElementById("SR250").innerHTML = reloadcutcalc[4];
+      document.getElementById("SR300").innerHTML = reloadcutcalc[5];
+      document.getElementById("SR40").innerHTML = reloadcutcalc[6];
+      document.getElementById("SR45").innerHTML = reloadcutcalc[7];
+
+      //연사구간 필요갑판보정
+      document.getElementById("SRUROW").style.display = "";
+      document.getElementById("SRU100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
+      document.getElementById("SRU180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
+      document.getElementById("SRU250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
+      document.getElementById("SRU300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
+      document.getElementById("SRU40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
+      document.getElementById("SRU45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
+
+
+      var reload_ip_x = document.getElementById("reload_ip").value;
+      if(reload_ip_x > 0){
+        document.getElementById("GRROW").style.display = "";
+        document.getElementById("GR100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+        document.getElementById("GR180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+        document.getElementById("GR250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+        document.getElementById("GR300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+        document.getElementById("GR40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+        document.getElementById("GR45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
+
+        document.getElementById("GRUROW").style.display = "";
+        document.getElementById("GRU100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+        document.getElementById("GRU180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+        document.getElementById("GRU250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+        document.getElementById("GRU300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+        document.getElementById("GRU40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+        document.getElementById("GRU45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
+
+      }
+
+    }
+
+    }
+  );
+}
+
+// 수병트리수정
+function tree_rev(e){
+  input = e.value;
+  if(input == "미국"){
+    document.getElementById("UN_RRRG").style.display = "";
+    document.getElementById("RN_RG").style.display = "none";
+    document.getElementById("RN_SG").style.display = "none";
+    document.getElementById("RG").style.display = "none";
+    document.getElementById("IN_SG").style.display = "none";
+    document.getElementById("KM_SG").style.display = "none";
+    document.getElementById("SM").style.display = "";
+  }
+  else if(input == "영국"){
+    document.getElementById("UN_RRRG").style.display = "none";
+    document.getElementById("RN_RG").style.display = "";
+    document.getElementById("RN_SG").style.display = "";
+    document.getElementById("RG").style.display = "none";
+    document.getElementById("IN_SG").style.display = "none";
+    document.getElementById("KM_SG").style.display = "none";
+    document.getElementById("SM").style.display = "none";
+  }
+  else if(input == "일본"){
+    document.getElementById("UN_RRRG").style.display = "none";
+    document.getElementById("RN_RG").style.display = "none";
+    document.getElementById("RN_SG").style.display = "none";
+    document.getElementById("RG").style.display = "";
+    document.getElementById("IN_SG").style.display = "";
+    document.getElementById("KM_SG").style.display = "none";
+    document.getElementById("SM").style.display = "none";
+  }
+  else if(input == "독일"){
+    document.getElementById("UN_RRRG").style.display = "none";
+    document.getElementById("RN_RG").style.display = "none";
+    document.getElementById("RN_SG").style.display = "none";
+    document.getElementById("RG").style.display = "";
+    document.getElementById("IN_SG").style.display = "none";
+    document.getElementById("KM_SG").style.display = "";
+    document.getElementById("SM").style.display = "";
+  }
+  else {
+    document.getElementById("UN_RRRG").style.display = "none";
+    document.getElementById("RN_RG").style.display = "none";
+    document.getElementById("RN_SG").style.display = "none";
+    document.getElementById("RG").style.display = "";
+    document.getElementById("IN_SG").style.display = "none";
+    document.getElementById("KM_SG").style.display = "none";
+    document.getElementById("SM").style.display = "none";
+  }
+}
+
+function treeipreset() {
+  // 입력된 수병트리 reset
+  document.getElementById("tree1").value = "";
+  document.getElementById("tree2").value = "";
+  document.getElementById("tree3").value = "";
+  document.getElementById("tree4").value = "";
+  document.getElementById("tree5").value = "";
+  document.getElementById("tree6").value = "";
+  // 입력된 국가/수병트리 update
+  params["nationinput"] = document.getElementById("nation_sel").value;
+  params["treeinput"] = document.getElementById("tree_sel").value;
+  // 포병일때 함포연사IP 활성화
+  if(params["treeinput"].indexOf("포병")>-1 ){
+    document.getElementById("RLDIPROW").style.display = "";
+  }
+}
+
+function autoabilip(e){
+  input = e.value;
+  //어빌입력 리셋
+  document.getElementById("POTIP").value = 9;  
+  document.getElementById("ACCIP").value = 9;
+  document.getElementById("RLDIP").value = 9;
+  document.getElementById("TORIP").value = 9;
+  document.getElementById("AAWIP").value = 9;
+  document.getElementById("REPIP").value = 9;
+  document.getElementById("RESIP").value = 9;
+  document.getElementById("ENGIP").value = 9;
+  document.getElementById("AIRIP").value = 9;
+  document.getElementById("FIGIP").value = 9;
+  document.getElementById("BOMIP").value = 9;
+
+  //이벤트수병 입력
+  if(input == "개근"){
+    document.getElementById("ACCIP").value = 14;
+    document.getElementById("RLDIP").value = 14;
+  }
+  else if(input == "전설보조"){
+    document.getElementById("REPIP").value = 14;
+    document.getElementById("RESIP").value = 14;
+    document.getElementById("ENGIP").value = 14;
+  }
+  else if(input == "전설특무"){
+    document.getElementById("AIRIP").value = 14;
+    document.getElementById("FIGIP").value = 14;
+    document.getElementById("BOMIP").value = 14;
+  }
+  //플미수병 입력
+  else if(input == "잠재플미"){
+    document.getElementById("POTIP").value = 17;
+  }
+  else if(input == "명중플미"){
+    document.getElementById("ACCIP").value = 14;
+    document.getElementById("RLDIP").value = 11;
+  }
+  else if(input == "연사플미"){
+    document.getElementById("ACCIP").value = 11;
+    document.getElementById("RLDIP").value = 14;
+  }
+  else if(input == "어뢰플미"){
+    document.getElementById("TORIP").value = 14;
+  }
+  else if(input == "수리플미"){
+    document.getElementById("REPIP").value = 14;
+  }
+  else if(input == "보수플미"){
+    document.getElementById("RESIP").value = 14;
+  }
+  else if(input == "기관플미"){
+    document.getElementById("ENGIP").value = 14;
+  }
+  else if(input == "전투플미"){
+    document.getElementById("FIGIP").value = 14;
+  }
+  else if(input == "폭격플미"){
+    document.getElementById("BOMIP").value = 14;
+  }
+
+}
+
+function get_result_reload(){
 			var encoderUrl = gen_url();
-            var treedata = [];
-            var abildata = [];
             var reloadcutdata = [];
-            var reloadtimedata = [];
 
 			fetch(encoderUrl)
 			.then(response => response.json())
 			.then(response => {
 
-                treedata = response["data"]["tree"];
-                abildata = response["data"]["abil"];
                 reloadcutdata = response["data"]["reloadcut"];
-                reloadtimedata = response["data"]["reloadtime"];
-
-                //abildata 값으로 검색된 전직횟수 판정
-                var tree_n = 0;
-                for(i=0; i<treedata.length; i++){
-                    if(abildata[i][0] > 0){
-                        tree_n = tree_n + 1;
-                    }
-                }
-                //판정한 전직횟수로 배열길이 조정
-                treedata.length = tree_n;
-                abildata.length = tree_n;
-
-                //수병트리/전직Lv정보 output
-                document.getElementById("tree_1").innerHTML = treedata[0];
-                if(tree_n > 1){
-                    document.getElementById("tree_2").innerHTML = treedata[1];
-                    if(tree_n > 2){
-                        document.getElementById("tree_3").innerHTML = treedata[2];
-                        if(tree_n > 3){
-                            document.getElementById("tree_4").innerHTML = treedata[3];
-                            if(tree_n > 4){
-                                document.getElementById("tree_5").innerHTML = treedata[4];
-                                if(tree_n > 5){
-                                    document.getElementById("tree_6").innerHTML = treedata[5];
-                                }
-                            }
-                        }
-                    }
-                }
-                document.getElementById("tree_1LV").innerHTML = "전직Lv: " + abildata[0][0];
-                if(tree_n > 1){
-                    document.getElementById("tree_2LV").innerHTML = "전직Lv: " + abildata[1][0];
-                    if(tree_n > 2){
-                        document.getElementById("tree_3LV").innerHTML = "전직Lv: " + abildata[2][0];
-                        if(tree_n > 3){
-                            document.getElementById("tree_4LV").innerHTML = "전직Lv: " + abildata[3][0];
-                            if(tree_n > 4){
-                                document.getElementById("tree_5LV").innerHTML = "전직Lv: " + abildata[4][0];
-                                if(tree_n > 5){
-                                    document.getElementById("tree_6LV").innerHTML = "전직Lv: " + abildata[5][0];
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-                //입력Lv가져오기
-
-                var levinput = form.LEVIP.value;
-                document.getElementById("LEVIP1").innerHTML = "Lv - " + levinput + " / ";
-                if(levinput > 120){
-                    alert("수병Lv은 120을 넘을 수 없습니다")
-                }
 
                 //입력초기어빌가져오기
+                var reloadabilip1 = document.getElementById("reloadabil1").value*1;
+                var reloadabilip2 = document.getElementById("reloadabil2").value*1;
 
-                var abilgrowth = new Array(12);
-                    abilgrowth[0] = form.POTIP.value;
-                    abilgrowth[1] = form.ACCIP.value;
-                    abilgrowth[2] = form.RLDIP.value;
-                    abilgrowth[3] = form.TORIP.value;
-                    abilgrowth[4] = form.AAWIP.value;
-                    abilgrowth[5] = form.REPIP.value;
-                    abilgrowth[6] = form.RESIP.value;
-                    abilgrowth[7] = form.ENGIP.value;
-                    abilgrowth[8] = form.AIRIP.value;
-                    abilgrowth[9] = form.FIGIP.value;
-                    abilgrowth[10] =form.BOMIP.value;
-                    abilgrowth[11] = 5;
+                var repairabilip1 = document.getElementById("repairabil1").value*1;
+                var repairabilip2 = document.getElementById("repairabil2").value*1;
 
+                var sailornumip1 = document.getElementById("sailornum1").value*1;
+                var sailornumip2 = document.getElementById("sailornum2").value*1;
+                var vetnumip1 = document.getElementById("vetnum1").value*1;
+                var vetnumip2 = document.getElementById("vetnum2").value*1;
+                var expnumip1 = document.getElementById("expnum1").value*1;
+                var expnumip2 = document.getElementById("expnum2").value*1;
+                var newnumip1 = document.getElementById("newnum1").value*1;
+                var newnumip2 = document.getElementById("newnum2").value*1;
 
-                var abilcalc = Array.from(Array(tree_n), () => Array(12).fill(0));
-                var abiltotal = [25,25,25,25,25,25,25,25,25,25,25,55];
+                //입력Lv가져오기
+                var mateip = [];
+                var mate = [];
+                var mate_n = 0;
+                var matetotal_calc = 0;
+                mateip[0] = document.getElementById("mateabil1").value*1;
+                mateip[1] = document.getElementById("mateabil2").value*1;
+                mateip[2] = document.getElementById("mateabil3").value*1;
 
-                // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
-                for(i=0;i<11;i++){
-                    if(abilgrowth[i] == 14){
-                        abiltotal[i] = 30;
-                        if(i==1||i==2){
-                            abiltotal[1] = 30;
-                            abiltotal[2] = 30;
-                        }
+                for(i=0; i<mateip.length; i++){
+                    if(mateip[i] > 200){
+                        alert("갑판병 어빌을 올바르게 입력하십시오")
+                    }
+                    if(mateip[i] > 0){
+                        mate_n = mate_n + 1 ;
+                        mate[i] = Math.floor(mateip[i]/21);
+                        matetotal_calc = matetotal_calc + mate[i];
                     }
                 }
+                document.getElementById("maten").innerHTML = mate_n;
 
-                //강화여부체크 > 적용
-                var boostcheck = {};
-                boostcheck = form.boostip.value;
-                if(boostcheck == ""){
-                    boostcheck = "없음"
+                var sailorratio1 = (vetnumip1 + expnumip1 + newnumip1) / (sailornumip1);
+                document.getElementById("SR1").innerHTML = Math.floor(sailorratio1*1000) / 10 ;
+                if(sailorratio1 > 1){
+                        alert("포병1의 수병수가 사관/숙련병/신병의 합보다 많습니다")
                 }
-                document.getElementById("BOOSTIP1").innerHTML = " 강화 - " + boostcheck + " / ";
-
-                if(boostcheck == "잠재2강")     { abilgrowth[0] = abilgrowth[0]*1 + 2; abiltotal[0] = abiltotal[0] + 2; }
-                else if(boostcheck == "잠재1강"){ abilgrowth[0] = abilgrowth[0]*1 + 1; abiltotal[0] = abiltotal[0] + 1; }
-                else if(boostcheck == "명중2강"){ abilgrowth[1] = abilgrowth[1]*1 + 2; abiltotal[1] = abiltotal[1] + 2; }
-                else if(boostcheck == "명중1강"){ abilgrowth[1] = abilgrowth[1]*1 + 1; abiltotal[1] = abiltotal[1] + 1; }
-                else if(boostcheck == "연사2강"){ abilgrowth[2] = abilgrowth[2]*1 + 2; abiltotal[2] = abiltotal[2] + 2; }
-                else if(boostcheck == "연사1강"){ abilgrowth[2] = abilgrowth[2]*1 + 1; abiltotal[2] = abiltotal[2] + 1; }
-                else if(boostcheck == "어뢰2강"){ abilgrowth[3] = abilgrowth[3]*1 + 2; abiltotal[3] = abiltotal[3] + 2; }
-                else if(boostcheck == "어뢰1강"){ abilgrowth[3] = abilgrowth[3]*1 + 1; abiltotal[3] = abiltotal[3] + 1; }
-                else if(boostcheck == "수리2강"){ abilgrowth[5] = abilgrowth[5]*1 + 2; abiltotal[5] = abiltotal[5] + 2; }
-                else if(boostcheck == "수리1강"){ abilgrowth[5] = abilgrowth[5]*1 + 1; abiltotal[5] = abiltotal[5] + 1; }
-                else if(boostcheck == "보수2강"){ abilgrowth[6] = abilgrowth[6]*1 + 2; abiltotal[6] = abiltotal[6] + 2; }
-                else if(boostcheck == "보수1강"){ abilgrowth[6] = abilgrowth[6]*1 + 1; abiltotal[6] = abiltotal[6] + 1; }
-                else if(boostcheck == "기관2강"){ abilgrowth[7] = abilgrowth[7]*1 + 2; abiltotal[7] = abiltotal[7] + 2; }
-                else if(boostcheck == "기관1강"){ abilgrowth[7] = abilgrowth[7]*1 + 1; abiltotal[7] = abiltotal[7] + 1; }
-                else if(boostcheck == "전투2강"){ abilgrowth[9] = abilgrowth[9]*1 + 2; abiltotal[9] = abiltotal[9] + 2; }
-                else if(boostcheck == "전투1강"){ abilgrowth[9] = abilgrowth[9]*1 + 1; abiltotal[9] = abiltotal[9] + 1; }
-                else if(boostcheck == "폭격2강"){ abilgrowth[10] = abilgrowth[10]*1 + 2; abiltotal[10] = abiltotal[10] + 2; }
-                else if(boostcheck == "폭격1강"){ abilgrowth[10] = abilgrowth[10]*1 + 1; abiltotal[10] = abiltotal[10] + 1; }
-
-                //국가보너스 어빌 계산
-                if(params["nationinput"] == "미국"){
-                    abiltotal[9] = abiltotal[9] + 5; }
-                else if(params["nationinput"] == "영국"){
-                    abiltotal[5] = abiltotal[5] + 3; }
-                else if(params["nationinput"] == "일본"){
-                    abiltotal[3] = abiltotal[3] + 2; }
-                else if(params["nationinput"] == "독일"){
-                    abiltotal[1] = abiltotal[1] + 4;
-                    abiltotal[2] = abiltotal[2] + 4;
-                    abiltotal[7] = abiltotal[7] + 2;
-                    abiltotal[9] = abiltotal[9] + 2; }
-                else if(params["nationinput"] == "프랑스"){
-                    abiltotal[6] = abiltotal[6] + 2; }
-                else if(params["nationinput"] == "소련"){
-                    abiltotal[1] = abiltotal[1] + 4;
-                    abiltotal[2] = abiltotal[2] + 4;
-                    abiltotal[7] = abiltotal[7] + 2;
-                    abiltotal[9] = abiltotal[9] + 2; }
-                else if(params["nationinput"] == "이탈리아"){
-                    abiltotal[2] = abiltotal[2] + 8;
-                    abiltotal[9] = abiltotal[9] + 2; }
-
-                //입력초기어빌분 계산
-                for(r=0;r<12;r++){
-                    abiltotal[r] = abiltotal[r] + ( (levinput*1-1)*abilgrowth[r]);
+                var sailorratio2 = (vetnumip2 + expnumip2 + newnumip2) / (sailornumip2);
+                document.getElementById("SR2").innerHTML = Math.floor(sailorratio2*1000) / 10 ;
+                if(sailorratio2 > 1){
+                        alert("포병2의 수병수가 사관/숙련병/신병의 합보다 많습니다")
                 }
 
-                //늦직입력분 반영
+                //수리속도
+                document.getElementById("RS1").innerHTML = Math.floor(Math.floor(repairabilip1*(vetnumip1*4 + expnumip1)*sailorratio1/480)/25.6)/10;
+                document.getElementById("RS2").innerHTML = Math.floor(Math.floor(repairabilip2*(vetnumip2*4 + expnumip2)*sailorratio2/480)/25.6)/10;
 
-                var treelev = new Array(6);
-                    treelev[0] = form.tree1.value;
-                    treelev[1] = form.tree2.value;
-                    treelev[2] = form.tree3.value;
-                    treelev[3] = form.tree4.value;
-                    treelev[4] = form.tree5.value;
-                    treelev[5] = form.tree6.value;
+                document.getElementById("tentativeout").innerHTML = sailorratio1;
 
-                for(i=0; i<tree_n; i++){
-                    if(treelev[i] == ""){
-                        continue;
-                    }
-                    if(abildata[i][0] > treelev[i]){
-                        alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
-                    }
-                    abildata[i][0] = treelev[i];
-                }
-                
-                //늦직입력 - 전직안하는 트리분 반영
-                for(i=tree_n; i>1; i--){
-                    if(treelev[i-1] == "" && treelev[i-2] != ""){
-                        tree_n = i-1;
-                    }
-                }
+                //연사어빌 배열준비 + 리얼어빌ip
+                var reloadcalc = new Array(2);
+                    reloadcalc[0] = reloadabilip1 * ( vetnumip1 * 4 + expnumip1 ) * sailorratio1;
+                    reloadcalc[1] = reloadabilip2 * ( vetnumip2 * 4 + expnumip2 ) * sailorratio2;
 
-                // 수병트리영향분 계산
-                for(i=0; i<tree_n; i++){
-                    if(levinput*1 < abildata[i][0]){
-                        continue;
-                    }
-                    for(r=0; r<12; r++){
-                        if(abildata[i][r+1] == ""){
-                            abildata[i][r+1] = 0;
-                        }
-                        abilgrowth[r] = abilgrowth[r]*1 + abildata[i][r+1]*1;
-                        abilcalc[i][r] = abilcalc[i][r] + ((levinput*1-abildata[i][0]*1)*abildata[i][r+1]);
-                    }
+                var reloadcalcm = new Array(2);
+
+
+                if(mate_n > 0){
+                    document.getElementById("matetotal").innerHTML = Math.floor(matetotal_calc/Math.sqrt(mate_n));
+                    reloadcalcm[0] = reloadcalc[0] * (Math.floor(matetotal_calc/Math.sqrt(mate_n))+100) / 100 ;
+                    reloadcalcm[1] = reloadcalc[1] * (Math.floor(matetotal_calc/Math.sqrt(mate_n))+100) / 100 ;
                 }
 
 
-                // 입력초기어빌 + 수병트리영향분 합산
-                for(i=0; i<tree_n; i++){
-                    for(r=0; r<12; r++){
-                        abiltotal[r] = abiltotal[r] + abilcalc[i][r];
-                        if(abiltotal[r] < 0){
-                            abiltotal[r] = 0;
-                        }
-                    }
-                }
+                var reload_ip1 = document.getElementById("gunreload1").value*1;
+                var reload_ip2 = document.getElementById("gunreload2").value*1;
 
-                //영국 갑판병 보너스 어빌
-                if(params["nationinput"] == "영국"){
-                    if(treedata[2].indexOf("갑판")>0){
-                        for(r=0; r<11; r++){
-                            abiltotal[r] = abiltotal[r] + 50;
-                        }
-                    }
-                }
-
-                //성장어빌-수병수
-                document.getElementById("POTG").innerHTML = abilgrowth[0];
-                document.getElementById("ACCG").innerHTML = abilgrowth[1];
-                document.getElementById("RLDG").innerHTML = abilgrowth[2];
-                document.getElementById("TORG").innerHTML = abilgrowth[3];
-                document.getElementById("AAWG").innerHTML = abilgrowth[4];
-                document.getElementById("REPG").innerHTML = abilgrowth[5];
-                document.getElementById("RESG").innerHTML = abilgrowth[6];
-                document.getElementById("ENGG").innerHTML = abilgrowth[7];
-                document.getElementById("AIRG").innerHTML = abilgrowth[8];
-                document.getElementById("FIGG").innerHTML = abilgrowth[9];
-                document.getElementById("BOMG").innerHTML = abilgrowth[10];
-                document.getElementById("NUMG").innerHTML = abilgrowth[11];
-                
-                //누적어빌-수병수
-                document.getElementById("POTT").innerHTML = abiltotal[0];
-                document.getElementById("ACCT").innerHTML = abiltotal[1];
-                document.getElementById("RLDT").innerHTML = abiltotal[2];
-                document.getElementById("TORT").innerHTML = abiltotal[3];
-                document.getElementById("AAWT").innerHTML = abiltotal[4];
-                document.getElementById("REPT").innerHTML = abiltotal[5];
-                document.getElementById("REST").innerHTML = abiltotal[6];
-                document.getElementById("ENGT").innerHTML = abiltotal[7];
-                document.getElementById("AIRT").innerHTML = abiltotal[8];
-                document.getElementById("FIGT").innerHTML = abiltotal[9];
-                document.getElementById("BOMT").innerHTML = abiltotal[10];
-                document.getElementById("NUMT").innerHTML = abiltotal[11];
-
-                //갑판어빌
-                if(treedata[2].indexOf("갑판")>0){
-                    document.getElementById("POTTS").innerHTML = Math.floor(abiltotal[0]*0.07);
-                    document.getElementById("ACCTS").innerHTML = Math.floor(abiltotal[1]*0.07);
-                    document.getElementById("RLDTS").innerHTML = Math.floor(abiltotal[2]*0.07);
-                    document.getElementById("TORTS").innerHTML = Math.floor(abiltotal[3]*0.07);
-                    document.getElementById("AAWTS").innerHTML = Math.floor(abiltotal[4]*0.07);
-                    document.getElementById("REPTS").innerHTML = Math.floor(abiltotal[5]*0.07);
-                    document.getElementById("RESTS").innerHTML = Math.floor(abiltotal[6]*0.07);
-                    document.getElementById("ENGTS").innerHTML = Math.floor(abiltotal[7]*0.07);
-                    document.getElementById("AIRTS").innerHTML = Math.floor(abiltotal[8]*0.07);
-                    document.getElementById("FIGTS").innerHTML = Math.floor(abiltotal[9]*0.07);
-                    document.getElementById("BOMTS").innerHTML = Math.floor(abiltotal[10]*0.07);
-                }
-
-                //갑판보정율
-                if(treedata[2].indexOf("갑판")>0){
-                    document.getElementById("POTTSR").innerHTML = Math.floor(abiltotal[0]/300);
-                    document.getElementById("ACCTSR").innerHTML = Math.floor(abiltotal[1]/300);
-                    document.getElementById("RLDTSR").innerHTML = Math.floor(abiltotal[2]/300);
-                    document.getElementById("TORTSR").innerHTML = Math.floor(abiltotal[3]/300);
-                    document.getElementById("AAWTSR").innerHTML = Math.floor(abiltotal[4]/300);
-                    document.getElementById("REPTSR").innerHTML = Math.floor(abiltotal[5]/300);
-                    document.getElementById("RESTSR").innerHTML = Math.floor(abiltotal[6]/300);
-                    document.getElementById("ENGTSR").innerHTML = Math.floor(abiltotal[7]/300);
-                    document.getElementById("AIRTSR").innerHTML = Math.floor(abiltotal[8]/300);
-                    document.getElementById("FIGTSR").innerHTML = Math.floor(abiltotal[9]/300);
-                    document.getElementById("BOMTSR").innerHTML = Math.floor(abiltotal[10]/300);
-                }
-
-                //사관숫자계산
-                var NUM40 = Math.floor(abiltotal[11]*0.4);
-                var NUM45 = Math.floor(abiltotal[11]*0.45);
-
-                document.getElementById("NUM40").innerHTML = NUM40;
-                document.getElementById("NUM45").innerHTML = NUM45;
-
-
-                //수리속도계산
-                document.getElementById("REP100").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*100)/480)/25.6)/10;
-                document.getElementById("REP150").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*150)/480)/25.6)/10;
-                document.getElementById("REP180").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*180)/480)/25.6)/10;
-                document.getElementById("REP200").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*200)/480)/25.6)/10;
-                document.getElementById("REP250").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*250)/480)/25.6)/10;
-                document.getElementById("REP300").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*300)/480)/25.6)/10;
-                document.getElementById("REP40").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM40)/480)/25.6)/10;
-                document.getElementById("REP45").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM45)/480)/25.6)/10;
-
-                //구조방어계산
-                document.getElementById("RES100").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*100)/480)/16);
-                document.getElementById("RES150").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*150)/480)/16);
-                document.getElementById("RES180").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*180)/480)/16);
-                document.getElementById("RES200").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*200)/480)/16);
-                document.getElementById("RES250").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*250)/480)/16);
-                document.getElementById("RES300").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*300)/480)/16);
-                document.getElementById("RES40").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM40)/480)/16);
-                document.getElementById("RES45").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM45)/480)/16);
-                
-
-                //기관오버힛시간계산
-                if(treedata[2].indexOf("기관")>0){
-                    document.getElementById("ENGT100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
-                    document.getElementById("ENGT150").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*150)/10000)/10;
-                    document.getElementById("ENGT180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
-                    document.getElementById("ENGT200").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*200)/10000)/10;
-                    document.getElementById("ENGT250").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*250)/10000)/10;
-                    document.getElementById("ENGT300").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*300)/10000)/10;
-                    document.getElementById("ENGT40").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM40)/10000)/10;
-                    document.getElementById("ENGT45").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM45)/10000)/10;
-                }
-
-                //기관오버힛증가율계산
-                if(treedata[2].indexOf("기관")>0){
-                    document.getElementById("ENGR100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
-                    document.getElementById("ENGR150").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*150)/8000)/2)/10;
-                    document.getElementById("ENGR180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
-                    document.getElementById("ENGR200").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*200)/8000)/2)/10;
-                    document.getElementById("ENGR250").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*250)/8000)/2)/10;
-                    document.getElementById("ENGR300").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*300)/8000)/2)/10;
-                    document.getElementById("ENGR40").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM40)/8000)/2)/10;
-                    document.getElementById("ENGR45").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM45)/8000)/2)/10;
-                }     
-
-                //음탐만시야계산
-                if(treedata[2].indexOf("음파")>-1){
-                    document.getElementById("SONAR100").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/3000)/10;
-                    document.getElementById("SONAR150").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*150)/3000)/10;
-                    document.getElementById("SONAR180").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/3000)/10;
-                    document.getElementById("SONAR200").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*200)/3000)/10;
-                    document.getElementById("SONAR250").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*250)/3000)/10;
-                    document.getElementById("SONAR300").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*300)/3000)/10;
-                    document.getElementById("SONAR40").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/3000)/10;
-                    document.getElementById("SONAR45").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/3000)/10;
-                }
-
-                //연사구간계산
-                if(treedata[1].indexOf("병기")>0){
-
-                    //연사어빌 배열준비 + 리얼어빌ip
-                    var reloadcalc = new Array(8);
-                        reloadcalc[0] = abiltotal[2]*(abiltotal[11] + 3*100);
-                        reloadcalc[1] = abiltotal[2]*(abiltotal[11] + 3*150);
-                        reloadcalc[2] = abiltotal[2]*(abiltotal[11] + 3*180);
-                        reloadcalc[3] = abiltotal[2]*(abiltotal[11] + 3*200);
-                        reloadcalc[4] = abiltotal[2]*(abiltotal[11] + 3*250);
-                        reloadcalc[5] = abiltotal[2]*(abiltotal[11] + 3*300);
-                        reloadcalc[6] = abiltotal[2]*(abiltotal[11] + 3*NUM40);
-                        reloadcalc[7] = abiltotal[2]*(abiltotal[11] + 3*NUM45);
-
-                    //연사어빌컷 구간 판정용 배열준비
-                    var reloadcutcalc = new Array(8);
+                //연사어빌컷 구간 판정용 배열준비
+                var reloadcutcalc = new Array(2);
                     for(i=0; i<reloadcutcalc.length; i++){
                         reloadcutcalc[i] = 0;
                     }
@@ -1147,221 +1642,155 @@
                     //연사구간판정
                     for(i=0; i<reloadcalc.length; i++){
                         for(j=0; j<reloadcutdata.length; j++){
-                            if(reloadcutdata[j] < reloadcalc[i]){
+                            if(reloadcutdata[j]+70 < reloadcalc[i]){
                                     reloadcutcalc[i] = reloadcutcalc[i] + 1;
                             }
                         }
                     }
+                var reloadcutcalcm = new Array(2);
+                    for(i=0; i<reloadcutcalcm.length; i++){
+                        reloadcutcalcm[i] = 0;
+                    }
 
-                    //연사속도 프레임>속도
-                    for(i=0; i<reloadtimedata.length; i++){
-                        if(reloadtimedata[i] > 0){
-                            reloadtimedata[i] = reloadtimedata[i]/25;
+                    //연사구간판정
+                    for(i=0; i<reloadcalcm.length; i++){
+                        for(j=0; j<reloadcutdata.length; j++){
+                            if(reloadcutdata[j]+70 < reloadcalcm[i]){
+                                    reloadcutcalcm[i] = reloadcutcalcm[i] + 1;
+                            }
                         }
                     }
 
                     //연사구간
-                    document.getElementById("SR100").innerHTML = reloadcutcalc[0];
-                    document.getElementById("SR150").innerHTML = reloadcutcalc[1];
-                    document.getElementById("SR180").innerHTML = reloadcutcalc[2];
-                    document.getElementById("SR200").innerHTML = reloadcutcalc[3];
-                    document.getElementById("SR250").innerHTML = reloadcutcalc[4];
-                    document.getElementById("SR300").innerHTML = reloadcutcalc[5];
-                    document.getElementById("SR40").innerHTML = reloadcutcalc[6];
-                    document.getElementById("SR45").innerHTML = reloadcutcalc[7];
-
-                    //연사구간 필요갑판보정
-                    document.getElementById("SRU100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
-                    document.getElementById("SRU150").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[1]]/reloadcalc[1]*100 - 100);
-                    document.getElementById("SRU180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
-                    document.getElementById("SRU200").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[3]]/reloadcalc[3]*100 - 100);
-                    document.getElementById("SRU250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
-                    document.getElementById("SRU300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
-                    document.getElementById("SRU40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
-                    document.getElementById("SRU45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
-
-
-                    var reload_ip_x = document.getElementById("reload_ip").innerHTML;
-                    if(reload_ip_x > 0){
-
-                        document.getElementById("GR100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-                        document.getElementById("GR150").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[1]))*1.3 + 1.87)/25;
-                        document.getElementById("GR180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-                        document.getElementById("GR200").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[3]))*1.3 + 1.87)/25;
-                        document.getElementById("GR250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-                        document.getElementById("GR300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-                        document.getElementById("GR40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-                        document.getElementById("GR45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
-
-                        document.getElementById("GRU100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU150").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[1]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU200").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[3]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-                        document.getElementById("GRU45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
-
+                    if(reloadcalc[0]>0){
+                    document.getElementById("RC1").innerHTML = reloadcutcalc[0];
+                    document.getElementById("RU1").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
+                        if(mate_n > 0){
+                        document.getElementById("RCM1").innerHTML = reloadcutcalcm[0];
+                        }
+                        if(reload_ip1 > 0){
+                        document.getElementById("reloadT11").innerHTML = Math.round(Math.floor(reload_ip1*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+                        document.getElementById("reloadTM11").innerHTML = Math.round(Math.floor(reload_ip1*25*0.01*(101 - reloadcutcalcm[0]))*1.3 + 1.87)/25;
+                        }
+                        if(reload_ip2 > 0){
+                        document.getElementById("reloadT21").innerHTML = Math.round(Math.floor(reload_ip2*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+                        document.getElementById("reloadTM21").innerHTML = Math.round(Math.floor(reload_ip2*25*0.01*(101 - reloadcutcalcm[0]))*1.3 + 1.87)/25;
+                        }
                     }
-
-                }
+                    if(reloadcalc[1]>0){
+                    document.getElementById("RC2").innerHTML = reloadcutcalc[1];
+                    document.getElementById("RU2").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[1]]/reloadcalc[1]*100 - 100);
+                        if(mate_n > 0){
+                        document.getElementById("RCM2").innerHTML = reloadcutcalcm[1];
+                        }
+                        if(reload_ip1 > 0){
+                        document.getElementById("reloadT12").innerHTML = Math.round(Math.floor(reload_ip1*25*0.01*(101 - reloadcutcalc[1]))*1.3 + 1.87)/25;
+                        document.getElementById("reloadTM12").innerHTML = Math.round(Math.floor(reload_ip1*25*0.01*(101 - reloadcutcalcm[1]))*1.3 + 1.87)/25;
+                        }
+                        if(reload_ip2 > 0){
+                        document.getElementById("reloadT22").innerHTML = Math.round(Math.floor(reload_ip2*25*0.01*(101 - reloadcutcalc[1]))*1.3 + 1.87)/25;
+                        document.getElementById("reloadTM22").innerHTML = Math.round(Math.floor(reload_ip2*25*0.01*(101 - reloadcutcalcm[1]))*1.3 + 1.87)/25;
+                        }
+                    }
 
             }
 			);
 		}
 
-		function treeip(e) {
-            // 입력된 수병트리를 구글DB 검색값으로 보내는 부분
-            input = e.value;
-            document.getElementById("tree_sel").innerHTML = input;
-            document.getElementById("tree_sel1").innerHTML = "병종 - " + input + " / ";
-			params["treeinput"] = input;
-			gen_url();
-            document.getElementById("tree1").value = "";
-            document.getElementById("tree2").value = "";
-            document.getElementById("tree3").value = "";
-            document.getElementById("tree4").value = "";
-            document.getElementById("tree5").value = "";
-            document.getElementById("tree6").value = "";
-		}
+function get_result_pompom(){
 
-		function reloadip(e) {
-            // 입력된 수병트리를 구글DB 검색값으로 보내는 부분
-            input = e.value;
-            document.getElementById("reload_ip").innerHTML = input;
-            document.getElementById("reload_ip1").innerHTML = "함포연사속도 - " + input + " / ";
-			params["reloadinput"] = input;
-			gen_url();
-		}
+  var RLD = document.getElementById("PPRLDIP").value;
+  var REP = document.getElementById("PPREPIP").value;
+  var NUM = document.getElementById("PPNUMIP").value;
+  var VET = document.getElementById("PPVETIP").value;
+  var EXP = document.getElementById("PPEXPIP").value;
+  var NEW = document.getElementById("PPNEWIP").value;
+  var PPCUT = 2710070;
 
-        function searchTree(e) {
-            // 입력된 국가를 구글DB 검색값으로 보내는 부분
-            input = e.value;
-            document.getElementById("nation_sel").innerHTML = input;
-            document.getElementById("nation_sel1").innerHTML = "국가 - " + input + " / ";
-			params["nationinput"] = input;
-			gen_url();
+  // 에러메세지 출력
+  if(RLD == ""){
+      alert("연사누적어빌을 입력해 주세요")
+  }
+  if(NUM < VET+EXP+NEW){
+      alert("[사관수+숙련병수+신병수]가 총수병수 보다 많습니다")
+  }
+  if(VET > NUM*0.45){
+      alert("경고 : 사관수가 한도(총수병수의 45%)보다 많습니다")
+  }
 
-            // 입력된 국가에 대해 수병트리 셀렉트BOX내용을 바꾸는 부분
-            form = document.sailor_search;
-            nationsel = form.nation_sel.value;
-            treesel = form.tree_sel;
+  // 수병빈혈도 계산
+  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
+  var SR = (VET*4+EXP*1)*NUMR*1;
 
-			var unsailor = ["--병종선택--", "함장", "연연연포병", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병", "의무병"];
-            var rnsailor = ["--병종선택--", "함장", "연사포병", "대공포병 (늦직권장)", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병"];
-            var insailor = ["--병종선택--", "함장", "포병", "양용포병 (늦직권장)", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "특수어뢰병", "고속어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병"];
-            var kmsailor = ["--병종선택--", "함장", "포병", "대공포병", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병", "의무병"];
-            var mnsailor = ["--병종선택--", "함장", "포병", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병"];
-            var snsailor = ["--병종선택--", "함장", "포병", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병"];
-            var rmsailor = ["--병종선택--", "함장", "포병", "기관병", "수리병", "정찰기", "전투기", "뇌격기", "급강하폭격기", "어뢰병", "음탐병 (늦직권장)", "잠항병", "갑판병"];
+  document.getElementById("RLDIVR1").innerHTML = Math.floor(RLD*SR/PPCUT*1000)/10;
+  document.getElementById("REPS1").innerHTML = Math.floor(Math.floor(REP*SR/480)/25.6)/10;
 
-            if (nationsel == "미국") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < unsailor.length; i++){
-                    treesel.options[i] = new Option(unsailor[i],1);
-                    treesel.options[i].value = unsailor[i];
-                }
-            }
-            else if (nationsel == "영국") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < rnsailor.length; i++){
-                    treesel.options[i] = new Option(rnsailor[i],1);
-                    treesel.options[i].value = rnsailor[i];
-                }
-            }
-            else if (nationsel == "일본") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < insailor.length; i++){
-                    treesel.options[i] = new Option(insailor[i],1);
-                    treesel.options[i].value = insailor[i];
-                }
-            }
-            else if (nationsel == "독일") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < kmsailor.length; i++){
-                    treesel.options[i] = new Option(kmsailor[i],1);
-                    treesel.options[i].value = kmsailor[i];
-                }
-            }
-            else if (nationsel == "프랑스") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < mnsailor.length; i++){
-                    treesel.options[i] = new Option(mnsailor[i],1);
-                    treesel.options[i].value = mnsailor[i];
-                }
-            }
-            else if (nationsel == "소련") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < snsailor.length; i++){
-                    treesel.options[i] = new Option(snsailor[i],1);
-                    treesel.options[i].value = snsailor[i];
-                }
-            }
-            else if (nationsel == "이탈리아") {
-                for (i = treesel.length-1; i > 0; i--) {
-                    treesel.options[i].value = null;
-                    treesel.options[i] = null;
-                }
-                for (i = 0; i < rmsailor.length; i++){
-                    treesel.options[i] = new Option(rmsailor[i],1);
-                    treesel.options[i].value = rmsailor[i];
-                }
-            }
-        }
-                // Automatic Slideshow - change image every 4 seconds
-                var myIndex = 0;
-                carousel();
 
-                function carousel() {
-                var i;
-                var x = document.getElementsByClassName("mySlides");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";  
-                }
-                myIndex++;
-                if (myIndex > x.length) {myIndex = 1}    
-                x[myIndex-1].style.display = "block";  
-                setTimeout(carousel, 4000);    
-                }
+  var EXPT2 = Math.ceil(Math.sqrt(PPCUT*NUM/RLD+VET*VET*2.25)-VET*2.5);
+  if(NUM*1<VET*1+EXPT2*1){
+      EXPT2 = NUM - VET;
+  }
+  var NUMR2 = (VET*1+EXPT2*1)/NUM*1;
+  var SR2 = (VET*4+EXPT2)*NUMR2*1;
 
-                // Used to toggle the menu on small screens when clicking on the menu button
-                function myFunction() {
-                var x = document.getElementById("navDemo");
-                if (x.className.indexOf("w3-show") == -1) {
-                    x.className += " w3-show";
-                } else { 
-                    x.className = x.className.replace(" w3-show", "");
-                }
-                }
+  document.getElementById("RLDIVR2").innerHTML = Math.floor(RLD*SR2/PPCUT*1000)/10;
+  document.getElementById("VETT").innerHTML = VET;
+  document.getElementById("EXPT").innerHTML = EXPT2;
+  document.getElementById("REPS2").innerHTML = Math.floor(Math.floor(REP*SR2/480)/25.6)/10;
+}
 
-                // When the user clicks anywhere outside of the modal, close it
-                var modal = document.getElementById('ticketModal');
-                window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-                }
-	</script>
+function get_result_guideline(){
 
+  var POT = document.getElementById("GLPOTIP").value;
+  var REP = document.getElementById("GLREPIP").value;
+  var NUM = document.getElementById("GLNUMIP").value;
+  var VET = document.getElementById("GLVETIP").value;
+  var EXP = document.getElementById("GLEXPIP").value;
+  var NEW = document.getElementById("GLNEWIP").value;
+  var FCS = document.getElementById("FCSIP").value;
+
+  // 에러메세지 출력
+  if(POT == ""){
+      alert("잠재누적어빌을 입력해 주세요")
+  }
+  if(NUM < VET+EXP+NEW){
+      alert("[사관수+숙련병수+신병수]가 총수병수 보다 많습니다")
+  }
+  if(VET > NUM*0.45){
+      alert("경고 : 사관수가 한도(총수병수의 45%)보다 많습니다")
+  }
+  if(FCS == ""){
+      alert("FCS 기본가이드라인 길이를 입력해 주세요")
+  }
+
+  // 수병빈혈도 계산
+  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
+  var SR = (VET*4+EXP*1)*NUMR*1;
+
+  // 함장빨랫줄 계산
+  document.getElementById("guideT").innerHTML = FCS*1+Math.floor(POT*SR/2000)*2;
+  document.getElementById("guideFCS").innerHTML = FCS*1;
+  document.getElementById("guideSailor").innerHTML = Math.floor(POT*SR/2000)*2;
+  document.getElementById("GLREPS1").innerHTML = Math.floor(Math.floor(REP*SR/480)/25.6)/10;
+
+  var TARGET = document.getElementById("TARGETIP").value;
+  var TARGETS = TARGET - FCS;
+
+  var EXPT2 = Math.ceil(Math.sqrt(TARGETS*NUM*1000/POT+VET*VET*2.25)-VET*2.5);
+  if(NUM*1<VET*1+EXPT2*1){
+      EXPT2 = NUM - VET;
+  }
+  var NUMR2 = (VET*1+EXPT2*1)/NUM*1;
+  var SR2 = (VET*4+EXPT2)*NUMR2*1;
+
+  document.getElementById("guideT2").innerHTML = FCS*1+Math.floor(POT*SR2/2000)*2;
+  document.getElementById("GLVETT").innerHTML = VET;
+  document.getElementById("GLEXPT").innerHTML = EXPT2;
+  document.getElementById("GLREPS2").innerHTML = Math.floor(Math.floor(REP*SR2/480)/25.6)/10;
+
+}
+
+</script>
+
+</body>
 </html>
-
-
-
