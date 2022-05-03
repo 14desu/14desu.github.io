@@ -122,6 +122,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <option>--병종선택--</option>
                   <option value="함장">함장</option>
                   <option id="UN_RRRG" value="연연연포병">연연연포병</option>
+                  <option id="UN_SG" value="대공포병 (안씀)">대공포병 (안씀)</option>
                   <option id="RN_RG" value="연사포병">연사포병</option>
                   <option id="RN_SG" value="대공포병 (늦직권장)">대공포병 (늦직권장)</option>
                   <option id="RG" value="포병">포병</option>
@@ -1709,50 +1710,33 @@ function get_result_sailor(){
 // 수병트리수정
 function tree_rev(e){
   input = e.value;
+
+  document.getElementById("UN_RRRG").style.display = "none";
+  document.getElementById("UN_SG").style.display = "none";
+  document.getElementById("RN_RG").style.display = "none";
+  document.getElementById("RN_SG").style.display = "none";
+  document.getElementById("RG").style.display = "";
+  document.getElementById("SM").style.display = "none";
+  document.getElementById("IN_SG").style.display = "none";
+  document.getElementById("KM_SG").style.display = "none";
+
   if(input == "미국"){
     document.getElementById("UN_RRRG").style.display = "";
-    document.getElementById("RN_RG").style.display = "none";
-    document.getElementById("RN_SG").style.display = "none";
+    document.getElementById("UN_SG").style.display = "";
     document.getElementById("RG").style.display = "none";
-    document.getElementById("IN_SG").style.display = "none";
-    document.getElementById("KM_SG").style.display = "none";
     document.getElementById("SM").style.display = "";
   }
   else if(input == "영국"){
-    document.getElementById("UN_RRRG").style.display = "none";
     document.getElementById("RN_RG").style.display = "";
     document.getElementById("RN_SG").style.display = "";
     document.getElementById("RG").style.display = "none";
-    document.getElementById("IN_SG").style.display = "none";
-    document.getElementById("KM_SG").style.display = "none";
-    document.getElementById("SM").style.display = "none";
   }
   else if(input == "일본"){
-    document.getElementById("UN_RRRG").style.display = "none";
-    document.getElementById("RN_RG").style.display = "none";
-    document.getElementById("RN_SG").style.display = "none";
-    document.getElementById("RG").style.display = "";
     document.getElementById("IN_SG").style.display = "";
-    document.getElementById("KM_SG").style.display = "none";
-    document.getElementById("SM").style.display = "none";
   }
   else if(input == "독일"){
-    document.getElementById("UN_RRRG").style.display = "none";
-    document.getElementById("RN_RG").style.display = "none";
-    document.getElementById("RN_SG").style.display = "none";
-    document.getElementById("RG").style.display = "";
-    document.getElementById("IN_SG").style.display = "none";
     document.getElementById("KM_SG").style.display = "";
     document.getElementById("SM").style.display = "";
-  }
-  else {
-    document.getElementById("UN_RRRG").style.display = "none";
-    document.getElementById("RN_RG").style.display = "none";
-    document.getElementById("RN_SG").style.display = "none";
-    document.getElementById("RG").style.display = "";
-    document.getElementById("IN_SG").style.display = "none";
-    document.getElementById("KM_SG").style.display = "none";
-    document.getElementById("SM").style.display = "none";
   }
 }
 
