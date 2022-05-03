@@ -122,7 +122,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <option>--병종선택--</option>
                   <option value="함장">함장</option>
                   <option id="UN_RRRG" value="연연연포병">연연연포병</option>
-                  <option id="UN_SG" value="대공포병 (안씀)">대공포병 (안씀)</option>
                   <option id="RN_RG" value="연사포병">연사포병</option>
                   <option id="RN_SG" value="대공포병 (늦직권장)">대공포병 (늦직권장)</option>
                   <option id="RG" value="포병">포병</option>
@@ -140,6 +139,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <option value="갑판병">갑판병</option>
                   <option id="SM" value="의무병">의무병</option>
                   <option value="보수병 (안씀)">보수병 (안씀)</option>
+                  <option id="UN_RRAG" value="연연명포병 (안씀)">연연명포병 (안씀)</option>
+                  <option id="UN_RARG" value="연명연포병 (안씀)">연명연포병 (안씀)</option>
+                  <option id="UN_RAAG" value="연명명포병 (안씀)">연명명포병 (안씀)</option>
+                  <option id="UN_ARRG" value="명연연포병 (안씀)">명연연포병 (안씀)</option>
+                  <option id="UN_ARAG" value="명연명포병 (안씀)">명연명포병 (안씀)</option>
+                  <option id="UN_AARG" value="명명연포병 (안씀)">명명연포병 (안씀)</option>
+                  <option id="UN_AAAG" value="명명명포병 (안씀)">명명명포병 (안씀)</option>
+                  <option id="UN_SG" value="대공포병 (안씀)">대공포병 (안씀)</option>
                 </select>
               </td>
             </tr>
@@ -1712,6 +1719,13 @@ function tree_rev(e){
   input = e.value;
 
   document.getElementById("UN_RRRG").style.display = "none";
+  document.getElementById("UN_RRAG").style.display = "none";
+  document.getElementById("UN_RARG").style.display = "none";
+  document.getElementById("UN_RAAG").style.display = "none";
+  document.getElementById("UN_ARRG").style.display = "none";
+  document.getElementById("UN_ARAG").style.display = "none";
+  document.getElementById("UN_AARG").style.display = "none";
+  document.getElementById("UN_AAAG").style.display = "none";
   document.getElementById("UN_SG").style.display = "none";
   document.getElementById("RN_RG").style.display = "none";
   document.getElementById("RN_SG").style.display = "none";
@@ -1722,6 +1736,13 @@ function tree_rev(e){
 
   if(input == "미국"){
     document.getElementById("UN_RRRG").style.display = "";
+    document.getElementById("UN_RRAG").style.display = "";
+    document.getElementById("UN_RARG").style.display = "";
+    document.getElementById("UN_RAAG").style.display = "";
+    document.getElementById("UN_ARRG").style.display = "";
+    document.getElementById("UN_ARAG").style.display = "";
+    document.getElementById("UN_AARG").style.display = "";
+    document.getElementById("UN_AAAG").style.display = "";
     document.getElementById("UN_SG").style.display = "";
     document.getElementById("RG").style.display = "none";
     document.getElementById("SM").style.display = "";
