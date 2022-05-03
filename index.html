@@ -97,88 +97,101 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <h3><button class="w3-button w3-black" onclick="get_result_sailor()">수병계산기실행</button></h3>
       </div>
       <form id="sailor_calc_kr_form">
-        <div>
+        <div class="w3-twothird">
           <h3>기본정보 입력</h3>
-          <!--국적입력-->
-          <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset();">
-            <option>--국가선택--</option>
-            <option value="미국">미국</option>
-            <option value="영국">영국</option>
-            <option value="일본">일본</option>
-            <option value="독일">독일</option>
-            <option value="프랑스">프랑스</option>
-            <option value="소련">소련</option>
-            <option value="이탈리아">이탈리아</option>
-          </select><br>
-          <!--병종입력-->
-          <select id="tree_sel" name="tree_sel" onchange="treeipreset();">
-            <option>--병종선택--</option>
-            <option value="함장">함장</option>
-            <option id="UN_RRRG" value="연연연포병">연연연포병</option>
-            <option id="RN_RG" value="연사포병">연사포병</option>
-            <option id="RN_SG" value="대공포병 (늦직권장)">대공포병 (늦직권장)</option>
-            <option id="RG" value="포병">포병</option>
-            <option id="IN_SG" value="양용포병 (늦직권장)">양용포병 (늦직권장)</option>
-            <option id="KM_SG" value="대공포병">대공포병</option>
-            <option value="기관병">기관병</option>
-            <option value="수리병">수리병</option>
-            <option value="정찰기">정찰기</option>
-            <option value="전투기">전투기</option>
-            <option value="뇌격기">뇌격기</option>
-            <option value="급강하폭격기">급강하폭격기</option>
-            <option value="어뢰병">어뢰병</option>
-            <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
-            <option value="잠항병">잠항병</option>
-            <option value="갑판병">갑판병</option>
-            <option id="SM" value="의무병">의무병</option>
-            <option value="보수병 (안씀)">보수병 (안씀)</option>
-          </select><br>
-
-          <!--수병레벨입력-->
-          <label for="LEVIP">수병레벨:&nbsp;</label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="120">
-          <br>
-
-          <!--수병강화입력-->
-          <label for="boostip">강화입력:</label>
-          <select name="boostip" id="boostip">
-            <option>--강화선택/없음--</option>
-            <option value="잠재1강">잠재1강</option><option value="잠재2강">잠재2강</option>
-            <option value="명중1강">명중1강</option><option value="명중2강">명중2강</option>
-            <option value="연사1강">연사1강</option><option value="연사2강">연사2강</option>
-            <option value="어뢰1강">어뢰1강</option><option value="어뢰2강">어뢰2강</option>
-            <option value="수리1강">수리1강</option><option value="수리2강">수리2강</option>
-            <option value="보수1강">보수1강</option><option value="보수2강">보수2강</option>
-            <option value="기관1강">기관1강</option><option value="기관2강">기관2강</option>
-            <option value="전투1강">전투1강</option><option value="전투2강">전투2강</option>
-            <option value="폭격1강">폭격1강</option><option value="폭격2강">폭격2강</option>
-          </select>
-          <div id="RLDIPROW">
-            <label for="reload_ip">함포연사속도:&nbsp;</label><input type="number" id="reload_ip" name="reload_ip" step="0.4" size="4">
-          </div>
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+            <tr>
+              <td>국적입력</td>
+              <td>
+                <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset();">
+                  <option>--국가선택--</option>
+                  <option value="미국">미국</option>
+                  <option value="영국">영국</option>
+                  <option value="일본">일본</option>
+                  <option value="독일">독일</option>
+                  <option value="프랑스">프랑스</option>
+                  <option value="소련">소련</option>
+                  <option value="이탈리아">이탈리아</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>병종입력</td>
+              <td>
+                <select id="tree_sel" name="tree_sel" onchange="treeipreset();">
+                  <option>--병종선택--</option>
+                  <option value="함장">함장</option>
+                  <option id="UN_RRRG" value="연연연포병">연연연포병</option>
+                  <option id="RN_RG" value="연사포병">연사포병</option>
+                  <option id="RN_SG" value="대공포병 (늦직권장)">대공포병 (늦직권장)</option>
+                  <option id="RG" value="포병">포병</option>
+                  <option id="IN_SG" value="양용포병 (늦직권장)">양용포병 (늦직권장)</option>
+                  <option id="KM_SG" value="대공포병">대공포병</option>
+                  <option value="기관병">기관병</option>
+                  <option value="수리병">수리병</option>
+                  <option value="정찰기">정찰기</option>
+                  <option value="전투기">전투기</option>
+                  <option value="뇌격기">뇌격기</option>
+                  <option value="급강하폭격기">급강하폭격기</option>
+                  <option value="어뢰병">어뢰병</option>
+                  <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
+                  <option value="잠항병">잠항병</option>
+                  <option value="갑판병">갑판병</option>
+                  <option id="SM" value="의무병">의무병</option>
+                  <option value="보수병 (안씀)">보수병 (안씀)</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>수병레벨입력</td>
+              <td></label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="120" size="2"></td>
+            </tr>
+            <tr>
+              <td>수병강화입력</td>
+              <td>
+                <select name="boostip" id="boostip">
+                  <option>--강화선택/없음--</option>
+                  <option value="잠재1강">잠재1강</option><option value="잠재2강">잠재2강</option>
+                  <option value="명중1강">명중1강</option><option value="명중2강">명중2강</option>
+                  <option value="연사1강">연사1강</option><option value="연사2강">연사2강</option>
+                  <option value="어뢰1강">어뢰1강</option><option value="어뢰2강">어뢰2강</option>
+                  <option value="수리1강">수리1강</option><option value="수리2강">수리2강</option>
+                  <option value="보수1강">보수1강</option><option value="보수2강">보수2강</option>
+                  <option value="기관1강">기관1강</option><option value="기관2강">기관2강</option>
+                  <option value="전투1강">전투1강</option><option value="전투2강">전투2강</option>
+                  <option value="폭격1강">폭격1강</option><option value="폭격2강">폭격2강</option>
+                </select>
+              </td>
+            </tr>
+            <tr id="RLDIPROW">
+              <td>함포연사입력</td>
+              <td><input type="number" id="reload_ip" name="reload_ip" step="0.04" size="2" max="100"></td>
+            </tr>
+          </table>
         </div>
-        <div>
+        <div class="w3-row">
           <h3>초기어빌 입력/계산</h3>
-          <!--수병자동입력-->
-          <label for="AUTOIP">수병자동입력:</label>
-          <select name="AUTOIP" id="AUTOIP" onchange="autoabilip(this);">
-            <option>일반수병/직접입력</option>
-            <option value="개근">개근</option>
-            <option value="전설보조">전설보조</option>
-            <option value="전설특무">전설특무</option>
-            <option value="잠재플미">잠재플미</option>
-            <option value="명중플미">명중플미</option>
-            <option value="연사플미">연사플미</option>
-            <option value="어뢰플미">어뢰플미</option>
-            <option value="수리플미">수리플미</option>
-            <option value="보수플미">보수플미</option>
-            <option value="기관플미">기관플미</option>
-            <option value="전투플미">전투플미</option>
-            <option value="폭격플미">폭격플미</option>
-          </select>
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
             <tr>
               <th></th>
-              <th>초기어빌입력</th>
+              <th>
+                <!--수병자동입력-->
+                <select name="AUTOIP" id="AUTOIP" onchange="autoabilip(this);">
+                  <option>직접입력</option>
+                  <option value="개근">개근</option>
+                  <option value="전설보조">전설보조</option>
+                  <option value="전설특무">전설특무</option>
+                  <option value="잠재플미">잠재플미</option>
+                  <option value="명중플미">명중플미</option>
+                  <option value="연사플미">연사플미</option>
+                  <option value="어뢰플미">어뢰플미</option>
+                  <option value="수리플미">수리플미</option>
+                  <option value="보수플미">보수플미</option>
+                  <option value="기관플미">기관플미</option>
+                  <option value="전투플미">전투플미</option>
+                  <option value="폭격플미">폭격플미</option>
+                </select>
+              </th>
               <th>성장어빌</th>
               <th>누적어빌</th>
               <th>갑판어빌</th>
@@ -640,8 +653,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             </tr>
             <tr>
               <td>함포연사속도</td>
-              <td><input type="number" id="gunreload1" step="0.04" min="0" max="100" size="3"></td>
-              <td><input type="number" id="gunreload2" step="0.04" min="0" max="100" size="3"></td>
+              <td><input type="number" id="gunreload1" step="0.04" min="0" max="100" size="2"></td>
+              <td><input type="number" id="gunreload2" step="0.04" min="0" max="100" size="2"></td>
             </tr>
           </table>
         </form>
