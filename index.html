@@ -133,7 +133,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <option value="전투기">전투기</option>
                   <option value="뇌격기">뇌격기</option>
                   <option value="급강하폭격기">급강하폭격기</option>
-                  <option value="어뢰병">어뢰병</option>
+                  <option id="TP" value="어뢰병">어뢰병</option>
+                  <option id="IN_STP" value="특수어뢰병">특수어뢰병</option>
+                  <option id="IN_RTP" value="고속어뢰병">고속어뢰병</option>
                   <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
                   <option value="잠항병">잠항병</option>
                   <option value="갑판병">갑판병</option>
@@ -1730,6 +1732,9 @@ function tree_rev(e){
   document.getElementById("RN_RG").style.display = "none";
   document.getElementById("RN_SG").style.display = "none";
   document.getElementById("RG").style.display = "";
+  document.getElementById("TP").style.display = "";
+  document.getElementById("IN_STP").style.display = "none";
+  document.getElementById("IN_RTP").style.display = "none";
   document.getElementById("SM").style.display = "none";
   document.getElementById("IN_SG").style.display = "none";
   document.getElementById("KM_SG").style.display = "none";
@@ -1754,6 +1759,9 @@ function tree_rev(e){
   }
   else if(input == "일본"){
     document.getElementById("IN_SG").style.display = "";
+    document.getElementById("TP").style.display = "none";
+    document.getElementById("IN_STP").style.display = "";
+    document.getElementById("IN_RTP").style.display = "";
   }
   else if(input == "독일"){
     document.getElementById("KM_SG").style.display = "";
