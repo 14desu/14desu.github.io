@@ -182,6 +182,41 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         </div>
         <div class="w3-row">
           <h3>초기어빌 입력/계산</h3>
+          <details>
+            <summary>개근/전설보조/전설특무 히든어빌 입력참고용 (펼치기)</summary>
+            <div class="w3-half">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <td>히든어빌</td>
+                  <td>90렙누적어빌</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>648</td>
+                </tr>
+                <tr>
+                  <td>8</td>
+                  <td>737</td>
+                </tr>
+                <tr>
+                  <td>9</td>
+                  <td>826</td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>915</td>
+                </tr>
+                <tr>
+                  <td>11</td>
+                  <td>1004</td>
+                </tr>
+                <tr>
+                  <td>12</td>
+                  <td>1093</td>
+              </table>
+              이벤트수병은 히든어빌을 초기어빌에 입력하세요
+            </div>
+          </details>
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
             <tr>
               <th></th>
@@ -1545,6 +1580,10 @@ function get_result_sailor(){
           abiltotal[2] = 30;
         }
       }
+      else if(document.getElementById("AUTOIP").value == ("개근" || "전설보조" ||"전설특무")){
+        abiltotal[i] = abiltotal[i] + (abilgrowth[i] - 9) * (89);
+        abilgrowth[i] = 9;
+      }
     }
 
     //강화여부체크 > 적용
@@ -1660,8 +1699,6 @@ function get_result_sailor(){
         }
       }
     }
-
-
 
     //성장어빌-수병수
     document.getElementById("POTG").innerHTML = abilgrowth[0];
