@@ -1109,6 +1109,23 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="gunreload1" step="0.04" min="0" max="100" size="2"></td>
               <td><input type="number" id="gunreload2" step="0.04" min="0" max="100" size="2"></td>
             </tr>
+            <tr>
+              <td>함선강화</td>
+              <td>
+                <select name="guneh1" id="guneh1">
+                  <option>강화없음</option>
+                  <option value="3%연사강화">3%연사강화</option>
+                  <option value="9%연사강화">9%연사강화</option>
+                </select>
+              </td>
+              <td>
+                <select name="guneh2" id="guneh2">
+                  <option>강화없음</option>
+                  <option value="3%연사강화">3%연사강화</option>
+                  <option value="9%연사강화">9%연사강화</option>
+                </select>
+              </td>
+            </tr>
           </table>
         </form>
       </div>
@@ -1777,8 +1794,9 @@ function get_result_sailor(){
     document.getElementById("vetnum1").value = NUM45;
     document.getElementById("ppVETIP").value = NUM45;
     document.getElementById("GLVETIP").value = NUM45;
-
-
+    document.getElementById("expnum1").value = abiltotal[11] - NUM45;
+    document.getElementById("ppEXPIP").value = abiltotal[11] - NUM45;
+    document.getElementById("GLEXPIP").value = abiltotal[11] - NUM45;
 
     //수리속도계산
     document.getElementById("REP100").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*100)/480)/25.6)/10;
@@ -2119,6 +2137,21 @@ function get_result_reload(){
 
                 var reload_ip1 = document.getElementById("gunreload1").value*1;
                 var reload_ip2 = document.getElementById("gunreload2").value*1;
+
+                if(document.getElementById("guneh1").value == "3%연사강화"){
+                  reload_ip1 = reload_ip1*0.97;
+                }
+                else if(document.getElementById("guneh1").value == "9%연사강화"){
+                  reload_ip1 = reload_ip1*0.91;
+                }
+
+                if(document.getElementById("guneh2").value == "3%연사강화"){
+                  reload_ip2 = reload_ip2*0.97;
+                }
+                else if(document.getElementById("guneh2").value == "9%연사강화"){
+                  reload_ip2 = reload_ip2*0.91;
+                }
+
 
                 //연사어빌컷 구간 판정용 배열준비
                 var reloadcutcalc = new Array(2);
