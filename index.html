@@ -1781,7 +1781,7 @@ function get_result_sailor(){
       document.getElementById("BOMTSR").innerHTML = Math.floor(abiltotal[10]/300);
     }
 
-    //document.getElementById("tentativeout").innerHTML = abiltotal;
+
     //사관숫자계산
 
     var NUM40 = Math.floor(abiltotal[11]*0.4);
@@ -2118,7 +2118,6 @@ function get_result_reload(){
                 document.getElementById("RS1").innerHTML = Math.floor(Math.floor(repairabilip1*(vetnumip1*4 + expnumip1)*sailorratio1/480)/25.6)/10;
                 document.getElementById("RS2").innerHTML = Math.floor(Math.floor(repairabilip2*(vetnumip2*4 + expnumip2)*sailorratio2/480)/25.6)/10;
 
-                document.getElementById("tentativeout").innerHTML = sailorratio1;
 
                 //연사어빌 배열준비 + 리얼어빌ip
                 var reloadcalc = new Array(2);
@@ -2219,13 +2218,17 @@ function get_result_reload(){
 
 function get_result_pompom(){
 
-  var RLD = document.getElementById("PPRLDIP").value;
-  var REP = document.getElementById("PPREPIP").value;
-  var NUM = document.getElementById("PPNUMIP").value;
-  var VET = document.getElementById("PPVETIP").value;
-  var EXP = document.getElementById("PPEXPIP").value;
-  var NEW = document.getElementById("PPNEWIP").value;
+
+
+  var RLD = document.getElementById("ppRLDIP").value;
+  var REP = document.getElementById("ppREPIP").value;
+  var NUM = document.getElementById("ppNUMIP").value;
+  var VET = document.getElementById("ppVETIP").value;
+  var EXP = document.getElementById("ppEXPIP").value;
+  var NEW = document.getElementById("ppNEWIP").value;
   var PPCUT = 2710070;
+
+
 
   // 에러메세지 출력
   if(RLD == ""){
@@ -2309,7 +2312,7 @@ function get_result_guideline(){
   document.getElementById("GLREPS2").innerHTML = Math.floor(Math.floor(REP*SR2/480)/25.6)/10;
 
 }
-
+  //document.getElementById("tentativeout").innerHTML = "aaaa";
 </script>
 
 </body>
