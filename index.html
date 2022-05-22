@@ -2228,26 +2228,23 @@ function get_result_pompom(){
   var NEW = document.getElementById("ppNEWIP").value;
   var PPCUT = 2710070;
 
-
+  // 수병빈혈도 계산
+  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
+  var SR = (VET*4+EXP*1)*NUMR*1;
 
   // 에러메세지 출력
   if(RLD == ""){
       alert("연사누적어빌을 입력해 주세요")
   }
-  if(NUM < VET+EXP+NEW){
+  if(NUMR > 1){
       alert("[사관수+숙련병수+신병수]가 총수병수 보다 많습니다")
   }
   if(VET > NUM*0.45){
       alert("경고 : 사관수가 한도(총수병수의 45%)보다 많습니다")
   }
 
-  // 수병빈혈도 계산
-  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
-  var SR = (VET*4+EXP*1)*NUMR*1;
-
   document.getElementById("RLDIVR1").innerHTML = Math.floor(RLD*SR/PPCUT*1000)/10;
   document.getElementById("REPS1").innerHTML = Math.floor(Math.floor(REP*SR/480)/25.6)/10;
-
 
   var EXPT2 = Math.ceil(Math.sqrt(PPCUT*NUM/RLD+VET*VET*2.25)-VET*2.5);
   if(NUM*1<VET*1+EXPT2*1){
@@ -2272,11 +2269,15 @@ function get_result_guideline(){
   var NEW = document.getElementById("GLNEWIP").value;
   var FCS = document.getElementById("FCSIP").value;
 
+  // 수병빈혈도 계산
+  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
+  var SR = (VET*4+EXP*1)*NUMR*1;
+
   // 에러메세지 출력
   if(POT == ""){
       alert("잠재누적어빌을 입력해 주세요")
   }
-  if(NUM < VET+EXP+NEW){
+  if(NUMR > 1){
       alert("[사관수+숙련병수+신병수]가 총수병수 보다 많습니다")
   }
   if(VET > NUM*0.45){
@@ -2285,10 +2286,6 @@ function get_result_guideline(){
   if(FCS == ""){
       alert("FCS 기본가이드라인 길이를 입력해 주세요")
   }
-
-  // 수병빈혈도 계산
-  var NUMR = (VET*1+EXP*1+NEW*1)/NUM*1;
-  var SR = (VET*4+EXP*1)*NUMR*1;
 
   // 함장빨랫줄 계산
   document.getElementById("guideT").innerHTML = FCS*1+Math.floor(POT*SR/2000)*2;
