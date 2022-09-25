@@ -82,6 +82,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <a class="w3-button" href="#exp">1. 경험치 </a><br>
             <a class="w3-button" href="#exp_lv">　1-1. 수병 레벨업 경험치 </a><br>
             <a class="w3-button" href="#exp_ship-sailor">　1-2. 함선↔수병 레벨차이 경험치페널티 </a><br>
+            <a class="w3-button" href="#abil">2. 수병 능력과 어빌리티 </a><br>
+            <a class="w3-button" href="#abil_job">　2-1. 병종별 관련어빌리티 </a><br>
           </td>
         </tr>
       </table>
@@ -94,68 +96,69 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <summary>
         <h2 class="w3-text-black">1. 경험치</h2>
       </summary>
-        <div class="w3-row">
-          <table class="w3-table w3-striped w3-bordered w3-border">
-            <tr>
-              <td>
-                <h4>경험치를 많이 받으려면</h4>
-                ・승리<br>
-                ・높은 팀택 (퇴장시)<br>
-                ・높은 개인 함재기격추<br>
-                ・높은 개인 어뢰택<br>
-                ・낮은 아군 어뢰택<br>
-                ・함포/어뢰 1택 or 함재기1기격추<br>
-                ・적은 중경순<br>
-                ・기함생존/적기함격침<br>
-                ・프리미엄계정/PC방계정 + 3분30초 보너스<br>
-                <h4>경험치와 관련없는 사항</h4>
-                ・개인성적 - 격침수, 어택량(1택제외), 피어택량<br>
-                ・시야 확보 (함재기/함선 둘다)<br>
-              </td>
-            </tr>
-          </table>
-          ・승패여부<br>
-          　　당연한 이야기지만 승리시 획득량이 패배시 획득량보다 많다<br>
-          　　　- 뇌피셜 > 패배시 획득경험치 = 승리시 획득경험치 x 35 ~ 40%<br>
-          　　승리조건 - 적함선 전부격침 or 종료시 팀택이 앞섬<br>
-          　　　- 적군유저가 전부격침시 호위함이 남아있을경우 팀택으로 승패판정<br>
-          　　　- 장기전에서 호위함을 남겨두고 적함격침시 패배하는 경우가 종종있다<br>
-          <br>
-          ・팀택에 비례<br>
-          　　경험치배분은 팀택에 해당하는 경험치를 팀원끼리 탑승함급의 DP비례해서 나눠받는 시스템<br>
-          　　　- 40만택 달성유저와 0택 함재기1기 격추유저는 타 조건이 동일하면 동일경험치를 획득한다<br>
-          　　　- 극단적인 공산주의식 경험치배분 시스템<br>
-          　　개인성적은 일부만 제한적으로 관련<br>
-          　　　- 1택/0택여부 : 0택시 경험치페널티 존재 (패배시 경험치획득량과 비슷하거나 더 적음 / 뇌피셜 > 30 ~ 35%)<br>
-          　　　- 1택기준 : 함선1택달성 혹은 함재기1기 함포격추(전투기로인한 함재기격추는 0택처리)<br>
-          　　　- 함재기격추/어뢰계열어택량이 보너스경험치와 관련되어 있음<br>
-          <br>
-          ・보너스 경험치<br>
-          　　프리미엄계정 / 피씨방혜택<br>
-          　　30% 획득치 추가 아이템 (메달구매아이템)<br>
-          　　함재기격추 보너스<br>
-          　　　- 대공포/전투기/기총으로 함재기격추시가 해당됨<br>
-          　　　- 추가획득 경험치는 체감상 그리 많지 않다 - 전투기운용시 함재기 다수격추했더라도 0택하면 경험치획득은 매우적다<br>     
-          　　어뢰계열 공격성공 보너스<br>
-          　　　- 뇌격기/잠수함/어뢰정/폭뢰/투사폭뢰로 어택했을 경우가 해당됨<br>
-          　　　- 팀 전체의 경험치를 우선적으로 뺏어오는 구조로 아군 어뢰어택량이 많을 경우에는 타유저의 경험치획득이 줄어든다<br>
-          　　　- 함재기격추 보너스에 비해서 실제체감이 더 크다 / 패배시에도 밥값했으면 승리시의 80~100% 정도 획득<br>
-          　　대함대전 입장인원 보너스<br>
-          　　　- 전함/항모의 숫자는 제한되어 있으므로 실제로는 중경순이 늘어나면 늘어날수록 실제획득경험치는 줄어든다<br>
-          　　기함보너스<br>
-          　　　- 아군기함 생존보너스 / 적군기함 격침보너스가 존재하지만 체감은 미미하다<br>
-          <br>
-          ・그 외<br>
-          　　- 게임 도중 퇴장하면 그 시점의 팀택으로 승패판정이 이루어지고 그 시점의 경험치를 획득한다<br>
-          　　- 간혹 결과창이 승리화면이지만 경험치가 적은 경우가 발생하는데 나가는 순간 팀택이 역전되어 실제로는 패배처리가 된 경우이다<br>
-          　　- 반대로 간혹 결과창이 패배화면이지만 경험치가 많은 경우도 발생한다<br>
-          　　- 승패의 정확한 확인방법은 메달획득여부로 알수 있다 > 메달획득 = 승리 ↔ 메달미획득 = 패배<br>
-        </div>
-        <div class="w3-row">
-          일부참고자료<br>
-          　네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
-          <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01</a>
-        </div>
+      <!-- 1. 경험치 -->
+      <div class="w3-row">
+        <table class="w3-table w3-striped w3-bordered w3-border">
+          <tr>
+            <td>
+              <h4>경험치를 많이 받으려면</h4>
+              ・승리<br>
+              ・높은 팀택 (퇴장시)<br>
+              ・높은 개인 함재기격추<br>
+              ・높은 개인 어뢰택<br>
+              ・낮은 아군 어뢰택<br>
+              ・함포/어뢰 1택 or 함재기1기격추<br>
+              ・적은 중경순<br>
+              ・기함생존/적기함격침<br>
+              ・프리미엄계정/PC방계정 + 3분30초 보너스<br>
+              <h4>경험치와 관련없는 사항</h4>
+              ・개인성적 - 격침수, 어택량(1택제외), 피어택량<br>
+              ・시야 확보 (함재기/함선 둘다)<br>
+            </td>
+          </tr>
+        </table>
+        ・승패여부<br>
+        　　당연한 이야기지만 승리시 획득량이 패배시 획득량보다 많다<br>
+        　　　- 뇌피셜 > 패배시 획득경험치 = 승리시 획득경험치 x 35 ~ 40%<br>
+        　　승리조건 - 적함선 전부격침 or 종료시 팀택이 앞섬<br>
+        　　　- 적군유저가 전부격침시 호위함이 남아있을경우 팀택으로 승패판정<br>
+        　　　- 장기전에서 호위함을 남겨두고 적함격침시 패배하는 경우가 종종있다<br>
+        <br>
+        ・팀택에 비례<br>
+        　　경험치배분은 팀택에 해당하는 경험치를 팀원끼리 탑승함급의 DP비례해서 나눠받는 시스템<br>
+        　　　- 40만택 달성유저와 0택 함재기1기 격추유저는 타 조건이 동일하면 동일경험치를 획득한다<br>
+        　　　- 극단적인 공산주의식 경험치배분 시스템<br>
+        　　개인성적은 일부만 제한적으로 관련<br>
+        　　　- 1택/0택여부 : 0택시 경험치페널티 존재 (패배시 경험치획득량과 비슷하거나 더 적음 / 뇌피셜 > 30 ~ 35%)<br>
+        　　　- 1택기준 : 함선1택달성 혹은 함재기1기 함포격추(전투기로인한 함재기격추는 0택처리)<br>
+        　　　- 함재기격추/어뢰계열어택량이 보너스경험치와 관련되어 있음<br>
+        <br>
+        ・보너스 경험치<br>
+        　　프리미엄계정 / 피씨방혜택<br>
+        　　30% 획득치 추가 아이템 (메달구매아이템)<br>
+        　　함재기격추 보너스<br>
+        　　　- 대공포/전투기/기총으로 함재기격추시가 해당됨<br>
+        　　　- 추가획득 경험치는 체감상 그리 많지 않다 - 전투기운용시 함재기 다수격추했더라도 0택하면 경험치획득은 매우적다<br>     
+        　　어뢰계열 공격성공 보너스<br>
+        　　　- 뇌격기/잠수함/어뢰정/폭뢰/투사폭뢰로 어택했을 경우가 해당됨<br>
+        　　　- 팀 전체의 경험치를 우선적으로 뺏어오는 구조로 아군 어뢰어택량이 많을 경우에는 타유저의 경험치획득이 줄어든다<br>
+        　　　- 함재기격추 보너스에 비해서 실제체감이 더 크다 / 패배시에도 밥값했으면 승리시의 80~100% 정도 획득<br>
+        　　대함대전 입장인원 보너스<br>
+        　　　- 전함/항모의 숫자는 제한되어 있으므로 실제로는 중경순이 늘어나면 늘어날수록 실제획득경험치는 줄어든다<br>
+        　　기함보너스<br>
+        　　　- 아군기함 생존보너스 / 적군기함 격침보너스가 존재하지만 체감은 미미하다<br>
+        <br>
+        ・그 외<br>
+        　　- 게임 도중 퇴장하면 그 시점의 팀택으로 승패판정이 이루어지고 그 시점의 경험치를 획득한다<br>
+        　　- 간혹 결과창이 승리화면이지만 경험치가 적은 경우가 발생하는데 나가는 순간 팀택이 역전되어 실제로는 패배처리가 된 경우이다<br>
+        　　- 반대로 간혹 결과창이 패배화면이지만 경험치가 많은 경우도 발생한다<br>
+        　　- 승패의 정확한 확인방법은 메달획득여부로 알수 있다 > 메달획득 = 승리 ↔ 메달미획득 = 패배<br>
+      </div>
+      <div class="w3-row">
+        일부참고자료<br>
+        　네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
+        <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01</a>
+      </div>
       <!-- 1-1. 수병 레벨업 경험치 -->
       <div class="w3-row" id="exp_lv">
         <details open>
@@ -316,7 +319,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           </div>
         </details>
       </div>
-
       <!-- 1-2. 함선↔수병 레벨차이 경험치페널티 -->
       <div class="w3-row" id="exp_ship-sailor">
         <details open>
@@ -451,6 +453,253 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <div class="w3-row">
             출처 : 네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
             <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01</a>
+          </div>
+        </details>
+      </div>
+    </details>
+  </div>
+
+  <div class="w3-container" id="abil">
+    <details open>
+      <summary>
+        <h2 class="w3-text-black">2. 수병 능력과 어빌리티</h2>
+      </summary>
+      <!-- 2. 수병 능력과 어빌리티 -->
+      <div class="w3-row" id="abil_job">
+
+      </div>
+      추후 업데이트 (수병능력-어빌 일반론)<br>
+<!--
+      함재어빌은 죽은 어빌이다
+      https://www.navyfield.co.kr:444/board/view.asp?Num=203876&Sort=A01
+-->
+
+      <!-- 2-1. 병종별 관련어빌리티 -->
+      <div class="w3-row" id="abil_job">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">2-1. 병종별 관련어빌리티</h3>
+          </summary>
+          <div class="w3-row">
+            ◎　：매우중요, 최우선적으로 최대한 확보해야할 어빌, 수리는 차순위<br>
+            ●　：매우중요, 다만 일정이상 확보가 불필요한 어빌<br>
+            ○　：확보하면 좋은 어빌, 여러개 있을 경우 우선순위는 수리어빌<br>
+            □　：타수병어빌을 일정비율로 보정, 갑판병의 목적에 따라 확보해야할 어빌<br>
+            △　：관련은 있는 어빌이나 대부분의 경우에 의미없음<br>
+            －　：관련없는 어빌, 해골물<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+              <tr>
+                <th>병종</th>
+                <th>잠재</th>
+                <th>명중</th>
+                <th>연사</th>
+                <th>어뢰</th>
+                <th>대공</th>
+                <th>수리</th>
+                <th>보수</th>
+                <th>기관</th>
+                <th>함재</th>
+                <th>전투</th>
+                <th>폭격</th>
+              </tr>
+              <tr>
+                <td>함장</td>
+                <td>●</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>○</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>포병</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>◎</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>수리병</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>보수병</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>기관병</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>◎</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>정찰기</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>●~◎</td>
+              </tr>
+              <tr>
+                <td>급강하폭격기</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>●~◎</td>
+              </tr>
+              <tr>
+                <td>뇌격기</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>●~◎</td>
+              </tr>
+              <tr>
+                <td>전투기</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>○~●</td>
+              </tr>
+              <tr>
+                <td>어뢰병</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>음탐병</td>
+                <td>●</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>◎</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>잠항병</td>
+                <td>◎</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>의무병</td>
+                <td>◎</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>갑판병</td>
+                <td>□</td>
+                <td>□</td>
+                <td>□</td>
+                <td>□</td>
+                <td>－</td>
+                <td>○</td>
+                <td>△</td>
+                <td>□</td>
+                <td>－</td>
+                <td>□</td>
+                <td>□</td>
+              </tr>
+            </table>
+            추후 업데이트 (병종별 관련어빌 상세해설)<br>
           </div>
         </details>
       </div>
