@@ -80,11 +80,15 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         <tr>
           <td>
             <h4>Navyfield Laboratory Contents</h4>
-            <a class="w3-button" href="#exp">1. 경험치 </a><br>
-            <a class="w3-button" href="#exp_lv">　1-1. 수병 레벨업 경험치 </a><br>
-            <a class="w3-button" href="#exp_ship-sailor">　1-2. 함선↔수병 레벨차이 경험치페널티 </a><br>
-            <a class="w3-button" href="#abil">2. 수병 능력과 어빌리티 </a><br>
-            <a class="w3-button" href="#abil_job">　2-1. 병종별 관련어빌리티 </a><br>
+            <a class="w3-button" href="#sailor">1. 수병</a><br>
+            <a class="w3-button" href="#sailor_window">　1-1. 수병창 정보 </a><br>
+            <a class="w3-button" href="#abil_gen">　1-2. 수병 일반론 </a><br>
+            <a class="w3-button" href="#sailor_type">　1-3. 수병의 종류 </a><br>
+            <a class="w3-button" href="#abil_job">　1-4. 병종별 관련어빌리티 </a><br>
+            <a class="w3-button" href="#exp">2. 경험치 </a><br>
+            <a class="w3-button" href="#exp_lv">　2-1. 수병 레벨업 경험치 </a><br>
+            <a class="w3-button" href="#exp_ship-sailor">　2-2. 함선↔수병 레벨차이 경험치페널티 </a><br>
+
           </td>
         </tr>
       </table>
@@ -92,394 +96,103 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   </div>
   <span id="tentativeout"></span>
 
-  <div class="w3-container" id="exp">
+
+  <div class="w3-container" id="sailor">
     <details open>
       <summary>
-        <h2 class="w3-text-black">1. 경험치</h2>
+        <h2 class="w3-text-black">1. 수병</h2>
       </summary>
-      <!-- 1. 경험치 -->
       <div class="w3-row">
-        <table class="w3-table w3-striped w3-bordered w3-border">
-          <tr>
-            <td>
-              <h4>경험치를 많이 받으려면</h4>
-              ・승리<br>
-              ・높은 팀택 (퇴장시)<br>
-              ・높은 개인 함재기격추<br>
-              ・높은 개인 어뢰택<br>
-              ・낮은 아군 어뢰택<br>
-              ・함포/어뢰 1택 or 함재기1기격추<br>
-              ・적은 중경순<br>
-              ・기함생존/적기함격침<br>
-              ・프리미엄계정/PC방계정 + 3분30초 보너스<br>
-              <h4>경험치와 관련없는 사항</h4>
-              ・개인성적 - 격침수, 어택량(1택제외), 피어택량<br>
-              ・시야 확보 (함재기/함선 둘다)<br>
-            </td>
-          </tr>
-        </table>
-        ・승패여부<br>
-        　　당연한 이야기지만 승리시 획득량이 패배시 획득량보다 많다<br>
-        　　　- 뇌피셜 > 패배시 획득경험치 = 승리시 획득경험치 x 35 ~ 40%<br>
-        　　승리조건 - 적함선 전부격침 or 종료시 팀택이 앞섬<br>
-        　　　- 적군유저가 전부격침시 호위함이 남아있을경우 팀택으로 승패판정<br>
-        　　　- 장기전에서 호위함을 남겨두고 적함격침시 패배하는 경우가 종종있다<br>
-        <br>
-        ・팀택에 비례<br>
-        　　경험치배분은 팀택에 해당하는 경험치를 팀원끼리 탑승함급의 DP비례해서 나눠받는 시스템<br>
-        　　　- 40만택 달성유저와 0택 함재기1기 격추유저는 타 조건이 동일하면 동일경험치를 획득한다<br>
-        　　　- 극단적인 공산주의식 경험치배분 시스템<br>
-        　　개인성적은 일부만 제한적으로 관련<br>
-        　　　- 1택/0택여부 : 0택시 경험치페널티 존재 (패배시 경험치획득량과 비슷하거나 더 적음 / 뇌피셜 > 30 ~ 35%)<br>
-        　　　- 1택기준 : 함선1택달성 혹은 함재기1기 함포격추(전투기로인한 함재기격추는 0택처리)<br>
-        　　　- 함재기격추/어뢰계열어택량이 보너스경험치와 관련되어 있음<br>
-        <br>
-        ・보너스 경험치<br>
-        　　프리미엄계정 / 피씨방혜택<br>
-        　　30% 획득치 추가 아이템 (메달구매아이템)<br>
-        　　함재기격추 보너스<br>
-        　　　- 대공포/전투기/기총으로 함재기격추시가 해당됨<br>
-        　　　- 추가획득 경험치는 체감상 그리 많지 않다 - 전투기운용시 함재기 다수격추했더라도 0택하면 경험치획득은 매우적다<br>     
-        　　어뢰계열 공격성공 보너스<br>
-        　　　- 뇌격기/잠수함/어뢰정/폭뢰/투사폭뢰로 어택했을 경우가 해당됨<br>
-        　　　- 팀 전체의 경험치를 우선적으로 뺏어오는 구조로 아군 어뢰어택량이 많을 경우에는 타유저의 경험치획득이 줄어든다<br>
-        　　　- 함재기격추 보너스에 비해서 실제체감이 더 크다 / 패배시에도 밥값했으면 승리시의 80~100% 정도 획득<br>
-        　　대함대전 입장인원 보너스<br>
-        　　　- 전함/항모의 숫자는 제한되어 있으므로 실제로는 중경순이 늘어나면 늘어날수록 실제획득경험치는 줄어든다<br>
-        　　기함보너스<br>
-        　　　- 아군기함 생존보너스 / 적군기함 격침보너스가 존재하지만 체감은 미미하다<br>
-        <br>
-        ・그 외<br>
-        　　- 게임 도중 퇴장하면 그 시점의 팀택으로 승패판정이 이루어지고 그 시점의 경험치를 획득한다<br>
-        　　- 간혹 결과창이 승리화면이지만 경험치가 적은 경우가 발생하는데 나가는 순간 팀택이 역전되어 실제로는 패배처리가 된 경우이다<br>
-        　　- 반대로 간혹 결과창이 패배화면이지만 경험치가 많은 경우도 발생한다<br>
-        　　- 승패의 정확한 확인방법은 메달획득여부로 알수 있다 > 메달획득 = 승리 ↔ 메달미획득 = 패배<br>
+        수병에 관한 설명 (추후업데이트)<br>
       </div>
-      <div class="w3-row">
-        일부참고자료<br>
-        　네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
-        <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01</a>
-      </div>
-      <!-- 1-1. 수병 레벨업 경험치 -->
-      <div class="w3-row" id="exp_lv">
+      <!-- 1-1. 수병창 정보 -->
+      <div class="w3-row" id="sailor_window">
         <details open>
           <summary>
-            <h3 class="w3-text-black">1-1. 수병 레벨업 필요경험치</h3>
+            <h3 class="w3-text-black">1-1. 수병창 정보</h3>
           </summary>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv</th>
-                <th>경험치</th>
-                <th>누적경험치</th>
-              </tr>
-              <tr><td>1</td><td>150</td><td>150</td></tr>
-              <tr><td>2</td><td>180</td><td>330</td></tr>
-              <tr><td>3</td><td>210</td><td>540</td></tr>
-              <tr><td>4</td><td>240</td><td>780</td></tr>
-              <tr><td>5</td><td>300</td><td>1080</td></tr>
-              <tr><td>6</td><td>500</td><td>1580</td></tr>
-              <tr><td>7</td><td>600</td><td>2180</td></tr>
-              <tr><td>8</td><td>720</td><td>2900</td></tr>
-              <tr><td>9</td><td>860</td><td>3760</td></tr>
-              <tr><td>10</td><td>1020</td><td>4780</td></tr>
-              <tr><td>11</td><td>1200</td><td>5980</td></tr>
-              <tr><td>12</td><td>1400</td><td>7380</td></tr>
-              <tr><td>13</td><td>2100</td><td>9480</td></tr>
-              <tr><td>14</td><td>2550</td><td>12030</td></tr>
-              <tr><td>15</td><td>3000</td><td>15030</td></tr>
-              <tr><td>16</td><td>3450</td><td>18480</td></tr>
-              <tr><td>17</td><td>3900</td><td>22380</td></tr>
-              <tr><td>18</td><td>4380</td><td>26760</td></tr>
-              <tr><td>19</td><td>4988</td><td>31748</td></tr>
-              <tr><td>20</td><td>5665</td><td>37413</td></tr>
-              <tr><td>21</td><td>6199</td><td>43612</td></tr>
-              <tr><td>22</td><td>6831</td><td>50443</td></tr>
-              <tr><td>23</td><td>7383</td><td>57826</td></tr>
-              <tr><td>24</td><td>7987</td><td>65813</td></tr>
-              <tr><td>25</td><td>8580</td><td>74393</td></tr>
-              <tr><td>26</td><td>9199</td><td>83592</td></tr>
-              <tr><td>27</td><td>9855</td><td>93447</td></tr>
-              <tr><td>28</td><td>10463</td><td>103910</td></tr>
-              <tr><td>29</td><td>11080</td><td>114990</td></tr>
-              <tr><td>30</td><td>12490</td><td>127480</td></tr>
-              <tr><td>31</td><td>14060</td><td>141540</td></tr>
-              <tr><td>32</td><td>15630</td><td>157170</td></tr>
-              <tr><td>33</td><td>17410</td><td>174580</td></tr>
-              <tr><td>34</td><td>18800</td><td>193380</td></tr>
-              <tr><td>35</td><td>20500</td><td>213880</td></tr>
-              <tr><td>36</td><td>22300</td><td>236180</td></tr>
-              <tr><td>37</td><td>24100</td><td>260280</td></tr>
-              <tr><td>38</td><td>26420</td><td>286700</td></tr>
-              <tr><td>39</td><td>28460</td><td>315160</td></tr>
-              <tr><td>40</td><td>31190</td><td>346350</td></tr>
-            </table>
-          </div>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv</th>
-                <th>경험치</th>
-                <th>누적경험치</th>
-              </tr>
-              <tr><td>41</td><td>33520</td><td>379870</td></tr>
-              <tr><td>42</td><td>36180</td><td>416050</td></tr>
-              <tr><td>43</td><td>38100</td><td>454150</td></tr>
-              <tr><td>44</td><td>40800</td><td>494950</td></tr>
-              <tr><td>45</td><td>43500</td><td>538450</td></tr>
-              <tr><td>46</td><td>47000</td><td>585450</td></tr>
-              <tr><td>47</td><td>49700</td><td>635150</td></tr>
-              <tr><td>48</td><td>53200</td><td>688350</td></tr>
-              <tr><td>49</td><td>55500</td><td>743850</td></tr>
-              <tr><td>50</td><td>60000</td><td>803850</td></tr>
-              <tr><td>51</td><td>63300</td><td>867150</td></tr>
-              <tr><td>52</td><td>66800</td><td>933950</td></tr>
-              <tr><td>53</td><td>70300</td><td>1004250</td></tr>
-              <tr><td>54</td><td>74600</td><td>1078850</td></tr>
-              <tr><td>55</td><td>78600</td><td>1157450</td></tr>
-              <tr><td>56</td><td>82400</td><td>1239850</td></tr>
-              <tr><td>57</td><td>85800</td><td>1325650</td></tr>
-              <tr><td>58</td><td>90000</td><td>1415650</td></tr>
-              <tr><td>59</td><td>95600</td><td>1511250</td></tr>
-              <tr><td>60</td><td>101000</td><td>1612250</td></tr>
-              <tr><td>61</td><td>106800</td><td>1719050</td></tr>
-              <tr><td>62</td><td>114600</td><td>1833650</td></tr>
-              <tr><td>63</td><td>122400</td><td>1956050</td></tr>
-              <tr><td>64</td><td>130500</td><td>2086550</td></tr>
-              <tr><td>65</td><td>138200</td><td>2224750</td></tr>
-              <tr><td>66</td><td>147600</td><td>2372350</td></tr>
-              <tr><td>67</td><td>156300</td><td>2528650</td></tr>
-              <tr><td>68</td><td>166500</td><td>2695150</td></tr>
-              <tr><td>69</td><td>176600</td><td>2871750</td></tr>
-              <tr><td>70</td><td>185300</td><td>3057050</td></tr>
-              <tr><td>71</td><td>196900</td><td>3253950</td></tr>
-              <tr><td>72</td><td>210600</td><td>3464550</td></tr>
-              <tr><td>73</td><td>224400</td><td>3688950</td></tr>
-              <tr><td>74</td><td>238100</td><td>3927050</td></tr>
-              <tr><td>75</td><td>254000</td><td>4181050</td></tr>
-              <tr><td>76</td><td>271400</td><td>4452450</td></tr>
-              <tr><td>77</td><td>289500</td><td>4741950</td></tr>
-              <tr><td>78</td><td>306200</td><td>5048150</td></tr>
-              <tr><td>79</td><td>325000</td><td>5373150</td></tr>
-              <tr><td>80</td><td>344500</td><td>5717650</td></tr>
-            </table>
-          </div>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv</th>
-                <th>경험치</th>
-                <th>누적경험치</th>
-              </tr>
-              <tr><td>81</td><td>362300</td><td>6079960</td></tr>
-              <tr><td>82</td><td>381000</td><td>6460950</td></tr>
-              <tr><td>83</td><td>400000</td><td>6860950</td></tr>
-              <tr><td>84</td><td>421700</td><td>7282650</td></tr>
-              <tr><td>85</td><td>440000</td><td>7722650</td></tr>
-              <tr><td>86</td><td>462500</td><td>8185150</td></tr>
-              <tr><td>87</td><td>482800</td><td>8667950</td></tr>
-              <tr><td>88</td><td>500000</td><td>9167950</td></tr>
-              <tr><td>89</td><td>518100</td><td>9686050</td></tr>
-              <tr><td>90</td><td>536900</td><td>10222950</td></tr>
-              <tr><td>91</td><td>556400</td><td>10779350</td></tr>
-              <tr><td>92</td><td>575900</td><td>11355250</td></tr>
-              <tr><td>93</td><td>597100</td><td>11952350</td></tr>
-              <tr><td>94</td><td>617500</td><td>12569850</td></tr>
-              <tr><td>95</td><td>645000</td><td>13214850</td></tr>
-              <tr><td>96</td><td>677700</td><td>13892550</td></tr>
-              <tr><td>97</td><td>715000</td><td>14607550</td></tr>
-              <tr><td>98</td><td>758000</td><td>15365550</td></tr>
-              <tr><td>99</td><td>770000</td><td>16135550</td></tr>
-              <tr><td>100</td><td>818000</td><td>16953550</td></tr>
-              <tr><td>101</td><td>865000</td><td>17818550</td></tr>
-              <tr><td>102</td><td>923000</td><td>18741550</td></tr>
-              <tr><td>103</td><td>990000</td><td>19731550</td></tr>
-              <tr><td>104</td><td>1063000</td><td>20794550</td></tr>
-              <tr><td>105</td><td>1135000</td><td>21929550</td></tr>
-              <tr><td>106</td><td>1227000</td><td>23156550</td></tr>
-              <tr><td>107</td><td>1320000</td><td>24476550</td></tr>
-              <tr><td>108</td><td>1427000</td><td>25903550</td></tr>
-              <tr><td>109</td><td>1515000</td><td>27418550</td></tr>
-              <tr><td>110</td><td>1608000</td><td>29026550</td></tr>
-              <tr><td>111</td><td>1688000</td><td>30714550</td></tr>
-              <tr><td>112</td><td>1743000</td><td>32457550</td></tr>
-              <tr><td>113</td><td>1807000</td><td>34264550</td></tr>
-              <tr><td>114</td><td>1878000</td><td>36142550</td></tr>
-              <tr><td>115</td><td>1942000</td><td>38084550</td></tr>
-              <tr><td>116</td><td>2011000</td><td>40095550</td></tr>
-              <tr><td>117</td><td>2119000</td><td>42214550</td></tr>
-              <tr><td>118</td><td>2211000</td><td>44425550</td></tr>
-              <tr><td>119</td><td>2359000</td><td>46784550</td></tr>
-              <tr><td>120만렙</td><td>*(2471000)</td><td>*(49255550)</td></tr>
-            </table>
+          <div class="w3-row">
+            <img src="sailor_window.jpg" style="max-width:200px">
           </div>
           <div class="w3-row">
-            *) Lv120만렙 만경험치 - 레벨업되지 않습니다 > 함장 - 명예의 전당입성조건<br>
-            출처 : 네이비필드 공식홈페이지 자유게시판 bp73님 게시글 / 원출처 (구)맥함대 홈페이지<br>
-            <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=129914&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=129914&Sort=A01</a>
+            ①병종<br>
+            　수병의 병종명을 확인할 수 있다<br>
+            　수병의 현재 전직여부를 확인할 수 있다<br>
+            ②수병종류/강화여부<br>
+            　파란색메달 : 프리미엄수병, 이벤트수병, 용병수병<br>
+            　빨간색메달 : 강화+1 / 모든수병<br>
+            　노란색메달 : 강화+2 / 일반수병
+            　> 강화+1과 강화+2를 동시에 적용할 수 없다<br>
+            　> 강화+1을 취소해야 강화+2를 적용시킬 수 있다<br>
+            ③수병레벨<br>
+            　한국서버기준 Max레벨 120<br>
+            　> 일반수병, (구)프리미엄수병 : 초기레벨 1<br>
+            　> (신)프리미엄수병 : 초기레벨 12<br>
+            　> 이벤트수병(개근/전설보조/전설특무), 용병수병 : 초기레벨 90<br>
+            ④수병이름<br>
+            　일반수병 : 수병뽑기시에 설정가능, 유료아이템으로 변경가능<br>
+            　그 외 수병 : 초기 설정된 수병명이 존재, 유료아이템으로 변경가능<br>
+            　> 수병명 변경아이템은 각종 이벤트에서 획득하기 쉬운편<br>
+            ⑤수병무게<br>
+            　수병의 무게, 수병수에 비례해서 늘어난다<br>
+            　함선 탑승시 수병무게보다 많은 여유배수량이 필요<br>
+            　렙업에 의해 수병수 증가시 수병무게도 증가 이때 함선최대배수량을 초과하면 출항이 불가능<br>
+            　사관의 무게가 숙련병/신병보다 가볍다 (사관 좆망겜)<br>
+            ⑥어빌리티 성장치<br>
+            　레벨업시 적용되는 수병의 어빌리티 성장치<br>
+            　> 최종 어빌리티 성장치 = 초기어빌리티 성장치 + 육성시 전직트리의 변동치 + 강화아이템<br>
+            　국가별/수병트리별로 어빌리티성장치가 복잡하게 변동<br>
+            　> 수병의 초기어빌리티를 확인하기 위해서 수병계산기가 활용됨<br>
+            　> 각 국가별로 특화트리는 전직시 어빌리티성장치 증가량이 타국보다 높게 설정되어 있음<br>
+            ⑦어빌리티누적치<br>
+            　실제 수병성능에 영향을 주는 수치<br>
+            　> 최종누적어빌리티 = 초기어빌리티 + 각 렙업시점의 어빌리티성장치<br>
+            　> 같은 육성/같은 전직을 했다고 가정시, 수병의 초기어빌리티 성장치 1 차이 = 누적어빌 119차이<br>
+            　　수병의 초기어빌리티 성장치는 어빌리티 누적치 & 수병성능에 대해 영향이 매우 크므로 중요시됨<br> 
+            　> 강화아이템 적용시 레벨1부터의 성장치 + 누적어빌리티는 소급적용<br>
+            　육성하기 전에 수병계산기를 활용하면 수병육성 완료시의 어빌리티누적치를 확인할 수 있다<br>
+            ⑧강화여부<br>
+            　강화된 어빌리티의 종류를 확인가능<br>
+            ⑨수병수(총인원/수병구성)<br>
+            　총인원/신병/숙련병/사관의 수병숫자를 확인할 수 있다<br>
+            　> 신병 : 빨간색<br>
+            　> 숙련병 : 흰색<br>
+            　> 사관 : 녹색<br>
+            　수병수(총인원)은 육성시 전직시점을 유추해 볼수 있다<br>
+            　> 최종 수병수 = 초기수병수 + 각 렙업시점의 수병수증가치 (전직에 따라 수병수증가량이 변동)<br>
+            　수병수&어빌리티누적치로 이른바 늦전직 유무를 확인가능(수병계산기 활용)<br>
+            ⓪경험치<br>
+            　현재 경험치 / 렙업 경험치<br>
+            　Max 120레벨 달성후에도 렙업 경험치가 설정되어 있지만 달성해도 렙업되지 않는다<br>
+            　공식 홈페이지의 명예의 전당 등재조건은 함장이 120렙 만경험치 달성<br> 
           </div>
         </details>
       </div>
-      <!-- 1-2. 함선↔수병 레벨차이 경험치페널티 -->
-      <div class="w3-row" id="exp_ship-sailor">
+      <!-- 1-2. 수병성능 일반론 -->
+      <div class="w3-row" id="abil_gen">
         <details open>
           <summary>
-            <h3 class="w3-text-black">1-2. 함선↔수병 레벨차이 경험치페널티</h3>
+            <h3 class="w3-text-black">1-2. 수병성능 일반론(추후업데이트)</h3>
           </summary>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv-함선Lv</th>
-                <th>획득 경험치비율</th>
-              </tr>
-              <tr><td>under -27</td><td>1%</td></tr>
-              <tr><td>-27</td><td>1%</td></tr>
-              <tr><td>-26</td><td>2%</td></tr>
-              <tr><td>-25</td><td>9%</td></tr>
-              <tr><td>-24</td><td>17%</td></tr>
-              <tr><td>-23</td><td>24%</td></tr>
-              <tr><td>-22</td><td>31%</td></tr>
-              <tr><td>-21</td><td>37%</td></tr>
-              <tr><td>-20</td><td>43%</td></tr>
-              <tr><td>-19</td><td>49%</td></tr>
-              <tr><td>-18</td><td>55%</td></tr>
-              <tr><td>-17</td><td>60%</td></tr>
-              <tr><td>-16</td><td>65%</td></tr>
-              <tr><td>-15</td><td>69%</td></tr>
-              <tr><td>-14</td><td>74%</td></tr>
-              <tr><td>-13</td><td>78%</td></tr>
-              <tr><td>-12</td><td>82%</td></tr>
-              <tr><td>-11</td><td>85%</td></tr>
-              <tr><td>-10</td><td>88%</td></tr>
-              <tr><td>-9</td><td>91%</td></tr>
-              <tr><td>-8</td><td>94%</td></tr>
-              <tr><td>-7</td><td>96%</td></tr>
-              <tr><td>-6</td><td>98%</td></tr>
-              <tr><td>-5</td><td>99%</td></tr>
-              <tr><td>-4</td><td>100%</td></tr>
-              <tr><td>-3</td><td>100%</td></tr>
-              <tr><td>-2</td><td>100%</td></tr>
-              <tr><td>-1</td><td>100%</td></tr>
-              <tr><td>0</td><td>100%</td></tr>
-              <tr><td>+1</td><td>100%</td></tr>
-              <tr><td>+2</td><td>100%</td></tr>
-              <tr><td>+3</td><td>100%</td></tr>
-              <tr><td>+4</td><td>100%</td></tr>
-              <tr><td>+5</td><td>100%</td></tr>
-            </table>
-          </div>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv-함선Lv</th>
-                <th>획득 경험치비율</th>
-              </tr>
-
-              <tr><td>+6</td><td>100%</td></tr>
-              <tr><td>+7</td><td>100%</td></tr>
-              <tr><td>+8</td><td>100%</td></tr>
-              <tr><td>+9</td><td>100%</td></tr>
-              <tr><td>+10</td><td>99%</td></tr>
-              <tr><td>+11</td><td>99%</td></tr>
-              <tr><td>+12</td><td>99%</td></tr>
-              <tr><td>+13</td><td>98%</td></tr>
-              <tr><td>+14</td><td>97%</td></tr>
-              <tr><td>+15</td><td>97%</td></tr>
-              <tr><td>+16</td><td>96%</td></tr>
-              <tr><td>+17</td><td>95%</td></tr>
-              <tr><td>+18</td><td>95%</td></tr>
-              <tr><td>+19</td><td>94%</td></tr>
-              <tr><td>+20</td><td>93%</td></tr>
-              <tr><td>+21</td><td>92%</td></tr>
-              <tr><td>+22</td><td>91%</td></tr>
-              <tr><td>+23</td><td>90%</td></tr>
-              <tr><td>+24</td><td>90%</td></tr>
-              <tr><td>+25</td><td>88%</td></tr>
-              <tr><td>+26</td><td>87%</td></tr>
-              <tr><td>+27</td><td>86%</td></tr>
-              <tr><td>+28</td><td>85%</td></tr>
-              <tr><td>+29</td><td>84%</td></tr>
-              <tr><td>+30</td><td>83%</td></tr>
-              <tr><td>+31</td><td>81%</td></tr>
-              <tr><td>+32</td><td>80%</td></tr>
-              <tr><td>+33</td><td>79%</td></tr>
-              <tr><td>+34</td><td>77%</td></tr>
-              <tr><td>+35</td><td>76%</td></tr>
-              <tr><td>+36</td><td>75%</td></tr>
-              <tr><td>+37</td><td>73%</td></tr>
-              <tr><td>+38</td><td>71%</td></tr>
-            </table>
-          </div>
-          <div class="w3-third">
-            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
-              <tr>
-                <th>수병Lv-함선Lv</th>
-                <th>획득 경험치비율</th>
-              </tr>
-              <tr><td>+39</td><td>70%</td></tr>
-              <tr><td>+40</td><td>68%</td></tr>
-              <tr><td>+41</td><td>66%</td></tr>
-              <tr><td>+42</td><td>65%</td></tr>
-              <tr><td>+43</td><td>63%</td></tr>
-              <tr><td>+44</td><td>61%</td></tr>
-              <tr><td>+45</td><td>59%</td></tr>
-              <tr><td>+46</td><td>57%</td></tr>
-              <tr><td>+47</td><td>55%</td></tr>
-              <tr><td>+48</td><td>54%</td></tr>
-              <tr><td>+49</td><td>51%</td></tr>
-              <tr><td>+50</td><td>49%</td></tr>
-              <tr><td>+51</td><td>47%</td></tr>
-              <tr><td>+52</td><td>45%</td></tr>
-              <tr><td>+53</td><td>43%</td></tr>
-              <tr><td>+54</td><td>41%</td></tr>
-              <tr><td>+55</td><td>38%</td></tr>
-              <tr><td>+56</td><td>36%</td></tr>
-              <tr><td>+57</td><td>34%</td></tr>
-              <tr><td>+58</td><td>31%</td></tr>
-              <tr><td>+59</td><td>29%</td></tr>
-              <tr><td>+60</td><td>27%</td></tr>
-              <tr><td>+61</td><td>24%</td></tr>
-              <tr><td>+62</td><td>21%</td></tr>
-              <tr><td>+63</td><td>19%</td></tr>
-              <tr><td>+64</td><td>16%</td></tr>
-              <tr><td>+65</td><td>13%</td></tr>
-              <tr><td>+66</td><td>11%</td></tr>
-              <tr><td>+67</td><td>8%</td></tr>
-              <tr><td>+68</td><td>5%</td></tr>
-              <tr><td>+69</td><td>2%</td></tr>
-              <tr><td>+70</td><td>1%</td></tr>
-              <tr><td>over +70</td><td>1%</td></tr>
-            </table>
-          </div>
-          <div class="w3-row">
-            출처 : 네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
-            <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01</a>
-          </div>
         </details>
       </div>
-    </details>
-  </div>
-
-  <div class="w3-container" id="abil">
-    <details open>
-      <summary>
-        <h2 class="w3-text-black">2. 수병 능력과 어빌리티</h2>
-      </summary>
-      <!-- 2. 수병 능력과 어빌리티 -->
-      <div class="w3-row" id="abil_job">
-
-      </div>
-      추후 업데이트 (수병능력-어빌 일반론)<br>
 <!--
       함재어빌은 죽은 어빌이다
       https://www.navyfield.co.kr:444/board/view.asp?Num=203876&Sort=A01
 -->
-
-      <!-- 2-1. 병종별 관련어빌리티 -->
+      <!-- 1-3. 수병의 종류 -->
+      <div class="w3-row" id="sailor_type">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">1-3. 수병의 종류(추후업데이트)</h3>
+          </summary>
+        </details>
+      </div>
+      <!-- 1-4. 병종별 관련어빌리티 -->
       <div class="w3-row" id="abil_job">
         <details open>
           <summary>
-            <h3 class="w3-text-black">2-1. 병종별 관련어빌리티</h3>
+            <h3 class="w3-text-black">1-4. 병종별 관련어빌리티</h3>
           </summary>
           <div class="w3-row">
             ◎　：매우중요, 최우선적으로 최대한 확보해야할 어빌리티<br>
@@ -708,6 +421,377 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </details>
   </div>
 
+  <div class="w3-container" id="exp">
+    <details open>
+      <summary>
+        <h2 class="w3-text-black">2. 경험치</h2>
+      </summary>
+      <!-- 2. 경험치 -->
+      <div class="w3-row">
+        <table class="w3-table w3-striped w3-bordered w3-border">
+          <tr>
+            <td>
+              <h4>경험치를 많이 받으려면</h4>
+              ・승리<br>
+              ・높은 팀택 (퇴장시)<br>
+              ・높은 개인 함재기격추<br>
+              ・높은 개인 어뢰택<br>
+              ・낮은 아군 어뢰택<br>
+              ・함포/어뢰 1택 or 함재기1기격추<br>
+              ・적은 중경순<br>
+              ・기함생존/적기함격침<br>
+              ・프리미엄계정/PC방계정 + 3분30초 보너스<br>
+              <h4>경험치와 관련없는 사항</h4>
+              ・개인성적 - 격침수, 어택량(1택제외), 피어택량<br>
+              ・시야 확보 (함재기/함선 둘다)<br>
+            </td>
+          </tr>
+        </table>
+        ・승패여부<br>
+        　　당연한 이야기지만 승리시 획득량이 패배시 획득량보다 많다<br>
+        　　　- 뇌피셜 > 패배시 획득경험치 = 승리시 획득경험치 x 35 ~ 40%<br>
+        　　승리조건 - 적함선 전부격침 or 종료시 팀택이 앞섬<br>
+        　　　- 적군유저가 전부격침시 호위함이 남아있을경우 팀택으로 승패판정<br>
+        　　　- 장기전에서 호위함을 남겨두고 적함격침시 패배하는 경우가 종종있다<br>
+        <br>
+        ・팀택에 비례<br>
+        　　경험치배분은 팀택에 해당하는 경험치를 팀원끼리 탑승함급의 DP비례해서 나눠받는 시스템<br>
+        　　　- 40만택 달성유저와 0택 함재기1기 격추유저는 타 조건이 동일하면 동일경험치를 획득한다<br>
+        　　　- 극단적인 공산주의식 경험치배분 시스템<br>
+        　　개인성적은 일부만 제한적으로 관련<br>
+        　　　- 1택/0택여부 : 0택시 경험치페널티 존재 (패배시 경험치획득량과 비슷하거나 더 적음 / 뇌피셜 > 30 ~ 35%)<br>
+        　　　- 1택기준 : 함선1택달성 혹은 함재기1기 함포격추(전투기로인한 함재기격추는 0택처리)<br>
+        　　　- 함재기격추/어뢰계열어택량이 보너스경험치와 관련되어 있음<br>
+        <br>
+        ・보너스 경험치<br>
+        　　프리미엄계정 / 피씨방혜택<br>
+        　　30% 획득치 추가 아이템 (메달구매아이템)<br>
+        　　함재기격추 보너스<br>
+        　　　- 대공포/전투기/기총으로 함재기격추시가 해당됨<br>
+        　　　- 추가획득 경험치는 체감상 그리 많지 않다 - 전투기운용시 함재기 다수격추했더라도 0택하면 경험치획득은 매우적다<br>     
+        　　어뢰계열 공격성공 보너스<br>
+        　　　- 뇌격기/잠수함/어뢰정/폭뢰/투사폭뢰로 어택했을 경우가 해당됨<br>
+        　　　- 팀 전체의 경험치를 우선적으로 뺏어오는 구조로 아군 어뢰어택량이 많을 경우에는 타유저의 경험치획득이 줄어든다<br>
+        　　　- 함재기격추 보너스에 비해서 실제체감이 더 크다 / 패배시에도 밥값했으면 승리시의 80~100% 정도 획득<br>
+        　　대함대전 입장인원 보너스<br>
+        　　　- 전함/항모의 숫자는 제한되어 있으므로 실제로는 중경순이 늘어나면 늘어날수록 실제획득경험치는 줄어든다<br>
+        　　기함보너스<br>
+        　　　- 아군기함 생존보너스 / 적군기함 격침보너스가 존재하지만 체감은 미미하다<br>
+        <br>
+        ・그 외<br>
+        　　- 게임 도중 퇴장하면 그 시점의 팀택으로 승패판정이 이루어지고 그 시점의 경험치를 획득한다<br>
+        　　- 간혹 결과창이 승리화면이지만 경험치가 적은 경우가 발생하는데 나가는 순간 팀택이 역전되어 실제로는 패배처리가 된 경우이다<br>
+        　　- 반대로 간혹 결과창이 패배화면이지만 경험치가 많은 경우도 발생한다<br>
+        　　- 승패의 정확한 확인방법은 메달획득여부로 알수 있다 > 메달획득 = 승리 ↔ 메달미획득 = 패배<br>
+      </div>
+      <div class="w3-row">
+        일부참고자료<br>
+        　네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
+        <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=147698&Sort=A01</a>
+      </div>
+      <!-- 2-1. 수병 레벨업 경험치 -->
+      <div class="w3-row" id="exp_lv">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">2-1. 수병 레벨업 필요경험치</h3>
+          </summary>
+          <div class="w3-row">
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv</th>
+                  <th>경험치</th>
+                  <th>누적경험치</th>
+                </tr>
+                <tr><td>1</td><td>150</td><td>150</td></tr>
+                <tr><td>2</td><td>180</td><td>330</td></tr>
+                <tr><td>3</td><td>210</td><td>540</td></tr>
+                <tr><td>4</td><td>240</td><td>780</td></tr>
+                <tr><td>5</td><td>300</td><td>1080</td></tr>
+                <tr><td>6</td><td>500</td><td>1580</td></tr>
+                <tr><td>7</td><td>600</td><td>2180</td></tr>
+                <tr><td>8</td><td>720</td><td>2900</td></tr>
+                <tr><td>9</td><td>860</td><td>3760</td></tr>
+                <tr><td>10</td><td>1020</td><td>4780</td></tr>
+                <tr><td>11</td><td>1200</td><td>5980</td></tr>
+                <tr><td>12</td><td>1400</td><td>7380</td></tr>
+                <tr><td>13</td><td>2100</td><td>9480</td></tr>
+                <tr><td>14</td><td>2550</td><td>12030</td></tr>
+                <tr><td>15</td><td>3000</td><td>15030</td></tr>
+                <tr><td>16</td><td>3450</td><td>18480</td></tr>
+                <tr><td>17</td><td>3900</td><td>22380</td></tr>
+                <tr><td>18</td><td>4380</td><td>26760</td></tr>
+                <tr><td>19</td><td>4988</td><td>31748</td></tr>
+                <tr><td>20</td><td>5665</td><td>37413</td></tr>
+                <tr><td>21</td><td>6199</td><td>43612</td></tr>
+                <tr><td>22</td><td>6831</td><td>50443</td></tr>
+                <tr><td>23</td><td>7383</td><td>57826</td></tr>
+                <tr><td>24</td><td>7987</td><td>65813</td></tr>
+                <tr><td>25</td><td>8580</td><td>74393</td></tr>
+                <tr><td>26</td><td>9199</td><td>83592</td></tr>
+                <tr><td>27</td><td>9855</td><td>93447</td></tr>
+                <tr><td>28</td><td>10463</td><td>103910</td></tr>
+                <tr><td>29</td><td>11080</td><td>114990</td></tr>
+                <tr><td>30</td><td>12490</td><td>127480</td></tr>
+                <tr><td>31</td><td>14060</td><td>141540</td></tr>
+                <tr><td>32</td><td>15630</td><td>157170</td></tr>
+                <tr><td>33</td><td>17410</td><td>174580</td></tr>
+                <tr><td>34</td><td>18800</td><td>193380</td></tr>
+                <tr><td>35</td><td>20500</td><td>213880</td></tr>
+                <tr><td>36</td><td>22300</td><td>236180</td></tr>
+                <tr><td>37</td><td>24100</td><td>260280</td></tr>
+                <tr><td>38</td><td>26420</td><td>286700</td></tr>
+                <tr><td>39</td><td>28460</td><td>315160</td></tr>
+                <tr><td>40</td><td>31190</td><td>346350</td></tr>
+              </table>
+            </div>
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv</th>
+                  <th>경험치</th>
+                  <th>누적경험치</th>
+                </tr>
+                <tr><td>41</td><td>33520</td><td>379870</td></tr>
+                <tr><td>42</td><td>36180</td><td>416050</td></tr>
+                <tr><td>43</td><td>38100</td><td>454150</td></tr>
+                <tr><td>44</td><td>40800</td><td>494950</td></tr>
+                <tr><td>45</td><td>43500</td><td>538450</td></tr>
+                <tr><td>46</td><td>47000</td><td>585450</td></tr>
+                <tr><td>47</td><td>49700</td><td>635150</td></tr>
+                <tr><td>48</td><td>53200</td><td>688350</td></tr>
+                <tr><td>49</td><td>55500</td><td>743850</td></tr>
+                <tr><td>50</td><td>60000</td><td>803850</td></tr>
+                <tr><td>51</td><td>63300</td><td>867150</td></tr>
+                <tr><td>52</td><td>66800</td><td>933950</td></tr>
+                <tr><td>53</td><td>70300</td><td>1004250</td></tr>
+                <tr><td>54</td><td>74600</td><td>1078850</td></tr>
+                <tr><td>55</td><td>78600</td><td>1157450</td></tr>
+                <tr><td>56</td><td>82400</td><td>1239850</td></tr>
+                <tr><td>57</td><td>85800</td><td>1325650</td></tr>
+                <tr><td>58</td><td>90000</td><td>1415650</td></tr>
+                <tr><td>59</td><td>95600</td><td>1511250</td></tr>
+                <tr><td>60</td><td>101000</td><td>1612250</td></tr>
+                <tr><td>61</td><td>106800</td><td>1719050</td></tr>
+                <tr><td>62</td><td>114600</td><td>1833650</td></tr>
+                <tr><td>63</td><td>122400</td><td>1956050</td></tr>
+                <tr><td>64</td><td>130500</td><td>2086550</td></tr>
+                <tr><td>65</td><td>138200</td><td>2224750</td></tr>
+                <tr><td>66</td><td>147600</td><td>2372350</td></tr>
+                <tr><td>67</td><td>156300</td><td>2528650</td></tr>
+                <tr><td>68</td><td>166500</td><td>2695150</td></tr>
+                <tr><td>69</td><td>176600</td><td>2871750</td></tr>
+                <tr><td>70</td><td>185300</td><td>3057050</td></tr>
+                <tr><td>71</td><td>196900</td><td>3253950</td></tr>
+                <tr><td>72</td><td>210600</td><td>3464550</td></tr>
+                <tr><td>73</td><td>224400</td><td>3688950</td></tr>
+                <tr><td>74</td><td>238100</td><td>3927050</td></tr>
+                <tr><td>75</td><td>254000</td><td>4181050</td></tr>
+                <tr><td>76</td><td>271400</td><td>4452450</td></tr>
+                <tr><td>77</td><td>289500</td><td>4741950</td></tr>
+                <tr><td>78</td><td>306200</td><td>5048150</td></tr>
+                <tr><td>79</td><td>325000</td><td>5373150</td></tr>
+                <tr><td>80</td><td>344500</td><td>5717650</td></tr>
+              </table>
+            </div>
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv</th>
+                  <th>경험치</th>
+                  <th>누적경험치</th>
+                </tr>
+                <tr><td>81</td><td>362300</td><td>6079960</td></tr>
+                <tr><td>82</td><td>381000</td><td>6460950</td></tr>
+                <tr><td>83</td><td>400000</td><td>6860950</td></tr>
+                <tr><td>84</td><td>421700</td><td>7282650</td></tr>
+                <tr><td>85</td><td>440000</td><td>7722650</td></tr>
+                <tr><td>86</td><td>462500</td><td>8185150</td></tr>
+                <tr><td>87</td><td>482800</td><td>8667950</td></tr>
+                <tr><td>88</td><td>500000</td><td>9167950</td></tr>
+                <tr><td>89</td><td>518100</td><td>9686050</td></tr>
+                <tr><td>90</td><td>536900</td><td>10222950</td></tr>
+                <tr><td>91</td><td>556400</td><td>10779350</td></tr>
+                <tr><td>92</td><td>575900</td><td>11355250</td></tr>
+                <tr><td>93</td><td>597100</td><td>11952350</td></tr>
+                <tr><td>94</td><td>617500</td><td>12569850</td></tr>
+                <tr><td>95</td><td>645000</td><td>13214850</td></tr>
+                <tr><td>96</td><td>677700</td><td>13892550</td></tr>
+                <tr><td>97</td><td>715000</td><td>14607550</td></tr>
+                <tr><td>98</td><td>758000</td><td>15365550</td></tr>
+                <tr><td>99</td><td>770000</td><td>16135550</td></tr>
+                <tr><td>100</td><td>818000</td><td>16953550</td></tr>
+                <tr><td>101</td><td>865000</td><td>17818550</td></tr>
+                <tr><td>102</td><td>923000</td><td>18741550</td></tr>
+                <tr><td>103</td><td>990000</td><td>19731550</td></tr>
+                <tr><td>104</td><td>1063000</td><td>20794550</td></tr>
+                <tr><td>105</td><td>1135000</td><td>21929550</td></tr>
+                <tr><td>106</td><td>1227000</td><td>23156550</td></tr>
+                <tr><td>107</td><td>1320000</td><td>24476550</td></tr>
+                <tr><td>108</td><td>1427000</td><td>25903550</td></tr>
+                <tr><td>109</td><td>1515000</td><td>27418550</td></tr>
+                <tr><td>110</td><td>1608000</td><td>29026550</td></tr>
+                <tr><td>111</td><td>1688000</td><td>30714550</td></tr>
+                <tr><td>112</td><td>1743000</td><td>32457550</td></tr>
+                <tr><td>113</td><td>1807000</td><td>34264550</td></tr>
+                <tr><td>114</td><td>1878000</td><td>36142550</td></tr>
+                <tr><td>115</td><td>1942000</td><td>38084550</td></tr>
+                <tr><td>116</td><td>2011000</td><td>40095550</td></tr>
+                <tr><td>117</td><td>2119000</td><td>42214550</td></tr>
+                <tr><td>118</td><td>2211000</td><td>44425550</td></tr>
+                <tr><td>119</td><td>2359000</td><td>46784550</td></tr>
+                <tr><td>120만렙</td><td>*(2471000)</td><td>*(49255550)</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="w3-row">
+            *) Lv120만렙 만경험치 - 레벨업되지 않습니다 > 함장 - 명예의 전당입성조건<br>
+            출처 : 네이비필드 공식홈페이지 자유게시판 bp73님 게시글 / 원출처 (구)맥함대 홈페이지<br>
+            <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=129914&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=129914&Sort=A01</a>
+          </div>
+        </details>
+      </div>
+      <!-- 2-2. 함선↔수병 레벨차이 경험치페널티 -->
+      <div class="w3-row" id="exp_ship-sailor">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">2-2. 함선↔수병 레벨차이 경험치페널티</h3>
+          </summary>
+          <div class="w3-row">
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv-함선Lv</th>
+                  <th>획득 경험치비율</th>
+                </tr>
+                <tr><td>under -27</td><td>1%</td></tr>
+                <tr><td>-27</td><td>1%</td></tr>
+                <tr><td>-26</td><td>2%</td></tr>
+                <tr><td>-25</td><td>9%</td></tr>
+                <tr><td>-24</td><td>17%</td></tr>
+                <tr><td>-23</td><td>24%</td></tr>
+                <tr><td>-22</td><td>31%</td></tr>
+                <tr><td>-21</td><td>37%</td></tr>
+                <tr><td>-20</td><td>43%</td></tr>
+                <tr><td>-19</td><td>49%</td></tr>
+                <tr><td>-18</td><td>55%</td></tr>
+                <tr><td>-17</td><td>60%</td></tr>
+                <tr><td>-16</td><td>65%</td></tr>
+                <tr><td>-15</td><td>69%</td></tr>
+                <tr><td>-14</td><td>74%</td></tr>
+                <tr><td>-13</td><td>78%</td></tr>
+                <tr><td>-12</td><td>82%</td></tr>
+                <tr><td>-11</td><td>85%</td></tr>
+                <tr><td>-10</td><td>88%</td></tr>
+                <tr><td>-9</td><td>91%</td></tr>
+                <tr><td>-8</td><td>94%</td></tr>
+                <tr><td>-7</td><td>96%</td></tr>
+                <tr><td>-6</td><td>98%</td></tr>
+                <tr><td>-5</td><td>99%</td></tr>
+                <tr><td>-4</td><td>100%</td></tr>
+                <tr><td>-3</td><td>100%</td></tr>
+                <tr><td>-2</td><td>100%</td></tr>
+                <tr><td>-1</td><td>100%</td></tr>
+                <tr><td>0</td><td>100%</td></tr>
+                <tr><td>+1</td><td>100%</td></tr>
+                <tr><td>+2</td><td>100%</td></tr>
+                <tr><td>+3</td><td>100%</td></tr>
+                <tr><td>+4</td><td>100%</td></tr>
+                <tr><td>+5</td><td>100%</td></tr>
+              </table>
+            </div>
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv-함선Lv</th>
+                  <th>획득 경험치비율</th>
+                </tr>
+
+                <tr><td>+6</td><td>100%</td></tr>
+                <tr><td>+7</td><td>100%</td></tr>
+                <tr><td>+8</td><td>100%</td></tr>
+                <tr><td>+9</td><td>100%</td></tr>
+                <tr><td>+10</td><td>99%</td></tr>
+                <tr><td>+11</td><td>99%</td></tr>
+                <tr><td>+12</td><td>99%</td></tr>
+                <tr><td>+13</td><td>98%</td></tr>
+                <tr><td>+14</td><td>97%</td></tr>
+                <tr><td>+15</td><td>97%</td></tr>
+                <tr><td>+16</td><td>96%</td></tr>
+                <tr><td>+17</td><td>95%</td></tr>
+                <tr><td>+18</td><td>95%</td></tr>
+                <tr><td>+19</td><td>94%</td></tr>
+                <tr><td>+20</td><td>93%</td></tr>
+                <tr><td>+21</td><td>92%</td></tr>
+                <tr><td>+22</td><td>91%</td></tr>
+                <tr><td>+23</td><td>90%</td></tr>
+                <tr><td>+24</td><td>90%</td></tr>
+                <tr><td>+25</td><td>88%</td></tr>
+                <tr><td>+26</td><td>87%</td></tr>
+                <tr><td>+27</td><td>86%</td></tr>
+                <tr><td>+28</td><td>85%</td></tr>
+                <tr><td>+29</td><td>84%</td></tr>
+                <tr><td>+30</td><td>83%</td></tr>
+                <tr><td>+31</td><td>81%</td></tr>
+                <tr><td>+32</td><td>80%</td></tr>
+                <tr><td>+33</td><td>79%</td></tr>
+                <tr><td>+34</td><td>77%</td></tr>
+                <tr><td>+35</td><td>76%</td></tr>
+                <tr><td>+36</td><td>75%</td></tr>
+                <tr><td>+37</td><td>73%</td></tr>
+                <tr><td>+38</td><td>71%</td></tr>
+              </table>
+            </div>
+            <div class="w3-third">
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable">
+                <tr>
+                  <th>수병Lv-함선Lv</th>
+                  <th>획득 경험치비율</th>
+                </tr>
+                <tr><td>+39</td><td>70%</td></tr>
+                <tr><td>+40</td><td>68%</td></tr>
+                <tr><td>+41</td><td>66%</td></tr>
+                <tr><td>+42</td><td>65%</td></tr>
+                <tr><td>+43</td><td>63%</td></tr>
+                <tr><td>+44</td><td>61%</td></tr>
+                <tr><td>+45</td><td>59%</td></tr>
+                <tr><td>+46</td><td>57%</td></tr>
+                <tr><td>+47</td><td>55%</td></tr>
+                <tr><td>+48</td><td>54%</td></tr>
+                <tr><td>+49</td><td>51%</td></tr>
+                <tr><td>+50</td><td>49%</td></tr>
+                <tr><td>+51</td><td>47%</td></tr>
+                <tr><td>+52</td><td>45%</td></tr>
+                <tr><td>+53</td><td>43%</td></tr>
+                <tr><td>+54</td><td>41%</td></tr>
+                <tr><td>+55</td><td>38%</td></tr>
+                <tr><td>+56</td><td>36%</td></tr>
+                <tr><td>+57</td><td>34%</td></tr>
+                <tr><td>+58</td><td>31%</td></tr>
+                <tr><td>+59</td><td>29%</td></tr>
+                <tr><td>+60</td><td>27%</td></tr>
+                <tr><td>+61</td><td>24%</td></tr>
+                <tr><td>+62</td><td>21%</td></tr>
+                <tr><td>+63</td><td>19%</td></tr>
+                <tr><td>+64</td><td>16%</td></tr>
+                <tr><td>+65</td><td>13%</td></tr>
+                <tr><td>+66</td><td>11%</td></tr>
+                <tr><td>+67</td><td>8%</td></tr>
+                <tr><td>+68</td><td>5%</td></tr>
+                <tr><td>+69</td><td>2%</td></tr>
+                <tr><td>+70</td><td>1%</td></tr>
+                <tr><td>over +70</td><td>1%</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="w3-row">
+            출처 : 네이비필드 공식홈페이지 자유게시판 Cyberia73(광창)님 게시글 <br>
+            <a class="w3-button" href="http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01">http://www.navyfield.co.kr/board/view.asp?Num=131334&Sort=A01</a>
+          </div>
+        </details>
+      </div>
+    </details>
+  </div>
 
 
   <div class="w3-row w3-padding-32">
