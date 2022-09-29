@@ -116,6 +116,20 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             　수병의 병종명을 확인할 수 있다<br>
             　수병의 현재 전직여부를 확인할 수 있다<br>
             ②수병종류/강화여부<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <td>파란색메달</td>
+                <td>프리미엄수병, 이벤트수병, 용병수병</td>
+              </tr>
+              <tr>
+                <td>빨간색메달</td>
+                <td>모든수병</td>
+              </tr>
+              <tr>
+                <td>노란색메달</td>
+                <td>일반수병, 초기수병</td>
+              </tr>
+            </table>
             　파란색메달 : 프리미엄수병, 이벤트수병, 용병수병<br>
             　빨간색메달 : 강화+1 / 모든수병<br>
             　노란색메달 : 강화+2 / 일반수병<br>
@@ -130,13 +144,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             ④수병이름<br>
             　일반수병 : 수병뽑기시에 설정가능, 유료아이템으로 변경가능<br>
             　그 외 수병 : 초기 설정된 수병명이 존재, 유료아이템으로 변경가능<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <th>수병이름의 색깔</th>
+                <th>비고</th>
+              </tr>
+              <tr>
+                <td>흰색</td>
+                <td>초기수병 이외</td>
+              </tr>
+              <tr>
+                <td>노란색</td>
+                <td>초기수병, 거래불가</td>
+              </tr>
+            </table>
             　> 수병명 변경아이템은 각종 이벤트에서 획득하기 쉬운편<br>
             ⑤수병무게<br>
             　수병의 무게, 수병수에 비례해서 늘어난다<br>
             　함선 탑승시 수병무게보다 많은 여유배수량이 필요<br>
             　렙업에 의해 수병수 증가시 수병무게도 증가 이때 함선최대배수량을 초과하면 출항이 불가능<br>
-            　같은 수병수라도 국가별로 수병무게에 차이가 있음<br>
-            　> 수병수-수병무게 계수 : 독 x0.565 / 영 x0.55 / 미 x0.53 / 그외 x0.5<br>
+            　같은 수병수라도 국가별로 수병무게에 차이가 있음 (영자는 독혐일지도 모른다)<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <th>국가</th>
+                <th>수병무게계수</th>
+              </tr>
+              <tr>
+                <td>미국</td>
+                <td>0.53</td>
+              </tr>
+              <tr>
+                <td>영국</td>
+                <td>0.55</td>
+              </tr>
+              <tr>
+                <td>독일</td>
+                <td>0.565</td>
+              </tr>
+              <tr>
+                <td>그 외</td>
+                <td>0.5</td>
+              </tr>
+            </table>
+            　> 수병수 x 수병무게계수 = 수병무게<br>
+            　> 잠수함 탑승시 수병무게 = 통상시 수병무게의 12%<br>
             ⑥어빌리티 성장치<br>
             　레벨업시 적용되는 수병의 어빌리티 성장치<br>
             　> 최종 어빌리티 성장치 = 초기어빌리티 성장치 + 육성시 전직트리의 변동치 + 강화아이템<br>
@@ -152,13 +203,82 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             　육성하기 전에 수병계산기를 활용하면 수병육성 완료시의 어빌리티누적치를 확인할 수 있다<br>
             ⑧강화여부<br>
             　강화된 어빌리티의 종류를 확인가능<br>
+            　대공/함재는 강화아이템이 존재하지 않는다 → 게임사 공인 쓸모없는 어빌리티<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <th>어빌리티 종류</th>
+                <th>강화아이템 유무</th>
+              </tr>
+              <tr>
+                <td>잠재</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>명중</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>연사</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>어뢰</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>대공</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>수리</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>보수</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>기관</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>함재</td>
+                <td>－</td>
+              </tr>
+              <tr>
+                <td>전투</td>
+                <td>○</td>
+              </tr>
+              <tr>
+                <td>폭격</td>
+                <td>○</td>
+              </tr>
+            </table>
             ⑨수병수(총인원/수병구성)<br>
             　총인원/신병/숙련병/사관의 수병숫자를 확인할 수 있다<br>
-            　> 신병 : 빨간색<br>
-            　> 숙련병 : 흰색<br>
-            　> 사관 : 녹색<br>
-            　수병수(총인원)은 육성시 전직시점을 유추해 볼수 있다<br>
-            　> 최종 수병수 = 초기수병수 + 각 렙업시점의 수병수증가치 (전직에 따라 수병수증가량이 변동)<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <th>수병구성구분</th>
+                <th>하단 컬러바</th>
+              </tr>
+              <tr>
+                <td>신병</td>
+                <td>빨간색</td>
+              </tr>
+              <tr>
+                <td>숙련병</td>
+                <td>흰색</td>
+              </tr>
+              <tr>
+                <td>사관</td>
+                <td>녹색</td>
+              </tr>
+            </table>
+            　수병수(총인원)으로 육성했을때의 전직레벨을 유추해 볼수 있다 (전직시 수병수증가량이 변동하므로)<br>
+            　> 최종 수병수 = 초기수병수 + 각 렙업시점의 수병수증가<br>
+            　> 전직시 수병수증가량(히든스탯)이 변동<br>
+            　수병수증가량은 어빌리티 성장치의 일종이지만 공식홈페이지의 쉽야드나 인겜에 공식정보가 기재되어있지 않다<br>
+            　수병 레벨업시의 수병수 변화로 수병수증가량을 확인할수 있고 이를 유저가 직접 데이터베이스화한 툴이 수병계산기<br>
             　수병수&어빌리티누적치로 이른바 늦전직 유무를 확인가능(수병계산기 활용)<br>
             ⓪경험치<br>
             　현재 경험치 / 렙업 경험치<br>
