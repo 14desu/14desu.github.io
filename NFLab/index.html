@@ -85,7 +85,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <a class="w3-button" href="#exp">2. 경험치 </a><br>
             <a class="w3-button" href="#exp_lv">　2-1. 수병 레벨업 경험치 </a><br>
             <a class="w3-button" href="#exp_ship-sailor">　2-2. 함선↔수병 레벨차이 경험치페널티 </a><br>
-
+            <a class="w3-button" href="#ss">5. 잠수함(추후업데이트) </a><br>
+            <a class="w3-button" href="#ss_oxytime">　5-4. 잠수함별 잠항시간</a><br>
           </td>
         </tr>
       </table>
@@ -114,7 +115,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <div class="w3-row">
             ①병종<br>
             　수병의 병종명을 확인할 수 있다<br>
-            　수병의 현재 전직여부를 확인할 수 있다<br>
+            　병종명으로부터 수병트리&전직여부를 확인할 수 있다<br>
             ②수병종류/강화여부<br>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
@@ -130,11 +131,8 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <td>일반수병, 초기수병</td>
               </tr>
             </table>
-            　파란색메달 : 프리미엄수병, 이벤트수병, 용병수병<br>
-            　빨간색메달 : 강화+1 / 모든수병<br>
-            　노란색메달 : 강화+2 / 일반수병<br>
             　> 강화+1과 강화+2를 동시에 적용할 수 없다<br>
-            　> 강화+1을 취소해야 강화+2를 적용시킬 수 있다<br>
+            　> 강화+1→강화+2변경 시에는 강화+1 취소후 강화+2적용가능<br>
             ③수병레벨<br>
             　한국서버기준 Max레벨 120<br>
             　> 일반수병, (구)프리미엄수병 : 초기레벨 1<br>
@@ -912,6 +910,112 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </details>
   </div>
 
+  <div class="w3-container" id="ss">
+    <details open>
+      <summary>
+        <h2 class="w3-text-black">5. 잠수함</h2>
+      </summary>
+      <div class="w3-row">
+        잠수함에 관한 설명 (추후업데이트)<br>
+      </div>
+      <!-- 5-4. 잠항시간정보 -->
+      <div class="w3-row" id="ss_oxytime">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">5-4. 잠수함별 잠항시간</h3>
+          </summary>
+          <div class="w3-row">
+            잠수함 함체별로 고유의 잠항시간이 설정되어 있음 (히든스펙)<br>
+            잠수함플레이시 매우 중요한 스펙 but 공홈쉽야드/인겜쉽야드에 해당정보가 없음<br>
+            아래 정보는 운영자에게 문의해서 답변 받은 정보를 정리해 놓은표 (2022/09/30)<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:600px">
+              <tr>
+                <th>차수 / 잠항시간단위[s]</th>
+                <th>미국</th>
+                <th>영국</th>
+                <th>일본</th>
+                <th>독일</th>
+                <th>프랑스</th>
+                <th>소련</th>
+                <th>이탈리아</th>
+              </tr>
+              <tr>
+                <td>SS1 Lv37-39</td>
+                <td>132</td>
+                <td>129.8</td>
+                <td>140.8</td>
+                <td>127.6</td>
+                <td>132.56</td>
+                <td>128</td>
+                <td>124</td>
+              </tr>
+              <tr>
+                <td>SS2 Lv46-49</td>
+                <td>154</td>
+                <td>151.8</td>
+                <td>162.8</td>
+                <td>151.8</td>
+                <td>155.12</td>
+                <td>152</td>
+                <td>145</td>
+              </tr>
+              <tr>
+                <td>SS3 Lv59-62</td>
+                <td>176</td>
+                <td>173.8</td>
+                <td>184.8</td>
+                <td>176</td>
+                <td>177.64</td>
+                <td>176</td>
+                <td>166</td>
+              </tr>
+              <tr>
+                <td>SS4 Lv74-77</td>
+                <td>198.88</td>
+                <td>196.4</td>
+                <td>210.68</td>
+                <td>200.64</td>
+                <td>185.76</td>
+                <td>208</td>
+                <td>200</td>
+              </tr>
+              <tr>
+                <td>SS5 Lv87-89</td>
+                <td>222.92</td>
+                <td>221.52</td>
+                <td>237.84</td>
+                <td>224.88</td>
+                <td>218</td>
+                <td>220.48</td>
+                <td>224</td>
+              </tr>
+              <tr>
+                <td>SS6 Lv105</td>
+                <td>222.92</td>
+                <td>221.52</td>
+                <td>237.84</td>
+                <td>224.88</td>
+                <td>218</td>
+                <td>220.48</td>
+                <td>224</td>
+              </tr>
+              <tr>
+                <td>PSS (Premium SS)</td>
+                <td>231</td>
+                <td>230</td>
+                <td>238</td>
+                <td>232</td>
+                <td>229</td>
+                <td>230</td>
+                <td>232</td>
+              </tr>
+            </table>
+
+          </div>
+        </details>
+      </div>
+    </details>
+  </div>
 
   <div class="w3-row w3-padding-32">
   </div>
