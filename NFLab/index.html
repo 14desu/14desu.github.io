@@ -79,7 +79,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <h4>Navyfield Laboratory Contents</h4>
             <a class="w3-button" href="#sailor">1. 수병</a><br>
             <a class="w3-button" href="#sailor_window">　1-1. 수병창 정보 </a><br>
-            <a class="w3-button" href="#abil_gen">　1-2. 수병 일반론 </a><br>
+            <a class="w3-button" href="#sailor_shipyard">　1-2. 수병의 함선탑승 </a><br>
             <a class="w3-button" href="#sailor_type">　1-3. 수병의 종류 </a><br>
             <a class="w3-button" href="#abil_job">　1-4. 병종별 관련어빌리티 </a><br>
             <a class="w3-button" href="#exp">2. 경험치 </a><br>
@@ -113,10 +113,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <img src="sailor_window.jpg" style="max-width:200px">
           </div>
           <div class="w3-row">
-            ①병종<br>
+            <h4>①병종</h4>
             　수병의 병종명을 확인할 수 있다<br>
             　병종명으로부터 수병트리&전직여부를 확인할 수 있다<br>
-            ②수병종류/강화여부<br>
+            <h4>②수병종류/강화여부</h4>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
                 <td>파란색메달</td>
@@ -131,17 +131,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <td>일반수병, 초기수병</td>
               </tr>
             </table>
-            　> 강화+1과 강화+2를 동시에 적용할 수 없다<br>
-            　> 강화+1→강화+2변경 시에는 강화+1 취소후 강화+2적용가능<br>
-            ③수병레벨<br>
-            　한국서버기준 Max레벨 120<br>
-            　> 일반수병, (구)프리미엄수병 : 초기레벨 1<br>
-            　> (신)프리미엄수병 : 초기레벨 12<br>
-            　> 이벤트수병(개근/전설보조/전설특무), 용병수병 : 초기레벨 90<br>
-            　탑승함선레벨과 수병레벨의 차이에 따라서 수병의 획득경험치가 영향을 받는다<br>
-            ④수병이름<br>
+            　강화+1과 강화+2를 동시에 적용할 수 없다<br>
+            　강화+1→강화+2변경 시에는 강화+1 취소후 강화+2적용가능<br>
+            <h4>③수병Lv</h4>
+            　한국서버기준 최대Lv 120<br>
+            　수병 종류에 따라서 초기Lv에 차이가 있다<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <td>일반수병, (구)프리미엄수병</td>
+                <td>초기Lv 1</td>
+              </tr>
+              <tr>
+                <td>(현)프리미엄수병</td>
+                <td>초기Lv 12</td>
+              </tr>
+              <tr>
+                <td>이벤트수병(개근/전설보조/전설특무)<br>용병수병</td>
+                <td>초기Lv 90</td>
+              </tr>
+            </table>
+            <br>
+            　탑승함선Lv ↔ 수병Lv 차이에 따라서 수병의 획득경험치가 영향을 받는다<br>
+            　저렙육성시에는 수병Lv이 다음트리 함선의 -9 Lv정도에서 함급을 올리는 것을 추천 (아래표 참조)<br>
+            <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
+              <tr>
+                <th>수병Lv-함선Lv</th>
+                <th>획득 경험치비율</th>
+              </tr>
+              <tr>
+                <td>-4 ~ +9</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>-9 ~ +24</td>
+                <td>90%이상</td>
+              </tr>
+              <tr>
+                <td>-12 ~ +32</td>
+                <td>80%이상</td>
+              </tr>
+            </table>
+            <h4>④수병이름</h4>
             　일반수병 : 수병뽑기시에 설정가능, 유료아이템으로 변경가능<br>
             　그 외 수병 : 초기 설정된 수병명이 존재, 유료아이템으로 변경가능<br>
+            　수병명 변경아이템은 각종 이벤트에서 획득하기 쉬운편<br>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
                 <th>수병이름의 색깔</th>
@@ -156,12 +189,11 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <td>초기수병, 거래불가</td>
               </tr>
             </table>
-            　> 수병명 변경아이템은 각종 이벤트에서 획득하기 쉬운편<br>
-            ⑤수병무게<br>
+            <h4>⑤수병무게</h4>
             　수병의 무게, 수병수에 비례해서 늘어난다<br>
+            　같은 수병수라도 국가별로 수병무게에 차이가 있음 (영자는 독혐일지도 모른다)<br>
             　함선 탑승시 수병무게보다 많은 여유배수량이 필요<br>
             　렙업에 의해 수병수 증가시 수병무게도 증가 이때 함선최대배수량을 초과하면 출항이 불가능<br>
-            　같은 수병수라도 국가별로 수병무게에 차이가 있음 (영자는 독혐일지도 모른다)<br>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
                 <th>국가</th>
@@ -184,24 +216,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <td>0.5</td>
               </tr>
             </table>
-            　> 수병수 x 수병무게계수 = 수병무게<br>
-            　> 잠수함 탑승시 수병무게 = 통상시 수병무게의 12%<br>
-            ⑥어빌리티 성장치<br>
+            　- 수병수 x 수병무게계수 = 수병무게<br>
+            　- 잠수함 탑승시 수병무게 = 통상시 수병무게의 12%<br>
+            <h4>⑥어빌리티 성장치</h4>
             　레벨업시 적용되는 수병의 어빌리티 성장치<br>
             　> 최종 어빌리티 성장치 = 초기어빌리티 성장치 + 육성시 전직트리의 변동치 + 강화아이템<br>
             　국가별/수병트리별로 어빌리티성장치가 복잡하게 변동<br>
-            　> 수병의 초기어빌리티를 확인하기 위해서 수병계산기가 활용됨<br>
-            　> 각 국가별로 특화트리는 전직시 어빌리티성장치 증가량이 타국보다 높게 설정되어 있음<br>
-            ⑦어빌리티누적치<br>
+            　- 수병의 초기어빌리티를 확인하기 위해서 수병계산기가 활용됨<br>
+            　- 각 국가별 특화트리는 국가전직시 보너스성장치 + 특화트리 전직시 어빌리티성장치 증가량이 타국보다 높게 설정되어 있음<br>
+            <h4>⑦어빌리티누적치</h4>
             　실제 수병성능에 영향을 주는 수치<br>
             　> 최종누적어빌리티 = 초기어빌리티 + 각 렙업시점의 어빌리티성장치<br>
             　> 같은 육성/같은 전직을 했다고 가정시, 수병의 초기어빌리티 성장치 1 차이 = 누적어빌 119차이<br>
             　　수병의 초기어빌리티 성장치는 어빌리티 누적치 & 수병성능에 대해 영향이 매우 크므로 중요시됨<br> 
             　> 강화아이템 적용시 레벨1부터의 성장치 + 누적어빌리티는 소급적용<br>
             　육성하기 전에 수병계산기를 활용하면 수병육성 완료시의 어빌리티누적치를 확인할 수 있다<br>
-            ⑧강화여부<br>
+            <h4>⑧강화여부</h4>
             　강화된 어빌리티의 종류를 확인가능<br>
-            　대공/함재는 강화아이템이 존재하지 않는다 → 게임사 공인 쓸모없는 어빌리티<br>
+            　대공/함재 강화아이템이 존재하지 않는다 → 게임사 공인 쓸모없는 어빌리티<br>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
                 <th>어빌리티 종류</th>
@@ -252,7 +284,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <td>○</td>
               </tr>
             </table>
-            ⑨수병수(총인원/수병구성)<br>
+            <h4>⑨수병수(총인원/수병구성)</h4>
             　총인원/신병/숙련병/사관의 수병숫자를 확인할 수 있다<br>
             <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-small" style="width:300px">
               <tr>
@@ -278,19 +310,48 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             　수병수증가량은 어빌리티 성장치의 일종이지만 공식홈페이지의 쉽야드나 인겜에 공식정보가 기재되어있지 않다<br>
             　수병 레벨업시의 수병수 변화로 수병수증가량을 확인할수 있고 이를 유저가 직접 데이터베이스화한 툴이 수병계산기<br>
             　수병수&어빌리티누적치로 이른바 늦전직 유무를 확인가능(수병계산기 활용)<br>
-            ⓪경험치<br>
+            <h4>⓪경험치</h4>
             　현재 경험치 / 렙업 경험치<br>
-            　Max 120레벨 달성후에도 렙업 경험치가 설정되어 있지만 달성해도 렙업되지 않는다<br>
-            　공식 홈페이지의 명예의 전당 등재조건은 함장이 120렙 만경험치 달성<br> 
+            　Max Lv 120 달성후에도 렙업 경험치가 설정되어 있어서 경험치 획득이 가능하지만 만경험치 달성시 렙업되지 않는다<br>
+            　공식 홈페이지의 명예의 전당 등재조건은 함장이 Lv 120 렙업 후 만경험치 달성<br>
+            　글로벌서버(짱섭, 구북미서버)는 Max Lv 125<br>
           </div>
         </details>
       </div>
       <!-- 1-2. 수병성능 일반론 -->
-      <div class="w3-row" id="abil_gen">
+      <div class="w3-row" id="sailor_shipyard">
         <details open>
           <summary>
-            <h3 class="w3-text-black">1-2. 수병성능 일반론(추후업데이트)</h3>
+            <h3 class="w3-text-black">1-2. 수병의 함선탑승</h3>
           </summary>
+          <div class="w3-row">
+            <img src="sailor_shipyard.jpg" style="max-width:600px">
+          </div>
+          <div class="w3-row">
+            <h4>①보조석</h4>
+            　보조병/특무병계열 수병을 위해서 설계된 좌석<br>
+            　- 전함 - 기관병+정찰기를 위한 특등좌석 + 그 외 천민들을 위한 2등좌석<br>
+            　- 항모 - 함재기병 + 그 외 보조병/갑판병이 탑승<br>
+            <h4>②함장석</h4>
+            　함장을 위해서 설계된 좌석<br>
+            　- 함장이외의 수병은 탑승할 수 없다 (예외:무국함선/캐쉬함선)<br>
+            <h4>③주포석</h4>
+            　함포병을 위해서 설계된 좌석<br>
+            　- 포병 외 수병은 탑승가능하나 함포운용이 불가능<br>
+            　- 뒷포를 떼고 떡장하는 경우, 뒷포운용좌석에 수리병/갑판병 등을 탑승시키는 경우가 많다<br>
+            <h4>④부포석</h4>
+            　대공포병/양용포병/어뢰병을 위해서 설계된 좌석<br>
+            　- 포병/어뢰병 외 수병은 탑승가능하나 함포/어뢰발사관 운용이 불가능<br>
+            　- 부포/어뢰를 운용하지 않는 경우, 수리병/갑판병 등을 탑승시키거나 어부바육성수병을 탑승시키는 경우가 많다<br>
+            <h4>⑤쉽야드 화면전환</h4>
+            　[Force]선택시 - 수병관련모드<br>
+            　[Ship]선택시 - 함선컴포넌트화면<br>
+            <h4>⑥수병대기창</h4>
+            　함선에 탑승하지 않은 수병이 대기하고 있는 장소<br>
+            　- 수병대기창 > 드래그 > 함선 각 좌석에 드롭으로 탑승 가능<br>
+            　- 수병대기창 > 더블클릭 > 수병병종에 따라 관련 좌석에 탑승<br>
+            　- 마우스 휠 혹은 우측하단 Pre/Next로 스크롤 가능<br>
+          </div>
         </details>
       </div>
 <!--
