@@ -33,9 +33,6 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <a href="https://gall.dcinside.com/mini/board/view/?id=nf&no=1" class="w3-bar-item w3-button w3-hide-small w3-hover-white">코코마지침서</a>
     <a href="https://14desu.github.io/NFLab/" class="w3-bar-item w3-button w3-hide-small w3-hover-white">NF연구실</a>
     <a href="https://nfsim.blogspot.com/2021/05/1.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">늦전직학개론</a>
-    <!-- Start of CuterCounter Code -->
-    <img src="https://www.cutercounter.com/hits.php?id=hvvxaddan&nd=7&style=2">
-    <!-- End of CuterCounter Code -->
   </div>
 </div>
 
@@ -1593,12 +1590,15 @@ function get_result_sailor(){
 
     // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
     for(i=0;i<11;i++){
-      if(abilgrowth[i] == 14){
+      if(abilgrowth[i] == 14 && i != 0){
         abiltotal[i] = 30;
         if(i==1||i==2){
           abiltotal[1] = 30;
           abiltotal[2] = 30;
         }
+      }
+      else if(abilgrowth[i] == 17 && i == 0){
+        abiltotal[i] = 30;
       }
       else if(document.getElementById("AUTOIP").value == "개근" || document.getElementById("AUTOIP").value == "전설보조" || document.getElementById("AUTOIP").value == "전설특무" ){
         abiltotal[i] = abiltotal[i] + (abilgrowth[i] - 9) * (89);
