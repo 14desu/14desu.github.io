@@ -532,7 +532,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           </tr>
           <tr id="OXYCHARGE">
             <td>
-                산소충전량
+                산소충전량 [/s]
             </td>
             <td>
                 <span id="OXY100"></span>
@@ -2023,12 +2023,12 @@ function get_result_sailor(){
       }
       
 
-      document.getElementById("OXY100").innerHTML = oxycharge[0];
-      document.getElementById("OXY180").innerHTML = oxycharge[2];
-      document.getElementById("OXY250").innerHTML = oxycharge[4];
-      document.getElementById("OXY300").innerHTML = oxycharge[5];
-      document.getElementById("OXY40").innerHTML = oxycharge[6];
-      document.getElementById("OXY45").innerHTML = oxycharge[7];
+      document.getElementById("OXY100").innerHTML = oxycharge[0]/25;
+      document.getElementById("OXY180").innerHTML = oxycharge[2]/25;
+      document.getElementById("OXY250").innerHTML = oxycharge[4]/25;
+      document.getElementById("OXY300").innerHTML = oxycharge[5]/25;
+      document.getElementById("OXY40").innerHTML = oxycharge[6]/25;
+      document.getElementById("OXY45").innerHTML = oxycharge[7]/25;
 
       document.getElementById("OXYT100").innerHTML = oxytime[0];
       document.getElementById("OXYT180").innerHTML = oxytime[2];
