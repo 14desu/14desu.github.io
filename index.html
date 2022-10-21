@@ -530,6 +530,98 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="SONAR45"></span>
               </td>
           </tr>
+          <tr id="OXYCHARGE">
+            <td>
+                산소충전량
+            </td>
+            <td>
+                <span id="OXY100"></span>
+            </td>
+            <td>
+                <span id="OXY180"></span>
+            </td>
+            <td>
+                <span id="OXY250"></span>
+            </td>
+            <td>
+                <span id="OXY300"></span>
+            </td>
+            <td>
+                <span id="OXY40"></span>
+            </td>
+            <td>
+                <span id="OXY45"></span>
+            </td>
+          </tr>
+          <tr id="OXYTIME">
+            <td>
+                산소충전시간[s] (Lv105 SS6)
+            </td>
+            <td>
+                <span id="OXYT100"></span>
+            </td>
+            <td>
+                <span id="OXYT180"></span>
+            </td>
+            <td>
+                <span id="OXYT250"></span>
+            </td>
+            <td>
+                <span id="OXYT300"></span>
+            </td>
+            <td>
+                <span id="OXYT40"></span>
+            </td>
+            <td>
+                <span id="OXYT45"></span>
+            </td>
+          </tr>
+          <tr id="OXYU">
+            <td>
+                산소충전구간업 필요갑판보정
+            </td>
+            <td>
+                <span id="OXYU100"></span>
+            </td>
+            <td>
+                <span id="OXYU180"></span>
+            </td>
+            <td>
+                <span id="OXYU250"></span>
+            </td>
+            <td>
+                <span id="OXYU300"></span>
+            </td>
+            <td>
+                <span id="OXYU40"></span>
+            </td>
+            <td>
+                <span id="OXYU45"></span>
+            </td>
+          </tr>
+          <tr id="OXYUTIME">
+            <td>
+                갑판보정 산소충전시간[s] (Lv105 SS6)
+            </td>
+            <td>
+                <span id="OXYUT100"></span>
+            </td>
+            <td>
+                <span id="OXYUT180"></span>
+            </td>
+            <td>
+                <span id="OXYUT250"></span>
+            </td>
+            <td>
+                <span id="OXYUT300"></span>
+            </td>
+            <td>
+                <span id="OXYUT40"></span>
+            </td>
+            <td>
+                <span id="OXYUT45"></span>
+            </td>
+          </tr>
           <tr id="SRROW">
               <td>
                   수병연사구간
@@ -1475,6 +1567,10 @@ document.getElementById("SRROW").style.display = "none";
 document.getElementById("GRROW").style.display = "none";
 document.getElementById("SRUROW").style.display = "none";
 document.getElementById("GRUROW").style.display = "none";
+document.getElementById("OXYCHARGE").style.display = "none";
+document.getElementById("OXYTIME").style.display = "none";
+document.getElementById("OXYU").style.display = "none";
+document.getElementById("OXYUTIME").style.display = "none";
     
 function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
@@ -1850,6 +1946,113 @@ function get_result_sailor(){
       document.getElementById("SONAR40").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/3000)/10;
       document.getElementById("SONAR45").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/3000)/10;
     }
+
+    //산소충전계산
+    if(treedata[2].indexOf("잠수")>-1){
+      document.getElementById("OXYCHARGE").style.display = "";
+      document.getElementById("OXYTIME").style.display = "";
+      document.getElementById("OXYU").style.display = "";
+      document.getElementById("OXYUTIME").style.display = "";
+
+      //산소충전티어 + 리얼어빌 계산
+      var oxytear = new Array(8);
+      oxytear[0] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/250000);
+      oxytear[1] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*150)/250000);
+      oxytear[2] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/250000);
+      oxytear[3] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*200)/250000);
+      oxytear[4] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*250)/250000);
+      oxytear[5] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*300)/250000);
+      oxytear[6] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/250000);
+      oxytear[7] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/250000);
+
+      //산소충전량
+      var oxycharge = new Array(8);
+      for(i=0; i<oxycharge.length; i++){
+        if(oxytear[i] > 3){
+          oxycharge[i] = Math.floor(oxytear[i]*25*0.122+30);
+        }
+        else if(oxytear[i] = 3){
+          oxycharge[i] = 36;
+        }
+        else if(oxytear[i] = 2){
+          oxycharge[i] = 32;
+        }
+        else if(oxytear[i] = 1){
+          oxycharge[i] = "no data";
+        }
+        else if(oxytear[i] = 0){
+          oxycharge[i] = 12;
+        }
+      }
+      //6차잠 산소충전시간
+      var oxytime = new Array(8);
+      for(i=0; i<oxytime.length; i++){
+        oxytime[i] = Math.ceil(6000/oxycharge[i])*24/25;
+      }
+      //산소충전구간업 필요갑판보정
+      var oxyu = new Array(8);
+      oxyu[0] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*100)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*100))*100-100);
+      oxyu[1] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*150)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*150))*100-100);
+      oxyu[2] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*180)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*180))*100-100);
+      oxyu[3] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*200)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*200))*100-100);
+      oxyu[4] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*250)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*250))*100-100);
+      oxyu[5] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*300)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*300))*100-100);
+      oxyu[6] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*NUM40)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*NUM40))*100-100);
+      oxyu[7] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*NUM45)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*NUM45))*100-100);
+
+      //갑판보정시 산소충전량
+      var oxyucharge = new Array(8);
+      for(i=0; i<oxyucharge.length; i++){
+        if(oxytear[i] > 2){
+          oxyucharge[i] = Math.floor((oxytear[i]+1)*25*0.122+30);
+        }
+        else if(oxytear[i] = 1){
+          oxyucharge[i] = 36;
+        }
+        else if(oxytear[i] = 1){
+          oxyucharge[i] = 32;
+        }
+        else if(oxytear[i] = 0){
+          oxyucharge[i] = "no data";
+        }
+      }
+
+      var oxyutime = new Array(8);
+      for(i=0; i<oxyutime.length; i++){
+        oxyutime[i] = Math.ceil(6000/oxyucharge[i])*24/25;
+      }
+      
+
+      document.getElementById("OXY100").innerHTML = oxycharge[0];
+      document.getElementById("OXY180").innerHTML = oxycharge[2];
+      document.getElementById("OXY250").innerHTML = oxycharge[4];
+      document.getElementById("OXY300").innerHTML = oxycharge[5];
+      document.getElementById("OXY40").innerHTML = oxycharge[6];
+      document.getElementById("OXY45").innerHTML = oxycharge[7];
+
+      document.getElementById("OXYT100").innerHTML = oxytime[0];
+      document.getElementById("OXYT180").innerHTML = oxytime[2];
+      document.getElementById("OXYT250").innerHTML = oxytime[4];
+      document.getElementById("OXYT300").innerHTML = oxytime[5];
+      document.getElementById("OXYT40").innerHTML = oxytime[6];
+      document.getElementById("OXYT45").innerHTML = oxytime[7];
+
+      document.getElementById("OXYU100").innerHTML = oxyu[0];
+      document.getElementById("OXYU180").innerHTML = oxyu[2];
+      document.getElementById("OXYU250").innerHTML = oxyu[4];
+      document.getElementById("OXYU300").innerHTML = oxyu[5];
+      document.getElementById("OXYU40").innerHTML = oxyu[6];
+      document.getElementById("OXYU45").innerHTML = oxyu[7];
+
+      document.getElementById("OXYUT100").innerHTML = oxyutime[0];
+      document.getElementById("OXYUT180").innerHTML = oxyutime[2];
+      document.getElementById("OXYUT250").innerHTML = oxyutime[4];
+      document.getElementById("OXYUT300").innerHTML = oxyutime[5];
+      document.getElementById("OXYUT40").innerHTML = oxyutime[6];
+      document.getElementById("OXYUT45").innerHTML = oxyutime[7];
+
+    }
+
 
     //연사구간계산
     if(treedata[1].indexOf("병기")>0){
