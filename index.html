@@ -104,6 +104,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <h3>기본정보 입력</h3>
           <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:600px">
             <tr>
+              <td>서버입력</td>
+              <td>
+                <select id="server_select" name="server_select">
+                  <option value="Korea">KR server</option>
+<!--
+                  <option value="Global">Global server</option>
+-->
+                </select>
+              </td>
+            </tr>
+            <tr>
               <td>국적입력</td>
               <td>
                 <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset();">
@@ -157,7 +168,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             </tr>
             <tr>
               <td>수병레벨입력</td>
-              <td></label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="120" size="2"></td>
+              <td></label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="125" size="2"></td>
             </tr>
             <tr>
               <td>수병강화입력</td>
@@ -351,37 +362,37 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td>전직1</td>
               <td><span id="tree_1"></span></td>
               <td><span id="tree_1LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree1" step="1" min="12" max="25" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree1Lv" step="1" min="12" max="25" size="2"></td>
             </tr>
             <tr id="tree2output">
               <td>전직2</td>
               <td><span id="tree_2"></span></td>
               <td><span id="tree_2LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree2" step="1" min="12" max="120" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree2Lv" step="1" min="12" max="120" size="2"></td>
             </tr>
             <tr id="tree3output">
               <td>전직3</td>
               <td><span id="tree_3"></span></td>
               <td><span id="tree_3LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree3" step="1" min="12" max="120" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree3Lv" step="1" min="12" max="120" size="2"></td>
             </tr>
             <tr id="tree4output">
               <td>전직4</td>
               <td><span id="tree_4"></span></td>
               <td><span id="tree_4LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree4" step="1" min="12" max="120" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree4Lv" step="1" min="12" max="120" size="2"></td>
             </tr>
             <tr id="tree5output">
               <td>전직5</td>
               <td><span id="tree_5"></span></td>
               <td><span id="tree_5LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree5" step="1" min="12" max="120" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree5Lv" step="1" min="12" max="120" size="2"></td>
             </tr>
             <tr id="tree6output">
               <td>전직6 </td>
               <td><span id="tree_6"></span></td>
               <td><span id="tree_6LV"></span></td>
-              <td>늦직Lv입력: <input type="number" id="tree6" step="1" min="12" max="120" size="2"></td>
+              <td>늦직Lv입력: <input type="number" id="SailorTree6Lv" step="1" min="12" max="120" size="2"></td>
             </tr>
           </table>
         </div>
@@ -389,7 +400,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
       <div>
         <h3>수병능력 계산결과</h3>
-        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable"  style="max-width:700px">
+        <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:700px">
           <tr>
               <td>
                   사관 [명]
@@ -415,7 +426,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="NUM45"></span>
               </td>
           </tr>
-          <tr>
+          <tr id="KR_RepairSpeed_Row">
               <td>
                   수리속도[/s]
               </td>
@@ -461,50 +472,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="RES45"></span>
               </td>
           </tr>
-          <tr id="ENGTROW">
+          <tr id="OverheatTimeRow">
               <td>
                   <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
               </td>
               <td>
-                  <span id="ENGT100"></span>
+                  <span id="OverheatTime100"></span>
               </td>
               <td>
-                  <span id="ENGT180"></span>
+                  <span id="OverheatTime180"></span>
               </td>
               <td>
-                  <span id="ENGT250"></span>
+                  <span id="OverheatTime250"></span>
               </td>
               <td>
-                  <span id="ENGT300"></span>
+                  <span id="OverheatTime300"></span>
               </td>
               <td>
-                  <span id="ENGT40"></span>
+                  <span id="OverheatTime40"></span>
               </td>
               <td>
-                  <span id="ENGT45"></span>
+                  <span id="OverheatTime45"></span>
               </td>
           </tr>
-          <tr id="ENGRROW">
+          <tr id="OverheatRateRow">
               <td>
                   <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
               </td>
               <td>
-                  <span id="ENGR100"></span>
+                  <span id="OverheatRate100"></span>
               </td>
               <td>
-                  <span id="ENGR180"></span>
+                  <span id="OverheatRate180"></span>
               </td>
               <td>
-                  <span id="ENGR250"></span>
+                  <span id="OverheatRate250"></span>
               </td>
               <td>
-                  <span id="ENGR300"></span>
+                  <span id="OverheatRate300"></span>
               </td>
               <td>
-                  <span id="ENGR40"></span>
+                  <span id="OverheatRate40"></span>
               </td>
               <td>
-                  <span id="ENGR45"></span>
+                  <span id="OverheatRate45"></span>
               </td>
           </tr>
           <tr id="SONARROW">
@@ -622,96 +633,96 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 <span id="OXYUT45"></span>
             </td>
           </tr>
-          <tr id="SRROW">
+          <tr id="SailorReloadRow">
               <td>
                   수병연사구간
               </td>
               <td>
-                  <span id="SR100"></span>
+                  <span id="SailorReload100"></span>
               </td>
               <td>
-                  <span id="SR180"></span>
+                  <span id="SailorReload180"></span>
               </td>
               <td>
-                  <span id="SR250"></span>
+                  <span id="SailorReload250"></span>
               </td>
               <td>
-                  <span id="SR300"></span>
+                  <span id="SailorReload300"></span>
               </td>
               <td>
-                  <span id="SR40"></span>
+                  <span id="SailorReload40"></span>
               </td>
               <td>
-                  <span id="SR45"></span>
+                  <span id="SailorReload45"></span>
               </td>
           </tr>
-          <tr id="GRROW">
+          <tr id="AvgGunReloadRow">
               <td>
                   평균연사속도 [s]
               </td>
               <td>
-                  <span id="GR100"></span>
+                  <span id="AvgGunReload100"></span>
               </td>
               <td>
-                  <span id="GR180"></span>
+                  <span id="AvgGunReload180"></span>
               </td>
               <td>
-                  <span id="GR250"></span>
+                  <span id="AvgGunReload250"></span>
               </td>
               <td>
-                  <span id="GR300"></span>
+                  <span id="AvgGunReload300"></span>
               </td>
               <td>
-                  <span id="GR40"></span>
+                  <span id="AvgGunReload40"></span>
               </td>
               <td>
-                  <span id="GR45"></span>
+                  <span id="AvgGunReload45"></span>
               </td>
           </tr>
-          <tr id="SRUROW">
+          <tr id="NeededSeamanReloadUpRow">
             <td>
                 연사구간업 필요갑판보정 [%]
             </td>
             <td>
-                <span id="SRU100"></span>
+                <span id="NeededSeamanReloadUp100"></span>
             </td>
             <td>
-                <span id="SRU180"></span>
+                <span id="NeededSeamanReloadUp180"></span>
             </td>
             <td>
-                <span id="SRU250"></span>
+                <span id="NeededSeamanReloadUp250"></span>
             </td>
             <td>
-                <span id="SRU300"></span>
+                <span id="NeededSeamanReloadUp300"></span>
             </td>
             <td>
-                <span id="SRU40"></span>
+                <span id="NeededSeamanReloadUp40"></span>
             </td>
             <td>
-                <span id="SRU45"></span>
+                <span id="NeededSeamanReloadUp45"></span>
             </td>
           </tr>
-          <tr id="GRUROW">
+          <tr id="AfterCorrectionGunReloadRow">
             <td>
                 연사구간업 평균연사속도 [s]
             </td>
             <td>
-                <span id="GRU100"></span>
+                <span id="AfterCorrectionGunReload100"></span>
             </td>
             <td>
-                <span id="GRU180"></span>
+                <span id="AfterCorrectionGunReload180"></span>
             </td>
             <td>
-                <span id="GRU250"></span>
+                <span id="AfterCorrectionGunReload250"></span>
             </td>
             <td>
-                <span id="GRU300"></span>
+                <span id="AfterCorrectionGunReload300"></span>
             </td>
             <td>
-                <span id="GRU40"></span>
+                <span id="AfterCorrectionGunReload40"></span>
             </td>
             <td>
-                <span id="GRU45"></span>
+                <span id="AfterCorrectionGunReload45"></span>
             </td>
           </tr>
       </table>
@@ -1560,13 +1571,13 @@ params["nationinput"] = "";
 params["treeinput"] = "";
 
 document.getElementById("RLDIPROW").style.display = "none";
-document.getElementById("ENGTROW").style.display = "none";
-document.getElementById("ENGRROW").style.display = "none";
+document.getElementById("OverheatTimeRow").style.display = "none";
+document.getElementById("OverheatRateRow").style.display = "none";
 document.getElementById("SONARROW").style.display = "none";
-document.getElementById("SRROW").style.display = "none";
-document.getElementById("GRROW").style.display = "none";
-document.getElementById("SRUROW").style.display = "none";
-document.getElementById("GRUROW").style.display = "none";
+document.getElementById("SailorReloadRow").style.display = "none";
+document.getElementById("AvgGunReloadRow").style.display = "none";
+document.getElementById("NeededSeamanReloadUpRow").style.display = "none";
+document.getElementById("AfterCorrectionGunReloadRow").style.display = "none";
 document.getElementById("OXYCHARGE").style.display = "none";
 document.getElementById("OXYTIME").style.display = "none";
 document.getElementById("OXYU").style.display = "none";
@@ -1761,12 +1772,12 @@ function get_result_sailor(){
     //늦직입력분 반영
 
     var treelev = new Array(6);
-    treelev[0] = document.getElementById("tree1").value;
-    treelev[1] = document.getElementById("tree2").value;
-    treelev[2] = document.getElementById("tree3").value;
-    treelev[3] = document.getElementById("tree4").value;
-    treelev[4] = document.getElementById("tree5").value;
-    treelev[5] = document.getElementById("tree6").value;
+    treelev[0] = document.getElementById("SailorTree1Lv").value;
+    treelev[1] = document.getElementById("SailorTree2Lv").value;
+    treelev[2] = document.getElementById("SailorTree3Lv").value;
+    treelev[3] = document.getElementById("SailorTree4Lv").value;
+    treelev[4] = document.getElementById("SailorTree5Lv").value;
+    treelev[5] = document.getElementById("SailorTree6Lv").value;
 
     for(i=0; i<tree_n; i++){
       if(treelev[i] == ""){
@@ -1918,22 +1929,22 @@ function get_result_sailor(){
 
     //기관오버힛시간계산
     if(params["treeinput"] == "기관병"){
-      document.getElementById("ENGTROW").style.display = "";
-      document.getElementById("ENGT100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
-      document.getElementById("ENGT180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
-      document.getElementById("ENGT250").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*250)/10000)/10;
-      document.getElementById("ENGT300").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*300)/10000)/10;
-      document.getElementById("ENGT40").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM40)/10000)/10;
-      document.getElementById("ENGT45").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM45)/10000)/10;
+      document.getElementById("OverheatTimeRow").style.display = "";
+      document.getElementById("OverheatTime100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
+      document.getElementById("OverheatTime180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
+      document.getElementById("OverheatTime250").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*250)/10000)/10;
+      document.getElementById("OverheatTime300").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*300)/10000)/10;
+      document.getElementById("OverheatTime40").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM40)/10000)/10;
+      document.getElementById("OverheatTime45").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM45)/10000)/10;
 
     //기관오버힛증가율계산
-      document.getElementById("ENGRROW").style.display = "";
-      document.getElementById("ENGR100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
-      document.getElementById("ENGR180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
-      document.getElementById("ENGR250").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*250)/8000)/2)/10;
-      document.getElementById("ENGR300").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*300)/8000)/2)/10;
-      document.getElementById("ENGR40").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM40)/8000)/2)/10;
-      document.getElementById("ENGR45").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM45)/8000)/2)/10;
+      document.getElementById("OverheatRateRow").style.display = "";
+      document.getElementById("OverheatRate100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
+      document.getElementById("OverheatRate180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
+      document.getElementById("OverheatRate250").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*250)/8000)/2)/10;
+      document.getElementById("OverheatRate300").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*300)/8000)/2)/10;
+      document.getElementById("OverheatRate40").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM40)/8000)/2)/10;
+      document.getElementById("OverheatRate45").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM45)/8000)/2)/10;
     }     
 
     //음탐만시야계산
@@ -2091,40 +2102,40 @@ function get_result_sailor(){
       }
 
       //연사구간
-      document.getElementById("SRROW").style.display = "";
-      document.getElementById("SR100").innerHTML = reloadcutcalc[0];
-      document.getElementById("SR180").innerHTML = reloadcutcalc[2];
-      document.getElementById("SR250").innerHTML = reloadcutcalc[4];
-      document.getElementById("SR300").innerHTML = reloadcutcalc[5];
-      document.getElementById("SR40").innerHTML = reloadcutcalc[6];
-      document.getElementById("SR45").innerHTML = reloadcutcalc[7];
+      document.getElementById("SailorReloadRow").style.display = "";
+      document.getElementById("SailorReload100").innerHTML = reloadcutcalc[0];
+      document.getElementById("SailorReload180").innerHTML = reloadcutcalc[2];
+      document.getElementById("SailorReload250").innerHTML = reloadcutcalc[4];
+      document.getElementById("SailorReload300").innerHTML = reloadcutcalc[5];
+      document.getElementById("SailorReload40").innerHTML = reloadcutcalc[6];
+      document.getElementById("SailorReload45").innerHTML = reloadcutcalc[7];
 
       //연사구간 필요갑판보정
-      document.getElementById("SRUROW").style.display = "";
-      document.getElementById("SRU100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
-      document.getElementById("SRU180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
-      document.getElementById("SRU250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
-      document.getElementById("SRU300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
-      document.getElementById("SRU40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
-      document.getElementById("SRU45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
+      document.getElementById("NeededSeamanReloadUpRow").style.display = "";
+      document.getElementById("NeededSeamanReloadUp100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
+      document.getElementById("NeededSeamanReloadUp180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
+      document.getElementById("NeededSeamanReloadUp250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
+      document.getElementById("NeededSeamanReloadUp300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
+      document.getElementById("NeededSeamanReloadUp40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
+      document.getElementById("NeededSeamanReloadUp45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
 
       var reload_ip_x = document.getElementById("reload_ip").value;
       if(reload_ip_x > 0){
-        document.getElementById("GRROW").style.display = "";
-        document.getElementById("GR100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-        document.getElementById("GR180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-        document.getElementById("GR250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-        document.getElementById("GR300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-        document.getElementById("GR40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-        document.getElementById("GR45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReloadRow").style.display = "";
+        document.getElementById("AvgGunReload100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReload180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReload250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReload300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReload40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+        document.getElementById("AvgGunReload45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
 
-        document.getElementById("GRUROW").style.display = "";
-        document.getElementById("GRU100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-        document.getElementById("GRU180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-        document.getElementById("GRU250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-        document.getElementById("GRU300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-        document.getElementById("GRU40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-        document.getElementById("GRU45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
+        document.getElementById("AfterCorrectionGunReload100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReload180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReload250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReload300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReload40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionGunReload45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
       }
     }
   }
@@ -2186,12 +2197,12 @@ function tree_rev(e){
 
 function treeipreset() {
   // 입력된 수병트리 reset
-  document.getElementById("tree1").value = "";
-  document.getElementById("tree2").value = "";
-  document.getElementById("tree3").value = "";
-  document.getElementById("tree4").value = "";
-  document.getElementById("tree5").value = "";
-  document.getElementById("tree6").value = "";
+  document.getElementById("SailorTree1Lv").value = "";
+  document.getElementById("SailorTree2Lv").value = "";
+  document.getElementById("SailorTree3Lv").value = "";
+  document.getElementById("SailorTree4Lv").value = "";
+  document.getElementById("SailorTree5Lv").value = "";
+  document.getElementById("SailorTree6Lv").value = "";
   // 입력된 국가/수병트리 update
   params["nationinput"] = document.getElementById("nation_sel").value;
   params["treeinput"] = document.getElementById("tree_sel").value;
