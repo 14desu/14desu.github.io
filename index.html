@@ -187,9 +187,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                 </select>
               </td>
             </tr>
-            <tr id="RLDIPROW">
+            <tr id="Gun_Reloadtime_Input_Row">
               <td>함포연사입력</td>
               <td><input type="number" id="reload_ip" name="reload_ip" step="0.04" size="2" max="100"></td>
+            </tr>
+            <tr id="RN_Abroad_Input_Row">
+              <td>함장영국유학여부</td>
+              <td><input type="checkbox" id="RN_Abroad_Input" name="RN_Abroad_Input" value="RN_Abroad"></td>
+            </tr>
+            <tr id="Target_Guideline_Input_Row">
+              <td>목표가이드라인길이</td>
+              <td><input type="number" id="Target_Guideline_Input" name="Target_Guideline_Input" step="2" value="3000" size="2"></td>
             </tr>
           </table>
         </div>
@@ -449,27 +457,50 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="REP45"></span>
               </td>
           </tr>
-          <tr>
+          <tr id="KR_RepairSpeed_BBCaptin_Row">
+            <td>
+                수리속도[/s]
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin100"></span>
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin180"></span>
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin250"></span>
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin300"></span>
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin40"></span>
+            </td>
+            <td>
+                <span id="KR_RepairSpeed_BBCaptin45"></span>
+            </td>
+          </tr>
+          <tr id="KR_RestoreRate_Row">
               <td>
                   구조방어
               </td>
               <td>
-                  <span id="RES100"></span>
+                  <span id="RestoreRate100"></span>
               </td>
               <td>
-                  <span id="RES180"></span>
+                  <span id="RestoreRate180"></span>
               </td>
               <td>
-                  <span id="RES250"></span>
+                  <span id="RestoreRate250"></span>
               </td>
               <td>
-                  <span id="RES300"></span>
+                  <span id="RestoreRate300"></span>
               </td>
               <td>
-                  <span id="RES40"></span>
+                  <span id="RestoreRate40"></span>
               </td>
               <td>
-                  <span id="RES45"></span>
+                  <span id="RestoreRate45"></span>
               </td>
           </tr>
           <tr id="OverheatTimeRow">
@@ -1570,7 +1601,10 @@ var params = {};
 params["nationinput"] = "";
 params["treeinput"] = "";
 
-document.getElementById("RLDIPROW").style.display = "none";
+document.getElementById("Gun_Reloadtime_Input_Row").style.display = "none";
+document.getElementById("RN_Abroad_Input_Row").style.display = "none";
+document.getElementById("Target_Guideline_Input_Row").style.display = "none";
+document.getElementById("KR_RepairSpeed_BBCaptin_Row").style.display = "none";
 document.getElementById("OverheatTimeRow").style.display = "none";
 document.getElementById("OverheatRateRow").style.display = "none";
 document.getElementById("SONARROW").style.display = "none";
@@ -1587,6 +1621,10 @@ function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
   var encoderUrl = encodeURI(origUrl + param);
   return encoderUrl
+}
+
+function realabil_calc(abil,vet,exp,amenia){
+  return abil * (vet * 4 + exp) * amenia;
 }
 
 function get_result_sailor(){
@@ -1829,6 +1867,14 @@ function get_result_sailor(){
       }
     }
 
+    //함장 영국유학 어빌반영
+    if(document.getElementById("RN_Abroad_Input").checked == true){
+      if(params["nationinput"] !== "영국"){
+        abilgrowth[5] = abilgrowth[5] + 2;
+        abiltotal[5] = abiltotal[5] + ((levinput*1 - 12) * 2);
+      }
+    }
+
     //성장어빌-수병수
     document.getElementById("POTG").innerHTML = abilgrowth[0];
     document.getElementById("ACCG").innerHTML = abilgrowth[1];
@@ -1911,20 +1957,20 @@ function get_result_sailor(){
     document.getElementById("GLEXPIP").value = abiltotal[11] - NUM45;
 
     //수리속도계산
-    document.getElementById("REP100").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*100)/480)/25.6)/10;
-    document.getElementById("REP180").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*180)/480)/25.6)/10;
-    document.getElementById("REP250").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*250)/480)/25.6)/10;
-    document.getElementById("REP300").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*300)/480)/25.6)/10;
-    document.getElementById("REP40").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM40)/480)/25.6)/10;
-    document.getElementById("REP45").innerHTML = Math.floor(Math.floor(abiltotal[5]*(abiltotal[11] + 3*NUM45)/480)/25.6)/10;
+    document.getElementById("REP100").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],100,abiltotal[11]-100,1)/480)/25.6)/10;
+    document.getElementById("REP180").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],180,abiltotal[11]-180,1)/480)/25.6)/10;
+    document.getElementById("REP250").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],250,abiltotal[11]-250,1)/480)/25.6)/10;
+    document.getElementById("REP300").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],300,abiltotal[11]-300,1)/480)/25.6)/10;
+    document.getElementById("REP40").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,1)/480)/25.6)/10;
+    document.getElementById("REP45").innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,1)/480)/25.6)/10;
 
     //구조방어계산
-    document.getElementById("RES100").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*100)/480)/16);
-    document.getElementById("RES180").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*180)/480)/16);
-    document.getElementById("RES250").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*250)/480)/16);
-    document.getElementById("RES300").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*300)/480)/16);
-    document.getElementById("RES40").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM40)/480)/16);
-    document.getElementById("RES45").innerHTML = Math.floor(Math.floor(abiltotal[6]*(abiltotal[11] + 3*NUM45)/480)/16);
+    document.getElementById("RestoreRate"+100).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],100,abiltotal[11]-100,1)/480)/16);
+    document.getElementById("RestoreRate"+180).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],180,abiltotal[11]-180,1)/480)/16);
+    document.getElementById("RestoreRate"+250).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],250,abiltotal[11]-250,1)/480)/16);
+    document.getElementById("RestoreRate"+300).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],300,abiltotal[11]-300,1)/480)/16);
+    document.getElementById("RestoreRate"+40).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],NUM40,abiltotal[11]-NUM40,1)/480)/16);
+    document.getElementById("RestoreRate"+45).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],NUM45,abiltotal[11]-NUM45,1)/480)/16);
             
 
     //기관오버힛시간계산
@@ -2208,7 +2254,14 @@ function treeipreset() {
   params["treeinput"] = document.getElementById("tree_sel").value;
   // 포병일때 함포연사IP 활성화
   if(params["treeinput"].indexOf("포병")>-1 ){
-    document.getElementById("RLDIPROW").style.display = "";
+    document.getElementById("Gun_Reloadtime_Input_Row").style.display = "";
+  }
+  // 함장일때 함장수리IP 활성화
+  if(params["treeinput"].indexOf("함장")>-1 ){
+//    document.getElementById("Target_Guideline_Input_Row").style.display = "";
+    if(document.getElementById("nation_sel").value !== "영국"){
+      document.getElementById("RN_Abroad_Input_Row").style.display = "";
+    }
   }
 }
 
