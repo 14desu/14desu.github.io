@@ -193,7 +193,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             </tr>
             <tr id="RN_Abroad_Input_Row">
               <td>함장영국유학여부</td>
-              <td><input type="checkbox" id="RN_Abroad_Input" name="RN_Abroad_Input" value="RN_Abroad"></td>
+              <td><input type="checkbox" id="RN_Abroad_Input" name="RN_Abroad_Input" value="RN_Abroad" onchange="treeipreset();"></td>
             </tr>
             <tr id="FCS_Guideline_Input_Row">
               <td>FCS착탄보정한계거리</td>
@@ -1786,10 +1786,12 @@ function get_result_sailor(){
     else if(boostcheck == "폭격1강"){ abilgrowth[10] = abilgrowth[10]*1 + 1; abiltotal[10] = abiltotal[10] + 1; }
 
     //국가보너스 어빌 계산
+
     if(params["nationinput"] == "미국"){
       abiltotal[9] = abiltotal[9] + 5; }
     else if(params["nationinput"] == "영국"){
-      abiltotal[5] = abiltotal[5] + 3; }
+      abiltotal[5] = abiltotal[5] + 3;
+      abiltotal[6] = abiltotal[6] + 3; }
     else if(params["nationinput"] == "일본"){
       abiltotal[3] = abiltotal[3] + 2; }
     else if(params["nationinput"] == "독일"){
@@ -1873,13 +1875,7 @@ function get_result_sailor(){
       }
     }
 
-    //함장 영국유학 어빌반영
-    if(document.getElementById("RN_Abroad_Input").checked == true){
-      if(params["nationinput"] !== "영국"){
-        abilgrowth[5] = abilgrowth[5] + 2;
-        abiltotal[5] = abiltotal[5] + ((levinput*1 - 12) * 2);
-      }
-    }
+
 
     //성장어빌-수병수
     document.getElementById("POTG").innerHTML = abilgrowth[0];
@@ -2285,7 +2281,13 @@ function treeipreset() {
   document.getElementById("SailorTree5Lv").value = "";
   document.getElementById("SailorTree6Lv").value = "";
   // 입력된 국가/수병트리 update
-  params["nationinput"] = document.getElementById("nation_sel").value;
+  //함장 영국유학 어빌반영
+  if(document.getElementById("RN_Abroad_Input").checked == true){
+    params["nationinput"] = "영국";
+  }
+  else{
+    params["nationinput"] = document.getElementById("nation_sel").value;
+  }
   params["treeinput"] = document.getElementById("tree_sel").value;
   // 포병일때 함포연사IP 활성화
   if(params["treeinput"].indexOf("포병")>-1 ){
