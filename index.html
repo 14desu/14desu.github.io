@@ -1633,6 +1633,14 @@ function realabil_calc(abil,vet,exp,amenia){
   return abil * (vet * 4 + exp) * amenia;
 }
 
+function KR_RepairSpeed_calc(realabil){
+  return Math.floor(Math.floor(realabil/480)/25.6)/10;
+}
+
+function KR_RestoreRate_calc(realabil){
+  return Math.floor(Math.floor(realabil/480)/16);
+}
+
 function get_result_sailor(){
   var encoderUrl = gen_url();
   var treedata = [];
@@ -1959,50 +1967,51 @@ function get_result_sailor(){
     document.getElementById("GLEXPIP").value = abiltotal[11] - NUM45;
 
     //수리속도계산
-    document.getElementById("KR_RepairSpeed_Row"+100).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],100,abiltotal[11]-100,1)/480)/25.6)/10;
-    document.getElementById("KR_RepairSpeed_Row"+180).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],180,abiltotal[11]-180,1)/480)/25.6)/10;
-    document.getElementById("KR_RepairSpeed_Row"+250).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],250,abiltotal[11]-250,1)/480)/25.6)/10;
-    document.getElementById("KR_RepairSpeed_Row"+300).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],300,abiltotal[11]-300,1)/480)/25.6)/10;
-    document.getElementById("KR_RepairSpeed_Row"+40).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,1)/480)/25.6)/10;
-    document.getElementById("KR_RepairSpeed_Row"+45).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,1)/480)/25.6)/10;
+    document.getElementById("KR_RepairSpeed_Row"+100).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],100,abiltotal[11]-100,1));
+    document.getElementById("KR_RepairSpeed_Row"+180).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],180,abiltotal[11]-180,1));
+    document.getElementById("KR_RepairSpeed_Row"+250).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],250,abiltotal[11]-250,1));
+    document.getElementById("KR_RepairSpeed_Row"+300).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],300,abiltotal[11]-300,1));
+    document.getElementById("KR_RepairSpeed_Row"+40).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,1));
+    document.getElementById("KR_RepairSpeed_Row"+45).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,1));
 
     //함장수리속도계산
 
     var BBCaptin_Target_Guideline = (document.getElementById("Target_Guideline_Input").value - document.getElementById("FCS_Guideline_Input").value);
     document.getElementById("Calc_Guildline").innerHTML = document.getElementById("Target_Guideline_Input").value;
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],100,abiltotal[11]-100,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+100).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],100,abiltotal[11]-100,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],100,abiltotal[11]-100,1))/480)/25.6)/10;
+    document.getElementById("KR_RepairSpeed_BBCaptin"+100).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],100,abiltotal[11]-100,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],100,abiltotal[11]-100,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+100).innerHTML = "-";}
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],180,abiltotal[11]-180,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+180).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],180,abiltotal[11]-180,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],180,abiltotal[11]-180,1))/480)/25.6)/10;
+    document.getElementById("KR_RepairSpeed_BBCaptin"+180).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],180,abiltotal[11]-180,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],180,abiltotal[11]-180,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+180).innerHTML = "-";}
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],250,abiltotal[11]-250,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+250).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],250,abiltotal[11]-250,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],250,abiltotal[11]-250,1))/480)/25.6)/10;
+    document.getElementById("KR_RepairSpeed_BBCaptin"+250).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],250,abiltotal[11]-250,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],250,abiltotal[11]-250,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+250).innerHTML = "-";}
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],300,abiltotal[11]-300,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+300).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],300,abiltotal[11]-300,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],300,abiltotal[11]-300,1))/480)/25.6)/10;
+    document.getElementById("KR_RepairSpeed_BBCaptin"+300).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],300,abiltotal[11]-300,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],300,abiltotal[11]-300,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+300).innerHTML = "-";}
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],NUM40,abiltotal[11]-NUM40,1) ){
-      document.getElementById("KR_RepairSpeed_BBCaptin"+40).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM40,abiltotal[11]-NUM40,1))/480)/25.6)/10;
+      document.getElementById("KR_RepairSpeed_BBCaptin"+40).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM40,abiltotal[11]-NUM40,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+40).innerHTML = "-";}
     if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],NUM45,abiltotal[11]-NUM45,1) ){
-      document.getElementById("KR_RepairSpeed_BBCaptin"+45).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM45,abiltotal[11]-NUM45,1))/480)/25.6)/10;
+      document.getElementById("KR_RepairSpeed_BBCaptin"+45).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM45,abiltotal[11]-NUM45,1)));
     }
     else{document.getElementById("KR_RepairSpeed_BBCaptin"+45 ).innerHTML = "-";}
 
     //구조방어계산
-    document.getElementById("KR_RestoreRate"+100).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],100,abiltotal[11]-100,1)/480)/16);
-    document.getElementById("KR_RestoreRate"+180).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],180,abiltotal[11]-180,1)/480)/16);
-    document.getElementById("KR_RestoreRate"+250).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],250,abiltotal[11]-250,1)/480)/16);
-    document.getElementById("KR_RestoreRate"+300).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],300,abiltotal[11]-300,1)/480)/16);
-    document.getElementById("KR_RestoreRate"+40).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],NUM40,abiltotal[11]-NUM40,1)/480)/16);
-    document.getElementById("KR_RestoreRate"+45).innerHTML = Math.floor(Math.floor(realabil_calc(abiltotal[6],NUM45,abiltotal[11]-NUM45,1)/480)/16);
+    document.getElementById("KR_RestoreRate"+100).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],100,abiltotal[11]-100,1));
+    document.getElementById("KR_RestoreRate"+180).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],180,abiltotal[11]-180,1));
+    document.getElementById("KR_RestoreRate"+250).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],250,abiltotal[11]-250,1));
+    document.getElementById("KR_RestoreRate"+300).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],300,abiltotal[11]-300,1));
+    document.getElementById("KR_RestoreRate"+40).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],NUM40,abiltotal[11]-NUM40,1));
+    document.getElementById("KR_RestoreRate"+45).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],NUM45,abiltotal[11]-NUM45,1));
             
+
 
     //기관오버힛시간계산
     if(params["treeinput"] == "기관병"){
@@ -2551,8 +2560,6 @@ function get_result_reload(){
 		}
 
 function get_result_pompom(){
-
-
 
   var RLD = document.getElementById("ppRLDIP").value;
   var REP = document.getElementById("ppREPIP").value;
