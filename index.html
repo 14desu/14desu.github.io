@@ -508,73 +508,73 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="KR_RestoreRate45"></span>
               </td>
           </tr>
-          <tr id="OverheatTimeRow">
+          <tr id="KR_OverheatTime_Row">
               <td>
                   <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
               </td>
               <td>
-                  <span id="OverheatTime100"></span>
+                  <span id="KR_OverheatTime100"></span>
               </td>
               <td>
-                  <span id="OverheatTime180"></span>
+                  <span id="KR_OverheatTime180"></span>
               </td>
               <td>
-                  <span id="OverheatTime250"></span>
+                  <span id="KR_OverheatTime250"></span>
               </td>
               <td>
-                  <span id="OverheatTime300"></span>
+                  <span id="KR_OverheatTime300"></span>
               </td>
               <td>
-                  <span id="OverheatTime40"></span>
+                  <span id="KR_OverheatTime40"></span>
               </td>
               <td>
-                  <span id="OverheatTime45"></span>
+                  <span id="KR_OverheatTime45"></span>
               </td>
           </tr>
-          <tr id="OverheatRateRow">
+          <tr id="KR_OverheatRate_Row">
               <td>
                   <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
               </td>
               <td>
-                  <span id="OverheatRate100"></span>
+                  <span id="KR_OverheatRate100"></span>
               </td>
               <td>
-                  <span id="OverheatRate180"></span>
+                  <span id="KR_OverheatRate180"></span>
               </td>
               <td>
-                  <span id="OverheatRate250"></span>
+                  <span id="KR_OverheatRate250"></span>
               </td>
               <td>
-                  <span id="OverheatRate300"></span>
+                  <span id="KR_OverheatRate300"></span>
               </td>
               <td>
-                  <span id="OverheatRate40"></span>
+                  <span id="KR_OverheatRate40"></span>
               </td>
               <td>
-                  <span id="OverheatRate45"></span>
+                  <span id="KR_OverheatRate45"></span>
               </td>
           </tr>
-          <tr id="SONARROW">
+          <tr id="KR_SonarRange_Row">
               <td>
-                  음탐만시야 [%]
+                  음탐만시야 [%] KR
               </td>
               <td>
-                  <span id="SONAR100"></span>
+                  <span id="KR_SonarRange100"></span>
               </td>
               <td>
-                  <span id="SONAR180"></span>
+                  <span id="KR_SonarRange180"></span>
               </td>
               <td>
-                  <span id="SONAR250"></span>
+                  <span id="KR_SonarRange250"></span>
               </td>
               <td>
-                  <span id="SONAR300"></span>
+                  <span id="KR_SonarRange300"></span>
               </td>
               <td>
-                  <span id="SONAR40"></span>
+                  <span id="KR_SonarRange40"></span>
               </td>
               <td>
-                  <span id="SONAR45"></span>
+                  <span id="KR_SonarRange45"></span>
               </td>
           </tr>
           <tr id="OXYCHARGE">
@@ -1611,9 +1611,9 @@ document.getElementById("RN_Abroad_Input_Row").style.display = "none";
 document.getElementById("FCS_Guideline_Input_Row").style.display = "none";
 document.getElementById("Target_Guideline_Input_Row").style.display = "none";
 document.getElementById("KR_RepairSpeed_BBCaptin_Row").style.display = "none";
-document.getElementById("OverheatTimeRow").style.display = "none";
-document.getElementById("OverheatRateRow").style.display = "none";
-document.getElementById("SONARROW").style.display = "none";
+document.getElementById("KR_OverheatTime_Row").style.display = "none";
+document.getElementById("KR_OverheatRate_Row").style.display = "none";
+document.getElementById("KR_SonarRange_Row").style.display = "none";
 document.getElementById("SailorReloadRow").style.display = "none";
 document.getElementById("AvgGunReloadRow").style.display = "none";
 document.getElementById("NeededSeamanReloadUpRow").style.display = "none";
@@ -1639,6 +1639,18 @@ function KR_RepairSpeed_calc(realabil){
 
 function KR_RestoreRate_calc(realabil){
   return Math.floor(Math.floor(realabil/480)/16);
+}
+
+function KR_OverheatTime_calc(realabil){
+  return Math.round(realabil/10000)/10;
+}
+
+function KR_OverheatRate_calc(realabil){
+  return Math.floor(Math.floor(realabil/8000)/2)/10;
+}
+
+function KR_SonarRange_calc(realabil){
+  return Math.floor(realabil/3000)/10;
 }
 
 function get_result_sailor(){
@@ -1956,7 +1968,6 @@ function get_result_sailor(){
     var NUM45 = Math.floor(abiltotal[11]*0.45);
 
 
-
     document.getElementById("NUM40").innerHTML = NUM40;
     document.getElementById("NUM45").innerHTML = NUM45;
     document.getElementById("vetnum1").value = NUM45;
@@ -1966,82 +1977,47 @@ function get_result_sailor(){
     document.getElementById("ppEXPIP").value = abiltotal[11] - NUM45;
     document.getElementById("GLEXPIP").value = abiltotal[11] - NUM45;
 
-    //수리속도계산
-    document.getElementById("KR_RepairSpeed_Row"+100).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],100,abiltotal[11]-100,1));
-    document.getElementById("KR_RepairSpeed_Row"+180).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],180,abiltotal[11]-180,1));
-    document.getElementById("KR_RepairSpeed_Row"+250).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],250,abiltotal[11]-250,1));
-    document.getElementById("KR_RepairSpeed_Row"+300).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],300,abiltotal[11]-300,1));
-    document.getElementById("KR_RepairSpeed_Row"+40).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,1));
-    document.getElementById("KR_RepairSpeed_Row"+45).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,1));
+    var Veteran_Output = [
+      [100, 100],
+      [180, 180],
+      [250, 250],
+      [300, 300],
+      [NUM40, 40],
+      [NUM45, 45]
+    ];
 
-    //함장수리속도계산
-
+    //함장목표가이드라인길이
     var BBCaptin_Target_Guideline = (document.getElementById("Target_Guideline_Input").value - document.getElementById("FCS_Guideline_Input").value);
     document.getElementById("Calc_Guildline").innerHTML = document.getElementById("Target_Guideline_Input").value;
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],100,abiltotal[11]-100,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+100).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],100,abiltotal[11]-100,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],100,abiltotal[11]-100,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+100).innerHTML = "-";}
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],180,abiltotal[11]-180,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+180).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],180,abiltotal[11]-180,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],180,abiltotal[11]-180,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+180).innerHTML = "-";}
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],250,abiltotal[11]-250,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+250).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],250,abiltotal[11]-250,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],250,abiltotal[11]-250,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+250).innerHTML = "-";}
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],300,abiltotal[11]-300,1) ){
-    document.getElementById("KR_RepairSpeed_BBCaptin"+300).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],300,abiltotal[11]-300,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],300,abiltotal[11]-300,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+300).innerHTML = "-";}
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],NUM40,abiltotal[11]-NUM40,1) ){
-      document.getElementById("KR_RepairSpeed_BBCaptin"+40).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM40,abiltotal[11]-NUM40,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM40,abiltotal[11]-NUM40,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+40).innerHTML = "-";}
-    if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],NUM45,abiltotal[11]-NUM45,1) ){
-      document.getElementById("KR_RepairSpeed_BBCaptin"+45).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],NUM45,abiltotal[11]-NUM45,BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],NUM45,abiltotal[11]-NUM45,1)));
-    }
-    else{document.getElementById("KR_RepairSpeed_BBCaptin"+45 ).innerHTML = "-";}
 
-    //구조방어계산
-    document.getElementById("KR_RestoreRate"+100).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],100,abiltotal[11]-100,1));
-    document.getElementById("KR_RestoreRate"+180).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],180,abiltotal[11]-180,1));
-    document.getElementById("KR_RestoreRate"+250).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],250,abiltotal[11]-250,1));
-    document.getElementById("KR_RestoreRate"+300).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],300,abiltotal[11]-300,1));
-    document.getElementById("KR_RestoreRate"+40).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],NUM40,abiltotal[11]-NUM40,1));
-    document.getElementById("KR_RestoreRate"+45).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],NUM45,abiltotal[11]-NUM45,1));
-            
-
+    for(i=0; i<Veteran_Output.length; i++){
+      //수리속도계산
+      document.getElementById("KR_RepairSpeed_Row"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //함장수리속도계산
+      if( BBCaptin_Target_Guideline*1000 < realabil_calc(abiltotal[0],100,abiltotal[11]-100,1) ){
+      document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],BBCaptin_Target_Guideline*1000/realabil_calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)));
+      }
+      else{document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = "-";}
+      //구조방어계산
+      document.getElementById("KR_RestoreRate"+Veteran_Output[i][1]).innerHTML = KR_RestoreRate_calc(realabil_calc(abiltotal[6],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //기관오버힛시간계산
+      document.getElementById("KR_OverheatTime"+Veteran_Output[i][1]).innerHTML = KR_OverheatTime_calc(realabil_calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //기관오버힛증가율계산
+      document.getElementById("KR_OverheatRate"+Veteran_Output[i][1]).innerHTML = KR_OverheatRate_calc(realabil_calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //음탐만시야계산
+      document.getElementById("KR_SonarRange"+Veteran_Output[i][1]).innerHTML = KR_SonarRange_calc(realabil_calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+    }
 
     //기관오버힛시간계산
-    if(params["treeinput"] == "기관병"){
-      document.getElementById("OverheatTimeRow").style.display = "";
-      document.getElementById("OverheatTime100").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*100)/10000)/10;
-      document.getElementById("OverheatTime180").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*180)/10000)/10;
-      document.getElementById("OverheatTime250").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*250)/10000)/10;
-      document.getElementById("OverheatTime300").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*300)/10000)/10;
-      document.getElementById("OverheatTime40").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM40)/10000)/10;
-      document.getElementById("OverheatTime45").innerHTML = Math.round(abiltotal[7]*(abiltotal[11] + 3*NUM45)/10000)/10;
-
     //기관오버힛증가율계산
-      document.getElementById("OverheatRateRow").style.display = "";
-      document.getElementById("OverheatRate100").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*100)/8000)/2)/10;
-      document.getElementById("OverheatRate180").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*180)/8000)/2)/10;
-      document.getElementById("OverheatRate250").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*250)/8000)/2)/10;
-      document.getElementById("OverheatRate300").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*300)/8000)/2)/10;
-      document.getElementById("OverheatRate40").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM40)/8000)/2)/10;
-      document.getElementById("OverheatRate45").innerHTML = Math.floor(Math.floor(abiltotal[7]*(abiltotal[11] + 3*NUM45)/8000)/2)/10;
+    if(params["treeinput"] == "기관병"){
+      document.getElementById("KR_OverheatTime_Row").style.display = "";
+      document.getElementById("KR_OverheatRate_Row").style.display = "";
     }     
 
     //음탐만시야계산
     if(treedata[2].indexOf("음파")>-1){
-      document.getElementById("SONARROW").style.display = "";      
-      document.getElementById("SONAR100").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/3000)/10;
-      document.getElementById("SONAR180").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/3000)/10;
-      document.getElementById("SONAR250").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*250)/3000)/10;
-      document.getElementById("SONAR300").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*300)/3000)/10;
-      document.getElementById("SONAR40").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/3000)/10;
-      document.getElementById("SONAR45").innerHTML = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/3000)/10;
+      document.getElementById("KR_SonarRange_Row").style.display = "";      
     }
 
     //산소충전계산
