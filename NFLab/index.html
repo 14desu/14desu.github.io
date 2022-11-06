@@ -80,10 +80,16 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           <td>
             <h4>Navyfield Laboratory Contents</h4>
             <a class="w3-button" href="#sailor">1. 수병</a><br>
-            <a class="w3-button" href="#sailor_window">　1-1. 수병창 정보 </a><br>
-            <a class="w3-button" href="#sailor_shipyard">　1-2. 수병의 함선탑승 </a><br>
-            <a class="w3-button" href="#sailor_type">　1-3. 수병의 종류 </a><br>
-            <a class="w3-button" href="#abil_job">　1-4. 병종별 관련어빌리티 </a><br>
+            <a class="w3-button" href="#sailor_window">　1-1. 수병창 정보</a><br>
+            <a class="w3-button" href="#sailor_shipyard">　1-2. 수병의 함선탑승</a><br>
+            <a class="w3-button" href="#sailor_type">　1-3. 수병의 종류</a><br>
+
+            <a class="w3-button" href="#sailor_recommend">2. 추천수병육성</a><br>
+            <a class="w3-button" href="#abil_job">　2-1. 병종별 관련어빌리티</a><br>
+            <a class="w3-button" href="#sailor_captin">　2-2. 함장</a><br>
+            <a class="w3-button" href="#sailor_captin_abil">　　2-2-1. 함장관련어빌</a><br>
+            <a class="w3-button" href="#sailor_captin_RN_abroad">　　2-2-2. 영국유학함장</a><br>
+            <a class="w3-button" href="#sailor_captin_recommend">　　2-2-3. 추천육성법</a><br>
 
             <a class="w3-button" href="#ss">5. 잠수함(추후업데이트) </a><br>
             <a class="w3-button" href="#ss_oxytime">　5-4. 잠수함별 잠항시간</a><br>
@@ -375,11 +381,21 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           </summary>
         </details>
       </div>
-      <!-- 1-4. 병종별 관련어빌리티 -->
+
+
+    </details>
+  </div>
+
+  <div class="w3-container" id="sailor_recommend">
+    <details open>
+      <summary>
+        <h2 class="w3-text-black">2. 추천수병육성</h2>
+      </summary>
+      <!-- 2-1. 병종별 관련어빌리티 -->
       <div class="w3-row" id="abil_job">
         <details open>
           <summary>
-            <h3 class="w3-text-black">1-4. 병종별 관련어빌리티</h3>
+            <h3 class="w3-text-black">2-1. 병종별 관련어빌리티</h3>
           </summary>
           <div class="w3-row">
             ◎　：매우중요, 최우선적으로 최대한 확보해야할 어빌리티<br>
@@ -605,10 +621,235 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         </details>
       </div>
 
+      <div class="w3-row" id="sailor_captin">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">2-2. 함장</h3>
+          </summary>
+
+          <div class="w3-row" id="sailor_captin_abil">
+            <details open>
+              <summary>
+                <h4 class="w3-text-black">2-2-1. 함장관련어빌</h4>
+              </summary>
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="width:400px">
+                <tr>
+                  <th>어빌리티</th>
+                  <th>전함</th>
+                  <th>항모</th>
+                  <th>잠수함</th>
+                </tr>
+                <tr>
+                  <td>잠재</td>
+                  <td>●</td>
+                  <td>－</td>
+                  <td>－</td>
+                </tr>
+                <tr>
+                  <td>수리</td>
+                  <td>◎</td>
+                  <td>◎</td>
+                  <td>◎</td>
+                </tr>
+                <tr>
+                  <td>보수</td>
+                  <td>△</td>
+                  <td>○</td>
+                  <td>○</td>
+                </tr>
+              </table>
+              잠재<br>
+              　- 함포 가이드라인길이와 관련이 있다<br>
+              　　> 함포 가이드라인길이 = FCS착탄보정한계거리 + 함장능력<br>
+              　- 잠재요구치가 매우 낮다 = 초기잠재9 만렙기준 100사관 풀숙으로 모든국가의 최대함포사거리를 초과함<br>
+              　- 전함운용시 함포사거리와 가이드라인길이를 비슷하게 세팅하는것이 일반적<br>
+              　　> 이를 뒤집어서 생각해보면 FCS착탄보정한계거리가 긴 국가일수록 다이어트에 유리, 짧은 국가일수록 수리속도에 유리<br>
+              　　> 각국 FCS착탄보정한계거리 EBB기준<br>
+              　　　　(다이어트유리) 독일1750 - 소련1728 - 프랑스1725 - 미국1700 - 이탈리아1699 - 영국/일본1600 (수리속도유리)<br>
+              　　　　** 괜히 영폭도가 사기라는게 아니다<br>
+              수리<br>
+              　- 함선의 만수리속도 280는 생각보다 달성하기 힘들다 (고인물 예외)<br>
+              　- BB5/EBB에서 이미 만수리속도를 달성했더라도 동일국가면 함선트리제한 없이 탑승시킬수 있는 ECV/ECL/ECA를 고려하면 함장으로 수리속도를 추가확보해서 나쁠건 없다<br>
+              　- 아래 추천육성법도 수리속도에 방점을 둔 육성법<br>
+              보수<br>
+              　- 함선의 최대구조방어 900은 생각보다 달성하기 쉽다 (전설보조기관 45%만사 1명 = 400초과)<br>
+              　- 구조방어를 확보하기 힘든 항모/잠수함에서는 저렙저사관구간의 일부구간에서 의미가 있다<br>
+<!--
+              - 오죽하면 [고렙되면 걸레처럼 돌려지는 보수병을 살리기 위해선 구방도 기관처럼 오직 보수병만이 올릴 수 있게 해야된다] 는 꾸준글이 존재한다<br>
+              　- 그나마 전설보조수병이 등장한 뒤로는 아무도 육성을 하지도 않고 수병을 구하지도 않기때문에 이제는 걸레처럼 돌려지지도 않는다<br>
+-->
+              잠재↔수리 관계<br>
+              　- 가이드라인 조절을 위해서 빈혈상태(일부러 수병수결원을 만듬)로 세팅 → 수리속도/구조방어도 같이 영향을 받는다<br>
+              　> 잠재요구치는 매우 낮고 이를 초과할수록 수리속도/구조방어/수병수가 줄어드는 구조<br>
+
+
+            </details>
+          </div>
+
+          <div class="w3-row" id="sailor_captin_RN_abroad">
+            <details open>
+              <summary>
+                <h4 class="w3-text-black">2-2-2. 영국유학함장</h4>
+              </summary>
+              <div class="w3-row">
+                캐쉬템가격을 낼 의향이 있다면 타어빌 손해없이 수리속도를 추가로 확보가능<br>
+                영국유학함장 육성법<br>
+                　1. 영국국적함장을 만든다<br>
+                　2. 캐쉬템[함장국적변경,3만원]으로 타국으로 국적변경<br>
+                　3. 함장의 성장어빌/누적어빌이 그대로 유지된다 (영국의 수리+2/보수+2 국적보너스포함)<br>
+
+
+                <img src="Captin_RN_abroad.jpg" style="max-width:300px">
+              </div>
+            </details>
+          </div>
+
+          <div class="w3-row" id="sailor_captin_recommend">
+            <details open>
+              <summary>
+                <h4 class="w3-text-black">2-2-3. 추천육성법</h4>
+              </summary>
+              　육성법은 크게 2가지로 나눌수 있다<br>
+              　　　1) 수리속도 최대한 확보<br>
+              　　　　　잠재어빌을 최대한 적게 수리어빌을 최대한 많이 확보한다<br>
+              　　　　　전설보조수병으로 히든잠재치가 낮으면 낮을수록 좋다<br>
+              　　　　　수리플미수병은 함장전직늦직을 추천<br>
+              　　　　　수리플미수병의 하위호환으로 초기지급되는 수리수병(초기잠재9 초기수리12)가 있다<br>
+              　　　　　초기수리수병은 수리플미수병과 동일하게 육성 / 무과금+전설보조수병이 없는 뉴비에게는 좋은 선택지<br>
+              　　　2) 최대한 수병수 다이어트 > 잠재어빌을 최대한 많이 확보한다<br>
+              　　　　　극한의 다이어트세팅으로 함장무게의 약70%(330t)까지 다이어트가능<br>
+              <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="width:800px">
+                <tr>
+                  <th>함장추천육성정리</th>
+                  <th>추천1-1</th>
+                  <th>추천1-2</th>
+                  <th>비교1</th>
+                  <th>추천2</th>
+                  <th>비교2</th>
+                </tr>
+                <tr>
+                  <td>수병종류</td>
+                  <td>전설보조<br>히든잠재8</td>
+                  <td>수리플미</td>
+                  <td>일반<br>잠재11수리12</td>
+                  <td>잠재플미</td>
+                  <td>일반<br>잠재15수리11</td>
+                </tr>
+                <tr>
+                  <td>강화</td>
+                  <td>수리+1</td>
+                  <td>수리+1</td>
+                  <td>수리+2</td>
+                  <td>잠재+1</td>
+                  <td>강화없음</td>
+                </tr>
+                <tr>
+                  <td>초기잠재</td>
+                  <td>9+히든8</td>
+                  <td>9</td>
+                  <td>11</td>
+                  <td>17+1</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>초기수리</td>
+                  <td>14+1</td>
+                  <td>14+1</td>
+                  <td>12+2</td>
+                  <td>9</td>
+                  <td>11</td>
+                </tr>
+                <tr>
+                  <td>전직1. 국적</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                </tr>
+                <tr>
+                  <td>전직2. 함장</td>
+                  <td>Lv 12</td>
+                  <td>Lv 25(Lv 12)</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                  <td>Lv 12</td>
+                </tr>
+                <tr>
+                  <td>미국-수리속도</td>
+                  <td>15.7 /s</td>
+                  <td>14.9(14.6) /s</td>
+                  <td>11.5 /s</td>
+                  <td>4.8 /s</td>
+                  <td>6.9 /s</td>
+                </tr>
+                <tr>
+                  <td>영국(유학포함)-수리속도</td>
+                  <td>18.9 /s</td>
+                  <td>18.0(17.6) /s</td>
+                  <td>14.0 /s</td>
+                  <td>6.2 /s</td>
+                  <td>8.7 /s</td>
+                </tr>
+                <tr>
+                  <td>일본-수리속도</td>
+                  <td>16.9 /s</td>
+                  <td>16.0(15.7) /s</td>
+                  <td>12.4 /s</td>
+                  <td>5.2 /s</td>
+                  <td>7.5 /s</td>
+                </tr>
+                <tr>
+                  <td>독일-수리속도</td>
+                  <td>15.1 /s</td>
+                  <td>14.3(14.0) /s</td>
+                  <td>11.1 /s</td>
+                  <td>4.6 /s</td>
+                  <td>6.6 /s</td>
+                </tr>
+                <tr>
+                  <td>프랑스-수리속도</td>
+                  <td>15.4 /s</td>
+                  <td>14.6(14.3) /s</td>
+                  <td>11.3 /s</td>
+                  <td>4.7 /s</td>
+                  <td>6.8 /s</td>
+                </tr>
+                <tr>
+                  <td>소련-수리속도</td>
+                  <td>15.3 /s</td>
+                  <td>14.6(14.3) /s</td>
+                  <td>11.3 /s</td>
+                  <td>4.7 /s</td>
+                  <td>6.8 /s</td>
+                </tr>
+                <tr>
+                  <td>이탈리아-수리속도</td>
+                  <td>15.7 /s</td>
+                  <td>14.9(14.6) /s</td>
+                  <td>11.5 /s</td>
+                  <td>4.8 /s</td>
+                  <td>6.9 /s</td>
+                </tr>
+              </table>
+            </details>
+          </div>
+
+        </details>
+      </div>
+
+<!--
+      <div class="w3-row" id="sailor_type">
+        <details open>
+          <summary>
+            <h3 class="w3-text-black">1-3. 수병의 종류(추후업데이트)</h3>
+          </summary>
+        </details>
+      </div>
+-->
+
     </details>
   </div>
-
-
 
   <div class="w3-container" id="ss">
     <details open>
