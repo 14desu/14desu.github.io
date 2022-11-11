@@ -715,9 +715,32 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   <span id="AvgGunReload45"></span>
               </td>
           </tr>
+          <tr id="ActualGunReloadRow">
+            <td>
+                구현연사속도 [s]
+            </td>
+            <td>
+                <span id="ActualGunReload100"></span>
+            </td>
+            <td>
+                <span id="ActualGunReload180"></span>
+            </td>
+            <td>
+                <span id="ActualGunReload250"></span>
+            </td>
+            <td>
+                <span id="ActualGunReload300"></span>
+            </td>
+            <td>
+                <span id="ActualGunReload40"></span>
+            </td>
+            <td>
+                <span id="ActualGunReload45"></span>
+            </td>
+          </tr>
           <tr id="NeededSeamanReloadUpRow">
             <td>
-                연사구간업 필요갑판보정 [%]
+                갑판보정 필요연사보정치[%]
             </td>
             <td>
                 <span id="NeededSeamanReloadUp100"></span>
@@ -740,7 +763,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
           </tr>
           <tr id="AfterCorrectionGunReloadRow">
             <td>
-                연사구간업 평균연사속도 [s]
+                갑판보정 평균연사속도 [s]
             </td>
             <td>
                 <span id="AfterCorrectionGunReload100"></span>
@@ -759,6 +782,29 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             </td>
             <td>
                 <span id="AfterCorrectionGunReload45"></span>
+            </td>
+          </tr>
+          <tr id="AfterCorrectionActualGunReloadRow">
+            <td>
+                갑판보정 구현연사속도 [s]
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload100"></span>
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload180"></span>
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload250"></span>
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload300"></span>
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload40"></span>
+            </td>
+            <td>
+                <span id="AfterCorrectionActualGunReload45"></span>
             </td>
           </tr>
       </table>
@@ -1616,6 +1662,7 @@ document.getElementById("KR_OverheatRate_Row").style.display = "none";
 document.getElementById("KR_SonarRange_Row").style.display = "none";
 document.getElementById("SailorReloadRow").style.display = "none";
 document.getElementById("AvgGunReloadRow").style.display = "none";
+document.getElementById("ActualGunReloadRow").style.display = "none";
 document.getElementById("NeededSeamanReloadUpRow").style.display = "none";
 document.getElementById("AfterCorrectionGunReloadRow").style.display = "none";
 document.getElementById("OXYCHARGE").style.display = "none";
@@ -1651,6 +1698,37 @@ function KR_OverheatRate_calc(realabil){
 
 function KR_SonarRange_calc(realabil){
   return Math.floor(realabil/3000)/10;
+}
+
+function KR_OxyTier_calc(realabil){
+  return Math.floor(realabil/250000);
+}
+
+function KR_OxyCharge_calc(oxytier){
+  if(oxytier > 3)       { return Math.floor(oxytier*25*0.122+30); }
+  else if(oxytier = 3)  { return 36; }
+  else if(oxytier = 2)  { return 32; }
+  else if(oxytier = 1)  { return "no data";  }
+  else if(oxytier = 0)  { return 12;  }
+}
+
+function KR_OxyTime_calc(SubmarinOxyTank,realabil){
+  return Math.ceil(SubmarinOxyTank/realabil)*24/25;
+}
+
+function KR_AvgReloadTime_calc(ReloadTier){
+  var GunReloadTime = document.getElementById("reload_ip").value;
+  return Math.round(Math.floor(GunReloadTime*25*0.01*(101 - ReloadTier))*1.3 + 1.87)/25;
+}
+
+function KR_RealReloadTime_calc(AvgReloadtime){
+  var AvgReloadtimeFrame = Math.round(AvgReloadtime*25);
+  var ReloadQuotion = Math.floor(AvgReloadtimeFrame/6)*6/25;
+  var ReloadRemainder = Math.round(AvgReloadtimeFrame - ReloadQuotion*25);
+  if (ReloadRemainder == 0)  { return ReloadQuotion; }
+  else if (ReloadRemainder == 1 || ReloadRemainder == 5 ){ return ReloadQuotion + " x" + (6-ReloadRemainder) + "<br>" + Math.round(ReloadQuotion*25+6)/25 + " x" + ReloadRemainder; }
+  else if (ReloadRemainder == 2 || ReloadRemainder == 4 ){ return ReloadQuotion + " x" + (6-ReloadRemainder)/2 + "<br>" + Math.round(ReloadQuotion*25+6)/25 + " x" + ReloadRemainder/2; }
+  else if (ReloadRemainder == 3 ){ return ReloadQuotion + " x" + (6-ReloadRemainder)/3 + "<br>" + Math.round(ReloadQuotion*25+6)/25 + " x" + ReloadRemainder/3; }
 }
 
 function get_result_sailor(){
@@ -1990,6 +2068,7 @@ function get_result_sailor(){
     var BBCaptin_Target_Guideline = (document.getElementById("Target_Guideline_Input").value - document.getElementById("FCS_Guideline_Input").value);
     document.getElementById("Calc_Guildline").innerHTML = document.getElementById("Target_Guideline_Input").value;
 
+
     for(i=0; i<Veteran_Output.length; i++){
       //수리속도계산
       document.getElementById("KR_RepairSpeed_Row"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(realabil_calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
@@ -2006,6 +2085,34 @@ function get_result_sailor(){
       document.getElementById("KR_OverheatRate"+Veteran_Output[i][1]).innerHTML = KR_OverheatRate_calc(realabil_calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
       //음탐만시야계산
       document.getElementById("KR_SonarRange"+Veteran_Output[i][1]).innerHTML = KR_SonarRange_calc(realabil_calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //산소충전계산
+      var oxytier = KR_OxyTier_calc(realabil_calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //산소충전량
+      var oxycharge = KR_OxyCharge_calc(oxytier);
+      //산소충전구간업 필요갑판보정
+      var oxyu = Math.ceil(((oxytier+1)*250000/realabil_calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1))*100-100);
+      //6차잠 산소충전시간
+      var oxytime = KR_OxyTime_calc(6000,oxycharge);
+      var oxyutime = KR_OxyTime_calc(6000,KR_OxyCharge_calc(oxytier+1));
+
+      document.getElementById("OXY"+Veteran_Output[i][1]).innerHTML = oxycharge/25;
+      document.getElementById("OXYT"+Veteran_Output[i][1]).innerHTML = oxytime;
+      document.getElementById("OXYU"+Veteran_Output[i][1]).innerHTML = oxyu;
+      document.getElementById("OXYUT"+Veteran_Output[i][1]).innerHTML = oxyutime;
+
+      var reloadcalc = realabil_calc(abiltotal[2],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1);
+      var ReloadTierCalc = 0;
+        for(j=0; j<reloadcutdata.length; j++){
+          if(reloadcutdata[j] < reloadcalc){
+            ReloadTierCalc = ReloadTierCalc + 1;
+          }
+        }
+      document.getElementById("SailorReload"+Veteran_Output[i][1]).innerHTML = ReloadTierCalc;
+      document.getElementById("NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = Math.ceil(reloadcutdata[ReloadTierCalc]/reloadcalc*100-100);
+      document.getElementById("AvgGunReload"+Veteran_Output[i][1]).innerHTML = KR_AvgReloadTime_calc(ReloadTierCalc);
+      document.getElementById("ActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc));
+      document.getElementById("AfterCorrectionGunReload"+Veteran_Output[i][1]).innerHTML = KR_AvgReloadTime_calc(ReloadTierCalc+1);
+      document.getElementById("AfterCorrectionActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc+1));
     }
 
     //기관오버힛시간계산
@@ -2026,178 +2133,22 @@ function get_result_sailor(){
       document.getElementById("OXYTIME").style.display = "";
       document.getElementById("OXYU").style.display = "";
       document.getElementById("OXYUTIME").style.display = "";
-
-      //산소충전티어 + 리얼어빌 계산
-      var oxytear = new Array(8);
-      oxytear[0] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*100)/250000);
-      oxytear[1] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*150)/250000);
-      oxytear[2] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*180)/250000);
-      oxytear[3] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*200)/250000);
-      oxytear[4] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*250)/250000);
-      oxytear[5] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*300)/250000);
-      oxytear[6] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM40)/250000);
-      oxytear[7] = Math.floor(abiltotal[0]*(abiltotal[11] + 3*NUM45)/250000);
-
-      //산소충전량
-      var oxycharge = new Array(8);
-      for(i=0; i<oxycharge.length; i++){
-        if(oxytear[i] > 3){
-          oxycharge[i] = Math.floor(oxytear[i]*25*0.122+30);
-        }
-        else if(oxytear[i] = 3){
-          oxycharge[i] = 36;
-        }
-        else if(oxytear[i] = 2){
-          oxycharge[i] = 32;
-        }
-        else if(oxytear[i] = 1){
-          oxycharge[i] = "no data";
-        }
-        else if(oxytear[i] = 0){
-          oxycharge[i] = 12;
-        }
-      }
-      //6차잠 산소충전시간
-      var oxytime = new Array(8);
-      for(i=0; i<oxytime.length; i++){
-        oxytime[i] = Math.ceil(6000/oxycharge[i])*24/25;
-      }
-      //산소충전구간업 필요갑판보정
-      var oxyu = new Array(8);
-      oxyu[0] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*100)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*100))*100-100);
-      oxyu[1] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*150)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*150))*100-100);
-      oxyu[2] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*180)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*180))*100-100);
-      oxyu[3] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*200)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*200))*100-100);
-      oxyu[4] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*250)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*250))*100-100);
-      oxyu[5] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*300)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*300))*100-100);
-      oxyu[6] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*NUM40)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*NUM40))*100-100);
-      oxyu[7] = Math.ceil(Math.ceil(abiltotal[0]*(abiltotal[11] + 3*NUM45)/250000)*250000/(abiltotal[0]*(abiltotal[11] + 3*NUM45))*100-100);
-
-      //갑판보정시 산소충전량
-      var oxyucharge = new Array(8);
-      for(i=0; i<oxyucharge.length; i++){
-        if(oxytear[i] > 2){
-          oxyucharge[i] = Math.floor((oxytear[i]+1)*25*0.122+30);
-        }
-        else if(oxytear[i] = 1){
-          oxyucharge[i] = 36;
-        }
-        else if(oxytear[i] = 1){
-          oxyucharge[i] = 32;
-        }
-        else if(oxytear[i] = 0){
-          oxyucharge[i] = "no data";
-        }
-      }
-
-      var oxyutime = new Array(8);
-      for(i=0; i<oxyutime.length; i++){
-        oxyutime[i] = Math.ceil(6000/oxyucharge[i])*24/25;
-      }
-      
-
-      document.getElementById("OXY100").innerHTML = oxycharge[0]/25;
-      document.getElementById("OXY180").innerHTML = oxycharge[2]/25;
-      document.getElementById("OXY250").innerHTML = oxycharge[4]/25;
-      document.getElementById("OXY300").innerHTML = oxycharge[5]/25;
-      document.getElementById("OXY40").innerHTML = oxycharge[6]/25;
-      document.getElementById("OXY45").innerHTML = oxycharge[7]/25;
-
-      document.getElementById("OXYT100").innerHTML = oxytime[0];
-      document.getElementById("OXYT180").innerHTML = oxytime[2];
-      document.getElementById("OXYT250").innerHTML = oxytime[4];
-      document.getElementById("OXYT300").innerHTML = oxytime[5];
-      document.getElementById("OXYT40").innerHTML = oxytime[6];
-      document.getElementById("OXYT45").innerHTML = oxytime[7];
-
-      document.getElementById("OXYU100").innerHTML = oxyu[0];
-      document.getElementById("OXYU180").innerHTML = oxyu[2];
-      document.getElementById("OXYU250").innerHTML = oxyu[4];
-      document.getElementById("OXYU300").innerHTML = oxyu[5];
-      document.getElementById("OXYU40").innerHTML = oxyu[6];
-      document.getElementById("OXYU45").innerHTML = oxyu[7];
-
-      document.getElementById("OXYUT100").innerHTML = oxyutime[0];
-      document.getElementById("OXYUT180").innerHTML = oxyutime[2];
-      document.getElementById("OXYUT250").innerHTML = oxyutime[4];
-      document.getElementById("OXYUT300").innerHTML = oxyutime[5];
-      document.getElementById("OXYUT40").innerHTML = oxyutime[6];
-      document.getElementById("OXYUT45").innerHTML = oxyutime[7];
-
     }
 
 
     //연사구간계산
     if(treedata[1].indexOf("병기")>0){
 
-      //연사어빌 배열준비 + 리얼어빌ip
-      var reloadcalc = new Array(8);
-      reloadcalc[0] = realabil_calc(abiltotal[2],100,abiltotal[11]-100,1);
-      reloadcalc[1] = realabil_calc(abiltotal[2],150,abiltotal[11]-150,1);
-      reloadcalc[2] = realabil_calc(abiltotal[2],180,abiltotal[11]-180,1);
-      reloadcalc[3] = realabil_calc(abiltotal[2],200,abiltotal[11]-200,1);
-      reloadcalc[4] = realabil_calc(abiltotal[2],250,abiltotal[11]-250,1);
-      reloadcalc[5] = realabil_calc(abiltotal[2],300,abiltotal[11]-300,1);
-      reloadcalc[6] = realabil_calc(abiltotal[2],NUM40,abiltotal[11]-NUM40,1);
-      reloadcalc[7] = realabil_calc(abiltotal[2],NUM45,abiltotal[11]-NUM45,1);
-
-      //연사어빌컷 구간 판정용 배열준비
-      var reloadcutcalc = new Array(8);
-      for(i=0; i<reloadcutcalc.length; i++){
-        reloadcutcalc[i] = 0;
-      }
-
-      //연사구간판정
-      for(i=0; i<reloadcalc.length; i++){
-        for(j=0; j<reloadcutdata.length; j++){
-          if(reloadcutdata[j] < reloadcalc[i]){
-            reloadcutcalc[i] = reloadcutcalc[i] + 1;
-          }
-        }
-      }
-
-      //연사속도 프레임>속도
-      for(i=0; i<reloadtimedata.length; i++){
-        if(reloadtimedata[i] > 0){
-          reloadtimedata[i] = reloadtimedata[i]/25;
-        }
-      }
-
       //연사구간
       document.getElementById("SailorReloadRow").style.display = "";
-      document.getElementById("SailorReload100").innerHTML = reloadcutcalc[0];
-      document.getElementById("SailorReload180").innerHTML = reloadcutcalc[2];
-      document.getElementById("SailorReload250").innerHTML = reloadcutcalc[4];
-      document.getElementById("SailorReload300").innerHTML = reloadcutcalc[5];
-      document.getElementById("SailorReload40").innerHTML = reloadcutcalc[6];
-      document.getElementById("SailorReload45").innerHTML = reloadcutcalc[7];
-
       //연사구간 필요갑판보정
       document.getElementById("NeededSeamanReloadUpRow").style.display = "";
-      document.getElementById("NeededSeamanReloadUp100").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
-      document.getElementById("NeededSeamanReloadUp180").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[2]]/reloadcalc[2]*100 - 100);
-      document.getElementById("NeededSeamanReloadUp250").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[4]]/reloadcalc[4]*100 - 100);
-      document.getElementById("NeededSeamanReloadUp300").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[5]]/reloadcalc[5]*100 - 100);
-      document.getElementById("NeededSeamanReloadUp40").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[6]]/reloadcalc[6]*100 - 100);
-      document.getElementById("NeededSeamanReloadUp45").innerHTML = Math.ceil(reloadcutdata[reloadcutcalc[7]]/reloadcalc[7]*100 - 100);
 
-      var reload_ip_x = document.getElementById("reload_ip").value;
-      if(reload_ip_x > 0){
+      if(document.getElementById("reload_ip").value > 0){
         document.getElementById("AvgGunReloadRow").style.display = "";
-        document.getElementById("AvgGunReload100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-        document.getElementById("AvgGunReload180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-        document.getElementById("AvgGunReload250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-        document.getElementById("AvgGunReload300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-        document.getElementById("AvgGunReload40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-        document.getElementById("AvgGunReload45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(101 - reloadcutcalc[7]))*1.3 + 1.87)/25;
-
+        document.getElementById("ActualGunReloadRow").style.display = "";
         document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
-        document.getElementById("AfterCorrectionGunReload100").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[0]))*1.3 + 1.87)/25;
-        document.getElementById("AfterCorrectionGunReload180").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[2]))*1.3 + 1.87)/25;
-        document.getElementById("AfterCorrectionGunReload250").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[4]))*1.3 + 1.87)/25;
-        document.getElementById("AfterCorrectionGunReload300").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[5]))*1.3 + 1.87)/25;
-        document.getElementById("AfterCorrectionGunReload40").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[6]))*1.3 + 1.87)/25;
-        document.getElementById("AfterCorrectionGunReload45").innerHTML = Math.round(Math.floor(reload_ip_x*25*0.01*(100 - reloadcutcalc[7]))*1.3 + 1.87)/25;
+        document.getElementById("AfterCorrectionActualGunReloadRow").style.display = "";
       }
     }
   }
