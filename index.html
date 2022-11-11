@@ -191,6 +191,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td>함포연사입력</td>
               <td><input type="number" id="reload_ip" name="reload_ip" step="0.04" size="2" max="100"></td>
             </tr>
+            <tr id="Gun_ActualReloadtime_Output_Row">
+              <td>구현연사속도출력여부</td>
+              <td><input type="checkbox" id="Gun_ActualReloadtime_Output" name="Gun_ActualReloadtime_Output" value="Gun_ActualReloadtime_Output" onchange="ActualTimeOutput();"></td>
+            </tr>
             <tr id="RN_Abroad_Input_Row">
               <td>함장영국유학여부</td>
               <td><input type="checkbox" id="RN_Abroad_Input" name="RN_Abroad_Input" value="RN_Abroad" onchange="treeipreset();"></td>
@@ -1653,6 +1657,7 @@ params["nationinput"] = "";
 params["treeinput"] = "";
 
 document.getElementById("Gun_Reloadtime_Input_Row").style.display = "none";
+document.getElementById("Gun_ActualReloadtime_Output_Row").style.display = "none";
 document.getElementById("RN_Abroad_Input_Row").style.display = "none";
 document.getElementById("FCS_Guideline_Input_Row").style.display = "none";
 document.getElementById("Target_Guideline_Input_Row").style.display = "none";
@@ -1665,6 +1670,7 @@ document.getElementById("AvgGunReloadRow").style.display = "none";
 document.getElementById("ActualGunReloadRow").style.display = "none";
 document.getElementById("NeededSeamanReloadUpRow").style.display = "none";
 document.getElementById("AfterCorrectionGunReloadRow").style.display = "none";
+document.getElementById("AfterCorrectionActualGunReloadRow").style.display = "none";
 document.getElementById("OXYCHARGE").style.display = "none";
 document.getElementById("OXYTIME").style.display = "none";
 document.getElementById("OXYU").style.display = "none";
@@ -2138,17 +2144,9 @@ function get_result_sailor(){
 
     //연사구간계산
     if(treedata[1].indexOf("병기")>0){
-
-      //연사구간
-      document.getElementById("SailorReloadRow").style.display = "";
-      //연사구간 필요갑판보정
-      document.getElementById("NeededSeamanReloadUpRow").style.display = "";
-
       if(document.getElementById("reload_ip").value > 0){
         document.getElementById("AvgGunReloadRow").style.display = "";
-        document.getElementById("ActualGunReloadRow").style.display = "";
         document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
-        document.getElementById("AfterCorrectionActualGunReloadRow").style.display = "";
       }
     }
   }
@@ -2228,6 +2226,18 @@ function treeipreset() {
   // 포병일때 함포연사IP 활성화
   if(params["treeinput"].indexOf("포병")>-1 ){
     document.getElementById("Gun_Reloadtime_Input_Row").style.display = "";
+    document.getElementById("Gun_ActualReloadtime_Output_Row").style.display = "";
+    //연사구간
+    document.getElementById("SailorReloadRow").style.display = "";
+    //연사구간 필요갑판보정
+    document.getElementById("NeededSeamanReloadUpRow").style.display = "";
+  }
+}
+
+function ActualTimeOutput(){
+  if(document.getElementById("Gun_ActualReloadtime_Output").checked == true){
+    document.getElementById("ActualGunReloadRow").style.display = "";
+    document.getElementById("AfterCorrectionActualGunReloadRow").style.display = "";
   }
 }
 
