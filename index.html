@@ -189,7 +189,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             </tr>
             <tr id="Gun_Reloadtime_Input_Row">
               <td>함포연사입력</td>
-              <td><input type="number" id="reload_ip" name="reload_ip" step="0.04" size="2" max="100"></td>
+              <td><input type="number" id="Gun_Reloadtime_Input" name="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
             </tr>
             <tr id="Gun_ActualReloadtime_Output_Row">
               <td>구현연사속도출력여부</td>
@@ -1723,7 +1723,7 @@ function KR_OxyTime_calc(SubmarinOxyTank,realabil){
 }
 
 function KR_AvgReloadTime_calc(ReloadTier){
-  var GunReloadTime = document.getElementById("reload_ip").value;
+  var GunReloadTime = document.getElementById("Gun_Reloadtime_Input").value;
   return Math.round(Math.floor(GunReloadTime*25*0.01*(101 - ReloadTier))*1.3 + 1.87)/25;
 }
 
@@ -2144,7 +2144,7 @@ function get_result_sailor(){
 
     //연사구간계산
     if(treedata[1].indexOf("병기")>0){
-      if(document.getElementById("reload_ip").value > 0){
+      if(document.getElementById("Gun_Reloadtime_Input").value > 0){
         document.getElementById("AvgGunReloadRow").style.display = "";
         document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
       }
@@ -2231,6 +2231,10 @@ function treeipreset() {
     document.getElementById("SailorReloadRow").style.display = "";
     //연사구간 필요갑판보정
     document.getElementById("NeededSeamanReloadUpRow").style.display = "";
+    Gun_Reloadtime_AutoInput();
+  }
+  if(document.getElementById("tree_sel").value == "함장"){
+    FCS_Guideline_AutoInput();
   }
 }
 
@@ -2261,15 +2265,37 @@ function CaptinInput_Reset(){
   }
 }
 
+function Gun_Reloadtime_AutoInput(){
+  var Gun_ReloadTime_EBB = [
+    ["미국", 18.8],
+    ["영국", 19.88],
+    ["일본", 19.6],
+    ["독일", 19.8],
+    ["프랑스", 19.6],
+    ["소련", 18.72],
+    ["이탈리아", 19.6]
+  ];
+  for(i=0; i<Gun_ReloadTime_EBB.length; i++){
+    if(document.getElementById("nation_sel").value == Gun_ReloadTime_EBB[i][0]){
+      document.getElementById("Gun_Reloadtime_Input").value = Gun_ReloadTime_EBB[i][1];
+    }
+  }
+}
+
 function FCS_Guideline_AutoInput(){
-  if(document.getElementById("tree_sel").value == "함장"){
-    if(document.getElementById("nation_sel").value == "미국"){document.getElementById("FCS_Guideline_Input").value = 1700;}
-    else if(document.getElementById("nation_sel").value == "영국"){document.getElementById("FCS_Guideline_Input").value = 1600;}
-    else if(document.getElementById("nation_sel").value == "일본"){document.getElementById("FCS_Guideline_Input").value = 1600;}
-    else if(document.getElementById("nation_sel").value == "독일"){document.getElementById("FCS_Guideline_Input").value = 1750;}
-    else if(document.getElementById("nation_sel").value == "프랑스"){document.getElementById("FCS_Guideline_Input").value = 1725;}
-    else if(document.getElementById("nation_sel").value == "소련"){document.getElementById("FCS_Guideline_Input").value = 1728;}
-    else if(document.getElementById("nation_sel").value == "이탈리아"){document.getElementById("FCS_Guideline_Input").value = 1699;}
+  var FCS_Guideline_EBB = [
+    ["미국", 1700],
+    ["영국", 1600],
+    ["일본", 1600],
+    ["독일", 1750],
+    ["프랑스", 1725],
+    ["소련", 1728],
+    ["이탈리아", 1699]
+  ];
+  for(i=0; i<FCS_Guideline_EBB.length; i++){
+    if(document.getElementById("nation_sel").value == FCS_Guideline_EBB[i][0]){
+      document.getElementById("FCS_Guideline_Input").value = FCS_Guideline_EBB[i][1];
+    }
   }
 }
 
