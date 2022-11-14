@@ -117,7 +117,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <tr>
               <td>국적입력</td>
               <td>
-                <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset(); CaptinInput_Reset(); FCS_Guideline_AutoInput();">
+                <select id="nation_sel" name="nation_sel" onchange="tree_rev(this); treeipreset();">
                   <option>--국가선택--</option>
                   <option value="미국">미국</option>
                   <option value="영국">영국</option>
@@ -132,7 +132,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
             <tr>
               <td>병종입력</td>
               <td>
-                <select id="tree_sel" name="tree_sel" onchange="treeipreset(); CaptinInput_Reset(); FCS_Guideline_AutoInput();">
+                <select id="tree_sel" name="tree_sel" onchange="treeipreset();">
                   <option>--병종선택--</option>
                   <option value="함장">함장</option>
                   <option id="UN_RRRG" value="연연연포병">연연연포병</option>
@@ -2144,10 +2144,7 @@ function get_result_sailor(){
 
     //연사구간계산
     if(treedata[1].indexOf("병기")>0){
-      if(document.getElementById("Gun_Reloadtime_Input").value > 0){
-        document.getElementById("AvgGunReloadRow").style.display = "";
-        document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
-      }
+
     }
   }
   );
@@ -2224,18 +2221,8 @@ function treeipreset() {
   }
   params["treeinput"] = document.getElementById("tree_sel").value;
   // 포병일때 함포연사IP 활성화
-  if(params["treeinput"].indexOf("포병")>-1 ){
-    document.getElementById("Gun_Reloadtime_Input_Row").style.display = "";
-    document.getElementById("Gun_ActualReloadtime_Output_Row").style.display = "";
-    //연사구간
-    document.getElementById("SailorReloadRow").style.display = "";
-    //연사구간 필요갑판보정
-    document.getElementById("NeededSeamanReloadUpRow").style.display = "";
-    Gun_Reloadtime_AutoInput();
-  }
-  if(document.getElementById("tree_sel").value == "함장"){
-    FCS_Guideline_AutoInput();
-  }
+  GunInput_Reset();
+  CaptinInput_Reset();
 }
 
 function ActualTimeOutput(){
@@ -2256,12 +2243,35 @@ function CaptinInput_Reset(){
       document.getElementById("RN_Abroad_Input_Row").style.display = "none";
     }
     document.getElementById("KR_RepairSpeed_BBCaptin_Row").style.display = "";
+    FCS_Guideline_AutoInput();
   }
   else{
     document.getElementById("Target_Guideline_Input_Row").style.display = "none";
     document.getElementById("FCS_Guideline_Input_Row").style.display = "none";
     document.getElementById("RN_Abroad_Input_Row").style.display = "none";
+    document.getElementById("RN_Abroad_Input").checked = false;
     document.getElementById("KR_RepairSpeed_BBCaptin_Row").style.display = "none";
+  }
+}
+
+function GunInput_Reset(){
+  if(params["treeinput"].indexOf("포병")>-1 ){
+    document.getElementById("AvgGunReloadRow").style.display = "";
+    document.getElementById("AfterCorrectionGunReloadRow").style.display = "";
+    document.getElementById("Gun_Reloadtime_Input_Row").style.display = "";
+    document.getElementById("Gun_ActualReloadtime_Output_Row").style.display = "";
+    document.getElementById("SailorReloadRow").style.display = "";
+    document.getElementById("NeededSeamanReloadUpRow").style.display = "";
+    Gun_Reloadtime_AutoInput();
+  }
+  else{
+    document.getElementById("Gun_Reloadtime_Input_Row").style.display = "none";
+    document.getElementById("Gun_ActualReloadtime_Output_Row").style.display = "none";
+    document.getElementById("SailorReloadRow").style.display = "none";
+    document.getElementById("NeededSeamanReloadUpRow").style.display = "none";
+    document.getElementById("Gun_Reloadtime_Input").value = "";
+    document.getElementById("AvgGunReloadRow").style.display = "none";
+    document.getElementById("AfterCorrectionGunReloadRow").style.display = "none";
   }
 }
 
