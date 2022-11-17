@@ -423,24 +423,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
                   사관 [명]
               </td>
               <td>
-                  100
+                <input type="number" id="VeteranIP" step="1" value="100" max="500" size="2" style="width:50px">
               </td>
               <td>
-                  180
+                180
               </td>
               <td>
-                  250
+                250
               </td>
               <td>
-                  300
+                300
               </td>
               <td>
-                  40% <br>
-                  <span id="NUM40"></span>
+                40% <br>
+                <span id="NUM40"></span>
               </td>
               <td>
-                  45% <br>
-                  <span id="NUM45"></span>
+                45% <br>
+                <span id="NUM45"></span>
               </td>
           </tr>
           <tr id="KR_RepairSpeed_Row">
@@ -2017,14 +2017,14 @@ function get_result_sailor(){
 
 
     var Veteran_Output = [
-      [100, 100],
+      [document.getElementById("VeteranIP").value, 100],
       [180, 180],
       [250, 250],
       [300, 300],
       [document.getElementById("NUM40").innerHTML, 40],
       [document.getElementById("NUM45").innerHTML, 45]
     ];
-
+    
     //함장목표가이드라인길이
     var BBCaptin_Target_Guideline = (document.getElementById("Target_Guideline_Input").value - document.getElementById("FCS_Guideline_Input").value);
     document.getElementById("Target_Guildline").innerHTML = document.getElementById("Target_Guideline_Input").value;
