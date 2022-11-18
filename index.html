@@ -824,7 +824,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   <div class="w3-container" id="Ship_Calc">
     <details open>
       <summary>
-        <h1 class="w3-text-black">2. 함선수리기관계산기</h1>
+        <h1 class="w3-text-black">2. 함선수리기관계산기(공사중)</h1>
       </summary>
       <div>
         <h3><button class="w3-button w3-black" onclick="Get_Result_Ship_Calc();">함선수리기관계산기실행</button></h3>
@@ -835,11 +835,13 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         1. 수병계산기 계산<br>
         2. 연동입력(필수) + 사관/어빌 수정입력<br>
         3. 함선/엔진정보입력<br>
+        4. 함선수리기관계산기 실행
         <form name="Ship_Calc_Form">
-          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:800px">
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:1000px">
             <tr>
               <th rowspan="2">탑승위치</th>
               <th colspan="7">입력</th>
+              <th colspan="3">중간계산결과</th>
             </tr>
             <tr>
               <th>수병계산기연동</th>
@@ -849,6 +851,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <th>기관누적</th>
               <th>수병수</th>
               <th>사관수</th>
+              <th>수리속도</th>
+              <th>오버힛시간</th>
+              <th>오버힛증가율</th>
             </tr>
             <tr>
               <td>함장석</td>
@@ -859,6 +864,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput1" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput1" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput1" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output1"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output1"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output1"></span></td>
             </tr>
             <tr>
               <td rowspan="2">주포석</td>
@@ -869,6 +877,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput2" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput2" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput2" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output2"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output2"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output2"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(3);">입력</button></td>
@@ -878,6 +889,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput3" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput3" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput3" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output3"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output3"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output3"></span></td>
             </tr>
             <tr>
               <td rowspan="2">부포석</td>
@@ -888,6 +902,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput4" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput4" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput4" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output4"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output4"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output4"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(5);">입력</button></td>
@@ -897,6 +914,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput5" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput5" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput5" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output5"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output5"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output5"></span></td>
             </tr>
             <tr>
               <td rowspan="9">보조석</td>
@@ -907,6 +927,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput6" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput6" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput6" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output6"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output6"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output6"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(7);">입력</button></td>
@@ -916,6 +939,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput7" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput7" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput7" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output7"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output7"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output7"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(8);">입력</button></td>
@@ -925,6 +951,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput8" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput8" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput8" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output8"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output8"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output8"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(9);">입력</button></td>
@@ -934,6 +963,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput9" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput9" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput9" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output9"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output9"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output9"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(10);">입력</button></td>
@@ -943,6 +975,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput10" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput10" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput10" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output10"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output10"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output10"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(11);">입력</button></td>
@@ -952,6 +987,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput11" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput11" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput11" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output11"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output11"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output11"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(12);">입력</button></td>
@@ -961,6 +999,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput12" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput12" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput12" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output12"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output12"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output12"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(13);">입력</button></td>
@@ -970,6 +1011,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput13" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput13" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput13" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output13"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output13"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output13"></span></td>
             </tr>
             <tr>
               <td><button class="w3-button w3-black" type="button" onclick="Ship_Calc_AutoInput(14);">입력</button></td>
@@ -979,6 +1023,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
               <td><input type="number" id="Ship_Calc_ENGInput14" step="1" min="0" max="5000" size="2"></td>
               <td><input type="number" id="Ship_Calc_NUMInput14" step="1" min="0" max="2000" size="2"></td>
               <td><input type="number" id="Ship_Calc_VETInput14" step="1" min="0" max="500" size="2"></td>
+              <td><span id="Ship_Calc_RepairSpeed_Output14"></span></td>
+              <td><span id="Ship_Calc_OverheatTime_Output14"></span></td>
+              <td><span id="Ship_Calc_OverheatRate_Output14"></span></td>
             </tr>
           </table>
           <h3>함선정보입력</h3>
@@ -2929,8 +2976,11 @@ function Get_Result_Ship_Calc(){
 
   //수리속도 계산
   var REPtotal = 0;
+  var outputindex = 0;
   for(i=0; i<REPabil.length; i++){
     if(REPabil[i] > 0){
+      outputindex = i + 1 ;
+      document.getElementById("Ship_Calc_RepairSpeed_Output"+outputindex).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(REPabil[i],Sailor_VET[i],Sailor_NUM[i]-Sailor_VET[i],Sailor_amenia[i]));
       REPtotal = REPtotal + Realabil_Calc(REPabil[i],Sailor_VET[i],Sailor_NUM[i]-Sailor_VET[i],Sailor_amenia[i]);
     }
   }
@@ -2941,12 +2991,16 @@ function Get_Result_Ship_Calc(){
   var ENGSeamanTotal = 0;
   var ENGSeamanCount = 0;
   for(i=0; i<ENGabil.length; i++){
+    
     if(ENGabil[i] > 0){
       if(Sailor_TYPE[i] == "갑판병"){
         ENGSeamanTotal = ENGSeamanTotal + Math.floor(ENGabil[i]/21);
         ENGSeamanCount = ENGSeamanCount + 1;
       }
       if(Sailor_TYPE[i] == "기관병" && i > 4){
+        outputindex = i + 1 ;
+        document.getElementById("Ship_Calc_OverheatTime_Output"+outputindex).innerHTML = KR_OverheatTime_calc(Realabil_Calc(ENGabil[i],Sailor_VET[i],Sailor_NUM[i]-Sailor_VET[i],Sailor_amenia[i]));
+        document.getElementById("Ship_Calc_OverheatRate_Output"+outputindex).innerHTML = KR_OverheatRate_calc(Realabil_Calc(ENGabil[i],Sailor_VET[i],Sailor_NUM[i]-Sailor_VET[i],Sailor_amenia[i]));
         ENGTotal = ENGTotal + Realabil_Calc(ENGabil[i],Sailor_VET[i],Sailor_NUM[i]-Sailor_VET[i],Sailor_amenia[i]);
         ENGCount = ENGCount + 1;
       }
