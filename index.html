@@ -837,7 +837,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         3. 함선/엔진정보입력<br>
         4. 함선수리기관계산기 실행
         <form name="Ship_Calc_Form">
-          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:1100px">
+          <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable" style="max-width:1200px">
             <tr>
               <th rowspan="2">탑승위치</th>
               <th colspan="7">입력</th>
@@ -2277,14 +2277,16 @@ function get_result_sailor(){
       //누적어빌
       document.getElementById(AbilIndex[i][1]+"Total").innerHTML = abiltotal[i];
       if(params["treeinput"] == "갑판병"){
-        //갑판어빌
-        document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = Math.floor(abiltotal[i]*0.07);
-        //갑판보정율
-        if(AbilIndex[i][0] == "수리" || AbilIndex[i][0] == "보수"){
-          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "-";
-        }
-        else{
-          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
+        if(i<AbilIndex.length-1){
+          //갑판어빌
+          document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = Math.floor(abiltotal[i]*0.07);
+          //갑판보정율
+          if(AbilIndex[i][0] == "수리" || AbilIndex[i][0] == "보수"){
+            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "-";
+          }
+          else{
+            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
+          }
         }
       }
     }
