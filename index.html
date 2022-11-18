@@ -2289,6 +2289,12 @@ function get_result_sailor(){
           }
         }
       }
+      else{
+        if(i<AbilIndex.length-1){
+          document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = "";
+          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "";
+        }
+      }
     }
 
     //40% 45% 사관숫자 output
