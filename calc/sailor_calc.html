@@ -1,0 +1,756 @@
+<h1 class="mt-2">1. 수병계산기</h1>
+<h3><button class="btn btn-outline-dark" onclick="get_result_sailor()">수병계산기실행</button></h3>
+<form id="sailor_calc_kr_form">
+<div class="row g-0">
+    <div class="accordion col-sm-12 col-md-8 col-lg-7" id="Sailor_Calc_Input_Accrodion1">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+            <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                기본정보 입력
+            </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <tr>
+                            <td>서버입력</td>
+                            <td>
+                            <select id="server_select" name="server_select">
+                                <option value="Korea">KR server</option>
+                <!--
+                                <option value="Global">Global server</option>
+                -->
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>국적입력</td>
+                            <td>
+                            <select id="nation_sel" name="nation_sel">
+                                <option>--국가선택--</option>
+                                <option value="미국">미국</option>
+                                <option value="영국">영국</option>
+                                <option value="일본">일본</option>
+                                <option value="독일">독일</option>
+                                <option value="프랑스">프랑스</option>
+                                <option value="소련">소련</option>
+                                <option value="이탈리아">이탈리아</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>병종입력</td>
+                            <td>
+                            <select id="tree_sel" name="tree_sel">
+                                <option>--병종선택--</option>
+                                <option value="함장">함장</option>
+                                <option value="연연연포병" class="TreeReset UN" style="display:none;">연연연포병</option>
+                                <option value="연사포병" class="TreeReset RN" style="display:none;">연사포병</option>
+                                <option value="대공포병 (늦직권장)" class="TreeReset RN" style="display:none;">대공포병 (늦직권장)</option>
+                                <option value="포병" class="TreeReset IN KM MN SN RM">포병</option>
+                                <option value="양용포병 (늦직권장)" class="TreeReset IN" style="display:none;">양용포병 (늦직권장)</option>
+                                <option value="대공포병" class="TreeReset KM" style="display:none;">대공포병</option>
+                                <option value="기관병">기관병</option>
+                                <option value="수리병">수리병</option>
+                                <option value="정찰기">정찰기</option>
+                                <option value="전투기">전투기</option>
+                                <option value="뇌격기">뇌격기</option>
+                                <option value="급강하폭격기">급강하폭격기</option>
+                                <option value="어뢰병"class="TreeReset UN RN KM MN SN RM" >어뢰병</option>
+                                <option value="특수어뢰병" class="TreeReset IN" style="display:none;">특수어뢰병</option>
+                                <option value="고속어뢰병" class="TreeReset IN" style="display:none;">고속어뢰병</option>
+                                <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
+                                <option value="잠항병">잠항병</option>
+                                <option value="갑판병">갑판병</option>
+                                <option value="의무병">의무병</option>
+                                <option value="보수병 (안씀)">보수병 (안씀)</option>
+                                <option value="연연명포병 (안씀)" class="TreeReset UN" style="display:none;">연연명포병 (안씀)</option>
+                                <option value="연명연포병 (안씀)" class="TreeReset UN" style="display:none;">연명연포병 (안씀)</option>
+                                <option value="연명명포병 (안씀)" class="TreeReset UN" style="display:none;">연명명포병 (안씀)</option>
+                                <option value="명연연포병 (안씀)" class="TreeReset UN" style="display:none;">명연연포병 (안씀)</option>
+                                <option value="명연명포병 (안씀)" class="TreeReset UN" style="display:none;">명연명포병 (안씀)</option>
+                                <option value="명명연포병 (안씀)" class="TreeReset UN" style="display:none;">명명연포병 (안씀)</option>
+                                <option value="명명명포병 (안씀)" class="TreeReset UN" style="display:none;">명명명포병 (안씀)</option>
+                                <option value="대공포병 (안씀)" class="TreeReset UN" style="display:none;">대공포병 (안씀)</option>
+                                <option value="강하병">강하병</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>수병레벨입력</td>
+                            <td></label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="125" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>수병강화입력</td>
+                            <td>
+                            <select name="boostip" id="boostip">
+                                <option>--강화선택/없음--</option>
+                                <option value="잠재1강">잠재1강</option><option value="잠재2강">잠재2강</option>
+                                <option value="명중1강">명중1강</option><option value="명중2강">명중2강</option>
+                                <option value="연사1강">연사1강</option><option value="연사2강">연사2강</option>
+                                <option value="어뢰1강">어뢰1강</option><option value="어뢰2강">어뢰2강</option>
+                                <option value="수리1강">수리1강</option><option value="수리2강">수리2강</option>
+                                <option value="보수1강">보수1강</option><option value="보수2강">보수2강</option>
+                                <option value="기관1강">기관1강</option><option value="기관2강">기관2강</option>
+                                <option value="전투1강">전투1강</option><option value="전투2강">전투2강</option>
+                                <option value="폭격1강">폭격1강</option><option value="폭격2강">폭격2강</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="Gunner_Input_Row">
+                            <td>함포연사입력</td>
+                            <td><input type="number" id="Gun_Reloadtime_Input" class="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
+                        </tr>
+                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="Gunner_Input_Row">
+                            <td>구현연사속도출력여부</td>
+                            <td><input type="checkbox" id="Gun_ActualReloadtime_Output" name="Gun_ActualReloadtime_Output" value="Gun_ActualReloadtime_Output" onchange="ActualTimeOutput();"></td>
+                        </tr>
+                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="Captin_Input_Row">
+                            <td>함장영국유학여부　<a href="https://14desu.github.io/NFLab/#sailor_captin_RN_abroad" target="_blank">[설명]</a></td>
+                            <td><input type="checkbox" id="RN_Abroad_Input" value="RN_Abroad"></td>
+                        </tr>
+                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="Captin_Input_Row">
+                            <td>FCS착탄보정한계거리 &nbsp;<a id="FCS_Official_Shipyard1" class="FCS_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1=1" target="_blank">[참고]</a></td>
+                            <td><input type="number" id="FCS_Guideline_Input" class="FCS_Guideline_Input" step="2" size="2"></td>
+                        </tr>
+                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="Captin_Input_Row">
+                            <td>목표가이드라인거리</td>
+                            <td><input type="number" id="Target_Guideline_Input" step="2" value="3000" size="2"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion col-sm-12 col-md-8 col-lg-5" id="Sailor_Calc_Input_Accrodion2">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading2">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                전직트리 확인 & 늦직Lv 입력
+            </button>
+            </h2>
+            <div id="collapse2" class="accordion-collapse collapse show" aria-labelledby="heading2" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <tr>
+                            <th>병종</th>
+                            <th>전직Lv</th>
+                            <th>늦직Lv입력</th>
+                        </tr>
+                        <tr id="tree1output">
+                            <td><span id="tree_1"></span></td>
+                            <td><span id="tree_1LV"></span></td>
+                            <td><input type="number" id="SailorTree1Lv" class="SailorTreeReset" step="1" min="12" max="25" size="2"></td>
+                        </tr>
+                        <tr id="tree2output">
+                            <td><span id="tree_2"></span></td>
+                            <td><span id="tree_2LV"></span></td>
+                            <td><input type="number" id="SailorTree2Lv" class="SailorTreeReset" step="1" min="12" max="120" size="2"></td>
+                        </tr>
+                        <tr id="tree3output" style="display:none;">
+                            <td><span id="tree_3"></span></td>
+                            <td><span id="tree_3LV"></span></td>
+                            <td><input type="number" id="SailorTree3Lv" class="SailorTreeReset" step="1" min="12" max="120" size="2"></td>
+                        </tr>
+                        <tr id="tree4output" style="display:none;">
+                            <td><span id="tree_4"></span></td>
+                            <td><span id="tree_4LV"></span></td>
+                            <td><input type="number" id="SailorTree4Lv" class="SailorTreeReset" step="1" min="12" max="120" size="2"></td>
+                        </tr>
+                        <tr id="tree5output" style="display:none;">
+                            <td><span id="tree_5"></span></td>
+                            <td><span id="tree_5LV"></span></td>
+                            <td><input type="number" id="SailorTree5Lv" class="SailorTreeReset" step="1" min="12" max="120" size="2"></td>
+                        </tr>
+                        <tr id="tree6output" style="display:none;">
+                            <td><span id="tree_6"></span></td>
+                            <td><span id="tree_6LV"></span></td>
+                            <td><input type="number" id="SailorTree6Lv" class="SailorTreeReset" step="1" min="12" max="120" size="2"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion col-sm-12 col-md-9" id="Sailor_Calc_Input_Accrodion3">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading3">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            초기어빌 입력/계산
+            </button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse show" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <details>
+                    <summary>개근/전설보조/전설특무 히든어빌 입력참고용 (펼치기)</summary>
+                    <div>
+                        <table class="table table-bordered table-striped table-hover" style="max-width:400px">
+                        <tr>
+                            <td>히든어빌</td>
+                            <td>90렙누적어빌</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>648</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>737</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>826</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>915</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>1004</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>1093</td>
+                        </table>
+                        개근/전설보조/전설특무의 부어빌(+9어빌)은 히든어빌을 초기어빌에 입력하세요
+                    </div>
+                </details>
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tr>
+                        <th></th>
+                        <th>
+                        <!--수병자동입력-->
+                        <select name="AUTOIP" id="AUTOIP" onchange="autoabilip(this);">
+                            <option>직접입력</option>
+                            <option value="개근">개근</option>
+                            <option value="전설보조">전설보조</option>
+                            <option value="전설특무">전설특무</option>
+                            <option value="잠재플미">잠재플미</option>
+                            <option value="명중플미">명중플미</option>
+                            <option value="연사플미">연사플미</option>
+                            <option value="어뢰플미">어뢰플미</option>
+                            <option value="수리플미">수리플미</option>
+                            <option value="보수플미">보수플미</option>
+                            <option value="기관플미">기관플미</option>
+                            <option value="전투플미">전투플미</option>
+                            <option value="폭격플미">폭격플미</option>
+                        </select>
+                        </th>
+                        <th>성장어빌</th>
+                        <th>누적어빌</th>
+                        <th>갑판어빌</th>
+                        <th>갑판보정[%]</th>
+                    </tr>
+                    <tr>
+                        <td>잠재</td>
+                        <td><input type="number" id="POTIP" name="POTIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="POTGrowth"></span></td>
+                        <td><span id="POTTotal"></span></td>
+                        <td><span id="POTSeamanTotal"></span></td>
+                        <td><span id="POTSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>명중</td>
+                        <td><input type="number" id="ACCIP" name="ACCIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="ACCGrowth"></span></td>
+                        <td><span id="ACCTotal"></span></td>
+                        <td><span id="ACCSeamanTotal"></span></td>
+                        <td><span id="ACCSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>연사</td>
+                        <td><input type="number" id="RLDIP" name="RLDIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="RLDGrowth"></span></td>
+                        <td><span id="RLDTotal"></span></td>
+                        <td><span id="RLDSeamanTotal"></span></td>
+                        <td><span id="RLDSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>어뢰</td>
+                        <td><input type="number" id="TORIP" name="TORIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="TORGrowth"></span></td>
+                        <td><span id="TORTotal"></span></td>
+                        <td><span id="TORSeamanTotal"></span></td>
+                        <td><span id="TORSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>대공</td>
+                        <td><input type="number" id="AAWIP" name="AAWIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="AAWGrowth"></span></td>
+                        <td><span id="AAWTotal"></span></td>
+                        <td><span id="AAWSeamanTotal"></span></td>
+                        <td><span id="AAWSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>수리</td>
+                        <td><input type="number" id="REPIP" name="REPIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="REPGrowth"></span></td>
+                        <td><span id="REPTotal"></span></td>
+                        <td><span id="REPSeamanTotal"></span></td>
+                        <td><span id="REPSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>보수</td>
+                        <td><input type="number" id="RESIP" name="RESIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="RESGrowth"></span></td>
+                        <td><span id="RESTotal"></span></td>
+                        <td><span id="RESSeamanTotal"></span></td>
+                        <td><span id="RESSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>기관</td>
+                        <td><input type="number" id="ENGIP" name="ENGIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="ENGGrowth"></span></td>
+                        <td><span id="ENGTotal"></span></td>
+                        <td><span id="ENGSeamanTotal"></span></td>
+                        <td><span id="ENGSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>함재</td>
+                        <td><input type="number" id="AIRIP" name="AIRIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="AIRGrowth"></span></td>
+                        <td><span id="AIRTotal"></span></td>
+                        <td><span id="AIRSeamanTotal"></span></td>
+                        <td><span id="AIRSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>전투</td>
+                        <td><input type="number" id="FIGIP" name="FIGIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="FIGGrowth"></span></td>
+                        <td><span id="FIGTotal"></span></td>
+                        <td><span id="FIGSeamanTotal"></span></td>
+                        <td><span id="FIGSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>폭격</td>
+                        <td><input type="number" id="BOMIP" name="BOMIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><span id="BOMGrowth"></span></td>
+                        <td><span id="BOMTotal"></span></td>
+                        <td><span id="BOMSeamanTotal"></span></td>
+                        <td><span id="BOMSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>수병수</td>
+                        <td></td>
+                        <td><span id="NUMGrowth"></span></td>
+                        <td><span id="NUMTotal"></span></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion col-sm-12 col-md-9" id="Sailor_Calc_Input_Accrodion4">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading4">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+            수병능력 계산결과
+            </button>
+        </h2>
+        <div id="collapse4" class="accordion-collapse collapse show" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tr>
+                        <td>
+                            사관 [명]
+                        </td>
+                        <td>
+                        <input type="number" id="VeteranIP" step="1" value="100" max="500" size="2" style="width:60px">
+                        </td>
+                        <td>
+                        180
+                        </td>
+                        <td>
+                        250
+                        </td>
+                        <td>
+                        300
+                        </td>
+                        <td>
+                        40% <br>
+                        <span id="VET40"></span>
+                        </td>
+                        <td>
+                        45% <br>
+                        <span id="VET45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_RepairSpeed_Row">
+                        <td>
+                            수리속도[/s] KR
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row100"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row180"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row250"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row300"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row40"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RepairSpeed_Row45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_RepairSpeed_BBCaptin_Row" style="display:none;" Class="Captin_Output_Row">
+                    <td>
+                        수리속도[/s] KR <br>
+                        가이드라인 <span id="Target_Guildline"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin100"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin180"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin250"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin300"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin40"></span>
+                    </td>
+                    <td>
+                        <span id="KR_RepairSpeed_BBCaptin45"></span>
+                    </td>
+                    </tr>
+                    <tr id="KR_RestoreRate_Row">
+                        <td>
+                            구조방어 KR
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate100"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate180"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate250"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate300"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate40"></span>
+                        </td>
+                        <td>
+                            <span id="KR_RestoreRate45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_OverheatTime_Row" style="display:none;">
+                        <td>
+                            <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime100"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime180"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime250"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime300"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime40"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatTime45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_OverheatRate_Row" style="display:none;">
+                        <td>
+                            <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate100"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate180"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate250"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate300"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate40"></span>
+                        </td>
+                        <td>
+                            <span id="KR_OverheatRate45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_SonarRange_Row" style="display:none;">
+                        <td>
+                            음탐만시야 [%] KR
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange100"></span>
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange180"></span>
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange250"></span>
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange300"></span>
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange40"></span>
+                        </td>
+                        <td>
+                            <span id="KR_SonarRange45"></span>
+                        </td>
+                    </tr>
+                    <tr id="KR_OxyCharge_Row" style="display:none;">
+                    <td>
+                        산소충전량 [/s]
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge100"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge180"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge250"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge300"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge40"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyCharge45"></span>
+                    </td>
+                    </tr>
+                    <tr id="KR_OxyChargeTime_Row" style="display:none;">
+                    <td>
+                        산소충전시간[s] (Lv105 SS6)
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime100"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime180"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime250"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime300"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime40"></span>
+                    </td>
+                    <td>
+                        <span id="KR_OxyChargeTime45"></span>
+                    </td>
+                    </tr>
+                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;">
+                    <td>
+                        산소충전구간업 필요갑판보정
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp100"></span>
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp180"></span>
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp250"></span>
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp300"></span>
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp40"></span>
+                    </td>
+                    <td>
+                        <span id="KR_NeededSeaman_OxyChargeUp45"></span>
+                    </td>
+                    </tr>
+                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;">
+                    <td>
+                        갑판보정 산소충전시간[s] (Lv105 SS6)
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime100"></span>
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime180"></span>
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime250"></span>
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime300"></span>
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime40"></span>
+                    </td>
+                    <td>
+                        <span id="KR_WithSeaman_OxyChargeTime45"></span>
+                    </td>
+                    </tr>
+                    <tr id="SailorReloadRow" style="display:none;">
+                        <td>
+                            수병연사구간
+                        </td>
+                        <td>
+                            <span id="SailorReload100"></span>
+                        </td>
+                        <td>
+                            <span id="SailorReload180"></span>
+                        </td>
+                        <td>
+                            <span id="SailorReload250"></span>
+                        </td>
+                        <td>
+                            <span id="SailorReload300"></span>
+                        </td>
+                        <td>
+                            <span id="SailorReload40"></span>
+                        </td>
+                        <td>
+                            <span id="SailorReload45"></span>
+                        </td>
+                    </tr>
+                    <tr id="AvgGunReloadRow" style="display:none;">
+                        <td>
+                            평균연사속도 [s]
+                        </td>
+                        <td>
+                            <span id="AvgGunReload100"></span>
+                        </td>
+                        <td>
+                            <span id="AvgGunReload180"></span>
+                        </td>
+                        <td>
+                            <span id="AvgGunReload250"></span>
+                        </td>
+                        <td>
+                            <span id="AvgGunReload300"></span>
+                        </td>
+                        <td>
+                            <span id="AvgGunReload40"></span>
+                        </td>
+                        <td>
+                            <span id="AvgGunReload45"></span>
+                        </td>
+                    </tr>
+                    <tr id="ActualGunReloadRow" style="display:none;">
+                    <td>
+                        구현연사속도 [s]
+                    </td>
+                    <td>
+                        <span id="ActualGunReload100"></span>
+                    </td>
+                    <td>
+                        <span id="ActualGunReload180"></span>
+                    </td>
+                    <td>
+                        <span id="ActualGunReload250"></span>
+                    </td>
+                    <td>
+                        <span id="ActualGunReload300"></span>
+                    </td>
+                    <td>
+                        <span id="ActualGunReload40"></span>
+                    </td>
+                    <td>
+                        <span id="ActualGunReload45"></span>
+                    </td>
+                    </tr>
+                    <tr id="NeededSeamanReloadUpRow" style="display:none;">
+                    <td>
+                        갑판보정 필요연사보정치[%]
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp100"></span>
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp180"></span>
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp250"></span>
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp300"></span>
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp40"></span>
+                    </td>
+                    <td>
+                        <span id="NeededSeamanReloadUp45"></span>
+                    </td>
+                    </tr>
+                    <tr id="WithSeaman_GunReloadRow" style="display:none;">
+                    <td>
+                        갑판보정 평균연사속도 [s]
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload100"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload180"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload250"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload300"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload40"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_GunReload45"></span>
+                    </td>
+                    </tr>
+                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;">
+                    <td>
+                        갑판보정 구현연사속도 [s]
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload100"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload180"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload250"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload300"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload40"></span>
+                    </td>
+                    <td>
+                        <span id="WithSeaman_ActualGunReload45"></span>
+                    </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
