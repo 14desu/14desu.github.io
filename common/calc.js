@@ -54,7 +54,7 @@ $(document).on("change","#tree_sel",function(){
   $(".SailorTreeReset").val("");
 
   //트리변경 -> OUTPUT리셋
-  $(".Captin_Input_Row,.Captin_Output_Row,.Gunner_Input_Row,.Gunner_Output_Row,.Gunner_Output_Detail_Row,.Engine_Input_Row,.Sonar_Input_Row,.Submerge_Input_Row").hide();
+  $(".Captin_Input_Row,.Captin_Output_Row,.Gunner_Input_Row,.Gunner_Output_Row,.Gunner_Output_Detail_Row,.Engine_Output_Row,.Sonar_Output_Row,.Submerge_Output_Row").hide();
 
   //영국유학IP리셋
   $("#RN_Abroad_Input").prop("checked", false);
@@ -72,13 +72,13 @@ $(document).on("change","#tree_sel",function(){
     }
   }
   if($("#tree_sel").val().match("기관")){
-    $(".Engine_Input_Row").show();
+    $(".Engine_Output_Row").show();
   }
   if($("#tree_sel").val().match("음탐")){
-    $(".Sonar_Input_Row").show();
+    $(".Sonar_Output_Row").show();
   }
   if($("#tree_sel").val().match("잠항")){
-    $(".Submerge_Input_Row").show();
+    $(".Submerge_Output_Row").show();
   }
 });
 
