@@ -64,8 +64,20 @@ $(document).on("change","#tree_sel",function(){
       $("#RN_Abroad_Input_Row").hide();
     }
   }
-  else if($("#tree_sel").val().match("포병")){
+  if($("#tree_sel").val().match("포병")){
     $(".Gunner_Input_Row,.Gunner_Output_Row").show();
+    if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
+      $(".Gunner_Output_Detail_Row").show();
+    }
+  }
+  if($("#tree_sel").val().match("기관")){
+    $(".Engine_Input_Row").show();
+  }
+  if($("#tree_sel").val().match("음탐")){
+    $(".Sonar_Input_Row").show();
+  }
+  if($("#tree_sel").val().match("잠항")){
+    $(".Submerge_Input_Row").show();
   }
 });
 
