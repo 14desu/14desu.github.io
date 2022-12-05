@@ -86,6 +86,41 @@
                         </div>
                         <br>
                         <div class="row g-0">
+                            <div class="card" id="reload_unit" style="width: 40rem;">
+                                <h3 class="card-header">연사속도단위</h3>
+                                <div class="card-body">
+                                    <i class="fa-solid fa-circle-info"></i> &nbsp; 네이비필드는 25f 구동게임 > 1f = 0.04s(초)
+                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201145112818SC.jpg" class="img-fluid">
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-check"></i>&nbsp;구현 연사속도단위 : 0.24s<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        네이비필드 상에서의 연사속도는 0.24s의 배수로 구현된다<br>
+                                        > 최소 연사속도는 0.24s<br>
+                                        연사속도가 최대로 다다른 경우 0.24 s로 일정하게 포격이 구현되고<br>
+                                        이를 많은 유저들이 레이저대공이라고 부르고 있다<br>
+
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-check"></i>&nbsp;평균 연사속도단위 : 0.04 s<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        최대연사구간에서 1구간 모자른 경우 위 사진과 같이 6연발이 된다<br>
+                                        포탄간격을 잘 살펴보면 0.48s-0.24s-0.24s-0.24s-0.24s-0.24s가 되는데<br>
+                                        이를 평균내보면 0.28s(7f)이고 최대연사 0.24(6f)보다 0.04s(1f)느리다<br>
+                                        이와같이 수병에의한 연사속도는 평균연사속도로 나타나고 최소단위는 0.04s이다<br> 
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Sailor_Calc">수병계산기[링크]</a> 포병연사속도 출력지원<br>
+                                        <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Reload_Calc">연사속도계산기[링크]</a> 포병간/함포간 연사속도 비교지원<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row g-0">
                             <div class="card" id="ss_divetime" style="width: 40rem;">
                                 <h3 class="card-header">잠수함 잠항시간</h3>
                                 <div class="card-body">
