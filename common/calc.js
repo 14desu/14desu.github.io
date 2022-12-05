@@ -53,8 +53,9 @@ $(document).on("change","#tree_sel",function(){
   //트리변경 -> 늦직IP리셋
   $(".SailorTreeReset").val("");
 
-  $(".Captin_Input_Row,.Captin_Output_Row").hide();
-  $(".Gunner_Input_Row,.Gunner_Output_Row").hide();
+  //트리변경 -> OUTPUT리셋
+  $(".Captin_Input_Row,.Captin_Output_Row,.Gunner_Input_Row,.Gunner_Output_Row,.Gunner_Output_Detail_Row,.Engine_Input_Row,.Sonar_Input_Row,.Submerge_Input_Row").hide();
+
   //영국유학IP리셋
   $("#RN_Abroad_Input").prop("checked", false);
 
