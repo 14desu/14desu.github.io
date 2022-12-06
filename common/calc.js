@@ -90,6 +90,15 @@ $(document).on("change","#RN_Abroad_Input",function(){
     params["nationinput"] = $("#nation_sel").val();
   }
 });
+
+$(document).on("change","#Gun_ActualReloadtime_Output",function(){
+  if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
+    $(".Gunner_Output_Detail_Row").show();
+  }
+  else{
+    $(".Gunner_Output_Detail_Row").hide();
+  }
+});
     
 function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
