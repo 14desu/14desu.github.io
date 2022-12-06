@@ -59,6 +59,7 @@
                                         <i class="fa-solid fa-check"></i>&nbsp; 아군 기함생존<br>
                                         <i class="fa-solid fa-check"></i>&nbsp; 적군 기함격침<br>
                                         <i class="fa-solid fa-check"></i>&nbsp; 개인 어택유무 (1택여부)<br>
+                                        <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 탑승함선DP<br>
                                         <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 함재기격추<br>
                                         <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 어뢰어택량<br>
                                         <i class="fa-solid fa-check"></i>&nbsp; 프리미엄계정/PC방계정<br>
@@ -73,6 +74,15 @@
                                         <i class="fa-solid fa-xmark"></i>&nbsp; 개인 피어택량<br>
                                         <i class="fa-solid fa-xmark"></i>&nbsp; 개인 격침수<br>
                                         <i class="fa-solid fa-xmark"></i>&nbsp; 개인 시야확보<br>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        그 외
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        대함대전 전투룸 > 입장유저를 반영한 보너스 경험치가 존재 <br>
+                                        중경순이 늘어나면 보너스 경험치 비율은 올라가지만<br>
+                                        실제로는 획득하는 경험치가 줄어든다<br>
+                                        ∵ 늘어나는 경험치 ＜ 중경순에게 배분되는 경험치<br>
                                     </p>
 
                                 </div>
@@ -89,7 +99,7 @@
                             <div class="card" id="reload_unit" style="width: 40rem;">
                                 <h3 class="card-header">연사속도단위</h3>
                                 <div class="card-body">
-                                    <i class="fa-solid fa-circle-info"></i> &nbsp; 네이비필드는 25f 구동게임 > 1f = 0.04s(초)
+                                    <i class="fa-solid fa-circle-info"></i> &nbsp; 네이비필드 : 25f 구동게임 > 1f = 0.04s(초)
                                     <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201145112818SC.jpg" class="img-fluid">
                                     <h5 class="card-title lh-lg">
                                         <i class="fa-solid fa-check"></i>&nbsp;구현 연사속도단위 : 0.24s<br>
@@ -115,6 +125,64 @@
                                     <p class="card-text">
                                         <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Sailor_Calc">수병계산기[링크]</a> 포병연사속도 출력지원<br>
                                         <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Reload_Calc">연사속도계산기[링크]</a> 포병간/함포간 연사속도 비교지원<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row g-0">
+                            <div class="card" id="reload_notions" style="width: 50rem;">
+                                <h3 class="card-header">연사속도개념</h3>
+                                <div class="card-body">
+                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221206101051582SC.jpg" class="img-fluid">
+                                    <h5 class="card-title lh-lg">
+                                        ① 수병 연사능력<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        수병의 연사어빌 x 수병구성(사관/숙련병) x 수병빈혈도 + 갑판보정<br>
+                                        <a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명[링크]</a>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ② 수병 연사구간<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        수병구간이 1오를수록 1%씩 연사속도가 향상된다<br>
+                                        계단식구간이므로 구간컷을 살짝 넘기는 세팅이 고효율<br>
+                                        계산기를 통해서 구간컷을 넘기는데 필요한 갑판보정치를 확인가능<br>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ③ 함포 연사속도<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        함포 컴포넌트에 설정되어 있는 초기연사속도<br>
+                                        Real어빌 0 수병으로 실험해보면 이 초기연사속도와 일치하지 않는다<br>
+                                        (한국서버의 경우 x 130%, 글로벌서버의 경우 안해봐서 몰?루)<br>
+                                        <a href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1">공홈 쉽야드 함포정보[링크]</a>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ④ 평균 연사속도<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        함포 초기연사속도에 의존한 계단식 구간이 설정되어 있다<br>
+                                        함포 초기연사속도가 높은 고인치 전함주포는 계단식구간이 없다<br>
+                                        함포 초기연사속도가 낮은 저인치 대공포는 연사구간이 바뀌어도 동일연사인 계단식구간이 발생한다<br>
+                                        예) 영국 5.25RP대공 - 개근명강포병 + 갑판없음 <-동일연사-> 연사18산타포병 + 연사18구갑2명
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ⑤ 구현 연사속도<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        평균 연사속도에 의존해서 구현 연사속도가 결정된다<br>
+                                        이는 최소 구현연사속도단위가 0.24s 이기때문<br>
+                                        예1) 평균 0.28s > 구현 0.24s 83%(5/6) + 0.48s 17%(1/6)<br>
+                                        예2) 평균 2.36s > 구현 2.12s 17%(1/6) + 2.40s 83%(5/6)<br>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        ① 수병 연사능력 : <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Realbail_Calc">Real어빌계산기[링크]</a><br>
+                                        ② 수병 연사구간 / ④ 평균 연사속도 / ⑤ 구현 연사속도 : <i class="fa-solid fa-calculator"></i> &nbsp;<a href="https://14desu.github.io/#Sailor_Calc">수병계산기[링크]</a>&nbsp;&nbsp;<i class="fa-solid fa-calculator"></i><a href="https://14desu.github.io/#Reload_Calc">연사속도계산기[링크]</a><br>
+                                         
                                     </p>
                                 </div>
                             </div>
