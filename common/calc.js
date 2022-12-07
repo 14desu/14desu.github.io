@@ -353,12 +353,7 @@ function get_result_sailor(){
           //갑판어빌
           document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = Math.floor(abiltotal[i]*0.07);
           //갑판보정율
-          if(AbilIndex[i][0] == "수리" || AbilIndex[i][0] == "보수"){
-            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "-";
-          }
-          else{
-            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
-          }
+          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
         }
       }
       else{
