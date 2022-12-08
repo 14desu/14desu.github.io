@@ -220,7 +220,7 @@ function get_result_sailor(){
     }
 
     var abilcalc = Array.from(Array(tree_n), () => Array(12).fill(0));
-    var abiltotal = [25,25,25,25,25,25,25,25,25,25,25,55];
+    var abiltotal = [26,26,26,26,26,26,26,26,26,26,26,55];
 
     // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
     for(i=0;i<11;i++){
