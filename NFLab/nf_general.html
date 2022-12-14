@@ -295,6 +295,51 @@
                         </div>
                         <br>
                         <div class="row g-0">
+                            <div class="card" id="ss-oxygen-charge-notions" style="width: 50rem;">
+                                <h3 class="card-header">잠수함 산소충전 개념</h3>
+                                <div class="card-body">
+                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221214103121944SC.jpg" class="img-fluid">
+                                    <h5 class="card-title lh-lg">
+                                        ① 수병 잠재능력<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-gauge-high"></i> &nbsp;수병의 잠재어빌 x 수병구성(사관/숙련병) x 수병빈혈도 + 갑판보정<br>
+                                        　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병빈혈도 90% 미만이면 잠재능력0 판정<br>
+                                        　<i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ② 수병 산소충전속도<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;잠재능력(=Real어빌)구간 → 산소충전속도 / 계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                        　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력0 : 산소충전속도 0.48s /s (=1초당 0.48초 잠항가능산소충전)<br>
+                                        　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력5,000,000 : 산소충전속도 4.0s /s (=1초당 4.0초 잠항가능산소충전)<br>
+                                        　<i class="fa-solid fa-circle-info"></i> &nbsp;실데이터검증 → 계산공식검토완료 : 수병계산기 반영
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ③ 함체 잠항시간<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-hourglass"></i> &nbsp;함체 컴포넌트에 설정되어 있는 잠항시간(=산소탱크크기)<br>
+                                        　<i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime">잠수함 잠항시간 정보</a>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ④ 산소충전시간<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;산소충전 최소단위 : 0.96s (= 24f) / 계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                        　<i class="fa-solid fa-stopwatch"></i> &nbsp;산소충전시간 = ( 산소탱크크기 / 산소충전속도 ) 최소단위올림<br>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/#Sailor_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;수병계산기</a> &nbsp;: 산소충전속도/산소충전시간 계산가능<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row g-0">
                             <div class="card" id="reason_belt_armor_1" style="width: 40rem;">
                                 <h3 class="card-header">측면장갑 0.2인치</h3>
                                 <div class="card-body">
