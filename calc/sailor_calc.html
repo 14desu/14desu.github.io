@@ -117,6 +117,21 @@
                             <td>목표 가이드라인거리</td>
                             <td><input type="number" id="Target_Guideline_Input" step="2" value="3000" size="2"></td>
                         </tr>
+                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="Submerge_Input_Row">
+                            <td>잠수함 잠항시간 [s] <a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td>
+                                <select id="SS_Class_Input">
+                                    <option value="SS1">SS1 Lv37-39</option>
+                                    <option value="SS2">SS2 Lv46-49</option>
+                                    <option value="SS3">SS3 Lv59-62</option>
+                                    <option value="SS4">SS4 Lv74-77</option>
+                                    <option value="SS5">SS5 Lv87-89</option>
+                                    <option value="PSS">PSS Lv95-97</option>
+                                    <option value="SS6" selected>SS6 Lv105</option>
+                                </select>
+                                <input type="number" id="SS_Divetime_Input" step="0.04" size="2" value="240">
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -543,7 +558,7 @@
                     </tr>
                     <tr id="KR_OxyChargeTime_Row" style="display:none;" class="Submerge_Output_Row">
                     <td>
-                        산소충전시간[s] (Lv105 SS6)
+                        산소충전시간[s] <span id="SS_Class_Output1" class="SS_Class_Output">SS6 240s</span>
                     </td>
                     <td>
                         <span id="KR_OxyChargeTime100"></span>
@@ -589,7 +604,7 @@
                     </tr>
                     <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="Submerge_Output_Row">
                     <td>
-                        갑판보정 산소충전시간[s] (Lv105 SS6)
+                        갑판보정 산소충전시간[s] <span id="SS_Class_Output2" class="SS_Class_Output">SS6 240s</span>
                     </td>
                     <td>
                         <span id="KR_WithSeaman_OxyChargeTime100"></span>
