@@ -78,6 +78,7 @@ $(document).on("change","#tree_sel",function(){
     $(".Sonar_Output_Row").show();
   }
   if($("#tree_sel").val().match("잠항")){
+    $(".Submerge_Input_Row").show();    
     $(".Submerge_Output_Row").show();
   }
 });
@@ -99,7 +100,35 @@ $(document).on("change","#Gun_ActualReloadtime_Output",function(){
     $(".Gunner_Output_Detail_Row").hide();
   }
 });
-    
+
+$(document).on("change","#SS_Class_Input",function(){
+  SS_Divetime_Autoip();
+});
+
+function SS_Divetime_Autoip(){
+  var Nation_SS_Divetime = [
+    ["국가","SS1","SS2","SS3","SS4","SS5","PSS","SS6"],
+    ["미국",132,154,176,198.88,222.92,231,240],
+    ["영국",129.8,151.8,173.8,196.4,221.52,230,240],
+    ["일본",140.8,162.8,184.8,210.68,237.84,238,240],
+    ["독일",127.6,151.8,176,200.64,224.88,232,240],
+    ["프랑스",132.56,155.12,177.64,185.76,218,229,240],
+    ["소련",128,152,176,208,220.48,230,240],
+    ["이탈리아",124,145,166,200,224,232,240],
+    ];
+  for(i=0; i<Nation_SS_Divetime.length; i++){
+    if($("#nation_sel").val() == Nation_SS_Divetime[i][0]){
+      for(j=1; j<8; j++){
+        if($("#SS_Class_Input").val() == Nation_SS_Divetime[0][j]){
+          $("#SS_Divetime_Input").val(Nation_SS_Divetime[i][j]);
+          $(".SS_Class_Output").text(Nation_SS_Divetime[0][j]+" "+Nation_SS_Divetime[i][j]+"s");
+        }
+      }
+    }
+  }
+}
+
+
 function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
   var encoderUrl = encodeURI(origUrl + param);
@@ -402,9 +431,9 @@ function get_result_sailor(){
       var oxytier = KR_OxyTier_calc(Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
       //산소충전티어업 필요갑판보정
       var oxyu = Math.ceil(((oxytier+1)*250000/Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1))*100-100);
-      //6차잠 산소충전시간
-      var oxytime = KR_OxyTime_calc(6000,KR_OxyCharge_calc(oxytier));
-      var oxyutime = KR_OxyTime_calc(6000,KR_OxyCharge_calc(oxytier+1));
+      //잠수함 산소충전시간
+      var oxytime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier));
+      var oxyutime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier+1));
 
       document.getElementById("KR_OxyCharge"+Veteran_Output[i][1]).innerHTML = KR_OxyCharge_calc(oxytier)/25;
       document.getElementById("KR_OxyChargeTime"+Veteran_Output[i][1]).innerHTML = oxytime;
