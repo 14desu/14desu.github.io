@@ -36,6 +36,7 @@ $(document).on("change","#nation_sel",function(){
       $(".FCS_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1="+Nation_Index[i][1]);
       $(".Engine_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/engine.asp?Code1="+Nation_Index[i][1]);
       $(".Ship_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/ship.asp?Code1="+Nation_Index[i][1]);
+      $(".Gun_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1="+Nation_Index[i][1]);
       $(".Gun_Reloadtime_Input").val(Nation_Index[i][2]);
       $(".FCS_Guideline_Input").val(Nation_Index[i][3]);
       $("."+Nation_Index[i][4]).show();
