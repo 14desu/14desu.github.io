@@ -7,44 +7,14 @@ params["treeinput"] = "";
 
 $(document).on("change","#nation_sel",function(){
   params["nationinput"] = $("#nation_sel").val();
-  //영국유학함장 리셋
-  if($("#nation_sel").val() == "영국"){
-    $("#RN_Abroad_Input_Row").hide();
-  }
-  else{
-    if($("#tree_sel").val() == "함장"){
-      $("#RN_Abroad_Input_Row").show();
-    }
-  }
-  //국가변경시의 기본정보
-  var Nation_Index = [
-    ["국가","공홈국가번호", "EBB함포연사","FCS길이","트리갱신용트리거","함선여유율","엔진시간","엔진비율"],
-    ["미국", 1,             18.8,         1700,   "UN",               23,16,120],
-    ["영국", 2,             19.88,        1600,   "RN",               28,17,120],
-    ["일본", 3,             19.6,         1600,   "IN",               22,14,120],
-    ["독일", 4,             19.8,         1750,   "KM",               20,14,120],
-    ["프랑스", 5,           19.6,         1725,   "MN",               25,15,120],
-    ["소련", 6,             18.72,        1728,   "SN",               25,16,122],
-    ["이탈리아", 7,         19.6,         1699,   "RM",               28,14,120],
-    ];
+
   //수병트리의 리셋
   $(".TreeReset").hide();
   $(".SailorTreeReset").val("");
-  //국가판정>자동IP
-  for(i=0; i<Nation_Index.length; i++){
-    if($("#nation_sel").val() == Nation_Index[i][0]){
-      $(".FCS_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1="+Nation_Index[i][1]);
-      $(".Engine_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/engine.asp?Code1="+Nation_Index[i][1]);
-      $(".Ship_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/ship.asp?Code1="+Nation_Index[i][1]);
-      $(".Gun_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1="+Nation_Index[i][1]);
-      $(".Gun_Reloadtime_Input").val(Nation_Index[i][2]);
-      $(".FCS_Guideline_Input").val(Nation_Index[i][3]);
-      $("."+Nation_Index[i][4]).show();
-      $("#Ship_Calc_Ship_BasicOverheatRate_Input").val(Nation_Index[i][5]);
-      $("#Ship_Calc_Engine_OverheatTime_Input").val(Nation_Index[i][6]);
-      $("#Ship_Calc_Engine_OverheatRate_Input").val(Nation_Index[i][7]);
-    }
-  }
+
+  Nation_Autoip();
+  RN_Abroad_Reset();
+
 });
 
 
@@ -129,6 +99,49 @@ function SS_Divetime_Autoip(){
   }
 }
 
+function Nation_Autoip(){
+  //국가변경시의 기본정보
+  var Nation_Index = [
+    ["국가","공홈국가번호", "EBB함포연사","FCS길이","트리갱신용트리거","함선여유율","엔진시간","엔진비율"],
+    ["미국", 1,             18.8,         1700,   "UN",               23,16,120],
+    ["영국", 2,             19.88,        1600,   "RN",               28,17,120],
+    ["일본", 3,             19.6,         1600,   "IN",               22,14,120],
+    ["독일", 4,             19.8,         1750,   "KM",               20,14,120],
+    ["프랑스", 5,           19.6,         1725,   "MN",               25,15,120],
+    ["소련", 6,             18.72,        1728,   "SN",               25,16,122],
+    ["이탈리아", 7,         19.6,         1699,   "RM",               28,14,120],
+    ];
+
+  //국가판정>자동IP
+  for(i=0; i<Nation_Index.length; i++){
+    if($("#nation_sel").val() == Nation_Index[i][0]){
+      $(".FCS_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1="+Nation_Index[i][1]);
+      $(".Engine_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/engine.asp?Code1="+Nation_Index[i][1]);
+      $(".Ship_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/ship.asp?Code1="+Nation_Index[i][1]);
+      $(".Gun_Official_Shipyard").attr("href", "https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1="+Nation_Index[i][1]);
+      $(".Gun_Reloadtime_Input").val(Nation_Index[i][2]);
+      $(".FCS_Guideline_Input").val(Nation_Index[i][3]);
+      $("."+Nation_Index[i][4]).show();
+      $("#Ship_Calc_Ship_BasicOverheatRate_Input").val(Nation_Index[i][5]);
+      $("#Ship_Calc_Engine_OverheatTime_Input").val(Nation_Index[i][6]);
+      $("#Ship_Calc_Engine_OverheatRate_Input").val(Nation_Index[i][7]);
+    }
+  }
+}
+
+function RN_Abroad_Reset(){
+  //영국유학IP체크리셋
+  $("#RN_Abroad_Input").prop("checked", false);
+  //영국유학함장IP/OP리셋
+  if($("#nation_sel").val() == "영국"){
+    $("#RN_Abroad_Input_Row").hide();
+  }
+  else{
+    if($("#tree_sel").val() == "함장"){
+      $("#RN_Abroad_Input_Row").show();
+    }
+  }
+}
 
 function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
