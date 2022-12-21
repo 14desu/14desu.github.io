@@ -14,7 +14,8 @@ $(document).on("change","#nation_sel",function(){
 
   Nation_Autoip();
   RN_Abroad_Reset();
-
+  SS_Divetime_Autoip();
+  
 });
 
 
