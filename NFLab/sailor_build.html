@@ -58,6 +58,7 @@
                                     </div>
                                     <br><br>
                                     <table class="table table-bordered table-striped table-hover table-sm">
+                                        <thead>
                                         <tr>
                                             <th rowspan="2">국가</th>
                                             <th rowspan="2">수병&강화</th>
@@ -76,6 +77,8 @@
                                             <th>연사구간</th>
                                             <th>갑판보정/구성</th>
                                         </tr>
+                                        </thead>
+                                        <tbody>
                                         <tr>
                                             <td>미국</td>
                                             <td>프리미엄연사수병<br>연사1강화</td>
@@ -215,6 +218,7 @@
                                             <td>93<br>EBB:2.12s</td>
                                             <td>2%(=3명합4%)</td>
                                         </tr>
+                                        </tbody>
                                     </table>
 
                                     <p class="card-text fs-6">
@@ -551,7 +555,7 @@
                                     <p class="card-text fs-6">
                                         　<i class="fa-solid fa-user-group"></i> &nbsp;미국 포병은 거포병트리와 대공병장트리가 있다<br>
                                         　　<i class="fa-solid fa-user-gear"></i> &nbsp;미국 거포병트리는 경포/중포/거포에서 각각 명중전직or연사전직 선택 (교차전직가능)<br>
-                                        　　　<i class="fa-solid fa-crosshairs"></i> &nbsp;미국 사통(FCS)은 보정치가 타국대비 우월 > 연연연포병으로도 매우 좋은 집탄<br>
+                                        　　　<i class="fa-solid fa-crosshairs"></i> &nbsp;미국 사통(FCS) 보정치가 타국대비 우월 > 명11 올연전직 포병으로도 매우 좋은 집탄<br>
                                         　　<i class="fa-solid fa-circle-xmark"></i> &nbsp;미국 대공병장트리는 사용하지 않는다 (대공어빌특화트리 but 대공어빌이 무쓸모)<br>
                                         　<i class="fa-solid fa-circle-play"></i> &nbsp;결과적으로 미국 포병은 거포병만 사용, 경포/중포/거포전직은 연연연으로 고정<br>
                                     </p>
@@ -559,8 +563,10 @@
                                         <i class="fa-solid fa-circle-info"></i> &nbsp;연사거포병(연연연) / 45%만사관 / 산타갑판제외<br>
                                     </h5>
                                     <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-circle-play"></i> &nbsp;포병연사초기14+1(프리미엄연사수병+연사1강화) + 갑판병1명(전설보조)가 추천조합<br>
-                                        　　 &nbsp;추천이유 : 부포 대공포 만연사(0.24s)확보가능 + 주포 연사구간up 을 동시에 챙길수 있다<br>
+                                        　<i class="fa-solid fa-circle-play"></i> &nbsp;추천조합 / 연사구간91<br>
+                                        　　 &nbsp;주포 : 프리미엄연사수병+연사1강화<br>
+                                        　　 &nbsp;부포 : 프리미엄연사수병+연사1강화<br>
+                                        　　 &nbsp;갑판 : 1명3% / 전설보조(프리미엄수리수병 대체가능)<br>
                                     </p>
                                     <table class="table table-bordered table-striped table-hover table-sm">
                                         <thead>
@@ -628,7 +634,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>○</td>
-                                            <td class="table-info">3%</td>
+                                            <td>3%</td>
                                             <td></td>
                                           </tr>
                                           <tr>
@@ -734,7 +740,7 @@
                                             <td>0.28s</td>
                                             <td>0.28s</td>
                                             <td>0.28s</td>
-                                            <td class="table-info">0.24s</td>
+                                            <td>0.24s</td>
                                             <td>0.24s</td>
                                         </tr>
                                         <tr>
@@ -746,6 +752,201 @@
                                             <td>0.28s</td>
                                             <td>0.28s</td>
                                             <td>0.24s</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/#Sailor_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;수병계산기</a>&nbsp;: 포병 연사구간, 함포 연사속도, 갑판병 보정율 계산가능<br>
+                                        <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/#Reload_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;연사속도계산기</a>&nbsp;: 포병+갑판병의 연사속도/갑판보정율 계산가능<br>
+                                        <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/sailor_general.html#seaman_general"><i class="fa-solid fa-book"></i>&nbsp;갑판병의 효과</a>&nbsp;: 갑판병의 기본지식<br>
+                                        <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#reload_notions"><i class="fa-solid fa-book"></i>&nbsp;연사속도개념</a> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#reload_unit"><i class="fa-solid fa-book"></i>&nbsp;연사속도단위</a>&nbsp;: 연사구간/연사속도의 기본지식<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row g-0">
+                            <div class="card" id="mn-reloadtier-reloadtime" style="width: 50rem;">
+                                <h3 class="card-header">프랑스 연사구간/연사속도</h3>
+                                <div class="card-body">
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-circle-info"></i> &nbsp;프랑스 포병 : 주포/부포 전부 포술장 사용<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-user-group"></i> &nbsp;프랑스 포병은 포술장트리 밖에 존재하지 않는다<br>
+                                        　　<i class="fa-solid fa-crosshairs"></i> &nbsp;포술장 : 명중/연사 모두 어빌확보되는 전직트리, 명11포병으로도 충분한 집탄<br>
+                                        　　<i class="fa-solid fa-circle-xmark"></i> &nbsp;기총수병장은 함포운용능력이 없다<br>
+                                        　<i class="fa-solid fa-circle-play"></i> &nbsp;<br>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-circle-info"></i> &nbsp;포술장 / 45%만사관 / 산타갑판제외<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-circle-play"></i> &nbsp;추천조합 / 연사구간91<br>
+                                        　　- 주포 : 프리미엄연사수병+연사1강화<br>
+                                        　　- 부포 : 일반수병연사12/수리11+수리2강화<br>
+                                        　　- 갑판 : 없음<br>
+                                    </p>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-circle-play"></i> &nbsp;개인취향 / 연사구간92<br>
+                                        　　- 주포 : 프리미엄연사수병+연사1강화<br>
+                                        　　- 부포 : 프리미엄연사수병+연사1강화<br>
+                                        　　- 갑판 : 2명(7%) = 개근+연사1강화 & 전설보조+연사1강화<br>
+                                        　　> 장점 : 연사구간1up / 3.5"대공포 만연사가능<br>
+                                        　　> 단점 : 갑판병2명 탑승으로 인한 기관손실 (오버힛시간 -139s)<br>
+                                    </p>
+                                    <table class="table table-bordered table-striped table-hover table-sm">
+                                        <thead>
+                                          <tr>
+                                            <th colspan="3">연사구간</th>
+                                            <th>88</th>
+                                            <th>89</th>
+                                            <th>90</th>
+                                            <th>91</th>
+                                            <th>92</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td rowspan="10">포병<br>초기연사<br>강화포함<br>/<br>보정갑판조건</td>
+                                            <td colspan="2">9 / 1% = 1갑 어빌21 초기7</td>
+                                            <td>○</td>
+                                            <td>1%</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">10 / 6% = 1갑 어빌126 초기15</td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td>6%</td>
+                                            <td></td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">11 / 2% = 1갑 어빌42 초기7</td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td>2%</td>
+                                            <td></td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">12 / 8% = 2갑 어빌126+126 초기15+15</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td>8%</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">13 / 4% = 1갑 어빌84 초기10</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td>4%</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">14 / 3갑보정 불가능</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2">15 / 7% = 2갑 어빌126+84 초기15+10</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>○</td>
+                                            <td>7%</td>
+                                          </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td>SD</td>
+                                            <td>Lv120 Q 18.89"/45 cal Model 1945</td>
+                                            <td>40deg 20s</td>
+                                            <td>3.44s</td>
+                                            <td>3.22s</td>
+                                            <td>2.92s</td>
+                                            <td>2.68s</td>
+                                            <td>2.4s</td>
+                                          </tr>
+                                        <tr>
+                                            <td>EBB 115</td>
+                                            <td>Lv115 Q 18.89"/45 cal Model 1942</td>
+                                            <td>40deg 19.6s</td>
+                                            <td>3.36s</td>
+                                            <td>3.08s</td>
+                                            <td>2.84s</td>
+                                            <td>2.64s</td>
+                                            <td>2.36s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BB5</td>
+                                            <td>Lv114 Q 18.89"/45 cal Model 1936</td>
+                                            <td>40deg 20s</td>
+                                            <td>3.44s</td>
+                                            <td>3.22s</td>
+                                            <td>2.92s</td>
+                                            <td>2.68s</td>
+                                            <td>2.4s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BB5</td>
+                                            <td>Lv100 Q 14.96"/45 cal Model 1936</td>
+                                            <td>35deg 18.96s</td>
+                                            <td>3.24s</td>
+                                            <td>3.0s</td>
+                                            <td>2.76s</td>
+                                            <td>2.52s</td>
+                                            <td>2.24s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>BB4</td>
+                                            <td>Lv89 Q 14.96"/45 cal Model 1935</td>
+                                            <td>35deg 18.96s</td>
+                                            <td>3.24s</td>
+                                            <td>3.0s</td>
+                                            <td>2.76s</td>
+                                            <td>2.52s</td>
+                                            <td>2.24s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>EBB 85</td>
+                                            <td>Lv85 Q 15.75"/45 cal Model 1939</td>
+                                            <td>35deg 18.88s</td>
+                                            <td>3.24s</td>
+                                            <td>3.0s</td>
+                                            <td>2.72s</td>
+                                            <td>2.52s</td>
+                                            <td>2.24s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>AA</td>
+                                            <td>Lv20 D 3.5"/50 cal Model 1929</td>
+                                            <td>70deg 1.68s</td>
+                                            <td>0.32s</td>
+                                            <td>0.32s</td>
+                                            <td>0.28s</td>
+                                            <td>0.28s</td>
+                                            <td>0.24s</td>
+                                        </tr>
+                                        <tr>
+                                            <td>AA</td>
+                                            <td>Lv36 D 5.1"/45 cal Model 1932</td>
+                                            <td>75deg 3.56s</td>
+                                            <td>0.64s</td>
+                                            <td>0.6s</td>
+                                            <td>0.56s</td>
+                                            <td>0.56s</td>
+                                            <td>0.48s</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -774,6 +975,7 @@
                                     </h5>
                                     <p class="card-text fs-6">
                                         　<i class="fa-solid fa-fingerprint"></i> &nbsp;국적변경 but 기존국적 어빌유지<br>
+                                        　　 &nbsp;90렙 국적변경 ↔ 120렙 국적변경 : 최종어빌은 동일하다<br>
                                         　<i class="fa-solid fa-person-circle-plus"></i> &nbsp;영국국적 = 수리보수특화&nbsp;<i class="fa-solid fa-screwdriver-wrench"></i><br>
                                         　<i class="fa-solid fa-sack-dollar"></i> &nbsp;캐쉬템가격 : KRW 30,000
                                     </p>
