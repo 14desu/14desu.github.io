@@ -44,6 +44,7 @@
                     <div id="nf_general" class="container-fluid px-3">
                         <h1 class="mt-2">네이비필드 연구실 / 게임일반</h1>
                         <br>
+                        <!--경험치획득-->
                         <div class="row g-0">
                             <div class="card" id="get_experience" style="width: 30rem;">
                                 <h3 class="card-header">경험치획득</h3>
@@ -95,6 +96,7 @@
                             </div>
                         </div>
                         <br>
+                        <!--연사속도단위-->
                         <div class="row g-0">
                             <div class="card" id="reload_unit" style="width: 40rem;">
                                 <h3 class="card-header">연사속도단위</h3>
@@ -129,6 +131,7 @@
                             </div>
                         </div>
                         <br>
+                        <!--연사속도개념-->
                         <div class="row g-0">
                             <div class="card" id="reload_notions" style="width: 50rem;">
                                 <h3 class="card-header">연사속도개념</h3>
@@ -186,6 +189,292 @@
                             </div>
                         </div>
                         <br>
+                        <!--함포 집탄 일반론-->
+                        <div class="row g-0">
+                            <div class="card" id="gunner_accuracy_general" style="width: 50rem;">
+                                <h3 class="card-header">함포 집탄 일반론</h3>
+                                <div class="card-body">
+                                    <div class="btn-group">
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html" class="btn btn-outline-dark">국가별 집탄 상세</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#un_gunner_accuracy" class="btn btn-outline-dark">미국</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#rn_gunner_accuracy" class="btn btn-outline-dark">영국</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#in_gunner_accuracy" class="btn btn-outline-dark">일본</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#km_gunner_accuracy" class="btn btn-outline-dark">독일</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#mn_gunner_accuracy" class="btn btn-outline-dark">프랑스</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#sn_gunner_accuracy" class="btn btn-outline-dark">소련</a>
+                                        <a href="https://14desu.github.io/NFLab/gunner_accuracy.html#rm_gunner_accuracy" class="btn btn-outline-dark">이탈리아</a>
+                                    </div>
+                                    <h5 class="card-title lh-lg">
+                                        함포 집탄에 영향을 주는 요소<br>
+                                        <i class="fa-solid fa-check"></i> &nbsp;①FCS 명중보너스 = ②함포 명중보너스 >>>>>> ③포병 명중능력
+                                    </h5>
+                                    <p class="card-text lh-sm fs-6">
+                                        <i class="fa-solid fa-circle-info"></i> FCS차이 + 동일수병<br>
+                                        <img src="https://www.navyfield.co.kr:444/file/screenshot/20230108100011515SC.gif" style="width: 10rem;"><img src="https://www.navyfield.co.kr:444/file/screenshot/20230103101003605SC.gif" style="width: 10rem;"><br>
+                                    </p>
+                                    <p class="card-text lh-sm fs-6">
+                                        <i class="fa-solid fa-circle-info"></i> 동일FCS + 포병차이<br>
+                                        <img src="https://www.navyfield.co.kr:444/file/screenshot/20230103100700432SC.gif" style="width: 10rem;"><img src="https://www.navyfield.co.kr:444/file/screenshot/20230103101003605SC.gif" style="width: 10rem;"><br>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ①FCS 명중보너스
+                                    </h5>
+                                    <p class="card-text lh-sm fs-6">
+                                        집탄에 매우 큰 영향을 미치는 요소<br>
+                                        국적별 함선별로 탑제가능한 FCS의 명중보너스가 다르다<br>
+                                        FCS 명중보너스가 높은 미국 > 우월한 집탄<br>
+                                        FCS 명중보너스가 낮은 이탈리아 > 구제불가능한 집탄<br>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ②함포 명중보너스
+                                    </h5>
+                                    <p class="card-text lh-sm fs-6">
+                                        집탄에 매우 큰 영향을 미치는 요소 but 히든스탯<br>
+                                        아래의 명중보너스설정함포의 경우 저렙저사관에서도 떡집탄이 나온다<br>
+                                        예1) 영국쿼드포 14"/4 Mark III<br>
+                                        예2) 각국8인치 이하 3연장 함포<br>
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련 패치노트</a><br>
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#accuracy-bonus-gun-list">명중보너스 적용함포 리스트 (전함함포, 12"이상)</a>
+                                    </p>
+                                    <h5 class="card-title lh-lg">
+                                        ③포병 명중능력
+                                    </h5>
+                                    <p class="card-text lh-sm fs-6">
+                                        저사관일 경우 영향 but 일정이상 어빌확보후에는 영향이 미미하거나 없다<br>
+                                        육성완료(Lv120/45%만사)기준<br>
+                                        - 영국 외 전국가 : 육성완료시 필요어빌충족, 신경쓸일 없음<br>
+                                        - 영국 : 프리미엄명중수병 or NF개근수병으로 칼직 육성시에도 갑판병없이 필요어빌충족가능<br>
+                                        　> 명중초기14+1누적2072/Real어빌4,815,328 충족 ↔ 명중초기14누적1952/Real어빌4,536,448 미달<br>
+                                        　> 추천 : 명중초기14+1 or 명중초기14+1갑판
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/#Realabil_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;Real어빌계산기</a><br>
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#accuracy_bonus_gun_list"><i class="fa-solid fa-location-crosshairs"></i>&nbsp;명중보너스 적용함포 리스트</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!--명중보너스 함포목록-->
+                        <div class="row g-0">
+                            <div class="card" id="accuracy_bonus_gun_list" style="width: 50rem;">
+                                <h3 class="card-header">명중보너스 함포 리스트</h3>
+                                <div class="card-body">
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-circle-info"></i> &nbsp;12" 이상 명중보너스 적용함포 <br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;명중보너스가 존재하는 함포 리스트 (2023/01 운영자 문의로 확인)<br>
+                                        　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br> 
+                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;소련은 명중보너스 적용함포가 없다<br>
+                                        　<i class="fa-regular fa-thumbs-up"></i> &nbsp;프리미엄함선PBB/이벤트함선EBB의 명중보너스 적용함포가 다수<br>
+                                        　　 &nbsp;특별함선에 일반함선대비 메리트를 줘 놓고 이를 공개하지 않았다... Why...<br>
+                                    </p>
+                                    <table class="table table-bordered table-striped table-hover table-sm">
+                                        <thead>
+                                        <tr>
+                                            <th>국가</th>
+                                            <th>레벨</th>
+                                            <th>연장</th>
+                                            <th>함포명</th>
+                                            <th>명중보너스</th>
+                                            <th>비고</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="2">미국</td>
+                                            <td>50</td>
+                                            <td>Double</td>
+                                            <td>14"/45 cal Mark 12</td>
+                                            <td>?</td>
+                                            <td>가맹점함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>115</td>
+                                            <td>Double</td>
+                                            <td>18"/48 cal BH-427</td>
+                                            <td>?</td>
+                                            <td>EBB 115 전용함포</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="5">영국</td>
+                                            <td>74</td>
+                                            <td>Quad</td>
+                                            <td>14"/4 Mark III</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>75</td>
+                                            <td>Double</td>
+                                            <td>14"/45 BL Mark II</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>75</td>
+                                            <td>Quad</td>
+                                            <td>14"/45 BL Mark III</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>76</td>
+                                            <td>Quad</td>
+                                            <td>14"/4 Mark III L</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>77</td>
+                                            <td>Quad</td>
+                                            <td>14"/4 Mark III D</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="4">일본</td>
+                                            <td>50</td>
+                                            <td>Double</td>
+                                            <td>12"/40 Type 41</td>
+                                            <td>?</td>
+                                            <td>가맹점함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>80</td>
+                                            <td>Double</td>
+                                            <td>14.2"/45 Type 5</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>80</td>
+                                            <td>Triple</td>
+                                            <td>14.2"/45 Type 6</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>115</td>
+                                            <td>Double</td>
+                                            <td>18.9" SD-799</td>
+                                            <td>?</td>
+                                            <td>EBB 115 전용함포</td>
+                                        </tr>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="2">독일</td>
+                                            <td>79</td>
+                                            <td>Triple</td>
+                                            <td>13.78"/52 SK C/37</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>85</td>
+                                            <td>Double</td>
+                                            <td>16"/52 SK C/34T</td>
+                                            <td>?</td>
+                                            <td>EBB 85 전용함포</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="2">프랑스</td>
+                                            <td>85</td>
+                                            <td>Quad</td>
+                                            <td>15.75"/45 cal Model 1939</td>
+                                            <td>?</td>
+                                            <td>EBB 85 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>115</td>
+                                            <td>Quad</td>
+                                            <td>18.89"/45 cal Model 1942</td>
+                                            <td>?</td>
+                                            <td>EBB 115 전용함포</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="7">이탈리아</td>
+                                            <td>80</td>
+                                            <td>Double/Triple</td>
+                                            <td>13.5"/44 Model 1931 "ND"</td>
+                                            <td>?</td>
+                                            <td>프리미엄함선 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>82</td>
+                                            <td>Double</td>
+                                            <td>15"/40 Model 1914</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>85</td>
+                                            <td>Double</td>
+                                            <td>15"/41 Model 1919</td>
+                                            <td>?</td>
+                                            <td>EBB 85 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>89</td>
+                                            <td>Double/Triple</td>
+                                            <td>12"/45 K10</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>110</td>
+                                            <td>Triple</td>
+                                            <td>15"/50 Model 1934</td>
+                                            <td>?</td>
+                                            <td>일반 함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>115</td>
+                                            <td>Triple</td>
+                                            <td>16.5"/50 Model 1945</td>
+                                            <td>?</td>
+                                            <td>EBB 115 전용함포</td>
+                                        </tr>
+                                        <tr>
+                                            <td>120</td>
+                                            <td>Triple</td>
+                                            <td>16"/50 Model 1934</td>
+                                            <td>?</td>
+                                            <td>SD 전용함포</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <h5 class="card-title lh-lg">
+                                        <i class="fa-solid fa-circle-info"></i> &nbsp;8" 이하 명중보너스 적용함포<br>
+                                    </h5>
+                                    <p class="card-text fs-6">
+                                        　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;미국/영국/일본/독일의 8"이하 3연장 함포에 명중보너스 적용 (2003/09 패치)<br>
+                                        　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br> 
+                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;일본 3연장 6.1"/60 Type 3은 명중보너스가 없다<br>
+                                        　<i class="fa-solid fa-link"></i>&nbsp;<a href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련 패치노트</a><br>
+                                    </p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <p class="card-text">
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#gunner_accuracy_general"><i class="fa-solid fa-location-crosshairs"></i>&nbsp;함포 집탄 일반론</a><br>
+                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/gunner_accuracy.html"><i class="fa-solid fa-location-crosshairs"></i>&nbsp;국가별 집탄상세</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!--잠수함 잠항시간-->
                         <div class="row g-0">
                             <div class="card" id="ss_divetime" style="width: 40rem;">
                                 <h3 class="card-header">잠수함 잠항시간</h3>
@@ -294,6 +583,7 @@
                             </div>
                         </div>
                         <br>
+                        <!--잠수함 산소충전 개념-->
                         <div class="row g-0">
                             <div class="card" id="ss-oxygen-charge-notions" style="width: 50rem;">
                                 <h3 class="card-header">잠수함 산소충전 개념</h3>
@@ -339,6 +629,7 @@
                             </div>
                         </div>
                         <br>
+                        <!--측면장갑 0.2인치-->
                         <div class="row g-0">
                             <div class="card" id="reason_belt_armor_1" style="width: 40rem;">
                                 <h3 class="card-header">측면장갑 0.2인치</h3>
