@@ -908,7 +908,6 @@ function Get_Result_Ship_Calc(){
   var ENGSeamanTotal = 0;
   var ENGSeamanCount = 0;
   for(i=0; i<ENGabil.length; i++){
-    
     if(ENGabil[i] > 0){
       if(Sailor_TYPE[i] == "갑판병"){
         ENGSeamanTotal = ENGSeamanTotal + Math.floor(ENGabil[i]/21);
@@ -924,13 +923,13 @@ function Get_Result_Ship_Calc(){
     }
   }
 
-  if(ENGCount > 0){
-    var ENGPenaltyTotal = ENGTotal / Math.sqrt(ENGCount);
-  }
-
   if(ENGSeamanCount > 0){
     var Ship_ENGSeamanRate = Math.floor( ENGSeamanTotal / Math.sqrt(ENGSeamanCount) );
     ENGTotal = ENGTotal * ( 1 + Ship_ENGSeamanRate/100);
+  }
+  
+  if(ENGCount > 0){
+    var ENGPenaltyTotal = ENGTotal / Math.sqrt(ENGCount);
   }
 
   document.getElementById("Ship_Calc_OverheatSpeed_Output").innerHTML = KR_OverheatSpeed_calc(document.getElementById("Ship_Calc_ShipBasicSpeed_Input").value,KR_OverheatRate_calc(ENGPenaltyTotal),document.getElementById("Ship_Calc_Ship_BasicOverheatRate_Input").value,document.getElementById("Ship_Calc_Engine_OverheatRate_Input").value);
