@@ -348,6 +348,9 @@ function get_result_sailor(){
           if(k>0 && k<TorpedoTierIndex.length-1){
             document.getElementById("Torpedo_NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = Math.ceil(TorpedoTierIndex[k+1][1]/Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)*100-100);
           }
+          if(k=0||4){
+            document.getElementById("Torpedo_NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = "-";
+          }
         }
       }
     }
