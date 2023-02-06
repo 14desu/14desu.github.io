@@ -345,6 +345,8 @@ function get_result_sailor(){
           TorpedoTierIndex[k][2] > Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)){
           document.getElementById("Torpedo_ReloadTier"+Veteran_Output[i][1]).innerHTML = TorpedoTierIndex[k][0];
           document.getElementById("Torpedo_ReloadTime"+Veteran_Output[i][1]).innerHTML = KR_TorpedoReloadTime_calc(TorpedoTierIndex[k][0]);
+          document.getElementById("Torpedo_NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = Math.ceil(TorpedoTierIndex[k+1][1]/Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)*100-100);
+
         }
       }
     }
