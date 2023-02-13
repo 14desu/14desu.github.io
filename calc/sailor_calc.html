@@ -2,7 +2,7 @@
 <h3><button class="btn btn-outline-dark" onclick="get_result_sailor()">수병계산기실행</button></h3>
 <form id="sailor_calc_kr_form">
 <div class="row g-0">
-    <div class="accordion col-sm-12 col-md-8 col-lg-7" id="Sailor_Calc_Input_Accrodion1">
+    <div class="accordion col-sm-12 col-md-8 col-lg-5 col-xl-5 col-xxl-4" id="Sailor_Calc_Input_Accrodion1">
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading1">
             <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
@@ -45,10 +45,10 @@
                             <select id="tree_sel" name="tree_sel">
                                 <option>--병종선택--</option>
                                 <option value="함장">함장</option>
-                                <option value="연연연포병" class="TreeReset UN" style="display:none;">연연연포병</option>
-                                <option value="연사포병" class="TreeReset RN" style="display:none;">연사포병</option>
+                                <option value="연연연거포병" class="TreeReset UN" style="display:none;">연연연거포병</option>
+                                <option value="연사거포병" class="TreeReset RN" style="display:none;">연사거포병</option>
                                 <option value="대공포병 (늦직권장)" class="TreeReset RN" style="display:none;">대공포병 (늦직권장)</option>
-                                <option value="포병" class="TreeReset IN KM MN SN RM">포병</option>
+                                <option value="포술장" class="TreeReset IN KM MN SN RM">포술장</option>
                                 <option value="양용포병 (늦직권장)" class="TreeReset IN" style="display:none;">양용포병 (늦직권장)</option>
                                 <option value="대공포병" class="TreeReset KM" style="display:none;">대공포병</option>
                                 <option value="기관병">기관병</option>
@@ -65,13 +65,13 @@
                                 <option value="갑판병">갑판병</option>
                                 <option value="의무병">의무병</option>
                                 <option value="보수병 (안씀)">보수병 (안씀)</option>
-                                <option value="연연명포병 (안씀)" class="TreeReset UN" style="display:none;">연연명포병 (안씀)</option>
-                                <option value="연명연포병 (안씀)" class="TreeReset UN" style="display:none;">연명연포병 (안씀)</option>
-                                <option value="연명명포병 (안씀)" class="TreeReset UN" style="display:none;">연명명포병 (안씀)</option>
-                                <option value="명연연포병 (안씀)" class="TreeReset UN" style="display:none;">명연연포병 (안씀)</option>
-                                <option value="명연명포병 (안씀)" class="TreeReset UN" style="display:none;">명연명포병 (안씀)</option>
-                                <option value="명명연포병 (안씀)" class="TreeReset UN" style="display:none;">명명연포병 (안씀)</option>
-                                <option value="명명명포병 (안씀)" class="TreeReset UN" style="display:none;">명명명포병 (안씀)</option>
+                                <option value="연연명포병 (안씀)" class="TreeReset UN" style="display:none;">연연명거포병 (안씀)</option>
+                                <option value="연명연포병 (안씀)" class="TreeReset UN" style="display:none;">연명연거포병 (안씀)</option>
+                                <option value="연명명포병 (안씀)" class="TreeReset UN" style="display:none;">연명명거포병 (안씀)</option>
+                                <option value="명연연포병 (안씀)" class="TreeReset UN" style="display:none;">명연연거포병 (안씀)</option>
+                                <option value="명연명포병 (안씀)" class="TreeReset UN" style="display:none;">명연명거포병 (안씀)</option>
+                                <option value="명명연포병 (안씀)" class="TreeReset UN" style="display:none;">명명연거포병 (안씀)</option>
+                                <option value="명명명포병 (안씀)" class="TreeReset UN" style="display:none;">명명명거포병 (안씀)</option>
                                 <option value="대공포병 (안씀)" class="TreeReset UN" style="display:none;">대공포병 (안씀)</option>
                                 <option value="강하병">강하병</option>
                             </select>
@@ -142,7 +142,7 @@
             </div>
         </div>
     </div>
-    <div class="accordion col-sm-12 col-md-8 col-lg-5" id="Sailor_Calc_Input_Accrodion2">
+    <div class="accordion col-sm-12 col-md-8 col-lg-7 col-xl-5 col-xxl-5" id="Sailor_Calc_Input_Accrodion2">
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading2">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
@@ -193,7 +193,7 @@
         </div>
     </div>
 </div>
-<div class="accordion col-sm-12 col-md-9" id="Sailor_Calc_Input_Accrodion3">
+<div class="accordion col-sm-12 col-md-12 col-lg-12 col-xl-10 col-xxl-9 " id="Sailor_Calc_Input_Accrodion3">
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading3">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
@@ -364,7 +364,7 @@
         </div>
     </div>
 </div>
-<div class="accordion col-sm-12 col-md-9" id="Sailor_Calc_Input_Accrodion4">
+<div class="accordion col-sm-12 col-md-10 col-lg-10 col-xl-8 col-xxl-8 " id="Sailor_Calc_Input_Accrodion4">
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading4">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
