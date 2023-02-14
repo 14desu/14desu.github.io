@@ -1,4 +1,4 @@
-var origUrl = "https://script.google.com/macros/s/AKfycbwAqd78Yftsnd0xLAs6JfOUNDx2HggsAUgn0L1Cjjp1N__I4L6M/exec?";
+var origUrl = "https://script.google.com/macros/s/AKfycbzHQtLY5v22lpDm3ZXDX1xdQdNLxGTnZtQA_SD5VgW5vKVepVfZAj9UT7ssZCGM1MePyg/exec?";
 var params = {};
 var KR_Reload_TierCut_Data = [];
 params["nationinput"] = "";
@@ -20,9 +20,9 @@ function get_result_sailor(){
   .then(response => response.json())
   .then(response => {
 
-    treedata = response["data"]["tree"];
-    abildata = response["data"]["abil"];
-    KR_Reload_TierCut_Data = response["data"]["reloadcut"];
+    treedata = response["data"]["sailortree"];
+    abildata = response["data"]["sailorabil"];
+    KR_Reload_TierCut_Data = response["data"]["gunreloadcut"];
 
     //abildata 값으로 검색된 전직횟수 판정
     var tree_n = 0;
