@@ -1,4 +1,4 @@
-var origUrl = "https://script.google.com/macros/s/AKfycbzHQtLY5v22lpDm3ZXDX1xdQdNLxGTnZtQA_SD5VgW5vKVepVfZAj9UT7ssZCGM1MePyg/exec?";
+var origUrl = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?";
 var params = {};
 var KR_Reload_TierCut_Data = [];
 params["nationinput"] = "";
