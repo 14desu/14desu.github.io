@@ -15,10 +15,10 @@
                         <tr>
                             <td>서버입력</td>
                             <td>
-                            <select id="server_select" name="server_select">
+                            <select id="Server_Input">
                                 <option value="Korea_server">Korea server</option>
-                                <option disabled value="Global_server" >Global server</option>
-                <!--
+                                <option  value="Global_server" >Global server</option>
+                <!--disabled
                                 <option value="Global">Global server</option>
                 -->
                             </select>
@@ -79,22 +79,23 @@
                         </tr>
                         <tr>
                             <td>수병레벨입력</td>
-                            <td></label><input type="number" id="LEVIP" name="LEVIP" step="1" value="120" min="2" max="125" size="2"></td>
+                            <td></label><input type="number" id="LEVIP" step="1" value="120" min="2" max="125" size="2"></td>
                         </tr>
                         <tr>
                             <td>수병강화입력</td>
                             <td>
-                            <select name="boostip" id="boostip">
+                            <select id="boost_input">
                                 <option>--강화선택/없음--</option>
-                                <option value="잠재1강">잠재1강</option><option value="잠재2강">잠재2강</option>
-                                <option value="명중1강">명중1강</option><option value="명중2강">명중2강</option>
-                                <option value="연사1강">연사1강</option><option value="연사2강">연사2강</option>
-                                <option value="어뢰1강">어뢰1강</option><option value="어뢰2강">어뢰2강</option>
-                                <option value="수리1강">수리1강</option><option value="수리2강">수리2강</option>
-                                <option value="보수1강">보수1강</option><option value="보수2강">보수2강</option>
-                                <option value="기관1강">기관1강</option><option value="기관2강">기관2강</option>
-                                <option value="전투1강">전투1강</option><option value="전투2강">전투2강</option>
-                                <option value="폭격1강">폭격1강</option><option value="폭격2강">폭격2강</option>
+                                <option value="POTboost1" class="boost1">잠재1강</option><option value="POTboost2" class="boost2">잠재2강</option>
+                                <option value="ACCboost1" class="boost1">명중1강</option><option value="ACCboost2" class="boost2">명중2강</option>
+                                <option value="RLDboost1" class="boost1">연사1강</option><option value="RLDboost2" class="boost2">연사2강</option>
+                                <option value="TORboost1" class="boost1">어뢰1강</option><option value="TORboost2" class="boost2">어뢰2강</option>
+                                <option value="REPboost1" class="boost1">수리1강</option><option value="REPboost2" class="boost2">수리2강</option>
+                                <option value="RESboost1" class="boost1">보수1강</option><option value="RESboost2" class="boost2">보수2강</option>
+                                <option value="ENGboost1" class="boost1">기관1강</option><option value="ENGboost2" class="boost2">기관2강</option>
+                                <option value="FIGboost1" class="boost1">전투1강</option><option value="FIGboost2" class="boost2">전투2강</option>
+                                <option value="BOMboost1" class="boost1">폭격1강</option><option value="BOMboost2" class="boost2">폭격2강</option>
+                                <option value="boost20" class="boost20" style="display:none;">20%강화</option>
                             </select>
                             </td>
                         </tr>
@@ -238,12 +239,13 @@
                     </div>
                 </details>
                 <table class="table table-bordered table-striped table-hover table-sm">
+                    <thead>
                     <tr>
                         <th></th>
                         <th>
                         <!--수병자동입력-->
-                        <select name="AUTOIP" id="AUTOIP" onchange="autoabilip(this);">
-                            <option>직접입력</option>
+                        <select id="Sailor_AutoInput">
+                            <option value="직접입력">직접입력</option>
                             <option value="개근">개근</option>
                             <option value="전설보조">전설보조</option>
                             <option value="전설특무">전설특무</option>
@@ -263,6 +265,8 @@
                         <th>갑판어빌</th>
                         <th>갑판보정[%]</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>잠재</td>
                         <td><input type="number" id="POTIP" name="POTIP" step="1" value="9" min="7" max="18" size="2"></td>
@@ -359,6 +363,7 @@
                         <td></td>
                         <td></td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
