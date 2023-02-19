@@ -46,6 +46,40 @@ function RN_Abroad_Reset(){
   }
 }
 
+function Boost_List_Reset(){
+  if($("#Server_Input").val() == "Korea_server"){
+    $(".boost1").show();
+    $(".boost2").hide();
+    $(".boost20").hide();
+    if($("#Sailor_AutoInput").val() == "직접입력"){
+      $(".boost2").show();
+    }
+  }
+  else if($("#Server_Input").val() == "Global_server"){
+    $(".boost1").hide();
+    $(".boost2").hide();
+    $(".boost20").show();
+  }
+}
+
+function Level_Input_Reset(){
+  if($("#Server_Input").val() == "Korea_server"){
+    $("#LEVIP").val(120);
+  }
+  else if($("#Server_Input").val() == "Global_server"){
+    $("#LEVIP").val(125);
+  }
+}
+
+$(document).on("change","#Server_Input",function(){
+  Boost_List_Reset();
+  Level_Input_Reset();
+});
+
+$(document).on("change","#Sailor_AutoInput",function(){
+  Boost_List_Reset(); 
+});
+
 $(document).on("change","#nation_sel",function(){
     params["nationinput"] = $("#nation_sel").val();
   
@@ -56,7 +90,6 @@ $(document).on("change","#nation_sel",function(){
     Nation_Autoip();
     RN_Abroad_Reset();
     SS_Divetime_Autoip();
-    
 });
 
 $(document).on("change","#tree_sel",function(){
@@ -144,8 +177,11 @@ function SS_Divetime_Autoip(){
     }
 }
 
-function autoabilip(e){
-    input = e.value;
+$(document).on("change","#Sailor_AutoInput",function(){
+  Sailor_Ability_Autoip();
+});
+
+function Sailor_Ability_Autoip(){
     //어빌입력 리셋
     document.getElementById("POTIP").value = 9;  
     document.getElementById("ACCIP").value = 9;
@@ -160,48 +196,48 @@ function autoabilip(e){
     document.getElementById("BOMIP").value = 9;
   
     //이벤트수병 입력
-    if(input == "개근"){
+    if($("#Sailor_AutoInput").val() == "개근"){
       document.getElementById("ACCIP").value = 14;
       document.getElementById("RLDIP").value = 14;
     }
-    else if(input == "전설보조"){
+    else if($("#Sailor_AutoInput").val() == "전설보조"){
       document.getElementById("REPIP").value = 14;
       document.getElementById("RESIP").value = 14;
       document.getElementById("ENGIP").value = 14;
     }
-    else if(input == "전설특무"){
+    else if($("#Sailor_AutoInput").val() == "전설특무"){
       document.getElementById("AIRIP").value = 14;
       document.getElementById("FIGIP").value = 14;
       document.getElementById("BOMIP").value = 14;
     }
     //플미수병 입력
-    else if(input == "잠재플미"){
+    else if($("#Sailor_AutoInput").val() == "잠재플미"){
       document.getElementById("POTIP").value = 17;
     }
-    else if(input == "명중플미"){
+    else if($("#Sailor_AutoInput").val() == "명중플미"){
       document.getElementById("ACCIP").value = 14;
       document.getElementById("RLDIP").value = 11;
     }
-    else if(input == "연사플미"){
+    else if($("#Sailor_AutoInput").val() == "연사플미"){
       document.getElementById("ACCIP").value = 11;
       document.getElementById("RLDIP").value = 14;
     }
-    else if(input == "어뢰플미"){
+    else if($("#Sailor_AutoInput").val() == "어뢰플미"){
       document.getElementById("TORIP").value = 14;
     }
-    else if(input == "수리플미"){
+    else if($("#Sailor_AutoInput").val() == "수리플미"){
       document.getElementById("REPIP").value = 14;
     }
-    else if(input == "보수플미"){
+    else if($("#Sailor_AutoInput").val() == "보수플미"){
       document.getElementById("RESIP").value = 14;
     }
-    else if(input == "기관플미"){
+    else if($("#Sailor_AutoInput").val() == "기관플미"){
       document.getElementById("ENGIP").value = 14;
     }
-    else if(input == "전투플미"){
+    else if($("#Sailor_AutoInput").val() == "전투플미"){
       document.getElementById("FIGIP").value = 14;
     }
-    else if(input == "폭격플미"){
+    else if($("#Sailor_AutoInput").val() == "폭격플미"){
       document.getElementById("BOMIP").value = 14;
     }
 }

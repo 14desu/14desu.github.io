@@ -31,6 +31,7 @@ function get_result_sailor(){
         tree_n = tree_n + 1;
       }
     }
+
     //판정한 전직횟수로 배열길이 조정
     treedata.length = tree_n;
     abildata.length = tree_n;
@@ -92,11 +93,18 @@ function get_result_sailor(){
       }
     }
 
-    //입력Lv가져오기
-    var levinput = document.getElementById("LEVIP").value;
-    if(levinput > 120){
+    if($("#LEVIP").val() > 120 && $("#Server_Input").val() == "Korea_server"){
       alert("수병Lv은 120을 넘을 수 없습니다")
+      $("#LEVIP").val(120);
     }
+    else if($("#LEVIP").val() > 125 && $("#Server_Input").val() == "Global_server"){
+      alert("수병Lv은 125을 넘을 수 없습니다")
+      $("#LEVIP").val(125);
+    }
+
+    //입력Lv가져오기
+    var levinput = $("#LEVIP").val();
+
 
     var AbilIndex = [
     ["잠재", "POT"],
@@ -139,7 +147,7 @@ function get_result_sailor(){
       else if(abilgrowth[i] == 17 && i == 0){
         abiltotal[i] = 30;
       }
-      else if(document.getElementById("AUTOIP").value == "개근" || document.getElementById("AUTOIP").value == "전설보조" || document.getElementById("AUTOIP").value == "전설특무" ){
+      else if($("#Sailor_AutoInput").val() == "개근" || $("#Sailor_AutoInput").val() == "전설보조" || $("#Sailor_AutoInput").val() == "전설특무" ){
         abiltotal[i] = abiltotal[i] + (abilgrowth[i] - 9) * (89);
         abilgrowth[i] = 9;
       }
@@ -147,18 +155,17 @@ function get_result_sailor(){
 
     //강화여부체크 > 적용
     for(i=0; i<AbilIndex.length; i++){
-      if(document.getElementById("boostip").value == AbilIndex[i][0]+1+"강"){
+      if($("#boost_input").val() == AbilIndex[i][1]+"boost"+1){
         abilgrowth[i] = abilgrowth[i]*1 + 1;
         abiltotal[i] = abiltotal[i]*1 + 1;
       }
-      if(document.getElementById("boostip").value == AbilIndex[i][0]+2+"강"){
+      if($("#boost_input").val() == AbilIndex[i][1]+"boost"+2){
         abilgrowth[i] = abilgrowth[i]*1 + 2;
         abiltotal[i] = abiltotal[i]*1 + 2;
       }
     }
 
     //국가보너스 어빌 계산
-
     if(params["nationinput"] == "미국"){
       abiltotal[9] = abiltotal[9] + 5; }
     else if(params["nationinput"] == "영국"){
@@ -188,7 +195,6 @@ function get_result_sailor(){
     }
 
     //늦직입력분 반영
-
     var treelev = new Array(6);
     treelev[0] = document.getElementById("SailorTree1Lv").value;
     treelev[1] = document.getElementById("SailorTree2Lv").value;
@@ -247,6 +253,13 @@ function get_result_sailor(){
       }
     }
 
+    if($("#boost_input").val() == "boost20"){
+      for(j=0; j<11; j++){
+        abilgrowth[j] = Math.floor(abilgrowth[j]*1.225);
+        abiltotal[j] = Math.floor(abiltotal[j]*1.225);
+      }
+    }
+
     // 수병 성장어빌/누적어빌/수병수 계산결과 output
     for(i=0; i<AbilIndex.length; i++){
       //성장어빌
@@ -270,23 +283,21 @@ function get_result_sailor(){
     }
 
     //40% 45% 사관숫자 output
-    document.getElementById("VET40").innerHTML = Math.floor(abiltotal[11]*0.4);
-    document.getElementById("VET45").innerHTML = Math.floor(abiltotal[11]*0.45);
-
+    $("#VET40").html(Math.floor(abiltotal[11]*0.4));
+    $("#VET45").html(Math.floor(abiltotal[11]*0.45));
 
     var Veteran_Output = [
-      [document.getElementById("VeteranIP").value, 100],
+      [$("#VeteranIP").val(), 100],
       [180, 180],
       [250, 250],
       [300, 300],
-      [document.getElementById("VET40").innerHTML, 40],
-      [document.getElementById("VET45").innerHTML, 45]
+      [$("#VET40").html(), 40],
+      [$("#VET45").html(), 45],
     ];
-
    
     //함장목표가이드라인길이
-    var BBCaptin_Target_Guideline = (document.getElementById("Target_Guideline_Input").value - document.getElementById("FCS_Guideline_Input").value);
-    document.getElementById("Target_Guildline").innerHTML = document.getElementById("Target_Guideline_Input").value;
+    var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
+    $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
 
     for(i=0; i<Veteran_Output.length; i++){
 
@@ -330,7 +341,6 @@ function get_result_sailor(){
       document.getElementById("ActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc));
       document.getElementById("WithSeaman_GunReload"+Veteran_Output[i][1]).innerHTML = KR_AvgReloadTime_calc(ReloadTierCalc+1);
       document.getElementById("WithSeaman_ActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc+1));
-
 
       var TorpedoTierIndex = [
         ["-",0,3761097],
