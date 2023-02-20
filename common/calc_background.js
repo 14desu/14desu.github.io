@@ -37,17 +37,17 @@ function RN_Abroad_Reset(){
   $("#RN_Abroad_Input").prop("checked", false);
   //영국유학함장IP/OP리셋
   if($("#nation_sel").val() == "영국"){
-    $("#RN_Abroad_Input_Row").hide();
+    $("#RN_Abroad_Input").hide();
   }
   else{
     if($("#tree_sel").val() == "함장"){
-      $("#RN_Abroad_Input_Row").show();
+      $("#RN_Abroad_Input").show();
     }
   }
 }
 
 function Boost_List_Reset(){
-  if($("#Server_Input").val() == "Korea_server"){
+  if($("#server_input").val() == "Korea_server"){
     $(".boost1").show();
     $(".boost2").hide();
     $(".boost20").hide();
@@ -55,7 +55,7 @@ function Boost_List_Reset(){
       $(".boost2").show();
     }
   }
-  else if($("#Server_Input").val() == "Global_server"){
+  else if($("#server_input").val() == "Global_server"){
     $(".boost1").hide();
     $(".boost2").hide();
     $(".boost20").show();
@@ -63,17 +63,24 @@ function Boost_List_Reset(){
 }
 
 function Level_Input_Reset(){
-  if($("#Server_Input").val() == "Korea_server"){
+  if($("#server_input").val() == "Korea_server"){
     $("#LEVIP").val(120);
   }
-  else if($("#Server_Input").val() == "Global_server"){
+  else if($("#server_input").val() == "Global_server"){
     $("#LEVIP").val(125);
   }
 }
 
-$(document).on("change","#Server_Input",function(){
+$(document).on("change","#server_input",function(){
   Boost_List_Reset();
   Level_Input_Reset();
+  $(".Basic_output").show();
+  if($("#server_input").val() == "Korea_server"){
+    $(".Global_output").hide();
+  }
+  if($("#server_input").val() == "Global_server"){
+    $(".KR_output").hide();
+  }
 });
 
 $(document).on("change","#Sailor_AutoInput",function(){
@@ -99,36 +106,44 @@ $(document).on("change","#tree_sel",function(){
     $(".SailorTreeReset").val("");
   
     //트리변경 -> OUTPUT리셋
-    $(".Captin_Input_Row,.Captin_Output_Row,.Gunner_Input_Row,.Gunner_Output_Row,.Gunner_Output_Detail_Row,.Engine_Output_Row,.Sonar_Output_Row,.Submerge_Output_Row,.Torpedo_Input_Row,.Torpedo_Output_Row").hide();
+    $(".Captin_Input,.Captin_Output,.Gunner_Input,.Gunner_Output,.Gunner_Output_Detail,.Engine_Output,.Sonar_Output,.Submerge_Output,.Torpedo_Input,.Torpedo_Output").hide();
+    $(".Basic_output").show();
   
     //영국유학IP리셋
     $("#RN_Abroad_Input").prop("checked", false);
   
     if($("#tree_sel").val() == "함장"){
-      $(".Captin_Input_Row,.Captin_Output_Row").show();
+      $(".Captin_Input,.Captin_Output").show();
       if($("#nation_sel").val() == "영국"){
-        $("#RN_Abroad_Input_Row").hide();
+        $("#RN_Abroad_Input").hide();
       }
     }
-    if($("#tree_sel").val().match("포병")){
-      $(".Gunner_Input_Row,.Gunner_Output_Row").show();
+    if($("#tree_sel").val().match("포")){
+      $(".Gunner_Input,.Gunner_Output").show();
       if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
-        $(".Gunner_Output_Detail_Row").show();
+        $(".Gunner_Output_Detail").show();
       }
     }
     if($("#tree_sel").val().match("기관")){
-      $(".Engine_Output_Row").show();
+      $(".Engine_Output").show();
     }
     if($("#tree_sel").val().match("음탐")){
-      $(".Sonar_Output_Row").show();
+      $(".Sonar_Output").show();
     }
     if($("#tree_sel").val().match("잠항")){
-      $(".Submerge_Input_Row").show();
-      $(".Submerge_Output_Row").show();
+      $(".Submerge_Input").show();
+      $(".Submerge_Output").show();
     }
     if($("#tree_sel").val().match("어뢰")){
-      $(".Torpedo_Input_Row").show();
-      $(".Torpedo_Output_Row").show();
+      $(".Torpedo_Input").show();
+      $(".Torpedo_Output").show();
+    }
+
+    if($("#server_input").val() == "Korea_server"){
+      $(".Global_output").hide();
+    }
+    if($("#server_input").val() == "Global_server"){
+      $(".KR_output").hide();
     }
 });
 
@@ -143,10 +158,10 @@ $(document).on("change","#RN_Abroad_Input",function(){
 
 $(document).on("change","#Gun_ActualReloadtime_Output",function(){
     if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
-      $(".Gunner_Output_Detail_Row").show();
+      $(".Gunner_Output_Detail").show();
     }
     else{
-      $(".Gunner_Output_Detail_Row").hide();
+      $(".Gunner_Output_Detail").hide();
     }
 });
 

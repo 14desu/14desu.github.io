@@ -93,11 +93,11 @@ function get_result_sailor(){
       }
     }
 
-    if($("#LEVIP").val() > 120 && $("#Server_Input").val() == "Korea_server"){
+    if($("#LEVIP").val() > 120 && $("#server_input").val() == "Korea_server"){
       alert("수병Lv은 120을 넘을 수 없습니다")
       $("#LEVIP").val(120);
     }
-    else if($("#LEVIP").val() > 125 && $("#Server_Input").val() == "Global_server"){
+    else if($("#LEVIP").val() > 125 && $("#server_input").val() == "Global_server"){
       alert("수병Lv은 125을 넘을 수 없습니다")
       $("#LEVIP").val(125);
     }
@@ -133,7 +133,7 @@ function get_result_sailor(){
     }
 
     var abilcalc = Array.from(Array(tree_n), () => Array(12).fill(0));
-    var abiltotal = [26,26,26,26,26,26,26,26,26,26,26,55];
+    var abiltotal = [27,27,27,27,27,27,27,27,27,27,27,55];
 
     // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
     for(i=0;i<11;i++){
@@ -302,7 +302,8 @@ function get_result_sailor(){
     for(i=0; i<Veteran_Output.length; i++){
 
       //수리속도계산
-      document.getElementById("KR_RepairSpeed_Row"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      document.getElementById("KR_RepairSpeed"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      document.getElementById("Global_RepairSpeed"+Veteran_Output[i][1]).innerHTML = Global_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
       //함장수리속도계산
       if( BBCaptin_Target_Guideline*1000 < Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1) ){
       document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],BBCaptin_Target_Guideline*1000/Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)));
@@ -310,6 +311,9 @@ function get_result_sailor(){
       else{document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = "-";}
       //구조방어계산
       document.getElementById("KR_RestoreRate"+Veteran_Output[i][1]).innerHTML = KR_RestoreRate_calc(Realabil_Calc(abiltotal[6],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      document.getElementById("Global_RestoreRate"+Veteran_Output[i][1]).innerHTML = Global_RestoreRate_calc(Realabil_Calc(abiltotal[6],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      //Global 연사캡계산
+      document.getElementById("Global_GunnerReloadCap"+Veteran_Output[i][1]).innerHTML = Global_GunReloadCap_calc(Realabil_Calc(abiltotal[2],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
       //기관오버힛시간계산
       document.getElementById("KR_OverheatTime"+Veteran_Output[i][1]).innerHTML = KR_OverheatTime_calc(Realabil_Calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
       //기관오버힛증가율계산
