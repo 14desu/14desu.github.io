@@ -79,7 +79,7 @@ $(document).on("change","#server_input",function(){
     $(".Global_output").hide();
   }
   if($("#server_input").val() == "Global_server"){
-    $(".KR_output").hide();
+    $(".KR_output").hide(); 
   }
 });
 

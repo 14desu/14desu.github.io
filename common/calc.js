@@ -271,7 +271,12 @@ function get_result_sailor(){
           //갑판어빌
           document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = Math.floor(abiltotal[i]*0.07);
           //갑판보정율
-          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
+          if($("#server_input").val() == "Korea_server"){
+            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
+          }
+          if($("#server_input").val() == "Global_server"){
+            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "";
+          }
         }
       }
       else{
