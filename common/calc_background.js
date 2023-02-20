@@ -62,7 +62,7 @@ function Boost_List_Reset(){
   }
 }
 
-function Level_Input_Reset(){
+function level_input_reset(){
   if($("#server_input").val() == "Korea_server"){
     $("#LEVIP").val(120);
   }
@@ -73,14 +73,8 @@ function Level_Input_Reset(){
 
 $(document).on("change","#server_input",function(){
   Boost_List_Reset();
-  Level_Input_Reset();
-  $(".Basic_output").show();
-  if($("#server_input").val() == "Korea_server"){
-    $(".Global_output").hide();
-  }
-  if($("#server_input").val() == "Global_server"){
-    $(".KR_output").hide(); 
-  }
+  level_input_reset();
+  sailor_calc_inputoutput_reset();
 });
 
 $(document).on("change","#Sailor_AutoInput",function(){
@@ -102,49 +96,8 @@ $(document).on("change","#nation_sel",function(){
 $(document).on("change","#tree_sel",function(){
     //
     params["treeinput"] = $("#tree_sel").val();
-    //트리변경 -> 늦직IP리셋
-    $(".SailorTreeReset").val("");
-  
-    //트리변경 -> OUTPUT리셋
-    $(".Captin_Input,.Captin_Output,.Gunner_Input,.Gunner_Output,.Gunner_Output_Detail,.Engine_Output,.Sonar_Output,.Submerge_Output,.Torpedo_Input,.Torpedo_Output").hide();
-    $(".Basic_output").show();
-  
-    //영국유학IP리셋
-    $("#RN_Abroad_Input").prop("checked", false);
-  
-    if($("#tree_sel").val() == "함장"){
-      $(".Captin_Input,.Captin_Output").show();
-      if($("#nation_sel").val() == "영국"){
-        $("#RN_Abroad_Input").hide();
-      }
-    }
-    if($("#tree_sel").val().match("포")){
-      $(".Gunner_Input,.Gunner_Output").show();
-      if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
-        $(".Gunner_Output_Detail").show();
-      }
-    }
-    if($("#tree_sel").val().match("기관")){
-      $(".Engine_Output").show();
-    }
-    if($("#tree_sel").val().match("음탐")){
-      $(".Sonar_Output").show();
-    }
-    if($("#tree_sel").val().match("잠항")){
-      $(".Submerge_Input").show();
-      $(".Submerge_Output").show();
-    }
-    if($("#tree_sel").val().match("어뢰")){
-      $(".Torpedo_Input").show();
-      $(".Torpedo_Output").show();
-    }
-
-    if($("#server_input").val() == "Korea_server"){
-      $(".Global_output").hide();
-    }
-    if($("#server_input").val() == "Global_server"){
-      $(".KR_output").hide();
-    }
+      
+    sailor_calc_inputoutput_reset();
 });
 
 $(document).on("change","#RN_Abroad_Input",function(){
@@ -343,3 +296,47 @@ function Reload_Calc_AutoInput(index){
     document.getElementById("Reload_Calc_EXPInput"+index).value = document.getElementById("NUMTotal").innerHTML - document.getElementById("VET45").innerHTML;
 }
 
+function sailor_calc_inputoutput_reset(){
+  //트리변경 -> 늦직IP리셋
+  $(".SailorTreeReset").val("");
+  //트리변경 -> OUTPUT리셋
+  $(".Captin_Input,.Captin_Output,.Gunner_Input,.Gunner_Output,.Gunner_Output_Detail,.Engine_Output,.Sonar_Output,.Submerge_Output,.Torpedo_Input,.Torpedo_Output").hide();
+  $(".Basic_output").show();
+
+  //영국유학IP리셋
+  $("#RN_Abroad_Input").prop("checked", false);
+
+  if($("#tree_sel").val() == "함장"){
+    $(".Captin_Input,.Captin_Output").show();
+    if($("#nation_sel").val() == "영국"){
+      $("#RN_Abroad_Input").hide();
+    }
+  }
+  if($("#tree_sel").val().match("포")){
+    $(".Gunner_Input,.Gunner_Output").show();
+    if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
+      $(".Gunner_Output_Detail").show();
+    }
+  }
+  if($("#tree_sel").val().match("기관")){
+    $(".Engine_Output").show();
+  }
+  if($("#tree_sel").val().match("음탐")){
+    $(".Sonar_Output").show();
+  }
+  if($("#tree_sel").val().match("잠항")){
+    $(".Submerge_Input").show();
+    $(".Submerge_Output").show();
+  }
+  if($("#tree_sel").val().match("어뢰")){
+    $(".Torpedo_Input").show();
+    $(".Torpedo_Output").show();
+  }
+
+  if($("#server_input").val() == "Korea_server"){
+    $(".Global_output").hide();
+  }
+  if($("#server_input").val() == "Global_server"){
+    $(".KR_input,.KR_output").hide();
+  }
+}

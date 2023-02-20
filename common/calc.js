@@ -93,6 +93,7 @@ function get_result_sailor(){
       }
     }
 
+    //입력Lv체크 알람
     if($("#LEVIP").val() > 120 && $("#server_input").val() == "Korea_server"){
       alert("수병Lv은 120을 넘을 수 없습니다")
       $("#LEVIP").val(120);
@@ -307,8 +308,8 @@ function get_result_sailor(){
     for(i=0; i<Veteran_Output.length; i++){
 
       //수리속도계산
-      document.getElementById("KR_RepairSpeed"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      document.getElementById("Global_RepairSpeed"+Veteran_Output[i][1]).innerHTML = Global_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
+      $("#KR_RepairSpeed"+Veteran_Output[i][1]).html( KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)) );
+      $("#Global_RepairSpeed"+Veteran_Output[i][1]).html( Global_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)) );
       //함장수리속도계산
       if( BBCaptin_Target_Guideline*1000 < Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1) ){
       document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],BBCaptin_Target_Guideline*1000/Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)));
@@ -729,8 +730,10 @@ function Get_Result_Realabil_Calc(){
     Sailortotal[i] = new Array(5);
   }
   for (i = 0; i < Sailortotal.length; i++){
-    Sailortotal[i][0] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input1").value;
-    Sailortotal[i][1] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input2").value;
+//    Sailortotal[i][0] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input1").value;
+    Sailortotal[i][0] = $("#Realabil_Calc_"+SailorIndex[i][1]+"_Input1").val();
+//    Sailortotal[i][1] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input2").value;
+    Sailortotal[i][1] = $("#Realabil_Calc_"+SailorIndex[i][1]+"_Input2").val();
   }
   for (i = 0; i < 2; i++){
     Sailortotal[3][i+2] = Math.round((Sailortotal[1][i]*1+Sailortotal[2][i]*1+Sailortotal[3][i]*1)/Sailortotal[0][i]*1000)/10;
@@ -754,8 +757,10 @@ function Get_Result_Realabil_Calc(){
     Abiltotal[i] = new Array(5);
   }
   for (i = 0; i < Abiltotal.length; i++){
-    Abiltotal[i][0] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input1").value;
-    Abiltotal[i][1] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input2").value;
+//    Abiltotal[i][0] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input1").value;
+    Abiltotal[i][0] = $("#Realabil_Calc_"+AbilIndex[i][1]+"_Input1").val();
+//    Abiltotal[i][1] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input2").value;
+    Abiltotal[i][1] = $("#Realabil_Calc_"+AbilIndex[i][1]+"_Input2").val();
     Abiltotal[i][2] = Math.round( Abiltotal[i][0] * Sailortotal[0][2] );
     Abiltotal[i][3] = Math.round( Abiltotal[i][1] * Sailortotal[0][3] );
     if(Abiltotal[i][2] > 0){
@@ -769,20 +774,20 @@ function Get_Result_Realabil_Calc(){
 
   //계산결과 출력
   for (i = 0; i < Abiltotal.length; i++){
-    document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Output1").innerHTML = Abiltotal[i][2];
-    document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Output2").innerHTML = Abiltotal[i][3];
-    document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"Rate_Output").innerHTML = Abiltotal[i][4]+"%";
+    $("#Realabil_Calc_"+AbilIndex[i][1]+"_Output1").html(Abiltotal[i][2]);
+    $("#Realabil_Calc_"+AbilIndex[i][1]+"_Output2").html(Abiltotal[i][3]);
+    $("#Realabil_Calc_"+AbilIndex[i][1]+"Rate_Output").html(Abiltotal[i][4]+"%");
   }
   for (i = 0; i < Sailortotal.length; i++){
     if(i < Sailortotal.length -1 ){
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Output1").innerHTML = Sailortotal[i][2];
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Output2").innerHTML = Sailortotal[i][3];
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"Rate_Output").innerHTML = Sailortotal[i][4]+"%";
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"_Output1").html(Sailortotal[i][2]);
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"_Output2").html(Sailortotal[i][3]);
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"Rate_Output").html(Sailortotal[i][4]+"%");
     }
     else{
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Output1").innerHTML = Sailortotal[i][2]+"%";
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Output2").innerHTML = Sailortotal[i][3]+"%";
-      document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"Rate_Output").innerHTML = "← 수병빈혈도";
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"_Output1").html(Sailortotal[i][2]+"%");
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"_Output2").html(Sailortotal[i][3]+"%");
+      $("#Realabil_Calc_"+SailorIndex[i][1]+"Rate_Output").html("← 수병빈혈도");
     }
   }
 }
