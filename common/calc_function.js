@@ -6,8 +6,20 @@ function KR_RepairSpeed_calc(realabil){
   return Math.floor(Math.floor(realabil/480)/25.6)/10;
 }
 
+function Global_RepairSpeed_calc(realabil){
+  return Math.floor(realabil/13630)/10;
+}
+
 function KR_RestoreRate_calc(realabil){
   return Math.floor(Math.floor(realabil/480)/16);
+}
+
+function Global_RestoreRate_calc(realabil){
+  return Math.floor(realabil/8537);
+}
+
+function Global_GunReloadCap_calc(realabil){
+  return Math.floor(realabil/1950)/10;
 }
 
 function KR_OverheatTime_calc(realabil){
