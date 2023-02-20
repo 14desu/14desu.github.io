@@ -99,27 +99,27 @@
                             </select>
                             </td>
                         </tr>
-                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="Gunner_Input">
+                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="KR_input Gunner_Input">
                             <td>함포 연사속도입력 <a id="Gun_Official_Shipyard1" class="Gun_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Gun_Reloadtime_Input" class="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
                         </tr>
-                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="Gunner_Input">
+                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="KR_input Gunner_Input">
                             <td>구현 연사속도출력여부</td>
                             <td><input type="checkbox" id="Gun_ActualReloadtime_Output" name="Gun_ActualReloadtime_Output" value="Gun_ActualReloadtime_Output" onchange="ActualTimeOutput();"></td>
                         </tr>
-                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="Captin_Input">
+                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="KR_input Captin_Input">
                             <td>함장 영국유학여부　<a href="https://14desu.github.io/NFLab/#sailor_captin_RN_abroad" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="checkbox" id="RN_Abroad_Input" value="RN_Abroad"></td>
                         </tr>
-                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="Captin_Input">
+                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="KR_input Captin_Input">
                             <td>FCS 착탄보정한계거리 <a id="FCS_Official_Shipyard1" class="FCS_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="FCS_Guideline_Input" class="FCS_Guideline_Input" step="2" size="2"></td>
                         </tr>
-                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="Captin_Input">
+                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="KR_input Captin_Input">
                             <td>목표 가이드라인거리</td>
                             <td><input type="number" id="Target_Guideline_Input" step="2" value="3000" size="2"></td>
                         </tr>
-                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="Submerge_Input">
+                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="KR_input Submerge_Input">
                             <td>잠수함 잠항시간 [s] <a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td>
                                 <select id="SS_Class_Input">
@@ -134,7 +134,7 @@
                                 <input type="number" id="SS_Divetime_Input" step="0.04" size="2" value="240" style="width:80px">
                             </td>
                         </tr>
-                        <tr id="Torpedo_Reloadtime_Input_Row" style="display:none;" class="Torpedo_Input">
+                        <tr id="Torpedo_Reloadtime_Input_Row" style="display:none;" class="KR_input Torpedo_Input">
                             <td>어뢰발사관 실제체감시간[s] 입력 <a id="Torpedo_Official_Shipyard1" class="Torpedo_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/torpedo.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Torpedo_Reloadtime_Input" class="Torpedo_Reloadtime_Input" step="0.04" size="2" max="100" style="width:80px"></td>
                         </tr>
@@ -579,7 +579,7 @@
                         <td><span id="WithSeaman_ActualGunReload45"></span></td>
                     </tr>
                     <tr id="Torpedo_ReloadTier_Row" style="display:none;" class="KR_output Torpedo_Output">
-                        <td>어뢰 수병연사구간</td>
+                        <td>어뢰 수병연사구간 *beta</td>
                         <td><span id="Torpedo_ReloadTier100"></span></td>
                         <td><span id="Torpedo_ReloadTier180"></span></td>
                         <td><span id="Torpedo_ReloadTier250"></span></td>
@@ -588,7 +588,7 @@
                         <td><span id="Torpedo_ReloadTier45"></span></td>
                     </tr>
                     <tr id="Torpedo_ReloadTime_Row" style="display:none;" class="KR_output Torpedo_Output">
-                        <td>어뢰 평균연사속도 [s]</td>
+                        <td>어뢰 평균연사속도[s] *beta</td>
                         <td><span id="Torpedo_ReloadTime100"></span></td>
                         <td><span id="Torpedo_ReloadTime180"></span></td>
                         <td><span id="Torpedo_ReloadTime250"></span></td>
@@ -597,7 +597,7 @@
                         <td><span id="Torpedo_ReloadTime45"></span></td>
                     </tr>
                     <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="KR_output Torpedo_Output">
-                        <td>어뢰 갑판보정 필요보정치[%]</td>
+                        <td>어뢰 갑판보정 필요보정치[%] *beta</td>
                         <td><span id="Torpedo_NeededSeamanReloadUp100"></span></td>
                         <td><span id="Torpedo_NeededSeamanReloadUp180"></span></td>
                         <td><span id="Torpedo_NeededSeamanReloadUp250"></span></td>
