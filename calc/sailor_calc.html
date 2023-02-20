@@ -15,7 +15,7 @@
                         <tr>
                             <td>서버입력</td>
                             <td>
-                            <select id="Server_Input">
+                            <select id="server_input">
                                 <option value="Korea_server">Korea server</option>
                                 <option  value="Global_server" >Global server</option>
                 <!--disabled
@@ -99,27 +99,27 @@
                             </select>
                             </td>
                         </tr>
-                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="Gunner_Input_Row">
+                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="Gunner_Input">
                             <td>함포 연사속도입력 <a id="Gun_Official_Shipyard1" class="Gun_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Gun_Reloadtime_Input" class="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
                         </tr>
-                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="Gunner_Input_Row">
+                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="Gunner_Input">
                             <td>구현 연사속도출력여부</td>
                             <td><input type="checkbox" id="Gun_ActualReloadtime_Output" name="Gun_ActualReloadtime_Output" value="Gun_ActualReloadtime_Output" onchange="ActualTimeOutput();"></td>
                         </tr>
-                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="Captin_Input_Row">
+                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="Captin_Input">
                             <td>함장 영국유학여부　<a href="https://14desu.github.io/NFLab/#sailor_captin_RN_abroad" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="checkbox" id="RN_Abroad_Input" value="RN_Abroad"></td>
                         </tr>
-                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="Captin_Input_Row">
+                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="Captin_Input">
                             <td>FCS 착탄보정한계거리 <a id="FCS_Official_Shipyard1" class="FCS_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="FCS_Guideline_Input" class="FCS_Guideline_Input" step="2" size="2"></td>
                         </tr>
-                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="Captin_Input_Row">
+                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="Captin_Input">
                             <td>목표 가이드라인거리</td>
                             <td><input type="number" id="Target_Guideline_Input" step="2" value="3000" size="2"></td>
                         </tr>
-                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="Submerge_Input_Row">
+                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="Submerge_Input">
                             <td>잠수함 잠항시간 [s] <a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td>
                                 <select id="SS_Class_Input">
@@ -134,7 +134,7 @@
                                 <input type="number" id="SS_Divetime_Input" step="0.04" size="2" value="240" style="width:80px">
                             </td>
                         </tr>
-                        <tr id="Torpedo_Reloadtime_Input_Row" style="display:none;" class="Torpedo_Input_Row">
+                        <tr id="Torpedo_Reloadtime_Input_Row" style="display:none;" class="Torpedo_Input">
                             <td>어뢰발사관 실제체감시간[s] 입력 <a id="Torpedo_Official_Shipyard1" class="Torpedo_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/torpedo.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Torpedo_Reloadtime_Input" class="Torpedo_Reloadtime_Input" step="0.04" size="2" max="100" style="width:80px"></td>
                         </tr>
@@ -379,6 +379,7 @@
         <div id="collapse4" class="accordion-collapse collapse show" aria-labelledby="heading4" data-bs-parent="#accordionExample">
             <div class="accordion-body p-0">
                 <table class="table table-bordered table-striped table-hover table-sm">
+                    <thead>
                     <tr>
                         <td>
                             사관 [명]
@@ -404,192 +405,99 @@
                         <span id="VET45"></span>
                         </td>
                     </tr>
-                    <tr id="KR_RepairSpeed_Row">
-                        <td>
-                            수리속도[/s] KR
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row100"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row180"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row250"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row300"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row40"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RepairSpeed_Row45"></span>
-                        </td>
+                    </thead>
+                    <tbody>
+                    <tr id="KR_RepairSpeed_Row" class="Basic_output KR_output">
+                        <td>수리속도[/s] KR</td>
+                        <td><span id="KR_RepairSpeed100"></span></td>
+                        <td><span id="KR_RepairSpeed180"></span></td>
+                        <td><span id="KR_RepairSpeed250"></span></td>
+                        <td><span id="KR_RepairSpeed300"></span></td>
+                        <td><span id="KR_RepairSpeed40"></span></td>
+                        <td><span id="KR_RepairSpeed45"></span></td>
                     </tr>
-                    <tr id="KR_RepairSpeed_BBCaptin_Row" style="display:none;" Class="Captin_Output_Row">
-                    <td>
-                        수리속도[/s] KR <br>
-                        가이드라인 <span id="Target_Guildline"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin100"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin180"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin250"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin300"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin40"></span>
-                    </td>
-                    <td>
-                        <span id="KR_RepairSpeed_BBCaptin45"></span>
-                    </td>
+                    <tr id="Global_RepairSpeed_Row" class="Basic_output Global_output">
+                        <td>수리속도[/s] Global *beta</td>
+                        <td><span id="Global_RepairSpeed100"></span></td>
+                        <td><span id="Global_RepairSpeed180"></span></td>
+                        <td><span id="Global_RepairSpeed250"></span></td>
+                        <td><span id="Global_RepairSpeed300"></span></td>
+                        <td><span id="Global_RepairSpeed40"></span></td>
+                        <td><span id="Global_RepairSpeed45"></span></td>
                     </tr>
-                    <tr id="KR_RestoreRate_Row">
-                        <td>
-                            구조방어 KR
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate100"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate180"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate250"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate300"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate40"></span>
-                        </td>
-                        <td>
-                            <span id="KR_RestoreRate45"></span>
-                        </td>
+                    <tr id="KR_RepairSpeed_BBCaptin_Row" style="display:none;" Class="KR_output Captin_Output">
+                    <td>수리속도[/s] KR<br>가이드라인 <span id="Target_Guildline"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin100"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin180"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin250"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin300"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin40"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin45"></span></td>
                     </tr>
-                    <tr id="KR_OverheatTime_Row" style="display:none;" class="Engine_Output_Row">
-                        <td>
-                            <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime100"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime180"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime250"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime300"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime40"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatTime45"></span>
-                        </td>
+                    <tr id="KR_RestoreRate_Row" class="Basic_output KR_output">
+                        <td>구조방어 KR</td>
+                        <td><span id="KR_RestoreRate100"></span></td>
+                        <td><span id="KR_RestoreRate180"></span></td>
+                        <td><span id="KR_RestoreRate250"></span></td>
+                        <td><span id="KR_RestoreRate300"></span></td>
+                        <td><span id="KR_RestoreRate40"></span></td>
+                        <td><span id="KR_RestoreRate45"></span></td>
                     </tr>
-                    <tr id="KR_OverheatRate_Row" style="display:none;" class="Engine_Output_Row">
-                        <td>
-                            <a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate100"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate180"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate250"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate300"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate40"></span>
-                        </td>
-                        <td>
-                            <span id="KR_OverheatRate45"></span>
-                        </td>
+                    <tr id="Global_RestoreRate_Row" class="Basic_output Global_output">
+                        <td>구조방어 Global *beta</td>
+                        <td><span id="Global_RestoreRate100"></span></td>
+                        <td><span id="Global_RestoreRate180"></span></td>
+                        <td><span id="Global_RestoreRate250"></span></td>
+                        <td><span id="Global_RestoreRate300"></span></td>
+                        <td><span id="Global_RestoreRate40"></span></td>
+                        <td><span id="Global_RestoreRate45"></span></td>
                     </tr>
-                    <tr id="KR_SonarRange_Row" style="display:none;" class="Sonar_Output_Row">
-                        <td>
-                            음탐만시야 [%] KR
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange100"></span>
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange180"></span>
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange250"></span>
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange300"></span>
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange40"></span>
-                        </td>
-                        <td>
-                            <span id="KR_SonarRange45"></span>
-                        </td>
+                    <tr id="KR_OverheatTime_Row" style="display:none;" class="KR_output Engine_Output">
+                        <td><a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a></td>
+                        <td><span id="KR_OverheatTime100"></span></td>
+                        <td><span id="KR_OverheatTime180"></span></td>
+                        <td><span id="KR_OverheatTime250"></span></td>
+                        <td><span id="KR_OverheatTime300"></span></td>
+                        <td><span id="KR_OverheatTime40"></span></td>
+                        <td><span id="KR_OverheatTime45"></span></td>
                     </tr>
-                    <tr id="KR_OxyCharge_Row" style="display:none;" class="Submerge_Output_Row">
-                    <td>
-                        산소충전량 [/s]
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge100"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge180"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge250"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge300"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge40"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyCharge45"></span>
-                    </td>
+                    <tr id="KR_OverheatRate_Row" style="display:none;" class="KR_output Engine_Output">
+                        <td><a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a></td>
+                        <td><span id="KR_OverheatRate100"></span></td>
+                        <td><span id="KR_OverheatRate180"></span></td>
+                        <td><span id="KR_OverheatRate250"></span></td>
+                        <td><span id="KR_OverheatRate300"></span></td>
+                        <td><span id="KR_OverheatRate40"></span></td>
+                        <td><span id="KR_OverheatRate45"></span></td>
                     </tr>
-                    <tr id="KR_OxyChargeTime_Row" style="display:none;" class="Submerge_Output_Row">
-                    <td>
-                        산소충전시간[s] <span id="SS_Class_Output1" class="SS_Class_Output">SS6 240s</span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime100"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime180"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime250"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime300"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime40"></span>
-                    </td>
-                    <td>
-                        <span id="KR_OxyChargeTime45"></span>
-                    </td>
+                    <tr id="KR_SonarRange_Row" style="display:none;" class="KR_output Sonar_Output">
+                        <td>음탐만시야[%] KR</td>
+                        <td><span id="KR_SonarRange100"></span></td>
+                        <td><span id="KR_SonarRange180"></span></td>
+                        <td><span id="KR_SonarRange250"></span></td>
+                        <td><span id="KR_SonarRange300"></span></td>
+                        <td><span id="KR_SonarRange40"></span></td>
+                        <td><span id="KR_SonarRange45"></span></td>
                     </tr>
-                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;" class="Submerge_Output_Row">
+                    <tr id="KR_OxyCharge_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <td>산소충전량[/s]</td>
+                        <td><span id="KR_OxyCharge100"></span></td>
+                        <td><span id="KR_OxyCharge180"></span></td>
+                        <td><span id="KR_OxyCharge250"></span></td>
+                        <td><span id="KR_OxyCharge300"></span></td>
+                        <td><span id="KR_OxyCharge40"></span></td>
+                        <td><span id="KR_OxyCharge45"></span></td>
+                    </tr>
+                    <tr id="KR_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <td>산소충전시간[s] <span id="SS_Class_Output1" class="SS_Class_Output">SS6 240s</span></td>
+                        <td><span id="KR_OxyChargeTime100"></span></td>
+                        <td><span id="KR_OxyChargeTime180"></span></td>
+                        <td><span id="KR_OxyChargeTime250"></span></td>
+                        <td><span id="KR_OxyChargeTime300"></span></td>
+                        <td><span id="KR_OxyChargeTime40"></span></td>
+                        <td><span id="KR_OxyChargeTime45"></span></td>
+                    </tr>
+                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;" class="KR_output Submerge_Output">
                         <td>산소충전구간업 필요갑판보정</td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp100"></span></td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp180"></span></td>
@@ -598,7 +506,7 @@
                         <td><span id="KR_NeededSeaman_OxyChargeUp40"></span></td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp45"></span></td>
                     </tr>
-                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="Submerge_Output_Row">
+                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output">
                         <td>갑판보정 산소충전시간[s] <span id="SS_Class_Output2" class="SS_Class_Output">SS6 240s</span></td>
                         <td><span id="KR_WithSeaman_OxyChargeTime100"></span></td>
                         <td><span id="KR_WithSeaman_OxyChargeTime180"></span></td>
@@ -607,7 +515,16 @@
                         <td><span id="KR_WithSeaman_OxyChargeTime40"></span></td>
                         <td><span id="KR_WithSeaman_OxyChargeTime45"></span></td>
                     </tr>
-                    <tr id="SailorReloadRow" style="display:none;" class="Gunner_Output_Row">
+                    <tr id="Global_GunnerReloadCap_Row" style="display:none;" class="Global_output Gunner_Output">
+                        <td>포병 연사캡[%] Global *beta</td>
+                        <td><span id="Global_GunnerReloadCap100"></span></td>
+                        <td><span id="Global_GunnerReloadCap180"></span></td>
+                        <td><span id="Global_GunnerReloadCap250"></span></td>
+                        <td><span id="Global_GunnerReloadCap300"></span></td>
+                        <td><span id="Global_GunnerReloadCap40"></span></td>
+                        <td><span id="Global_GunnerReloadCap45"></span></td>
+                    </tr>
+                    <tr id="SailorReloadRow" style="display:none;" class="KR_output Gunner_Output">
                         <td>함포 수병연사구간</td>
                         <td><span id="SailorReload100"></span></td>
                         <td><span id="SailorReload180"></span></td>
@@ -616,7 +533,7 @@
                         <td><span id="SailorReload40"></span></td>
                         <td><span id="SailorReload45"></span></td>
                     </tr>
-                    <tr id="AvgGunReloadRow" style="display:none;" class="Gunner_Output_Row">
+                    <tr id="AvgGunReloadRow" style="display:none;" class="KR_output Gunner_Output">
                         <td>함포 평균연사속도 [s]</td>
                         <td><span id="AvgGunReload100"></span></td>
                         <td><span id="AvgGunReload180"></span></td>
@@ -625,7 +542,7 @@
                         <td><span id="AvgGunReload40"></span></td>
                         <td><span id="AvgGunReload45"></span></td>
                     </tr>
-                    <tr id="ActualGunReloadRow" style="display:none;" class="Gunner_Output_Detail_Row">
+                    <tr id="ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail">
                         <td>함포 구현연사속도 [s]</td>
                         <td><span id="ActualGunReload100"></span></td>
                         <td><span id="ActualGunReload180"></span></td>
@@ -634,7 +551,7 @@
                         <td><span id="ActualGunReload40"></span></td>
                         <td><span id="ActualGunReload45"></span></td>
                     </tr>
-                    <tr id="NeededSeamanReloadUpRow" style="display:none;" class="Gunner_Output_Row">
+                    <tr id="NeededSeamanReloadUpRow" style="display:none;" class="KR_output Gunner_Output">
                         <td>함포 갑판보정 필요연사보정치[%]</td>
                         <td><span id="NeededSeamanReloadUp100"></span></td>
                         <td><span id="NeededSeamanReloadUp180"></span></td>
@@ -643,7 +560,7 @@
                         <td><span id="NeededSeamanReloadUp40"></span></td>
                         <td><span id="NeededSeamanReloadUp45"></span></td>
                     </tr>
-                    <tr id="WithSeaman_GunReloadRow" style="display:none;" class="Gunner_Output_Row">
+                    <tr id="WithSeaman_GunReloadRow" style="display:none;" class="KR_output Gunner_Output">
                         <td>함포 갑판보정 평균연사속도 [s]</td>
                         <td><span id="WithSeaman_GunReload100"></span></td>
                         <td><span id="WithSeaman_GunReload180"></span></td>
@@ -652,7 +569,7 @@
                         <td><span id="WithSeaman_GunReload40"></span></td>
                         <td><span id="WithSeaman_GunReload45"></span></td>
                     </tr>
-                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;" class="Gunner_Output_Detail_Row">
+                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail">
                         <td>갑판보정 구현연사속도 [s]</td>
                         <td><span id="WithSeaman_ActualGunReload100"></span></td>
                         <td><span id="WithSeaman_ActualGunReload180"></span></td>
@@ -661,7 +578,7 @@
                         <td><span id="WithSeaman_ActualGunReload40"></span></td>
                         <td><span id="WithSeaman_ActualGunReload45"></span></td>
                     </tr>
-                    <tr id="Torpedo_ReloadTier_Row" style="display:none;" class="Torpedo_Output_Row">
+                    <tr id="Torpedo_ReloadTier_Row" style="display:none;" class="KR_output Torpedo_Output">
                         <td>어뢰 수병연사구간</td>
                         <td><span id="Torpedo_ReloadTier100"></span></td>
                         <td><span id="Torpedo_ReloadTier180"></span></td>
@@ -670,7 +587,7 @@
                         <td><span id="Torpedo_ReloadTier40"></span></td>
                         <td><span id="Torpedo_ReloadTier45"></span></td>
                     </tr>
-                    <tr id="Torpedo_ReloadTime_Row" style="display:none;" class="Torpedo_Output_Row">
+                    <tr id="Torpedo_ReloadTime_Row" style="display:none;" class="KR_output Torpedo_Output">
                         <td>어뢰 평균연사속도 [s]</td>
                         <td><span id="Torpedo_ReloadTime100"></span></td>
                         <td><span id="Torpedo_ReloadTime180"></span></td>
@@ -679,7 +596,7 @@
                         <td><span id="Torpedo_ReloadTime40"></span></td>
                         <td><span id="Torpedo_ReloadTime45"></span></td>
                     </tr>
-                    <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="Torpedo_Output_Row">
+                    <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="KR_output Torpedo_Output">
                         <td>어뢰 갑판보정 필요보정치[%]</td>
                         <td><span id="Torpedo_NeededSeamanReloadUp100"></span></td>
                         <td><span id="Torpedo_NeededSeamanReloadUp180"></span></td>
@@ -688,6 +605,7 @@
                         <td><span id="Torpedo_NeededSeamanReloadUp40"></span></td>
                         <td><span id="Torpedo_NeededSeamanReloadUp45"></span></td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
