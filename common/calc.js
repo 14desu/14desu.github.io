@@ -1,9 +1,24 @@
 var origUrl = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?";
-var params = {};
+
+var kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
 var KR_Reload_TierCut_Data = [];
+
+function kr_gun_reload_api(){
+  fetch(kr_gun_reload_api_url)
+  .then(response => response.json())
+  .then(response => {
+    KR_Reload_TierCut_Data = response["data"]["kr_gun_reloadcut"];
+  })
+}
+
+$(document).ready( function() {
+  kr_gun_reload_api();
+});
+
+var params = {};
+
 params["nationinput"] = "";
 params["treeinput"] = "";
-
 
 function gen_url(){
   var param = "input=" + params["nationinput"] + " - " + params["treeinput"]
@@ -22,7 +37,7 @@ function get_result_sailor(){
 
     treedata = response["data"]["sailortree"];
     abildata = response["data"]["sailorabil"];
-    KR_Reload_TierCut_Data = response["data"]["gunreloadcut"];
+//    KR_Reload_TierCut_Data = response["data"]["gunreloadcut"];
 
     //abildata 값으로 검색된 전직횟수 판정
     var tree_n = 0;
