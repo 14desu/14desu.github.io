@@ -284,7 +284,7 @@ function Ship_Calc_AutoInput(index){
     }
     document.getElementById("Ship_Calc_REPInput"+index).value = document.getElementById("REPTotal").innerHTML;
     document.getElementById("Ship_Calc_NUMInput"+index).value = document.getElementById("NUMTotal").innerHTML;
-    document.getElementById("Ship_Calc_VETInput"+index).value = document.getElementById("VET45").innerHTML;
+    document.getElementById("Ship_Calc_VETInput"+index).value = document.getElementById("output_vetip6").value;
 }
 
 function Guideline_Calc_AutoInput(index){
