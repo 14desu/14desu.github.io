@@ -1,19 +1,25 @@
 var origUrl = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?";
 
-var kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
-var KR_Reload_TierCut_Data = [];
-
+const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
+var kr_reload_tiercut_data = [];
 function kr_gun_reload_api(){
   fetch(kr_gun_reload_api_url)
   .then(response => response.json())
   .then(response => {
-    KR_Reload_TierCut_Data = response["data"]["kr_gun_reloadcut"];
+    kr_reload_tiercut_data = response["data"]["kr_gun_reloadcut"];
   })
 }
-
 $(document).ready( function() {
   kr_gun_reload_api();
 });
+
+var kr_torpedo_tier_data = [
+  ["-",0,3761097],
+  [90,3761097,4562019],
+  [92,4563357,5762180],
+  [94,5762746,7695914],
+  [96,7784227,10564236],
+];
 
 var params = {};
 
@@ -27,9 +33,9 @@ function gen_url(){
 }
 
 function get_result_sailor(){
-  var encoderUrl = gen_url();
-  var treedata = [];
-  var abildata = [];
+  let encoderUrl = gen_url();
+  let treedata = [];
+  let abildata = [];
 
   fetch(encoderUrl)
   .then(response => response.json())
@@ -37,10 +43,9 @@ function get_result_sailor(){
 
     treedata = response["data"]["sailortree"];
     abildata = response["data"]["sailorabil"];
-//    KR_Reload_TierCut_Data = response["data"]["gunreloadcut"];
 
     //abildata 값으로 검색된 전직횟수 판정
-    var tree_n = 0;
+    let tree_n = 0;
     for(i=0; i<treedata.length; i++){
       if(abildata[i][0] > 0){
         tree_n = tree_n + 1;
@@ -119,10 +124,9 @@ function get_result_sailor(){
     }
 
     //입력Lv가져오기
-    var levinput = $("#LEVIP").val();
+    let levinput = $("#LEVIP").val();
 
-
-    var AbilIndex = [
+    let AbilIndex = [
     ["잠재", "POT"],
     ["명중", "ACC"],
     ["연사", "RLD"],
@@ -278,117 +282,38 @@ function get_result_sailor(){
 
     // 수병 성장어빌/누적어빌/수병수 계산결과 output
     for(i=0; i<AbilIndex.length; i++){
+
       //성장어빌
-      document.getElementById(AbilIndex[i][1]+"Growth").innerHTML = abilgrowth[i];
+      $("#"+AbilIndex[i][1]+"Growth").html(abilgrowth[i]);
+
       //누적어빌
-      document.getElementById(AbilIndex[i][1]+"Total").innerHTML = abiltotal[i];
+      $("#"+AbilIndex[i][1]+"Total").html(abiltotal[i]);
+
+
       if(params["treeinput"] == "갑판병"){
         if(i<AbilIndex.length-1){
           //갑판어빌
-          document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = Math.floor(abiltotal[i]*0.07);
+          $("#"+AbilIndex[i][1]+"SeamanTotal").html(Math.floor(abiltotal[i]*0.07));
           //갑판보정율
           if($("#server_input").val() == "Korea_server"){
-            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = Math.floor(abiltotal[i]/300);
+            $("#"+AbilIndex[i][1]+"SeamanRate").html(Math.floor(abiltotal[i]/300));
           }
           if($("#server_input").val() == "Global_server"){
-            document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "";
+            $("#"+AbilIndex[i][1]+"SeamanRate").html("");
           }
         }
       }
       else{
         if(i<AbilIndex.length-1){
-          document.getElementById(AbilIndex[i][1]+"SeamanTotal").innerHTML = "";
-          document.getElementById(AbilIndex[i][1]+"SeamanRate").innerHTML = "";
+          $("#"+AbilIndex[i][1]+"SeamanTotal").html("");
+          $("#"+AbilIndex[i][1]+"SeamanRate").html("");
         }
       }
     }
 
-    //40% 45% 사관숫자 output
-    $("#VET40").html(Math.floor(abiltotal[11]*0.4));
-    $("#VET45").html(Math.floor(abiltotal[11]*0.45));
+    sailor_performance_autoip();
+    sailor_performance_calc();
 
-    var Veteran_Output = [
-      [$("#VeteranIP").val(), 100],
-      [180, 180],
-      [250, 250],
-      [300, 300],
-      [$("#VET40").html(), 40],
-      [$("#VET45").html(), 45],
-    ];
-   
-    //함장목표가이드라인길이
-    var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
-    $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
-
-    for(i=0; i<Veteran_Output.length; i++){
-
-      //수리속도계산
-      $("#KR_RepairSpeed"+Veteran_Output[i][1]).html( KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)) );
-      $("#Global_RepairSpeed"+Veteran_Output[i][1]).html( Global_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)) );
-      //함장수리속도계산
-      if( BBCaptin_Target_Guideline*1000 < Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1) ){
-      document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = KR_RepairSpeed_calc(Realabil_Calc(abiltotal[5],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],BBCaptin_Target_Guideline*1000/Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)));
-      }
-      else{document.getElementById("KR_RepairSpeed_BBCaptin"+Veteran_Output[i][1]).innerHTML = "-";}
-      //구조방어계산
-      document.getElementById("KR_RestoreRate"+Veteran_Output[i][1]).innerHTML = KR_RestoreRate_calc(Realabil_Calc(abiltotal[6],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      document.getElementById("Global_RestoreRate"+Veteran_Output[i][1]).innerHTML = Global_RestoreRate_calc(Realabil_Calc(abiltotal[6],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //Global 연사캡계산
-      document.getElementById("Global_GunnerReloadCap"+Veteran_Output[i][1]).innerHTML = Global_GunReloadCap_calc(Realabil_Calc(abiltotal[2],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //기관오버힛시간계산
-      document.getElementById("KR_OverheatTime"+Veteran_Output[i][1]).innerHTML = KR_OverheatTime_calc(Realabil_Calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //기관오버힛증가율계산
-      document.getElementById("KR_OverheatRate"+Veteran_Output[i][1]).innerHTML = KR_OverheatRate_calc(Realabil_Calc(abiltotal[7],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //음탐만시야계산
-      document.getElementById("KR_SonarRange"+Veteran_Output[i][1]).innerHTML = KR_SonarRange_calc(Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //산소충전티어
-      var oxytier = KR_OxyTier_calc(Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1));
-      //산소충전티어업 필요갑판보정
-      var oxyu = Math.ceil(((oxytier+1)*250000/Realabil_Calc(abiltotal[0],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1))*100-100);
-      //잠수함 산소충전시간
-      var oxytime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier));
-      var oxyutime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier+1));
-
-      document.getElementById("KR_OxyCharge"+Veteran_Output[i][1]).innerHTML = KR_OxyCharge_calc(oxytier)/25;
-      document.getElementById("KR_OxyChargeTime"+Veteran_Output[i][1]).innerHTML = oxytime;
-      document.getElementById("KR_NeededSeaman_OxyChargeUp"+Veteran_Output[i][1]).innerHTML = oxyu;
-      document.getElementById("KR_WithSeaman_OxyChargeTime"+Veteran_Output[i][1]).innerHTML = oxyutime;
-
-      var ReloadTierCalc = 0;
-        for(j=0; j<KR_Reload_TierCut_Data.length; j++){
-          if(KR_Reload_TierCut_Data[j]+70 < Realabil_Calc(abiltotal[2],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)){
-            ReloadTierCalc = ReloadTierCalc + 1;
-          }
-        }
-      document.getElementById("SailorReload"+Veteran_Output[i][1]).innerHTML = ReloadTierCalc;
-      document.getElementById("NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = Math.ceil(KR_Reload_TierCut_Data[ReloadTierCalc]/Realabil_Calc(abiltotal[2],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)*100-100);
-      document.getElementById("AvgGunReload"+Veteran_Output[i][1]).innerHTML = KR_AvgReloadTime_calc(ReloadTierCalc);
-      document.getElementById("ActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc));
-      document.getElementById("WithSeaman_GunReload"+Veteran_Output[i][1]).innerHTML = KR_AvgReloadTime_calc(ReloadTierCalc+1);
-      document.getElementById("WithSeaman_ActualGunReload"+Veteran_Output[i][1]).innerHTML = KR_RealReloadTime_calc(KR_AvgReloadTime_calc(ReloadTierCalc+1));
-
-      var TorpedoTierIndex = [
-        ["-",0,3761097],
-        [90,3761097,4562019],
-        [92,4563357,5762180],
-        [94,5762746,7695914],
-        [96,7784227,10564236],
-      ];
-
-      document.getElementById("Torpedo_ReloadTier"+Veteran_Output[i][1]).innerHTML = "-";
-      document.getElementById("Torpedo_ReloadTime"+Veteran_Output[i][1]).innerHTML = "-";
-      document.getElementById("Torpedo_NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = "-";
-      for(k=0;k<TorpedoTierIndex.length;k++){
-        if(TorpedoTierIndex[k][1] < Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1) &&
-          TorpedoTierIndex[k][2] > Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)){
-          document.getElementById("Torpedo_ReloadTier"+Veteran_Output[i][1]).innerHTML = TorpedoTierIndex[k][0];
-          document.getElementById("Torpedo_ReloadTime"+Veteran_Output[i][1]).innerHTML = KR_TorpedoReloadTime_calc(TorpedoTierIndex[k][0]);
-          if(k>0 && k<TorpedoTierIndex.length-1){
-            document.getElementById("Torpedo_NeededSeamanReloadUp"+Veteran_Output[i][1]).innerHTML = Math.ceil(TorpedoTierIndex[k+1][1]/Realabil_Calc(abiltotal[3],Veteran_Output[i][0],abiltotal[11]-Veteran_Output[i][0],1)*100-100);
-          }
-        }
-      }
-    }
   }
   );
 }
@@ -400,7 +325,7 @@ function get_result_reload(){
     .then(response => response.json())
     .then(response => {
 
-      KR_Reload_TierCut_Data = response["data"]["reloadcut"];
+      kr_reload_tiercut_data = response["data"]["reloadcut"];
 
       //입력초기어빌가져오기
       var reloadabilip1 = document.getElementById("Reload_Calc_RLDInput1").value*1;
@@ -495,8 +420,8 @@ function get_result_reload(){
 
       //연사구간판정
       for(i=0; i<reloadcalc.length; i++){
-          for(j=0; j<KR_Reload_TierCut_Data.length; j++){
-              if(KR_Reload_TierCut_Data[j]+70 < reloadcalc[i]){
+          for(j=0; j<kr_reload_tiercut_data.length; j++){
+              if(kr_reload_tiercut_data[j]+70 < reloadcalc[i]){
                       reloadcutcalc[i] = reloadcutcalc[i] + 1;
               }
           }
@@ -508,8 +433,8 @@ function get_result_reload(){
 
       //연사구간판정
       for(i=0; i<reloadcalcm.length; i++){
-          for(j=0; j<KR_Reload_TierCut_Data.length; j++){
-              if(KR_Reload_TierCut_Data[j]+70 < reloadcalcm[i]){
+          for(j=0; j<kr_reload_tiercut_data.length; j++){
+              if(kr_reload_tiercut_data[j]+70 < reloadcalcm[i]){
                       reloadcutcalcm[i] = reloadcutcalcm[i] + 1;
               }
           }
@@ -518,7 +443,7 @@ function get_result_reload(){
       //연사구간
       if(reloadcalc[0]>0){
       document.getElementById("RC1").innerHTML = reloadcutcalc[0];
-      document.getElementById("RU1").innerHTML = Math.ceil(KR_Reload_TierCut_Data[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
+      document.getElementById("RU1").innerHTML = Math.ceil(kr_reload_tiercut_data[reloadcutcalc[0]]/reloadcalc[0]*100 - 100);
         if(mate_n > 0){
         document.getElementById("RCM1").innerHTML = reloadcutcalcm[0];
         }
@@ -533,7 +458,7 @@ function get_result_reload(){
       }
       if(reloadcalc[1]>0){
       document.getElementById("RC2").innerHTML = reloadcutcalc[1];
-      document.getElementById("RU2").innerHTML = Math.ceil(KR_Reload_TierCut_Data[reloadcutcalc[1]]/reloadcalc[1]*100 - 100);
+      document.getElementById("RU2").innerHTML = Math.ceil(kr_reload_tiercut_data[reloadcutcalc[1]]/reloadcalc[1]*100 - 100);
           if(mate_n > 0){
           document.getElementById("RCM2").innerHTML = reloadcutcalcm[1];
           }
@@ -722,7 +647,7 @@ function Get_Result_Ship_Calc(){
 }
 
 function Get_Result_Realabil_Calc(){
-  var AbilIndex = [
+  let AbilIndex = [
     ["잠재", "POT"],
     ["명중", "ACC"],
     ["연사", "RLD"],
@@ -732,7 +657,7 @@ function Get_Result_Realabil_Calc(){
     ["전투", "FIG"],
     ["폭격", "BOM"],
     ];
-  var SailorIndex = [
+  let SailorIndex = [
     ["수병수", "NUM"],
     ["사관", "VET"],
     ["숙련병", "EXP"],
@@ -740,14 +665,12 @@ function Get_Result_Realabil_Calc(){
     ];
 
   //수병가져오기
-  var Sailortotal = new Array(4);
+  let Sailortotal = new Array(4);
   for (i = 0; i < Sailortotal.length; i++){
     Sailortotal[i] = new Array(5);
   }
   for (i = 0; i < Sailortotal.length; i++){
-//    Sailortotal[i][0] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input1").value;
     Sailortotal[i][0] = $("#Realabil_Calc_"+SailorIndex[i][1]+"_Input1").val();
-//    Sailortotal[i][1] = document.getElementById("Realabil_Calc_"+SailorIndex[i][1]+"_Input2").value;
     Sailortotal[i][1] = $("#Realabil_Calc_"+SailorIndex[i][1]+"_Input2").val();
   }
   for (i = 0; i < 2; i++){

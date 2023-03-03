@@ -1,3 +1,20 @@
+$(document).ready( function() {
+  $(".sailor_performance_input_detail").hide();
+});
+
+$(document).on("change","#sailor_exp_new_ip_check",function(){
+  sailor_performance_input_detail_set();
+});
+
+function sailor_performance_input_detail_set(){
+  if($("#sailor_exp_new_ip_check").is(":checked") == true){
+    $(".sailor_performance_input_detail").show();
+  }
+  else{
+    $(".sailor_performance_input_detail").hide();
+  }
+}
+
 function Nation_Autoip(){
     //국가변경시의 기본정보
     var Nation_Index = [
@@ -338,5 +355,141 @@ function sailor_calc_inputoutput_reset(){
   }
   if($("#server_input").val() == "Global_server"){
     $(".KR_input,.KR_output").hide();
+  }
+}
+
+function sailor_performance_autoip(){
+
+  //40%,45% 사관수 자동입력
+  $("#output_vetip5").val(Math.floor($("#NUMTotal").html()*0.4));
+  $("#output_vetip6").val(Math.floor($("#NUMTotal").html()*0.45));
+
+  //숙련병수 자동입력
+  for(i=0; i<6; i++){
+    if($("#output_vetip"+[i+1]).val() > Math.floor($("#NUMTotal").html()*0.45)){
+      $("#output_vetip"+[i+1]).val( Math.floor($("#NUMTotal").html()*0.4) );
+    }
+    $("#output_expip"+[i+1]).val($("#NUMTotal").html()-$("#output_vetip"+[i+1]).val());  
+  }
+
+  //빈혈도 계산 + 수병수입력 자동수정
+  sailor_performance_amenia_update();
+
+}
+
+$(document).on("change",".output_sailor_ip",function(){
+  sailor_performance_amenia_update();
+  sailor_performance_calc();
+});
+
+function sailor_performance_amenia_update(){
+  for(i=0; i<6; i++){
+    if($("#server_input").val() == "Korea_server"){
+      if($("#output_vetip"+[i+1]).val()>$("#NUMTotal").html()*0.45){
+        alert("입력된 사관수가 전체수병수의 45%를 넘을수 없습니다")
+        $("#output_vetip"+[i+1]).val(Math.floor($("#NUMTotal").html()*0.45));
+      }
+    }
+    if($("#server_input").val() == "Global_server"){
+      if($("#output_vetip"+[i+1]).val()>$("#NUMTotal").html()*0.5){
+        alert("입력된 사관수가 전체수병수의 50%를 넘을수 없습니다")
+        $("#output_vetip"+[i+1]).val(Math.floor($("#NUMTotal").html()*0.5));
+      }
+    }
+    if($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1+$("#output_newip"+[i+1]).val()*1>$("#NUMTotal").html()*1){
+      alert("입력된 사관+숙련병+신병의 합이 전체수병수를 넘을수 없습니다")
+      if($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1>$("#NUMTotal").html()*1){
+        $("#output_expip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1-$("#output_newip"+[i+1]).val());
+      }
+      else{
+        $("#output_newip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1-$("#output_expip"+[i+1]).val());
+      }
+    }
+    $("#output_amenia"+[i+1]).html(Math.floor(($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1+$("#output_newip"+[i+1]).val()*1)/$("#NUMTotal").html()*1000)/10);
+  }
+}
+
+function sailor_performance_calc(){
+
+  const output_vet_number = 6;
+  let abilindex = [
+    ["잠재", "POT"],
+    ["명중", "ACC"],
+    ["연사", "RLD"],
+    ["어뢰", "TOR"],
+    ["수리", "REP"],
+    ["보수", "REP"],
+    ["기관", "ENG"],
+    ["전투", "FIG"],
+    ["폭격", "BOM"],
+  ];
+
+  //함장목표가이드라인길이
+  var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
+  $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
+
+  let sailor_realabil = new Array(output_vet_number);
+  for (k=0; k<output_vet_number; k++){
+    sailor_realabil[k] = new Array(abilindex.length);
+    for(j=0; j<abilindex.length; j++){
+      sailor_realabil[k][j] = Realabil_Calc($("#"+abilindex[j][1]+"Total").html()*1,$("#output_vetip"+[k+1]).val()*1,$("#output_expip"+[k+1]).val()*1,($("#output_vetip"+[k+1]).val()*1+$("#output_expip"+[k+1]).val()*1+$("#output_newip"+[k+1]).val()*1)/$("#NUMTotal").html());
+    }
+    //수리속도계산
+    $("#KR_RepairSpeed"+(k+1)).html( KR_RepairSpeed_calc( sailor_realabil[k][4]) );
+    $("#Global_RepairSpeed"+(k+1)).html( Global_RepairSpeed_calc( sailor_realabil[k][4]) );
+    //함장수리속도계산
+    if( BBCaptin_Target_Guideline*1000 < sailor_realabil[k][0] ){
+      $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( KR_RepairSpeed_calc(sailor_realabil[k][4]*BBCaptin_Target_Guideline*1000/sailor_realabil[k][0]) );
+    }
+    else{
+      $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( "-" );
+    }
+    //구조방어계산
+    $("#KR_RestoreRate"+(k+1)).html( KR_RestoreRate_calc( sailor_realabil[k][5]) );
+    $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );
+    //Global 포병계산
+    $("#Global_GunnerReloadCap"+(k+1)).html( Global_GunReloadCap_calc( sailor_realabil[k][2]) );
+    //KR 포병계산
+    let reloadtiercalc = 0;
+    for(j=0; j<kr_reload_tiercut_data.length; j++){
+      if(kr_reload_tiercut_data[j]+70 < sailor_realabil[k][2] ) {
+        reloadtiercalc = reloadtiercalc + 1;
+      }
+    }
+    $("#SailorReload"+(k+1)).html( reloadtiercalc );
+    $("#NeededSeamanReloadUp"+(k+1)).html( Math.ceil((kr_reload_tiercut_data[reloadtiercalc]/sailor_realabil[k][2])*100-100) );
+    $("#AvgGunReload"+(k+1)).html( KR_AvgReloadTime_calc(reloadtiercalc) );
+    $("#ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc)) );
+    $("#WithSeaman_GunReload"+(k+1)).html( KR_AvgReloadTime_calc(reloadtiercalc+1) );
+    $("#WithSeaman_ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc+1)) );
+    //KR 기관병계산
+    $("#KR_OverheatTime"+(k+1)).html( KR_OverheatTime_calc( sailor_realabil[k][6] ) );
+    $("#KR_OverheatRate"+(k+1)).html( KR_OverheatRate_calc( sailor_realabil[k][6] ) );
+    //KR 음탐병계산
+    $("#KR_SonarRange"+(k+1)).html( KR_SonarRange_calc( sailor_realabil[k][0] ) );
+    //KR 잠항병계산
+    let oxytier = KR_OxyTier_calc( sailor_realabil[k][0] );
+    let oxyu = Math.ceil(((oxytier+1)*250000/sailor_realabil[k][0])*100-100);
+    let oxytime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier));
+    let oxyutime = KR_OxyTime_calc($("#SS_Divetime_Input").val()*25,KR_OxyCharge_calc(oxytier+1));
+    $("#KR_OxyCharge"+(k+1)).html( KR_OxyCharge_calc(oxytier)/25 );
+    $("#KR_OxyChargeTime"+(k+1)).html( oxytime );
+    $("#KR_NeededSeaman_OxyChargeUp"+(k+1)).html( oxyu );
+    $("#KR_WithSeaman_OxyChargeTime"+(k+1)).html( oxyutime );
+    //KR 어뢰병계산
+    $("#Torpedo_ReloadTier"+(k+1)).html( "-" );
+    $("#Torpedo_ReloadTime"+(k+1)).html( "-" );
+    $("#Torpedo_NeededSeamanReloadUp"+(k+1)).html( "-" );
+    for(j=0;j<kr_torpedo_tier_data.length;j++){
+      if(kr_torpedo_tier_data[j][1] < sailor_realabil[k][3] &&
+      kr_torpedo_tier_data[j][2] > sailor_realabil[k][3]){
+        $("#Torpedo_ReloadTier"+(k+1)).html( kr_torpedo_tier_data[j][0] );
+        $("#Torpedo_ReloadTime"+(k+1)).html( KR_TorpedoReloadTime_calc(kr_torpedo_tier_data[j][0]) );
+        if(j>0 && j<kr_torpedo_tier_data.length-1){
+          $("#Torpedo_NeededSeamanReloadUp"+(k+1)).html( Math.ceil(kr_torpedo_tier_data[j+1][1]/sailor_realabil[k][3]*100-100) );
+        }
+      }
+    }
+
   }
 }
