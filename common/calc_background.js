@@ -239,17 +239,26 @@ function Ship_Calc_GuidelineInput_Reset(){
 }
 
 function Realabil_Calc_AutoInput(index){
-    document.getElementById("Realabil_Calc_POT_Input"+index).value = document.getElementById("POTTotal").innerHTML;
-    document.getElementById("Realabil_Calc_ACC_Input"+index).value = document.getElementById("ACCTotal").innerHTML;
-    document.getElementById("Realabil_Calc_RLD_Input"+index).value = document.getElementById("RLDTotal").innerHTML;
-    document.getElementById("Realabil_Calc_TOR_Input"+index).value = document.getElementById("TORTotal").innerHTML;
-    document.getElementById("Realabil_Calc_REP_Input"+index).value = document.getElementById("REPTotal").innerHTML;
-    document.getElementById("Realabil_Calc_ENG_Input"+index).value = document.getElementById("ENGTotal").innerHTML;
-    document.getElementById("Realabil_Calc_FIG_Input"+index).value = document.getElementById("FIGTotal").innerHTML;
-    document.getElementById("Realabil_Calc_BOM_Input"+index).value = document.getElementById("BOMTotal").innerHTML;
-    document.getElementById("Realabil_Calc_NUM_Input"+index).value = document.getElementById("NUMTotal").innerHTML;
-    document.getElementById("Realabil_Calc_VET_Input"+index).value = document.getElementById("VET45").innerHTML;
-    document.getElementById("Realabil_Calc_EXP_Input"+index).value = document.getElementById("NUMTotal").innerHTML - document.getElementById("VET45").innerHTML;
+  let abilindex = [
+    ["잠재", "POT"],
+    ["명중", "ACC"],
+    ["연사", "RLD"],
+    ["어뢰", "TOR"],
+    ["수리", "REP"],
+    ["보수", "RES"],
+    ["기관", "ENG"],
+    ["전투", "FIG"],
+    ["폭격", "BOM"],
+    ];
+  for (i = 0; i < abilindex.length; i++){
+    $("#Realabil_Calc_"+abilindex[i][1]+"_Input"+index).val( $("#"+abilindex[i][1]+"Total").html() );
+  }
+
+  $("#Realabil_Calc_NUM_Input"+index).val( $("#NUMTotal").html() );
+  $("#Realabil_Calc_VET_Input"+index).val( $("#output_vetip6").val() );
+  $("#Realabil_Calc_EXP_Input"+index).val( $("#output_expip6").val() );
+  $("#Realabil_Calc_NEW_Input"+index).val( $("#output_newip6").val() );
+
 }
 
 function Ship_Calc_AutoInput(index){

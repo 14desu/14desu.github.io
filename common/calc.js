@@ -653,6 +653,7 @@ function Get_Result_Realabil_Calc(){
     ["연사", "RLD"],
     ["어뢰", "TOR"],
     ["수리", "REP"],
+    ["보수", "RES"],
     ["기관", "ENG"],
     ["전투", "FIG"],
     ["폭격", "BOM"],
@@ -690,14 +691,12 @@ function Get_Result_Realabil_Calc(){
 
 
   //어빌가져오기
-  var Abiltotal = new Array(8);
+  var Abiltotal = new Array(9);
   for (i = 0; i < Abiltotal.length; i++){
     Abiltotal[i] = new Array(5);
   }
   for (i = 0; i < Abiltotal.length; i++){
-//    Abiltotal[i][0] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input1").value;
     Abiltotal[i][0] = $("#Realabil_Calc_"+AbilIndex[i][1]+"_Input1").val();
-//    Abiltotal[i][1] = document.getElementById("Realabil_Calc_"+AbilIndex[i][1]+"_Input2").value;
     Abiltotal[i][1] = $("#Realabil_Calc_"+AbilIndex[i][1]+"_Input2").val();
     Abiltotal[i][2] = Math.round( Abiltotal[i][0] * Sailortotal[0][2] );
     Abiltotal[i][3] = Math.round( Abiltotal[i][1] * Sailortotal[0][3] );
