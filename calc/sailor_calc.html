@@ -369,6 +369,65 @@
         </div>
     </div>
 </div>
+<div class="accordion col-sm-12 col-md-8 col-lg-5 col-xl-5 col-xxl-4" id="sailor_calc_seamaninput_Accrodion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="sailor_calc_seamaninput_heading">
+        <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#sailor_calc_seamaninput_collapse" aria-expanded="true" aria-controls="collapse1">
+            갑판병정보 입력
+        </button>
+        </h2>
+        <div id="sailor_calc_seamaninput_collapse" class="accordion-collapse collapse" aria-labelledby="sailor_calc_seamaninput_heading" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tbody>
+                    <tr>
+                        <td rowspan="4">입력</td>
+                        <td>어빌종류선택</td>
+                        <td>
+                        <select id="sailor_calc_seaman_abil_type_input" class="sailor_calc_seaman_input">
+                            <option>--어빌선택--</option>
+                            <option value="잠재">잠재</option>
+                            <option value="명중">명중</option>
+                            <option value="연사">연사</option>
+                            <option value="어뢰">어뢰</option>
+                            <option value="수리">수리</option>
+                            <option value="보수">보수</option>
+                            <option value="기관">기관</option>
+                            <option value="전투">전투</option>
+                            <option value="폭격">폭격</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>갑판병1 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input1" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병2 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input2" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병3 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input3" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td rowspan="2">중간계산</td>
+
+                        <td>갑판병수[명] max 3명</td>
+                        <td><input type="number" id="sailor_calc_seaman_number" step="1" value="0" min="2" max="3" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병효율[%]</td>
+                        <td><input type="number" id="sailor_calc_seaman_rate" step="1" value="0" min="2" max="20" size="2"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion col-sm-12 col-md-10 col-lg-10 col-xl-8 col-xxl-8 " id="Sailor_Calc_Input_Accrodion4">
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading4">
@@ -508,7 +567,7 @@
                         <td><span id="KR_OxyChargeTime5"></span></td>
                         <td><span id="KR_OxyChargeTime6"></span></td>
                     </tr>
-                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;" class="KR_output Submerge_Output seaman_output">
                         <td>산소충전구간업 필요갑판보정</td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp1"></span></td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp2"></span></td>
@@ -517,7 +576,7 @@
                         <td><span id="KR_NeededSeaman_OxyChargeUp5"></span></td>
                         <td><span id="KR_NeededSeaman_OxyChargeUp6"></span></td>
                     </tr>
-                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output seaman_output">
                         <td>갑판보정 산소충전시간[s] <span id="SS_Class_Output2" class="SS_Class_Output">SS6 240s</span></td>
                         <td><span id="KR_WithSeaman_OxyChargeTime1"></span></td>
                         <td><span id="KR_WithSeaman_OxyChargeTime2"></span></td>
@@ -562,7 +621,7 @@
                         <td><span id="ActualGunReload5"></span></td>
                         <td><span id="ActualGunReload6"></span></td>
                     </tr>
-                    <tr id="NeededSeamanReloadUpRow" style="display:none;" class="KR_output Gunner_Output">
+                    <tr id="NeededSeamanReloadUpRow" style="display:none;" class="KR_output Gunner_Output seaman_output">
                         <td>함포 갑판보정 필요연사보정치[%]</td>
                         <td><span id="NeededSeamanReloadUp1"></span></td>
                         <td><span id="NeededSeamanReloadUp2"></span></td>
@@ -571,7 +630,7 @@
                         <td><span id="NeededSeamanReloadUp5"></span></td>
                         <td><span id="NeededSeamanReloadUp6"></span></td>
                     </tr>
-                    <tr id="WithSeaman_GunReloadRow" style="display:none;" class="KR_output Gunner_Output">
+                    <tr id="WithSeaman_GunReloadRow" style="display:none;" class="KR_output Gunner_Output seaman_output">
                         <td>함포 갑판보정 평균연사속도 [s]</td>
                         <td><span id="WithSeaman_GunReload1"></span></td>
                         <td><span id="WithSeaman_GunReload2"></span></td>
@@ -580,7 +639,7 @@
                         <td><span id="WithSeaman_GunReload5"></span></td>
                         <td><span id="WithSeaman_GunReload6"></span></td>
                     </tr>
-                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail">
+                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail seaman_output">
                         <td>갑판보정 구현연사속도 [s]</td>
                         <td><span id="WithSeaman_ActualGunReload1"></span></td>
                         <td><span id="WithSeaman_ActualGunReload2"></span></td>
@@ -607,7 +666,7 @@
                         <td><span id="Torpedo_ReloadTime5"></span></td>
                         <td><span id="Torpedo_ReloadTime6"></span></td>
                     </tr>
-                    <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="KR_output Torpedo_Output">
+                    <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="KR_output Torpedo_Output seaman_output">
                         <td>어뢰 갑판보정 필요보정치[%] *beta</td>
                         <td><span id="Torpedo_NeededSeamanReloadUp1"></span></td>
                         <td><span id="Torpedo_NeededSeamanReloadUp2"></span></td>
