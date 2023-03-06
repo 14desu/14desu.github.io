@@ -432,7 +432,7 @@ function sailor_performance_calc(){
     ["연사", "RLD"],
     ["어뢰", "TOR"],
     ["수리", "REP"],
-    ["보수", "REP"],
+    ["보수", "RES"],
     ["기관", "ENG"],
     ["전투", "FIG"],
     ["폭격", "BOM"],
