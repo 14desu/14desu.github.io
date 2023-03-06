@@ -365,6 +365,11 @@ function sailor_calc_inputoutput_reset(){
   if($("#server_input").val() == "Global_server"){
     $(".KR_input,.KR_output").hide();
   }
+
+  if($("#sailor_calc_seaman_rate").val()>0){
+    $(".seaman_output").hide();
+  }
+
 }
 
 function sailor_performance_autoip(){
@@ -442,6 +447,9 @@ function sailor_performance_calc(){
     sailor_realabil[k] = new Array(abilindex.length);
     for(j=0; j<abilindex.length; j++){
       sailor_realabil[k][j] = Realabil_Calc($("#"+abilindex[j][1]+"Total").html()*1,$("#output_vetip"+[k+1]).val()*1,$("#output_expip"+[k+1]).val()*1,($("#output_vetip"+[k+1]).val()*1+$("#output_expip"+[k+1]).val()*1+$("#output_newip"+[k+1]).val()*1)/$("#NUMTotal").html());
+      if(abilindex[j][0] == $("#sailor_calc_seaman_abil_type_input").val()){
+        sailor_realabil[k][j] = sailor_realabil[k][j] * ( 1 + $("#sailor_calc_seaman_rate").val() / 100 );
+      }
     }
     //수리속도계산
     $("#KR_RepairSpeed"+(k+1)).html( KR_RepairSpeed_calc( sailor_realabil[k][4]) );
@@ -501,4 +509,27 @@ function sailor_performance_calc(){
     }
 
   }
+}
+
+$(document).on("change",".sailor_calc_seaman_input",function(){
+  sailor_seaman_autocalc();
+  sailor_calc_inputoutput_reset();
+  sailor_performance_calc();
+});
+
+function sailor_seaman_autocalc(){
+
+  let seaman_number = 0;
+  let seaman_total = 0;
+
+  for(i=0; i<3; i++){
+    if($("#sailor_calc_seaman_input"+[i+1]).val() > 0){
+        seaman_number = seaman_number + 1 ;
+        seaman_total = seaman_total + Math.floor($("#sailor_calc_seaman_input"+[i+1]).val()/21);
+    }
+  }
+
+  $("#sailor_calc_seaman_number").val(seaman_number);
+  $("#sailor_calc_seaman_rate").val( Math.floor(seaman_total/Math.sqrt(seaman_number)) );
+
 }

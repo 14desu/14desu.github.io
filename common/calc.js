@@ -362,6 +362,7 @@ function get_result_reload(){
               matetotal_calc = matetotal_calc + mate[i];
           }
       }
+      
       document.getElementById("maten").innerHTML = mate_n;
 
       var sailorratio1 = (vetnumip1 + expnumip1 + newnumip1) / (sailornumip1);
