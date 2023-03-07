@@ -4,7 +4,6 @@ $(document).ready(function() {
 
   // 복수 IP 범위를 배열로 선언합니다.
   var blockedIPRanges = [
-    "133.32.135.0-133.32.135.255",
     //SKT 3G
     "211.234.128.0-211.234.239.255",
     //SKT 3G+4G
