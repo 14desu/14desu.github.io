@@ -41,13 +41,13 @@ function get_result_sailor(){
   ip_post();
   ip_ban();
 
-  let encoderUrl = gen_url();
+  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
+
+  //let encoderUrl = gen_url();
   let treedata = [];
   let abildata = [];
 
-  fetch(encoderUrl)
-  .then(response => response.json())
-  .then(response => {
+  $.getJSON(sailor_calc_api_url, function(response) {
 
     treedata = response["data"]["sailortree"];
     abildata = response["data"]["sailorabil"];
@@ -64,61 +64,16 @@ function get_result_sailor(){
     treedata.length = tree_n;
     abildata.length = tree_n;
 
-    //수병트리/전직Lv정보 output
-    document.getElementById("tree3output").style.display = "";
-    document.getElementById("tree4output").style.display = "";
-    document.getElementById("tree5output").style.display = "";
-    document.getElementById("tree6output").style.display = "";
-    document.getElementById("tree_1").innerHTML = treedata[0];
-    if(tree_n > 1){
-      document.getElementById("tree_2").innerHTML = treedata[1];
-      if(tree_n > 2){
-        document.getElementById("tree_3").innerHTML = treedata[2];
-        if(tree_n > 3){
-          document.getElementById("tree_4").innerHTML = treedata[3];
-          if(tree_n > 4){
-            document.getElementById("tree_5").innerHTML = treedata[4];
-            if(tree_n > 5){
-              document.getElementById("tree_6").innerHTML = treedata[5];
-            }
-            else{
-              document.getElementById("tree6output").style.display = "none";
-            }
-          }
-          else{
-            document.getElementById("tree5output").style.display = "none";
-            document.getElementById("tree6output").style.display = "none";
-          }
-        }
-        else{
-          document.getElementById("tree4output").style.display = "none";
-          document.getElementById("tree5output").style.display = "none";
-          document.getElementById("tree6output").style.display = "none";
-        }
-      }
-      else{
-        document.getElementById("tree3output").style.display = "none";
-        document.getElementById("tree4output").style.display = "none";
-        document.getElementById("tree5output").style.display = "none";
-        document.getElementById("tree6output").style.display = "none";
-      }
-    }
+    //늦직입력분 반영
+    var treelev = new Array(tree_n);
 
-    document.getElementById("tree_1LV").innerHTML = abildata[0][0];
-    if(tree_n > 1){
-      document.getElementById("tree_2LV").innerHTML = abildata[1][0];
-      if(tree_n > 2){
-        document.getElementById("tree_3LV").innerHTML = abildata[2][0];
-        if(tree_n > 3){
-          document.getElementById("tree_4LV").innerHTML = abildata[3][0];
-          if(tree_n > 4){
-            document.getElementById("tree_5LV").innerHTML = abildata[4][0];
-            if(tree_n > 5){
-              document.getElementById("tree_6LV").innerHTML = abildata[5][0];
-            }
-          }
-        }
-      }
+    //수병트리/전직Lv정보 output
+    $(".treeoutputrow").hide();
+    for(i=0; i<tree_n; i++){
+      $("#tree"+[i]+"output").show();
+      $("#tree_"+[i]).html(treedata[i]);
+      $("#tree_"+[i]+"LV").html(abildata[i][0]);
+      treelev[i] = $("#job_change_level_input"+[i+1]).val();
     }
 
     //입력Lv체크 알람
@@ -194,26 +149,26 @@ function get_result_sailor(){
     }
 
     //국가보너스 어빌 계산
-    if(params["nationinput"] == "미국"){
+    if($("#nation_sel").val() == "미국"){
       abiltotal[9] = abiltotal[9] + 5; }
-    else if(params["nationinput"] == "영국"){
+    else if($("#nation_sel").val() == "영국"){
       abiltotal[5] = abiltotal[5] + 3;
       abiltotal[6] = abiltotal[6] + 3; }
-    else if(params["nationinput"] == "일본"){
+    else if($("#nation_sel").val() == "일본"){
       abiltotal[3] = abiltotal[3] + 2; }
-    else if(params["nationinput"] == "독일"){
+    else if($("#nation_sel").val() == "독일"){
       abiltotal[1] = abiltotal[1] + 4;
       abiltotal[2] = abiltotal[2] + 4;
       abiltotal[7] = abiltotal[7] + 2;
       abiltotal[9] = abiltotal[9] + 2; }
-    else if(params["nationinput"] == "프랑스"){
+    else if($("#nation_sel").val() == "프랑스"){
       abiltotal[6] = abiltotal[6] + 2; }
-    else if(params["nationinput"] == "소련"){
+    else if($("#nation_sel").val() == "소련"){
       abiltotal[1] = abiltotal[1] + 4;
       abiltotal[2] = abiltotal[2] + 4;
       abiltotal[7] = abiltotal[7] + 2;
       abiltotal[9] = abiltotal[9] + 2; }
-    else if(params["nationinput"] == "이탈리아"){
+    else if($("#nation_sel").val() == "이탈리아"){
       abiltotal[2] = abiltotal[2] + 8;
       abiltotal[9] = abiltotal[9] + 2; }
 
@@ -222,14 +177,7 @@ function get_result_sailor(){
       abiltotal[r] = abiltotal[r] + ( (levinput*1-1)*abilgrowth[r]);
     }
 
-    //늦직입력분 반영
-    var treelev = new Array(6);
-    treelev[0] = document.getElementById("SailorTree1Lv").value;
-    treelev[1] = document.getElementById("SailorTree2Lv").value;
-    treelev[2] = document.getElementById("SailorTree3Lv").value;
-    treelev[3] = document.getElementById("SailorTree4Lv").value;
-    treelev[4] = document.getElementById("SailorTree5Lv").value;
-    treelev[5] = document.getElementById("SailorTree6Lv").value;
+
 
     for(i=0; i<tree_n; i++){
       if(treelev[i] == ""){
@@ -273,7 +221,7 @@ function get_result_sailor(){
     }
 
     //영국 갑판병 보너스 어빌
-    if(params["nationinput"] == "영국"){
+    if($("#nation_sel").val() == "영국"){
       if(params["treeinput"] == "갑판병"){
         for(r=0; r<11; r++){
           abiltotal[r] = abiltotal[r] + 50;
