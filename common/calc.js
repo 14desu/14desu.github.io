@@ -1,14 +1,18 @@
 var origUrl = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?";
 
-const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
 var kr_reload_tiercut_data = [];
+
 function kr_gun_reload_api(){
-  fetch(kr_gun_reload_api_url)
-  .then(response => response.json())
-  .then(response => {
+
+  const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
+
+  $.getJSON(kr_gun_reload_api_url, function(response) {
     kr_reload_tiercut_data = response["data"]["kr_gun_reloadcut"];
-  })
+  });
+
 }
+
+
 $(document).ready( function() {
   kr_gun_reload_api();
 });
@@ -33,6 +37,10 @@ function gen_url(){
 }
 
 function get_result_sailor(){
+
+  ip_post();
+  ip_ban();
+
   let encoderUrl = gen_url();
   let treedata = [];
   let abildata = [];

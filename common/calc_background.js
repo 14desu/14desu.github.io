@@ -1,7 +1,3 @@
-$(document).ready( function() {
-  $(".sailor_performance_input_detail").hide();
-});
-
 $(document).on("change","#sailor_exp_new_ip_check",function(){
   sailor_performance_input_detail_set();
 });
