@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready( function() {
   // 리디렉션할 URL
   const REDIRECT_URL = "https://gall.dcinside.com/mini/board/view/?id=nf&no=27";
   // 방문자의 IP를 가져오는 API URL
@@ -39,50 +39,52 @@ $(document).ready(function(){
     "123.248.0.0-123.248.255.255",
     ];
 
-  // 방문자 IP 주소를 가져옵니다.
-  $.getJSON(IPapiURL, function(data) {
-    var visitorIP = data.ip;
-
-    // 방문자의 IP를 구글 스프레드시트에 POST하는 API URL
-    var postURL = "https://script.google.com/macros/s/AKfycbxEuufzXGziBpbO6Rw_CBAT1LoDwIm_bcnYHJQtIDg5pRblyR7g2hf1ruFzo_NJOMw3/exec?ip=" + visitorIP;
-    
-    // POST 요청 보내기
-    $.ajax({
-      url: postURL,
-      method: "POST",
-      success: function(response) {
-        console.log("POST 요청 성공: " + response);
-      },
-      error: function(xhr, status, error) {
-        console.log("POST 요청 실패: " + error);
-      }
-    });
-
-    // IP 주소를 숫자 배열로 변환합니다.
-    var visitorIPArray = visitorIP.split('.').map(Number);
-
-    // 복수 IP 범위를 반복하여 블록합니다.
-    $.each(blockedIPRanges, function(index, blockedIPRange) {
-      var blockedIPRangeArray = blockedIPRange.split('-');
-
-      // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
-      var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
-      var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
-
-      // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
-      var isBlocked = true;
-      for (var i = 0; i < 4; i++) {
-        if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
-          isBlocked = false;
-          break;
+    fetch(IPapiURL)
+    .then(response => response.json())
+    .then(data => {
+      var visitorIP = data.ip;
+  
+      // 방문자의 IP를 구글 스프레드시트에 POST하는 API URL
+      var postURL = "https://script.google.com/macros/s/AKfycbxEuufzXGziBpbO6Rw_CBAT1LoDwIm_bcnYHJQtIDg5pRblyR7g2hf1ruFzo_NJOMw3/exec?ip=" + visitorIP;
+  
+      // POST 요청 보내기
+      fetch(postURL, { method: "POST" })
+        .then(response => {
+          console.log("POST 요청 성공: " + response);
+        })
+        .catch(error => {
+          console.log("POST 요청 실패: " + error);
+        });
+  
+      // IP 주소를 숫자 배열로 변환합니다.
+      var visitorIPArray = visitorIP.split('.').map(Number);
+  
+      // 복수 IP 범위를 반복하여 블록합니다.
+      blockedIPRanges.forEach(function (blockedIPRange) {
+        var blockedIPRangeArray = blockedIPRange.split('-');
+  
+        // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
+        var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
+        var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
+  
+        // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
+        var isBlocked = true;
+        for (var i = 0; i < 4; i++) {
+          if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
+            isBlocked = false;
+            break;
+          }
         }
-      }
-
-      // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
-      if (isBlocked) {
-        window.location.href = REDIRECT_URL;
-        return false;
-      }
+  
+        // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
+        if (isBlocked) {
+          window.location.href = REDIRECT_URL;
+          return false;
+        }
+      });
+    })
+    .catch(error => {
+      console.log("IP 정보 가져오기 실패: " + error);
     });
-  });
+
 });
