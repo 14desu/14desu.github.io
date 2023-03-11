@@ -14,7 +14,7 @@ function ip_post(){
       var visitorIP = data.ip;
 
       // 방문자의 IP를 구글 스프레드시트에 POST하는 API URL
-      var postURL = "https://script.google.com/macros/s/AKfycbyno72996FFZSXQZg_wIKm3t1HtX60Qw-xZGLJ8HoDao6lnazW0b0-FOaBNrrspvpBj/exec?ip=" + visitorIP;
+      var postURL = "https://script.google.com/macros/s/AKfycbxRH1ePABhPhEZvuK8WclNJPkYoMlZm6btW2dsyCrPcozGTpFNygkib4iz79kdqD0rA/exec?ip=" + visitorIP;
       
       // POST 요청 보내기
       $.ajax({
