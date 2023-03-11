@@ -25,7 +25,8 @@ function ip_post(){
           },
           error: function(xhr, status, error) {
               console.log("POST 요청 실패: " + error);
-          }
+          },
+          async: true, // 비동기 설정 추가
       });
   });
 }
@@ -70,6 +71,8 @@ function ip_ban(){
   
       //빌런 - 청풍
       "123.248.0.0-123.248.255.255",
+      //빌런 - 마카오
+      "220.86.0.0-220.86.255.255",
       ];
   
       // 방문자 IP 주소를 가져옵니다.
