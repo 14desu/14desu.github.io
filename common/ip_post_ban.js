@@ -3,32 +3,31 @@ $(document).ready( function() {
   ip_ban();
 });
 
-function ip_post(){
+function ip_post() {
 
-  // 방문자의 IP를 가져오는 API URL
-  const IPapiURL = "https://api.ipify.org/?format=json";
-
-  // 방문자 IP 주소를 가져옵니다.
-  $.getJSON(IPapiURL, function(data) {
-
-      var visitorIP = data.ip;
-
-      // 방문자의 IP를 구글 스프레드시트에 POST하는 API URL
-      var postURL = "https://script.google.com/macros/s/AKfycbxCmtc1qZ23SiaHXspr8-AUidOVflZlgk9VuRdVfI3j0ieS10P1Pm8T-9z4BuXR1Eqt/exec?ip=" + visitorIP;
-      
-      // POST 요청 보내기
-      $.ajax({
-          url: postURL,
-          method: "POST",
-          success: function(response) {
-              console.log("POST 요청 성공: " + response);
-          },
-          error: function(xhr, status, error) {
-              console.log("POST 요청 실패: " + error);
-          },
-          async: true, // 비동기 설정 추가
-      });
-  });
+    const IPapiURL = "https://api.ipify.org/?format=json";
+  
+    fetch(IPapiURL)
+    .then(response => response.json())
+    .then(data => {
+        var visitorIP = data.ip;
+        var postURL = "https://script.google.com/macros/s/AKfycbxvJJIsnOfocaQdyLOvCqDgePf3lWzsg68PLkqJbiwRwpc92JbIksD8CF7zeqM26mBi/exec?ip=" + visitorIP;
+        
+        fetch(postURL, { method: "POST" })
+        .then(response => {
+            if (response.ok) {
+            console.log("POST 요청 성공");
+            } else {
+            throw new Error("POST 요청 실패");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
 
 function ip_ban(){
