@@ -22,11 +22,19 @@ function ip_post() {
             }
         })
         .catch(error => {
-            console.error(error);
+            if (error) {
+                console.error(error);
+            } else {
+                console.error("An unknown error occurred");
+            }
         });
     })
     .catch(error => {
-        console.error(error);
+        if (error) {
+            console.error(error);
+        } else {
+            console.error("An unknown error occurred");
+        }
     });
 }
 
