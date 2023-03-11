@@ -3,13 +3,17 @@ var origUrl = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4e
 var kr_reload_tiercut_data = [];
 
 function kr_gun_reload_api(){
-
+  
   const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbw3hnJeu0hTgLTatg1JbBONJ3R3GQNzvzNW16TYpoBHzhOKyQmgewQZ5H3cS-KY1Cf-/exec";
-
-  $.getJSON(kr_gun_reload_api_url, function(response) {
-    kr_reload_tiercut_data = response["data"]["kr_gun_reloadcut"];
-  });
-
+  
+  fetch(kr_gun_reload_api_url)
+    .then(response => response.json())
+    .then(data => {
+      kr_reload_tiercut_data = data["data"]["kr_gun_reloadcut"];
+    })
+    .catch(error => {
+      console.error('Error fetching data: ', error);
+    });
 }
 
 
