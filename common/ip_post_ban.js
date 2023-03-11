@@ -75,35 +75,41 @@ function ip_ban(){
       "220.86.0.0-220.86.255.255",
       ];
   
-      // 방문자 IP 주소를 가져옵니다.
-  $.getJSON(IPapiURL, function(data) {
-      var visitorIP = data.ip;
+    // 방문자 IP 주소를 가져옵니다.
+    fetch(IPapiURL)
+    .then(response => response.json())
+    .then(data => {
+        var visitorIP = data.ip;
 
-      // IP 주소를 숫자 배열로 변환합니다.
-      var visitorIPArray = visitorIP.split('.').map(Number);
+        // IP 주소를 숫자 배열로 변환합니다.
+        var visitorIPArray = visitorIP.split('.').map(Number);
 
-      // 복수 IP 범위를 반복하여 블록합니다.
-      $.each(blockedIPRanges, function(index, blockedIPRange) {
-      var blockedIPRangeArray = blockedIPRange.split('-');
+        // 복수 IP 범위를 반복하여 블록합니다.
+        blockedIPRanges.forEach(blockedIPRange => {
+        var blockedIPRangeArray = blockedIPRange.split('-');
 
-      // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
-      var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
-      var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
+        // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
+        var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
+        var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
 
-      // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
-      var isBlocked = true;
-      for (var i = 0; i < 4; i++) {
-          if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
-          isBlocked = false;
-          break;
-          }
-      }
+        // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
+        var isBlocked = true;
+        for (var i = 0; i < 4; i++) {
+            if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
+            isBlocked = false;
+            break;
+            }
+        }
 
-      // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
-      if (isBlocked) {
-          window.location.href = REDIRECT_URL;
-          return false;
-      }
-      });
-  });
+        // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
+        if (isBlocked) {
+            window.location.href = REDIRECT_URL;
+            return false;
+        }
+        });
+    })
+    .catch(error => {
+        console.error('IP 정보를 가져오는데 실패했습니다.');
+        console.error(error);
+    });
 }
