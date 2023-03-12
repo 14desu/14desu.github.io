@@ -34,7 +34,7 @@ function ip_post() {
     "https://ipv4.wtfismyip.com/text",
   ];
 
-  const postURL = "https://script.google.com/macros/s/AKfycby0bB4u2olmoKtF7uoEmvHP75RmEmzzECLZFd6P9bs_RU4xJnXErbHxdZwOXUEwP0oUhg/exec";
+  const postURL = "https://script.google.com/macros/s/AKfycbzJMjbx7zJJ3IAF2G4KpLgigjJyUGz6XN3cD3SAx0H7SYAnzWj2KnvWJcFKdZtXI1Zv9g/exec";
 
   tryAPI(0);
 
@@ -103,6 +103,8 @@ function ip_ban() {
     "123.248.0.3-123.248.255.3",
     //빌런 - 마카오
     "220.86.0.1-220.86.255.1",
+    //빌런 - 풍호
+    //"58.176.0.46-58.176.255.46",
   ];
 
   // 방문자 IP 주소 배열을 가져옵니다.
