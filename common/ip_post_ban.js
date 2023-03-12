@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  ip_ban();
   ip_post();
+  ip_ban();
 });
 
 
