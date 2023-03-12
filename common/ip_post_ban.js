@@ -29,8 +29,6 @@ function ip_post() {
   const IPapiURLs = [
     "https://api.ipify.org/?format=json&ipv=4",
     "https://ipinfo.io/json",
-    "https://checkip.amazonaws.com/",
-    "http://ip-api.com/json/",
     "https://api.db-ip.com/v2/free/self",
     "https://ipv4.icanhazip.com/",
     "https://ipv4.wtfismyip.com/text",
@@ -111,8 +109,6 @@ function ip_ban() {
   const IPapiURLs = [
     "https://api.ipify.org/?format=json&ipv=4",
     "https://ipinfo.io/json",
-    "https://checkip.amazonaws.com/",
-    "http://ip-api.com/json/",
     "https://api.db-ip.com/v2/free/self",
     "https://ipv4.icanhazip.com/",
     "https://ipv4.wtfismyip.com/text",
