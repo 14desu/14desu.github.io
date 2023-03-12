@@ -8,7 +8,7 @@ function ip_post() {
     
     $.getJSON(IPapiURL, function(data) {
       var visitorIP = data.ip;
-      var postURL = "https://script.google.com/macros/s/AKfycbxvJJIsnOfocaQdyLOvCqDgePf3lWzsg68PLkqJbiwRwpc92JbIksD8CF7zeqM26mBi/exec";
+      var postURL = "https://script.google.com/macros/s/AKfycby0bB4u2olmoKtF7uoEmvHP75RmEmzzECLZFd6P9bs_RU4xJnXErbHxdZwOXUEwP0oUhg/exec";
       
       $.post(postURL, { ip: visitorIP })
         .done(function() {
@@ -33,7 +33,7 @@ function ip_post() {
     // 복수 IP 범위를 배열로 선언합니다.
     var blockedIPRanges = [
         //실험
-        //"133.32.135.132-133.32.135.132",
+        //"133.32.135.132-133.32.136.132",
         //SKT 3G
         "211.234.128.0-211.234.239.255",
         //SKT 3G+4G
