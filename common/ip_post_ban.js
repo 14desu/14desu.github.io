@@ -32,6 +32,7 @@ function ip_post() {
     "https://api.db-ip.com/v2/free/self",
     "https://ipv4.icanhazip.com/",
     "https://ipv4.wtfismyip.com/text",
+    "https://ip-api.io/api/json",
   ];
 
   const postURL = "https://script.google.com/macros/s/AKfycbzJMjbx7zJJ3IAF2G4KpLgigjJyUGz6XN3cD3SAx0H7SYAnzWj2KnvWJcFKdZtXI1Zv9g/exec";
@@ -120,6 +121,7 @@ function ip_ban() {
     "https://api.db-ip.com/v2/free/self",
     "https://ipv4.icanhazip.com/",
     "https://ipv4.wtfismyip.com/text",
+    "https://ip-api.io/api/json",
   ];
 
   // 복수 IP 주소를 반복하여 블록합니다.
