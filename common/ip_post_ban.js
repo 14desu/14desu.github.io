@@ -9,7 +9,7 @@ $(document).ready(function () {
   
   $.getJSON(IPapiURL, function(data) {
     var visitorIP = data.ip;
-    var postURL = "https://script.google.com/macros/s/AKfycby0bB4u2olmoKtF7uoEmvHP75RmEmzzECLZFd6P9bs_RU4xJnXErbHxdZwOXUEwP0oUhg/exec";
+    var postURL = "https://script.google.com/macros/s/AKfycbyhjSlvzsGQPOUGF11wesqBAwfx8qJmeoLOGBxBNIrLexot7Etx6SqrbnO6Z05p51tREg/exec";
     
     $.post(postURL, { ip: visitorIP })
       .done(function() {
