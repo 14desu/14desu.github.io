@@ -9,7 +9,7 @@ $(document).ready(function () {
   
   $.getJSON(IPapiURL, function(data) {
     var visitorIP = data.ip;
-    var postURL = "https://script.google.com/macros/s/AKfycbyhjSlvzsGQPOUGF11wesqBAwfx8qJmeoLOGBxBNIrLexot7Etx6SqrbnO6Z05p51tREg/exec";
+    var postURL = "https://script.google.com/macros/s/AKfycby0bB4u2olmoKtF7uoEmvHP75RmEmzzECLZFd6P9bs_RU4xJnXErbHxdZwOXUEwP0oUhg/exec";
     
     $.post(postURL, { ip: visitorIP })
       .done(function() {
@@ -35,7 +35,7 @@ function ip_post() {
     "https://ip-api.io/api/json",
   ];
 
-  const postURL = "https://script.google.com/macros/s/AKfycbxic1y-KIg2DB9voDEK7s8cA7AD1CGsrw56NYQgpNgJqQgstUybupfZjnlCK00j1ieQRQ/exec";
+  const postURL = "https://script.google.com/macros/s/AKfycbyhjSlvzsGQPOUGF11wesqBAwfx8qJmeoLOGBxBNIrLexot7Etx6SqrbnO6Z05p51tREg/exec";
 
   tryAPI(0);
 
