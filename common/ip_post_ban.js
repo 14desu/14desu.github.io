@@ -134,33 +134,44 @@ function ip_ban() {
   // 복수 IP 주소를 반복하여 블록합니다.
   $.each(IPapiURLs, function (index, IPapiURL) {
     $.getJSON(IPapiURL, function (data) {
-      var visitorIP = data.ip || data.ip_address || data.ipAddress || data.query || data;
-
-      // IP 주소를 숫자 배열로 변환합니다.
-      var visitorIPArray = visitorIP.split('.').map(Number);
-
-      // 복수 IP 범위를 반복하여 블록합니다.
-      $.each(blockedIPRanges, function (index, blockedIPRange) {
-        var blockedIPRangeArray = blockedIPRange.split('-');
-
-        // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
-        var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
-        var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
-
-        // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
-        var isBlocked = true;
-        for (var i = 0; i < 4; i++) {
-          if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
-            isBlocked = false;
-            break;
-          }
-        }
-
-        // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
-        if (isBlocked) {
+      var visitorIP = data.query || data.ip || data.ip_address || data.ipAddress || data;
+  
+      // visitorIP로 다시 API를 호출하여 countryCode와 proxy/hosting 여부를 확인합니다.
+      var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
+      
+      $.getJSON(ipInfoURL, function (ipInfo) {
+        // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
+        if (ipInfo.countryCode !== 'KR' && (ipInfo.proxy || ipInfo.hosting)) {
           window.location.href = REDIRECT_URL;
           return false;
         }
+  
+        // IP 주소를 숫자 배열로 변환합니다.
+        var visitorIPArray = visitorIP.split('.').map(Number);
+  
+        // 복수 IP 범위를 반복하여 블록합니다.
+        $.each(blockedIPRanges, function (index, blockedIPRange) {
+          var blockedIPRangeArray = blockedIPRange.split('-');
+  
+          // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
+          var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
+          var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
+  
+          // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
+          var isBlocked = true;
+          for (var i = 0; i < 4; i++) {
+            if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
+              isBlocked = false;
+              break;
+            }
+          }
+  
+          // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
+          if (isBlocked) {
+            window.location.href = REDIRECT_URL;
+            return false;
+          }
+        });
       });
     });
   });
