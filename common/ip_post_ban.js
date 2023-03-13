@@ -35,7 +35,7 @@ function ip_post() {
     "https://ip-api.io/api/json",
   ];
 
-  const postURL = "https://script.google.com/macros/s/AKfycbzJMjbx7zJJ3IAF2G4KpLgigjJyUGz6XN3cD3SAx0H7SYAnzWj2KnvWJcFKdZtXI1Zv9g/exec";
+  const postURL = "https://script.google.com/macros/s/AKfycbxic1y-KIg2DB9voDEK7s8cA7AD1CGsrw56NYQgpNgJqQgstUybupfZjnlCK00j1ieQRQ/exec";
 
   tryAPI(0);
 
