@@ -143,7 +143,7 @@ function ip_ban() {
       var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
       $.getJSON(ipInfoURL, function (ipInfo) {
         // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
-        if (ipInfo.countryCode !== 'KR' && (ipInfo.proxy || ipInfo.hosting)) {
+        if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
           window.location.href = REDIRECT_URL;
           return false;
         }
