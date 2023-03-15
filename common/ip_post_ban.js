@@ -121,6 +121,8 @@ function ip_ban() {
     "182.218.0.1-182.218.255.255",
     //빌런 - 182.237 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074
     "182.237.0.1-182.237.255.255",
+    //빌런 - 117.111 → 61.75 ㅇ 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368081 https://gall.dcinside.com/board/view/?id=nf&no=368063
+    "61.75.42.90-61.75.42.90",
 
   ];
 
