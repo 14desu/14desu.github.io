@@ -116,26 +116,24 @@ function ip_ban() {
     //빌런 - 마카오
     "220.86.60.1-220.86.60.1",
 
-    //빌런 - 220.119 유동 2023.03.06 / https://gall.dcinside.com/board/view/?id=nf&no=368046
-    "220.119.0.1-220.119.255.255",
-    //빌런 - 182.218 유동 2023.03.09 / https://gall.dcinside.com/board/view/?id=nf&no=368043
-    "182.218.0.1-182.218.255.255",
-    //빌런 - 182.237 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074
-    "182.237.0.1-182.237.255.255",
-    //빌런 - 117.111 → 61.75 유동닉ㅇ 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368081 https://gall.dcinside.com/board/view/?id=nf&no=368063
-    "61.75.0.0-61.75.255.255",
-
+    
+    "220.119.0.1-220.119.255.255", //빌런 - 220.119 유동 2023.03.06 / https://gall.dcinside.com/board/view/?id=nf&no=368046
+    "182.218.0.1-182.218.255.255", //빌런 - 182.218 유동 2023.03.09 / https://gall.dcinside.com/board/view/?id=nf&no=368043
+    "182.237.0.1-182.237.255.255", //빌런 - 182.237 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074
+    "61.75.0.0-61.75.255.255", //빌런 - 117.111 → 61.75 유동닉ㅇ 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368081 https://gall.dcinside.com/board/view/?id=nf&no=368063
+    "59.22.0.0-59.22.255.255", //빌런 - 59.22 유동 2022.11.10 / https://gall.dcinside.com/board/view/?id=nf&no=367609
+    "61.99.0.0-61.99.255.255", //빌런 - 61.99 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074 https://gall.dcinside.com/board/view/?id=nf&no=367609
 
   ];
 
   // 방문자 IP 주소 배열을 가져옵니다.
   const IPapiURLs = [
+    "https://ip-api.io/api/json",
     "https://api.ipify.org/?format=json&ipv=4",
     "https://ipinfo.io/json",
     "https://api.db-ip.com/v2/free/self",
     "https://ipv4.icanhazip.com/",
     "https://ipv4.wtfismyip.com/text",
-    "https://ip-api.io/api/json",
   ];
 
   // 복수 IP 주소를 반복하여 블록합니다.
@@ -143,9 +141,17 @@ function ip_ban() {
     $.getJSON(IPapiURL, function (data) {
       var visitorIP = data.query || data.ip || data.ip_address || data.ipAddress || data;
   
+      if(IPapiURL == "https://ip-api.io/api/json"){
+        if ( data.suspiciousFactors.isProxy || data.suspiciousFactors.isTorNode) {
+          window.location.href = REDIRECT_URL;
+          return false;
+        }
+      }
+
       // visitorIP로 다시 API를 호출하여 countryCode와 proxy/hosting 여부를 확인합니다.
       var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
       $.getJSON(ipInfoURL, function (ipInfo) {
+
         // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
         if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
           window.location.href = REDIRECT_URL;
