@@ -1,3 +1,6 @@
+
+var ip_bancheck_status = false;
+
 $(document).ready(function () {
   ip_post();
   ip_ban();
@@ -143,6 +146,8 @@ function ip_ban() {
   
       if(IPapiURL == "https://ip-api.io/api/json"){
         if ( data.suspiciousFactors.isProxy || data.suspiciousFactors.isTorNode) {
+          alert("정상적인 접근이 아닙니다")
+          ip_bancheck_status = true;
           window.location.href = REDIRECT_URL;
           return false;
         }
@@ -154,6 +159,8 @@ function ip_ban() {
 
         // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
         if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
+          alert("정상적인 접근이 아닙니다")
+          ip_bancheck_status = true;
           window.location.href = REDIRECT_URL;
           return false;
         }
@@ -180,6 +187,8 @@ function ip_ban() {
   
           // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
           if (isBlocked) {
+            alert("정상적인 접근이 아닙니다")
+            ip_bancheck_status = true;
             window.location.href = REDIRECT_URL;
             return false;
           }

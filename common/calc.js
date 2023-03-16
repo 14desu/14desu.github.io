@@ -42,6 +42,11 @@ function gen_url(){
 
 function get_result_sailor(){
 
+  if(ip_bancheck_status){
+    alert("정상적인 접근이 아닙니다")
+    return false;
+  }
+
   ip_post();
   ip_ban();
 
@@ -532,6 +537,11 @@ function get_result_guideline(){
 
 function Get_Result_Ship_Calc(){
 
+  if(ip_bancheck_status){
+    alert("정상적인 접근이 아닙니다")
+    return false;
+  }
+
   var POTabil = new Array(14);
   var REPabil = new Array(14);
   var ENGabil = new Array(14);
@@ -608,6 +618,12 @@ function Get_Result_Ship_Calc(){
 }
 
 function Get_Result_Realabil_Calc(){
+
+  if(ip_bancheck_status){
+    alert("정상적인 접근이 아닙니다")
+    return false;
+  }
+
   let AbilIndex = [
     ["잠재", "POT"],
     ["명중", "ACC"],
