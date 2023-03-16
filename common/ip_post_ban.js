@@ -30,8 +30,8 @@ $(document).ready(function () {
 
 function ip_post() {
   const IPapiURLs = [
-    "https://ip-api.io/api/json",
     "https://api.ipify.org/?format=json&ipv=4",
+    "https://ip-api.io/api/json",
     "https://api.db-ip.com/v2/free/self",
   ];
 
@@ -72,7 +72,7 @@ function ip_ban() {
   // 복수 IP 범위를 배열로 선언합니다.
   var blockedIPRanges = [
     //실험
-    "133.32.135.132-133.32.136.132",
+    //"133.32.135.132-133.32.136.132",
     //SKT 3G
     "211.234.128.0-211.234.239.255",
     //SKT 3G+4G
@@ -128,8 +128,8 @@ function ip_ban() {
 
   // 방문자 IP 주소 배열을 가져옵니다.
   const IPapiURLs = [
-    "https://ip-api.io/api/json",
     "https://api.ipify.org/?format=json&ipv=4",
+    "https://ip-api.io/api/json",
     "https://api.db-ip.com/v2/free/self",
   ];
 
@@ -147,47 +147,39 @@ function ip_ban() {
         }
       }
 
-      // visitorIP로 다시 API를 호출하여 countryCode와 proxy/hosting 여부를 확인합니다.
-      var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
-      $.getJSON(ipInfoURL, function (ipInfo) {
+  
+      // IP 주소를 숫자 배열로 변환합니다.
+      var visitorIPArray = visitorIP.split('.').map(Number);
 
-        // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
-        if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
+      // 복수 IP 범위를 반복하여 블록합니다.
+      $.each(blockedIPRanges, function (index, blockedIPRange) {
+        var blockedIPRangeArray = blockedIPRange.split('-');
+
+        // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
+        var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
+        var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
+
+        // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
+        var isBlocked = true;
+        for (var i = 0; i < 4; i++) {
+          if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
+            isBlocked = false;
+            break;
+          }
+        }
+
+        // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
+        if (isBlocked) {
           alert("정상적인 접근이 아닙니다")
           ip_bancheck_status = true;
           window.location.href = REDIRECT_URL;
           return false;
         }
-  
-        // IP 주소를 숫자 배열로 변환합니다.
-        var visitorIPArray = visitorIP.split('.').map(Number);
-  
-        // 복수 IP 범위를 반복하여 블록합니다.
-        $.each(blockedIPRanges, function (index, blockedIPRange) {
-          var blockedIPRangeArray = blockedIPRange.split('-');
-  
-          // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
-          var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
-          var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
-  
-          // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
-          var isBlocked = true;
-          for (var i = 0; i < 4; i++) {
-            if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
-              isBlocked = false;
-              break;
-            }
-          }
-  
-          // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
-          if (isBlocked) {
-            alert("정상적인 접근이 아닙니다")
-            ip_bancheck_status = true;
-            window.location.href = REDIRECT_URL;
-            return false;
-          }
-        });
+        
       });
+
+
+
     });
   });
 
@@ -221,10 +213,28 @@ function ip_ban() {
           window.location.href = REDIRECT_URL;
           return false;
         }
+
+        
       });
     });
   });
 
+ */
+
+/* 
+  // visitorIP로 다시 API를 호출하여 countryCode와 proxy/hosting 여부를 확인합니다.
+  var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
+  $.getJSON(ipInfoURL, function (ipInfo) {
+
+    // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
+    if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
+      alert("정상적인 접근이 아닙니다")
+      ip_bancheck_status = true;
+      window.location.href = REDIRECT_URL;
+      return false;
+    }
+
+  });
  */
   
 }
