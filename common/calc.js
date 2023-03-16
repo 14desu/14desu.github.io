@@ -44,11 +44,9 @@ function get_result_sailor(){
 
   if(ip_bancheck_status){
     alert("정상적인 접근이 아닙니다")
+    window.location.href = REDIRECT_URL;
     return false;
   }
-
-  ip_post();
-  ip_ban();
 
   const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbznSmnq-ZI5krf1UeyAfYDP4ejhOZgngET65Gy-W1u87AC2RokQnf461K7zzNnNxLXN/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
@@ -539,6 +537,7 @@ function Get_Result_Ship_Calc(){
 
   if(ip_bancheck_status){
     alert("정상적인 접근이 아닙니다")
+    window.location.href = REDIRECT_URL;
     return false;
   }
 
@@ -621,6 +620,7 @@ function Get_Result_Realabil_Calc(){
 
   if(ip_bancheck_status){
     alert("정상적인 접근이 아닙니다")
+    window.location.href = REDIRECT_URL;
     return false;
   }
 
