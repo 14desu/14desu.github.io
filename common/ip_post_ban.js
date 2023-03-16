@@ -30,12 +30,9 @@ $(document).ready(function () {
 
 function ip_post() {
   const IPapiURLs = [
-    "https://api.ipify.org/?format=json&ipv=4",
-    "https://ipinfo.io/json",
-    "https://api.db-ip.com/v2/free/self",
-    "https://ipv4.icanhazip.com/",
-    "https://ipv4.wtfismyip.com/text",
     "https://ip-api.io/api/json",
+    "https://api.ipify.org/?format=json&ipv=4",
+    "https://api.db-ip.com/v2/free/self",
   ];
 
   const postURL = "https://script.google.com/macros/s/AKfycbyhjSlvzsGQPOUGF11wesqBAwfx8qJmeoLOGBxBNIrLexot7Etx6SqrbnO6Z05p51tREg/exec";
@@ -75,7 +72,7 @@ function ip_ban() {
   // 복수 IP 범위를 배열로 선언합니다.
   var blockedIPRanges = [
     //실험
-    //"133.32.135.132-133.32.136.132",
+    "133.32.135.132-133.32.136.132",
     //SKT 3G
     "211.234.128.0-211.234.239.255",
     //SKT 3G+4G
@@ -133,10 +130,7 @@ function ip_ban() {
   const IPapiURLs = [
     "https://ip-api.io/api/json",
     "https://api.ipify.org/?format=json&ipv=4",
-    "https://ipinfo.io/json",
     "https://api.db-ip.com/v2/free/self",
-    "https://ipv4.icanhazip.com/",
-    "https://ipv4.wtfismyip.com/text",
   ];
 
   // 복수 IP 주소를 반복하여 블록합니다.
