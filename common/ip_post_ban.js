@@ -35,7 +35,7 @@ function ip_post() {
     "https://api.db-ip.com/v2/free/self",
   ];
 
-  const postURL = "https://script.google.com/macros/s/AKfycbyhjSlvzsGQPOUGF11wesqBAwfx8qJmeoLOGBxBNIrLexot7Etx6SqrbnO6Z05p51tREg/exec";
+  const postURL = "https://script.google.com/macros/s/AKfycby8HcB-VUlxlFwzFqjF2cjrZxqvWsDTg-go8O0OzWvRv54nwMZfsuPNTd5VHtfz4Nc/exec";
 
   tryAPI(0);
 
