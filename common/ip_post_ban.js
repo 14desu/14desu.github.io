@@ -7,27 +7,6 @@ $(document).ready(function () {
 });
 
 
-/* function ip_post() {
-  const IPapiURL = "https://api.ipify.org/?format=json";
-  
-  $.getJSON(IPapiURL, function(data) {
-    var visitorIP = data.ip;
-    var postURL = "https://script.google.com/macros/s/AKfycby0bB4u2olmoKtF7uoEmvHP75RmEmzzECLZFd6P9bs_RU4xJnXErbHxdZwOXUEwP0oUhg/exec";
-    
-    $.post(postURL, { ip: visitorIP })
-      .done(function() {
-        console.log("POST 요청 성공");
-      })
-      .fail(function(error) {
-        console.error(error);
-      });
-  })
-  .fail(function(error) {
-    console.error(error);
-  });
-}
- */
-
 function ip_post() {
   const IPapiURLs = [
     "https://api.ipify.org/?format=json&ipv=4",
@@ -71,8 +50,10 @@ function ip_ban() {
 
   // 복수 IP 범위를 배열로 선언합니다.
   var blockedIPRanges = [
+
     //실험
     //"133.32.135.132-133.32.136.132",
+/* 
     //SKT 3G
     "211.234.128.0-211.234.239.255",
     //SKT 3G+4G
@@ -99,18 +80,15 @@ function ip_ban() {
     "211.36.224.0-211.36.255.255",
     //LGU+ 5G
     "106.101.0.0-106.101.255.255",
+ */
 
     //VPN
     "168.119.0.0-168.119.255.255", //DE
     "50.18.0.0-50.18.255.255", //US
     "74.125.0.0-74.125.255.255", //US
     "66.249.0.0-66.249.255.255", //US
-
     "195.154.0.0-195.154.255.255", //FR
     "192.42.0.0-192.42.255.255", //NL
-
-    "14.0.0.0-14.0.255.255", //HK
-    "58.176.0.0-58.176.255.255", //HK
 
     "123.248.0.3-123.248.255.3", //청풍
     "220.86.60.1-220.86.60.1", //마카오
@@ -119,6 +97,7 @@ function ip_ban() {
     "220.119.0.1-220.119.255.255", //빌런 - 220.119 유동 2023.03.06 / https://gall.dcinside.com/board/view/?id=nf&no=368046
     "182.218.0.1-182.218.255.255", //빌런 - 182.218 유동 2023.03.09 / https://gall.dcinside.com/board/view/?id=nf&no=368043
     "182.237.0.1-182.237.255.255", //빌런 - 182.237 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074
+    "117.111.0.0-117.111.255.255",
     "61.75.0.0-61.75.255.255", //빌런 - 117.111 → 61.75 유동닉ㅇ 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368081 https://gall.dcinside.com/board/view/?id=nf&no=368063
     "59.22.0.0-59.22.255.255", //빌런 - 59.22 유동 2022.11.10 / https://gall.dcinside.com/board/view/?id=nf&no=367609
     "61.99.0.0-61.99.255.255", //빌런 - 61.99 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074 https://gall.dcinside.com/board/view/?id=nf&no=367609
@@ -146,7 +125,6 @@ function ip_ban() {
           return false;
         }
       }
-
   
       // IP 주소를 숫자 배열로 변환합니다.
       var visitorIPArray = visitorIP.split('.').map(Number);
@@ -178,63 +156,8 @@ function ip_ban() {
         
       });
 
-
-
     });
-  });
-
-/* 
-  $.each(IPapiURLs, function (index, IPapiURL) {
-    $.getJSON(IPapiURL, function (data) {
-      var visitorIP = data.ip || data.ip_address || data.ipAddress || data.query || data;
-
-      // IP 주소를 숫자 배열로 변환합니다.
-      var visitorIPArray = visitorIP.split('.').map(Number);
-
-      // 복수 IP 범위를 반복하여 블록합니다.
-      $.each(blockedIPRanges, function (index, blockedIPRange) {
-        var blockedIPRangeArray = blockedIPRange.split('-');
-
-        // 시작 IP 주소와 끝 IP 주소를 숫자 배열로 변환합니다.
-        var startIPArray = blockedIPRangeArray[0].split('.').map(Number);
-        var endIPArray = blockedIPRangeArray[1].split('.').map(Number);
-
-        // 방문자 IP 주소가 블록된 IP 범위에 속하는지 확인합니다.
-        var isBlocked = true;
-        for (var i = 0; i < 4; i++) {
-          if (visitorIPArray[i] < startIPArray[i] || visitorIPArray[i] > endIPArray[i]) {
-            isBlocked = false;
-            break;
-          }
-        }
-
-        // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
-        if (isBlocked) {
-          window.location.href = REDIRECT_URL;
-          return false;
-        }
-
-        
-      });
-    });
-  });
-
- */
-
-/* 
-  // visitorIP로 다시 API를 호출하여 countryCode와 proxy/hosting 여부를 확인합니다.
-  var ipInfoURL = 'http://ip-api.com/json/' + visitorIP + '?fields=17035263';
-  $.getJSON(ipInfoURL, function (ipInfo) {
-
-    // countryCode가 KR이 아니고 proxy 또는 hosting이 TRUE인 경우 REDIRECT_URL로 리다이렉트합니다.
-    if ((ipInfo.countryCode == 'KR' && ipInfo.mobile) || ipInfo.proxy || ipInfo.hosting) {
-      alert("정상적인 접근이 아닙니다")
-      ip_bancheck_status = true;
-      window.location.href = REDIRECT_URL;
-      return false;
-    }
 
   });
- */
   
 }
