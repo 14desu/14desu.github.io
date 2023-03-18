@@ -95,7 +95,6 @@ $(document).on("change","#Sailor_AutoInput",function(){
 });
 
 $(document).on("change","#nation_sel",function(){
-    params["nationinput"] = $("#nation_sel").val();
   
     //수병트리의 리셋
     $(".TreeReset").hide();
@@ -107,18 +106,13 @@ $(document).on("change","#nation_sel",function(){
 });
 
 $(document).on("change","#tree_sel",function(){
-    //
-    params["treeinput"] = $("#tree_sel").val();
       
     sailor_calc_inputoutput_reset();
 });
 
 $(document).on("change","#RN_Abroad_Input",function(){
     if($("#RN_Abroad_Input").is(":checked") == true){
-      params["nationinput"] = "영국";
-    }
-    else{
-      params["nationinput"] = $("#nation_sel").val();
+      $("#nation_sel").val("영국");
     }
 });
 

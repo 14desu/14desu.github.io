@@ -34,7 +34,7 @@ function get_result_sailor() {
     return false;
   }
 
-  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbwvRcPCBixdDDwWKFAdMPzCmAB90HveqxO7-NnuvhT70mGMoUE4Dngu7F82M0pP9UXMpQ/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
+  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbyUUJ4xZtlo8Cp2FPGrdpc7KuKpamfusmqw7stKLDmVRrgwkB54YtnO_SaqBJHtbBggxQ/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
   let treedata = [];
   let abildata = [];
@@ -221,7 +221,7 @@ function get_result_sailor() {
 
     //영국 갑판병 보너스 어빌
     if ($("#nation_sel").val() == "영국") {
-      if (params["treeinput"] == "갑판병") {
+      if ($("#tree_sel").val() == "갑판병") {
         for (r = 0; r < 11; r++) {
           abiltotal[r] = abiltotal[r] + 50;
         }
@@ -242,7 +242,7 @@ function get_result_sailor() {
       $("#" + AbilIndex[i][1] + "Growth").html(abilgrowth[i]);
       $("#" + AbilIndex[i][1] + "Total").html(abiltotal[i]);
 
-      if (params["treeinput"] == "갑판병") {
+      if ($("#tree_sel").val() == "갑판병") {
         if (i < AbilIndex.length - 1) {
           //갑판어빌
           $("#" + AbilIndex[i][1] + "SeamanTotal").html(Math.floor(abiltotal[i] * 0.07));
