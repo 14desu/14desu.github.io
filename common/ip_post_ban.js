@@ -49,6 +49,7 @@ function ip_ban() {
   const REDIRECT_URL = "https://gall.dcinside.com/mini/board/view/?id=nf&no=27";
 
   const block_ip_list_API = "https://script.google.com/macros/s/AKfycbyrogmtba7kOgYJphvYfTBk-TKb2fB93wXDuJxD9dBUt2Yhn_txgr5IQUaiJITqMsd2Ww/exec";
+  const block_ip_log_POST = "https://script.google.com/macros/s/AKfycbzcUEt8PBrn8Gtk-_j7roWQ67zWsa9vtIUV14_X4GlRnr9t0ooSS6Pf70eGJvNg0DAjXw/exec";
 
   var blockedIPRanges = [];
 
@@ -71,6 +72,13 @@ function ip_ban() {
         if (IPapiURL == "https://ip-api.io/api/json") {
           if (data.suspiciousFactors.isProxy || data.suspiciousFactors.isTorNode) {
             alert("정상적인 접근이 아닙니다")
+            $.post(block_ip_log_POST, { ip: visitorIP })
+            .done(function () {
+              console.log("block ip POST 요청 성공");
+            })
+            .fail(function (error) {
+              console.error(error);
+            });
             ip_bancheck_status = true;
             window.location.href = REDIRECT_URL;
             return false;
@@ -100,6 +108,13 @@ function ip_ban() {
           // 만약 블록된 IP 범위에 속하는 경우 페이지를 리로드하지 않고 경고창을 띄웁니다.
           if (isBlocked) {
             alert("정상적인 접근이 아닙니다")
+            $.post(block_ip_log_POST, { ip: visitorIP })
+            .done(function () {
+              console.log("block ip POST 요청 성공");
+            })
+            .fail(function (error) {
+              console.error(error);
+            });
             ip_bancheck_status = true;
             window.location.href = REDIRECT_URL;
             return false;
@@ -112,6 +127,5 @@ function ip_ban() {
     });
 
   });
-
 
 }
