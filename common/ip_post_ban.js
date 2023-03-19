@@ -102,7 +102,7 @@ function ip_ban() {
     "59.22.0.0-59.22.255.255", //빌런 - 59.22 유동 2022.11.10 / https://gall.dcinside.com/board/view/?id=nf&no=367609
     "61.99.0.0-61.99.255.255", //빌런 - 61.99 유동 2023.03.12 / https://gall.dcinside.com/board/view/?id=nf&no=368074 https://gall.dcinside.com/board/view/?id=nf&no=367609
     "1.216.0.0-1.216.255.255", //빌런 - 1.216 유동 2023.03.08 / https://gall.dcinside.com/board/view/?id=nf&no=368063
-    "182.222.3.0-182.222.3.255", //빌런 - 182.222 유동/새벽4:49 어그로 2023.03.19 / https://gall.dcinside.com/board/view/?id=nf&no=368094
+    "118.222.3.0-118.222.3.255", //빌런 - 182.222 유동/새벽4:49 어그로 2023.03.19 / https://gall.dcinside.com/board/view/?id=nf&no=368094
 
   ];
 
