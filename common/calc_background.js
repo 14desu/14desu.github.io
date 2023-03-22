@@ -377,17 +377,34 @@ function sailor_performance_autoip(){
   }
 
   //빈혈도 계산 + 수병수입력 자동수정
-  sailor_performance_amenia_update();
+  sailor_amenia_update();
 
 }
 
+
+
+$(document).on("change",".output_vet_ip",function(){
+  sailor_vet_update();
+});
+
+$(document).on("change",".output_exp_ip",function(){
+  sailor_exp_update();
+});
+
+$(document).on("change",".output_new_ip",function(){
+  sailor_new_update();
+});
+
 $(document).on("change",".output_sailor_ip",function(){
-  sailor_performance_amenia_update();
+  sailor_amenia_update();
   sailor_performance_calc();
 });
 
-function sailor_performance_amenia_update(){
+function sailor_vet_update(){
   for(i=0; i<6; i++){
+    if($("#output_vetip"+[i+1]).val()<1){
+      $("#output_vetip"+[i+1]).val(0);
+    }
     if($("#server_input").val() == "Korea_server"){
       if($("#output_vetip"+[i+1]).val()>$("#NUMTotal").html()*0.45){
         alert("입력된 사관수가 전체수병수의 45%를 넘을수 없습니다")
@@ -400,8 +417,17 @@ function sailor_performance_amenia_update(){
         $("#output_vetip"+[i+1]).val(Math.floor($("#NUMTotal").html()*0.5));
       }
     }
+    $("#output_expip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1);
+    $("#output_newip"+[i+1]).val(0);
+  }
+}
+
+function sailor_exp_update(){
+  for(i=0; i<6; i++){
+    if($("#output_expip"+[i+1]).val()<1){
+      $("#output_expip"+[i+1]).val(0);
+    }
     if($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1+$("#output_newip"+[i+1]).val()*1>$("#NUMTotal").html()*1){
-      alert("입력된 사관+숙련병+신병의 합이 전체수병수를 넘을수 없습니다")
       if($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1>$("#NUMTotal").html()*1){
         $("#output_expip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1-$("#output_newip"+[i+1]).val());
       }
@@ -409,6 +435,23 @@ function sailor_performance_amenia_update(){
         $("#output_newip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1-$("#output_expip"+[i+1]).val());
       }
     }
+  }
+}
+
+function sailor_new_update(){
+  for(i=0; i<6; i++){
+    if($("#output_newip"+[i+1]).val()<1){
+      $("#output_newip"+[i+1]).val(0);
+    }
+    if($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1+$("#output_newip"+[i+1]).val()*1>$("#NUMTotal").html()*1){
+        $("#output_newip"+[i+1]).val($("#NUMTotal").html()*1-$("#output_vetip"+[i+1]).val()*1-$("#output_expip"+[i+1]).val());
+    }
+  }
+}
+
+
+function sailor_amenia_update(){
+  for(i=0; i<6; i++){
     $("#output_amenia"+[i+1]).html(Math.floor(($("#output_vetip"+[i+1]).val()*1+$("#output_expip"+[i+1]).val()*1+$("#output_newip"+[i+1]).val()*1)/$("#NUMTotal").html()*1000)/10);
   }
 }
