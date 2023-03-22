@@ -178,25 +178,27 @@ function get_result_sailor() {
 
 
 
-    for (i = 0; i < tree_n; i++) {
-      if (treelev[i] == "") {
+    for (i = 1; i < tree_n; i++) {
+      if (treelev[i-1] == "") {
         continue;
       }
-      if (abildata[i][0] > treelev[i]) {
+      if (abildata[i][0] > treelev[i-1]) {
         alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
       }
-      abildata[i][0] = treelev[i];
+      if (abildata[i][0] < treelev[i-1]) {
+        abildata[i][0] = treelev[i-1];
+      }
     }
 
     //늦직입력 - 전직안하는 트리분 반영
-    for (i = tree_n; i > 1; i--) {
-      if (treelev[i - 1] == "" && treelev[i - 2] != "") {
-        tree_n = i - 1;
+    for (i = 1; i < tree_n; i++) {
+      if (treelev[i] == "" && treelev[i - 1] != ""){
+        abildata.length = i+1;
       }
     }
 
     // 수병트리영향분 계산
-    for (i = 0; i < tree_n; i++) {
+    for (i = 0; i < abildata.length; i++) {
       if (levinput * 1 < abildata[i][0]) {
         continue;
       }
