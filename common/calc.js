@@ -194,7 +194,7 @@ function get_result_sailor() {
     //늦직입력 - 전직안하는 트리분 반영
     for (i = 1; i < tree_n; i++) {
       if (treelev[i] == "" && treelev[i - 1] != ""){
-        abildata.length = i+1;
+        abildata.length = i;
       }
     }
 
