@@ -65,7 +65,7 @@ function get_result_sailor() {
       $("#tree" + [i+1] + "output").show();
       $("#tree_" + [i+1]).html(treedata[i]);
       $("#tree_" + [i+1] + "LV").html(abildata[i][0]);
-      treelev[i] = $("#job_change_level_input" + [i + 1]).val();
+      treelev[i] = $("#job_change_level_input" + [i+1]).val();
     }
 
     //입력Lv체크 알람
@@ -178,12 +178,13 @@ function get_result_sailor() {
 
 
 
-    for (i = 1; i < tree_n; i++) {
+    for (i = 0; i < tree_n; i++) {
       if (treelev[i] == "") {
         continue;
       }
       if (abildata[i][0] > treelev[i]) {
         alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
+        $("#job_change_level_input" + [i+1]).val(abildata[i][0]);
       }
       if (abildata[i][0] < treelev[i]) {
         abildata[i][0] = treelev[i];
