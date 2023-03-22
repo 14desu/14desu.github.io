@@ -62,9 +62,9 @@ function get_result_sailor() {
     //수병트리/전직Lv정보 output
     $(".treeoutputrow").hide();
     for (i = 0; i < tree_n; i++) {
-      $("#tree" + [i] + "output").show();
-      $("#tree_" + [i]).html(treedata[i]);
-      $("#tree_" + [i] + "LV").html(abildata[i][0]);
+      $("#tree" + [i+1] + "output").show();
+      $("#tree_" + [i+1]).html(treedata[i]);
+      $("#tree_" + [i+1] + "LV").html(abildata[i][0]);
       treelev[i] = $("#job_change_level_input" + [i + 1]).val();
     }
 
@@ -179,14 +179,14 @@ function get_result_sailor() {
 
 
     for (i = 1; i < tree_n; i++) {
-      if (treelev[i-1] == "") {
+      if (treelev[i] == "") {
         continue;
       }
-      if (abildata[i][0] > treelev[i-1]) {
+      if (abildata[i][0] > treelev[i]) {
         alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
       }
-      if (abildata[i][0] < treelev[i-1]) {
-        abildata[i][0] = treelev[i-1];
+      if (abildata[i][0] < treelev[i]) {
+        abildata[i][0] = treelev[i];
       }
     }
 
