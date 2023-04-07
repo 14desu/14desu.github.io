@@ -18,9 +18,6 @@
                             <select id="server_input">
                                 <option value="Korea_server">Korea server</option>
                                 <option  value="Global_server" >Global server</option>
-                <!--disabled
-                                <option value="Global">Global server</option>
-                -->
                             </select>
                             </td>
                         </tr>
@@ -102,6 +99,16 @@
                         <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="KR_input Gunner_Input">
                             <td>함포 연사속도입력 <a id="Gun_Official_Shipyard1" class="Gun_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Gun_Reloadtime_Input" class="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
+                        </tr>
+                        <tr id="enforce_input_row" style="display:none;" class="KR_input Gunner_Input">
+                            <td>함선강화입력</td>
+                            <td>
+                                <select id="gun_enforce_input">
+                                    <option value="1">--함선강화/없음--</option>
+                                    <option value="0.97">함포 재장전시간 -3%</option>
+                                    <option value="0.91">함포 재장전시간 -9%</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="KR_input Gunner_Input">
                             <td>구현 연사속도출력여부</td>
