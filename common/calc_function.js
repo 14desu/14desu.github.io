@@ -55,7 +55,7 @@ function KR_OxyTime_calc(SubmarinOxyTank,OxyCharge){
 }
 
 function KR_AvgReloadTime_calc(ReloadTier){
-  var GunReloadTime = document.getElementById("Gun_Reloadtime_Input").value;
+  var GunReloadTime = $("#Gun_Reloadtime_Input").val() * $("#gun_enforce_input").val();
   return Math.round(Math.floor(GunReloadTime*25*0.01*(101 - ReloadTier))*1.3 + 1.87)/25;
 }
 
