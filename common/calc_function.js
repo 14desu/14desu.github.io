@@ -6,6 +6,10 @@ function KR_RepairSpeed_calc(realabil){
   return Math.floor(Math.floor(realabil/480)/25.6)/10;
 }
 
+function kr_guideline_calc(realabil){
+  return Math.floor(realabil/2000)*2 + $("#FCS_Guideline_Input").val()*1;
+}
+
 function Global_RepairSpeed_calc(realabil){
   return Math.floor(realabil/13630)/10;
 }
