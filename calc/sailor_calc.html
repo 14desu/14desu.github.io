@@ -2,7 +2,7 @@
 <h3><button class="btn btn-outline-dark" onclick="get_result_sailor()">수병계산기실행</button></h3>
 <form id="sailor_calc_kr_form">
 <div class="row g-0">
-    <div class="accordion col-sm-12 col-md-8 col-lg-5 col-xl-5 col-xxl-4" id="Sailor_Calc_Input_Accrodion1">
+    <div class="accordion" id="Sailor_Calc_Input_Accrodion1" style="width: 25rem;">
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading1">
             <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
@@ -150,7 +150,7 @@
             </div>
         </div>
     </div>
-    <div class="accordion col-sm-12 col-md-8 col-lg-7 col-xl-5 col-xxl-5" id="Sailor_Calc_Input_Accrodion2">
+    <div class="accordion" id="Sailor_Calc_Input_Accrodion2" style="width: 25rem;">
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading2">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
@@ -201,7 +201,7 @@
         </div>
     </div>
 </div>
-<div class="accordion col-sm-12 col-md-12 col-lg-12 col-xl-10 col-xxl-9 " id="Sailor_Calc_Input_Accrodion3">
+<div class="accordion col-sm-12 col-md-12 col-lg-12 col-xl-10 col-xxl-9" id="Sailor_Calc_Input_Accrodion3" style="width: 40rem;">
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading3">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
@@ -213,11 +213,14 @@
                 <details>
                     <summary>개근/전설보조/전설특무 히든어빌 입력참고용 (펼치기)</summary>
                     <div>
-                        <table class="table table-bordered table-striped table-hover" style="max-width:400px">
+                        <table class="table table-bordered table-striped table-hover" style="width: 15rem;">
+                        <thead>
                         <tr>
                             <td>히든어빌</td>
                             <td>90렙누적어빌</td>
                         </tr>
+                        </thead>
+                        <tbody>
                         <tr>
                             <td>7</td>
                             <td>648</td>
@@ -241,6 +244,8 @@
                         <tr>
                             <td>12</td>
                             <td>1093</td>
+                        </tr>
+                        </tbody>
                         </table>
                         개근/전설보조/전설특무의 부어빌(+9어빌)은 히든어빌을 초기어빌에 입력하세요
                     </div>
@@ -276,7 +281,7 @@
                     <tbody>
                     <tr>
                         <td>잠재</td>
-                        <td><input type="number" id="POTIP" name="POTIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="POTIP" name="POTIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="POTGrowth"></span></td>
                         <td><span id="POTTotal"></span></td>
                         <td><span id="POTSeamanTotal"></span></td>
@@ -284,7 +289,7 @@
                     </tr>
                     <tr>
                         <td>명중</td>
-                        <td><input type="number" id="ACCIP" name="ACCIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="ACCIP" name="ACCIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="ACCGrowth"></span></td>
                         <td><span id="ACCTotal"></span></td>
                         <td><span id="ACCSeamanTotal"></span></td>
@@ -292,7 +297,7 @@
                     </tr>
                     <tr>
                         <td>연사</td>
-                        <td><input type="number" id="RLDIP" name="RLDIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="RLDIP" name="RLDIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="RLDGrowth"></span></td>
                         <td><span id="RLDTotal"></span></td>
                         <td><span id="RLDSeamanTotal"></span></td>
@@ -300,7 +305,7 @@
                     </tr>
                     <tr>
                         <td>어뢰</td>
-                        <td><input type="number" id="TORIP" name="TORIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="TORIP" name="TORIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="TORGrowth"></span></td>
                         <td><span id="TORTotal"></span></td>
                         <td><span id="TORSeamanTotal"></span></td>
@@ -308,7 +313,7 @@
                     </tr>
                     <tr>
                         <td>대공</td>
-                        <td><input type="number" id="AAWIP" name="AAWIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="AAWIP" name="AAWIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="AAWGrowth"></span></td>
                         <td><span id="AAWTotal"></span></td>
                         <td><span id="AAWSeamanTotal"></span></td>
@@ -316,7 +321,7 @@
                     </tr>
                     <tr>
                         <td>수리</td>
-                        <td><input type="number" id="REPIP" name="REPIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="REPIP" name="REPIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="REPGrowth"></span></td>
                         <td><span id="REPTotal"></span></td>
                         <td><span id="REPSeamanTotal"></span></td>
@@ -324,7 +329,7 @@
                     </tr>
                     <tr>
                         <td>보수</td>
-                        <td><input type="number" id="RESIP" name="RESIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="RESIP" name="RESIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="RESGrowth"></span></td>
                         <td><span id="RESTotal"></span></td>
                         <td><span id="RESSeamanTotal"></span></td>
@@ -332,7 +337,7 @@
                     </tr>
                     <tr>
                         <td>기관</td>
-                        <td><input type="number" id="ENGIP" name="ENGIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="ENGIP" name="ENGIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="ENGGrowth"></span></td>
                         <td><span id="ENGTotal"></span></td>
                         <td><span id="ENGSeamanTotal"></span></td>
@@ -340,7 +345,7 @@
                     </tr>
                     <tr>
                         <td>함재</td>
-                        <td><input type="number" id="AIRIP" name="AIRIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="AIRIP" name="AIRIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="AIRGrowth"></span></td>
                         <td><span id="AIRTotal"></span></td>
                         <td><span id="AIRSeamanTotal"></span></td>
@@ -348,7 +353,7 @@
                     </tr>
                     <tr>
                         <td>전투</td>
-                        <td><input type="number" id="FIGIP" name="FIGIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="FIGIP" name="FIGIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="FIGGrowth"></span></td>
                         <td><span id="FIGTotal"></span></td>
                         <td><span id="FIGSeamanTotal"></span></td>
@@ -356,7 +361,7 @@
                     </tr>
                     <tr>
                         <td>폭격</td>
-                        <td><input type="number" id="BOMIP" name="BOMIP" step="1" value="9" min="7" max="18" size="2"></td>
+                        <td><input type="number" id="BOMIP" name="BOMIP" step="1" value="9" min="7" max="18" size="2" style="width:45px"></td>
                         <td><span id="BOMGrowth"></span></td>
                         <td><span id="BOMTotal"></span></td>
                         <td><span id="BOMSeamanTotal"></span></td>
@@ -376,7 +381,7 @@
         </div>
     </div>
 </div>
-<div class="accordion col-sm-12 col-md-8 col-lg-5 col-xl-5 col-xxl-4" id="sailor_calc_seamaninput_Accrodion">
+<div class="accordion" id="sailor_calc_seamaninput_Accrodion" style="width: 25rem;">
     <div class="accordion-item">
         <h2 class="accordion-header" id="sailor_calc_seamaninput_heading">
         <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#sailor_calc_seamaninput_collapse" aria-expanded="true" aria-controls="collapse1">
@@ -435,7 +440,7 @@
         </div>
     </div>
 </div>
-<div class="accordion col-sm-12 col-md-10 col-lg-10 col-xl-8 col-xxl-8 " id="Sailor_Calc_Input_Accrodion4">
+<div class="accordion" id="Sailor_Calc_Input_Accrodion4" style="width: 45rem;">
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading4">
             <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
@@ -448,30 +453,30 @@
                     <thead>
                     <tr>
                         <td>사관[명]<br>숙련병/신병 입력 <input type="checkbox" id="sailor_exp_new_ip_check" value="sailor_exp_new_ip_check"></td>
-                        <td><input type="number" id="output_vetip1" class="output_sailor_ip output_vet_ip" step="1" value="100" max="500" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_vetip2" class="output_sailor_ip output_vet_ip" step="1" value="180" max="500" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_vetip3" class="output_sailor_ip output_vet_ip" step="1" value="250" max="500" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_vetip4" class="output_sailor_ip output_vet_ip" step="1" value="300" max="500" size="2" style="width:60px"></td>
-                        <td>40%<br><input type="number" id="output_vetip5" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:60px"></td>
-                        <td>45%<br><input type="number" id="output_vetip6" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:60px"></td>
+                        <td><input type="number" id="output_vetip1" class="output_sailor_ip output_vet_ip" step="1" value="100" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip2" class="output_sailor_ip output_vet_ip" step="1" value="180" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip3" class="output_sailor_ip output_vet_ip" step="1" value="250" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip4" class="output_sailor_ip output_vet_ip" step="1" value="300" max="500" size="2" style="width:55px"></td>
+                        <td>40%<br><input type="number" id="output_vetip5" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:55px"></td>
+                        <td>45%<br><input type="number" id="output_vetip6" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:55px"></td>
                     </tr>
                     <tr class="sailor_performance_input_detail" style="display:none;">
                         <td>숙련병[명]</td>
-                        <td><input type="number" id="output_expip1" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_expip2" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_expip3" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_expip4" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_expip5" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_expip6" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:60px"></td>
+                        <td><input type="number" id="output_expip1" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip2" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip3" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip4" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip5" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip6" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
                     </tr>
                     <tr class="sailor_performance_input_detail" style="display:none;">
                         <td>신병[명]</td>
-                        <td><input type="number" id="output_newip1" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_newip2" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_newip3" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_newip4" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_newip5" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
-                        <td><input type="number" id="output_newip6" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:60px"></td>
+                        <td><input type="number" id="output_newip1" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip2" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip3" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip4" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip5" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip6" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
                     </tr>
                     <tr class="sailor_performance_input_detail" style="display:none;">
                         <td>수병빈혈도[%]</td>
