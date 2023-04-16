@@ -328,7 +328,7 @@ function sailor_calc_inputoutput_reset(){
       $("#RN_Abroad_Input").hide();
     }
   }
-  if($("#tree_sel").val().match("포")){
+  if($("#tree_sel").val().match("포")||$("#tree_sel").val().match("속사")){
     $(".Gunner_Input,.Gunner_Output").show();
     if($("#Gun_ActualReloadtime_Output").is(":checked") == true){
       $(".Gunner_Output_Detail").show();
