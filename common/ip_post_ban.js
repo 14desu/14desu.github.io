@@ -46,7 +46,7 @@ function ip_post() {
 function ip_ban() {
 
   // 리디렉션할 URL
-  const REDIRECT_URL = "https://gall.dcinside.com/mini/board/view/?id=nf&no=27";
+  const REDIRECT_URL = "https://14desu.github.io/";
 
   const block_ip_list_API = "https://script.google.com/macros/s/AKfycbyrogmtba7kOgYJphvYfTBk-TKb2fB93wXDuJxD9dBUt2Yhn_txgr5IQUaiJITqMsd2Ww/exec";
   const block_ip_log_POST = "https://script.google.com/macros/s/AKfycbzcUEt8PBrn8Gtk-_j7roWQ67zWsa9vtIUV14_X4GlRnr9t0ooSS6Pf70eGJvNg0DAjXw/exec";
