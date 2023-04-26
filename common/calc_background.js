@@ -496,6 +496,7 @@ function sailor_performance_calc(){
     }
     //함장가이드라인계산
     $("#KR_Guideline"+(k+1)).html( kr_guideline_calc( sailor_realabil[k][0]) );
+    $("#Global_Guideline"+(k+1)).html( global_guideline_calc( sailor_realabil[k][0]) );
     //구조방어계산
     $("#KR_RestoreRate"+(k+1)).html( KR_RestoreRate_calc( sailor_realabil[k][5]) );
     $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );

@@ -10,6 +10,10 @@ function kr_guideline_calc(realabil){
   return Math.floor(realabil/2000)*2 + $("#FCS_Guideline_Input").val()*1;
 }
 
+function global_guideline_calc(realabil){
+  return Math.floor(realabil/2224)*2 + $("#FCS_Guideline_Input").val()*1;
+}
+
 function Global_RepairSpeed_calc(realabil){
   return Math.floor(realabil/13630)/10;
 }
