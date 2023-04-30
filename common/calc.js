@@ -34,7 +34,7 @@ function get_result_sailor() {
     return false;
   }
 
-  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbyUUJ4xZtlo8Cp2FPGrdpc7KuKpamfusmqw7stKLDmVRrgwkB54YtnO_SaqBJHtbBggxQ/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
+  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbykbttF_KVQpDaShXtmvIv0zfw7VPD64G7xzgVG7GB7NQvQx5Qb25Ku88SHjOw_8jvHwA/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
   let treedata = [];
   let abildata = [];
