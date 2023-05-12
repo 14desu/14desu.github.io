@@ -471,6 +471,10 @@ function sailor_performance_calc(){
     ["폭격", "BOM"],
   ];
 
+  if( ($("#dcpw").val() != "6974") ){
+    return;
+  }
+
   //함장목표가이드라인길이
   var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
   $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
