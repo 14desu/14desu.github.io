@@ -145,6 +145,10 @@
                             <td>어뢰발사관 실제체감시간[s] 입력 <a id="Torpedo_Official_Shipyard1" class="Torpedo_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/torpedo.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
                             <td><input type="number" id="Torpedo_Reloadtime_Input" class="Torpedo_Reloadtime_Input" step="0.04" size="2" max="100" style="width:80px"></td>
                         </tr>
+                        <tr>
+                            <td>DC함대 인증코드</td>
+                            <td><input type="text" id="dcpw" name="dcpw" value="입력" style="width:65px"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -508,13 +512,22 @@
                         <td><span id="Global_RepairSpeed6"></span></td>
                     </tr>
                     <tr id="KR_Guideline_Row" style="display:none;" Class="KR_output Captin_Output">
-                        <td>가이드라인 길이</td>
+                        <td>가이드라인 길이 KR</td>
                         <td><span id="KR_Guideline1"></span></td>
                         <td><span id="KR_Guideline2"></span></td>
                         <td><span id="KR_Guideline3"></span></td>
                         <td><span id="KR_Guideline4"></span></td>
                         <td><span id="KR_Guideline5"></span></td>
                         <td><span id="KR_Guideline6"></span></td>
+                    </tr>
+                    <tr id="Global_Guideline_Row" style="display:none;" Class="Global_output Captin_Output">
+                        <td>가이드라인 길이 Global</td>
+                        <td><span id="Global_Guideline1"></span></td>
+                        <td><span id="Global_Guideline2"></span></td>
+                        <td><span id="Global_Guideline3"></span></td>
+                        <td><span id="Global_Guideline4"></span></td>
+                        <td><span id="Global_Guideline5"></span></td>
+                        <td><span id="Global_Guideline6"></span></td>
                     </tr>
                     <tr id="KR_RepairSpeed_BBCaptin_Row" style="display:none;" Class="KR_output Captin_Output">
                     <td>수리속도[/s] KR<br>가이드라인 <span id="Target_Guildline"></span> 조정</td>
