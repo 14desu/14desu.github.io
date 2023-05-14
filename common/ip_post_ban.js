@@ -42,6 +42,41 @@ function ip_post() {
   }
 }
 
+function active_user_ip_post() {
+  const IPapiURLs = [
+    "https://api.ipify.org/?format=json&ipv=4",
+    "https://ip-api.io/api/json",
+    "https://api.db-ip.com/v2/free/self",
+  ];
+
+  const postURL = "https://script.google.com/macros/s/AKfycbzdQXog9jC80qvzs3gqq8yYI6DfcsS7EKTPLfw6m8jwzFcMwlkNoEj-RwKsa8qlSRi7mg/exec";
+
+  tryAPI(0);
+
+  function tryAPI(apiIndex) {
+    if (apiIndex >= IPapiURLs.length) {
+      console.error("모든 API에 접속할 수 없습니다.");
+      return;
+    }
+
+    $.getJSON(IPapiURLs[apiIndex])
+      .done(function (data) {
+        var visitorIP = data.ip || data.ip_address || data.ipAddress || data.query || data;
+        $.post(postURL, { ip: visitorIP })
+          .done(function () {
+            console.log("POST 요청 성공");
+          })
+          .fail(function (error) {
+            console.error(error);
+          });
+      })
+      .fail(function (error) {
+        console.error(error);
+        tryAPI(apiIndex + 1);
+      });
+  }
+}
+
 
 function ip_ban() {
 
