@@ -471,7 +471,7 @@ function sailor_performance_calc(){
     ["폭격", "BOM"],
   ];
 
-  if( ($("#dcpw").val() != "d6c9n7f4") ){
+  if( ($("#dcpw").val() != "dcnf6974") ){
     return;
   }
 
