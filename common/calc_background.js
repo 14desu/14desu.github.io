@@ -477,12 +477,6 @@ function sailor_performance_calc(){
     ["폭격", "BOM"],
   ];
 
-  if( pwcode == false) {
-    return;
-  }
-
-  active_user_ip_post();
-
   //함장목표가이드라인길이
   var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
   $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
@@ -514,6 +508,16 @@ function sailor_performance_calc(){
     $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );
     //Global 포병계산
     $("#Global_GunnerReloadCap"+(k+1)).html( Global_GunReloadCap_calc( sailor_realabil[k][2]) );
+
+  }
+
+  if( pwcode == false ) {
+    return;
+  }
+
+  active_user_ip_post();
+
+  for (k=0; k<output_vet_number; k++){
     //KR 포병계산
     let reloadtiercalc = 0;
     for(j=0; j<kr_reload_tiercut_data.length; j++){
