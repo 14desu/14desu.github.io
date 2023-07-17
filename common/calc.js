@@ -1,4 +1,5 @@
 var kr_reload_tiercut_data = [];
+var pwcode = false;
 
 function kr_gun_reload_api() {
 

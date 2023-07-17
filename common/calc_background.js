@@ -2,6 +2,12 @@ $(document).on("change","#sailor_exp_new_ip_check",function(){
   sailor_performance_input_detail_set();
 });
 
+$(document).on("change","#dcpw",function(){
+  if( ($("#dcpw").val() == "dcnf6974") ){
+    pwcode = true;
+  }
+});
+
 function sailor_performance_input_detail_set(){
   if($("#sailor_exp_new_ip_check").is(":checked") == true){
     $(".sailor_performance_input_detail").show();
@@ -471,7 +477,7 @@ function sailor_performance_calc(){
     ["폭격", "BOM"],
   ];
 
-  if( ($("#dcpw").val() != "dcnf6974") ){
+  if( pwcode == false) {
     return;
   }
 
