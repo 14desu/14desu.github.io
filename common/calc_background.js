@@ -5,6 +5,7 @@ $(document).on("change","#sailor_exp_new_ip_check",function(){
 $(document).on("change","#dcpw",function(){
   if( ($("#dcpw").val() == "dcnf6974") ){
     pwcode = true;
+    active_user_ip_post();
   }
 });
 
@@ -515,7 +516,6 @@ function sailor_performance_calc(){
     return;
   }
 
-  active_user_ip_post();
 
   for (k=0; k<output_vet_number; k++){
     //KR 포병계산

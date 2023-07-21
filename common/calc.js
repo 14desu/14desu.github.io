@@ -40,8 +40,6 @@ function get_result_sailor() {
     return false;
   }
 
-  active_user_ip_post();
-
   const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbyP_43uAv8hywraZ0la4vfXYODP2Ey_et8l39l1FDef070yJ1aN8VMx23j2cZL4uEQGcA/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
   let treedata = [];
