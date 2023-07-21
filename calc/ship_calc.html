@@ -1,0 +1,300 @@
+<h1 class="mt-2">2. 함선수리기관계산기</h1>
+<h3><button class="btn btn-outline-dark" onclick="Get_Result_Ship_Calc();">함선수리기관계산기실행</button></h3>
+<form name="Ship_Calc_Form">
+<div class="accordion col-12" id="Ship_Calc_Input_Accrodion7">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading7">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                수병정보입력 / 중간계산결과
+            </button>
+        </h2>
+        <div id="collapse7" class="accordion-collapse collapse show" aria-labelledby="heading7" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tr>
+                        <th rowspan="2">탑승위치</th>
+                        <th colspan="7">수병정보입력 / 1.수병계산기계산 > 2.연동입력 > 3.수병정보 수정입력</th>
+                        <th colspan="3">중간계산결과</th>
+                    </tr>
+                    <tr>
+                        <th>연동입력</th>
+                        <th>병종</th>
+                        <th>잠재누적</th>
+                        <th>수리누적</th>
+                        <th>기관누적</th>
+                        <th>수병수</th>
+                        <th>사관수</th>
+                        <th>수리속도</th>
+                        <th>오버힛시간</th>
+                        <th>오버힛증가율</th>
+                    </tr>
+                    <tr>
+                        <td>함장석</td>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(1);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType1"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput1" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput1" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput1" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput1" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput1" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output1"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output1"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output1"></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">주포석</td>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(2);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType2"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput2" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput2" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput2" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput2" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput2" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output2"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output2"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output2"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(3);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType3"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput3" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput3" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput3" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput3" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput3" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output3"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output3"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output3"></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">부포석</td>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(4);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType4"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput4" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput4" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput4" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput4" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput4" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output4"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output4"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output4"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(5);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType5"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput5" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput5" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput5" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput5" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput5" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output5"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output5"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output5"></span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="9">보조석</td>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(6);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType6"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput6" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput6" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput6" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput6" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput6" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output6"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output6"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output6"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(7);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType7"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput7" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput7" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput7" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput7" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput7" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output7"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output7"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output7"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(8);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType8"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput8" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput8" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput8" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput8" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput8" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output8"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output8"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output8"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(9);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType9"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput9" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput9" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput9" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput9" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput9" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output9"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output9"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output9"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(10);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType10"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput10" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput10" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput10" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput10" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput10" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output10"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output10"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output10"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(11);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType11"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput11" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput11" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput11" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput11" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput11" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output11"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output11"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output11"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(12);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType12"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput12" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput12" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput12" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput12" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput12" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output12"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output12"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output12"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(13);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType13"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput13" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput13" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput13" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput13" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput13" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output13"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output13"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output13"></span></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn btn-outline-dark btn-sm" type="button" onclick="Ship_Calc_AutoInput(14);">입력</button></td>
+                        <td><span id="Ship_Calc_SailorType14"></span></td>
+                        <td><input type="number" id="Ship_Calc_POTInput14" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_REPInput14" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_ENGInput14" step="1" min="0" max="5000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_NUMInput14" step="1" min="0" max="2000" size="2"></td>
+                        <td><input type="number" id="Ship_Calc_VETInput14" step="1" min="0" max="500" size="2"></td>
+                        <td><span id="Ship_Calc_RepairSpeed_Output14"></span></td>
+                        <td><span id="Ship_Calc_OverheatTime_Output14"></span></td>
+                        <td><span id="Ship_Calc_OverheatRate_Output14"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-0">
+    <div class="accordion col-sm-12 col-md-8 col-lg-7" id="Ship_Calc_Input_Accrodion5">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading5">
+            <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                함선정보입력
+            </button>
+            </h2>
+            <div id="collapse5" class="accordion-collapse collapse show" aria-labelledby="heading5" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <tr id="Ship_Calc_CaptinGuidelineInput_Row">
+                            <td>함장 가이드라인조절 여부</td>
+                            <td><input type="checkbox" id="Ship_Calc_Guideline_YN" value="Ship_Calc_Guideline_YN" onchange="Ship_Calc_GuidelineInput_Reset();" checked></td>
+                        </tr>
+                        <tr id="Ship_Calc_FCSGuidelineInput_Row">
+                            <td>FCS착탄보정한계거리 &nbsp;<a id="FCS_Official_Shipyard2" class="FCS_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Ship_Calc_FCSGuidelineInput" class="FCS_Guideline_Input" step="1" min="0" max="5000" size="2"></td>
+                        </tr>
+                        <tr id="Ship_Calc_TargetGuidelineInput_Row">
+                            <td>목표가이드라인길이</td>
+                            <td><input type="number" id="Ship_Calc_TargetGuidelineInput" step="1" min="0" max="5000" value="3000" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>함선 기본속도</td>
+                            <td><input type="number" id="Ship_Calc_ShipBasicSpeed_Input" step="1" min="0" max="100" value="21" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>함선 오버힛 여유율 &nbsp;<a id="Ship_Official_Shipyard" class="Ship_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/ship.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Ship_Calc_Ship_BasicOverheatRate_Input" step="1" min="0" max="100" value="23" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>엔진 오버힛 지속시간 &nbsp;<a id="Engine_Official_Shipyard1" class="Engine_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/engine.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Ship_Calc_Engine_OverheatTime_Input" step="1" min="0" max="100" value="16" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>엔진 오버힛 비율 &nbsp;<a id="Engine_Official_Shipyard2" class="Engine_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/engine.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Ship_Calc_Engine_OverheatRate_Input" step="1" min="0" max="200" value="120" size="2"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion col-sm-12 col-md-8 col-lg-5" id="Ship_Calc_Input_Accrodion6">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading6">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                계산결과
+            </button>
+            </h2>
+            <div id="collapse6" class="accordion-collapse collapse show" aria-labelledby="heading6" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0">
+                    <table class="table table-bordered table-striped table-hover table-sm" style="max-width:400px">
+                        <tr>
+                            <td>
+                                갑판병 기관보정률 [%]
+                            </td>
+                            <td>
+                                <span id="Ship_Calc_Seaman_CorrectionRate_Output"></span>
+                            </td>
+                            </tr>
+                        <tr>
+                        <td>
+                            함선 오버히트속도 [knot]
+                        </td>
+                        <td>
+                            <span id="Ship_Calc_OverheatSpeed_Output"></span>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            함선 오버히트시간 [s]
+                        </td>
+                        <td>
+                            <span id="Ship_Calc_OverheatTime_Output"></span>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            함선 수리속도 [/s]
+                        </td>
+                        <td>
+                            <span id="Ship_Calc_RepairSpeed_Output"></span>
+                        </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
