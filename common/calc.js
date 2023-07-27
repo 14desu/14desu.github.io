@@ -1,5 +1,6 @@
 var kr_reload_tiercut_data = [];
 var pwcode = false;
+const REDIRECT_URL2 = "https://gall.dcinside.com/board/view/?id=nf&no=368543";
 
 function kr_gun_reload_api() {
 
@@ -27,6 +28,13 @@ const kr_torpedo_tier_data = [
   [96, 7784227, 10564236],
 ];
 
+function pwcode_check(){
+  if( pwcode == false ) {
+    window.location.href = REDIRECT_URL2;
+    return false;
+  }
+}
+
 function get_result_sailor() {
 
   if (ip_bancheck_status) {
@@ -35,10 +43,7 @@ function get_result_sailor() {
     return false;
   }
 
-  if( pwcode == false ) {
-    window.location.href = "https://gall.dcinside.com/board/view/?id=nf&no=368543";
-    return false;
-  }
+  pwcode_check();
 
   const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbyEG0adZ4uvCKPlb3GZg5lolgcwJsmMwZK_vj-t1Y-4iUhD2UBzy1Blh6joAbwVtdGZdQ/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
@@ -539,6 +544,8 @@ function Get_Result_Ship_Calc() {
     return false;
   }
 
+  pwcode_check();
+
   var POTabil = new Array(14);
   var REPabil = new Array(14);
   var ENGabil = new Array(14);
@@ -621,6 +628,8 @@ function Get_Result_Realabil_Calc() {
     window.location.href = REDIRECT_URL;
     return false;
   }
+
+  pwcode_check();
 
   let AbilIndex = [
     ["잠재", "POT"],
