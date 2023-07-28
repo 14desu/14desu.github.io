@@ -43,9 +43,14 @@ function get_result_sailor() {
     return false;
   }
 
-  pwcode_check();
+  if( pwcode == false ) {
+    window.location.href = REDIRECT_URL2;
+    return false;
+  }
+  
+  active_user_ip_post();
 
-  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbyEG0adZ4uvCKPlb3GZg5lolgcwJsmMwZK_vj-t1Y-4iUhD2UBzy1Blh6joAbwVtdGZdQ/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
+  const sailor_calc_api_url = "https://script.google.com/macros/s/AKfycbxS4AlFugmO5COm1wCwpT1xRVSbWoapDCl_1Q33xWmydoIi6M1u-VxEhjcrIlhjSkgM6Q/exec?input=" + $("#nation_sel").val() + " - " + $("#tree_sel").val();
 
   let treedata = [];
   let abildata = [];
