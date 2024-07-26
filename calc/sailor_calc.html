@@ -1,0 +1,802 @@
+<h1 class="mt-2">1. 수병계산기</h1>
+<form id="sailor_calc_kr_form">
+<div class="row g-0">
+    <div class="accordion" id="Sailor_Calc_Input_Accrodion1" style="width: 25rem;">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading1">
+            <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                기본정보 입력
+            </button>
+            </h2>
+            <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+                <div class="accordion-body p-0">
+                    <table class="table table-bordered table-striped table-hover table-sm">
+                        <tr>
+                            <td>DC함대 인증코드</td>
+                            <td><input type="text" id="dcpw" name="dcpw" value="" style="width:65px"></td>
+                        </tr>
+                        <tr>
+                            <td>서버입력</td>
+                            <td>
+                            <select id="server_input">
+                                <option value="Korea_server">Korea server</option>
+                                <option  value="Global_server" >Global server</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>국적입력</td>
+                            <td>
+                            <select id="nation_sel">
+                                <option>--국적선택--</option>
+                                <option value="미국">미국</option>
+                                <option value="영국">영국</option>
+                                <option value="일본">일본</option>
+                                <option value="독일">독일</option>
+                                <option value="프랑스">프랑스</option>
+                                <option value="소련">소련</option>
+                                <option value="이탈리아">이탈리아</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>병종입력</td>
+                            <td>
+                            <select id="sailor_tree_select">
+                                <option>--병종선택--</option>
+                                <option value="함장">함장</option>
+                                <option value="연연연거포병" class="TreeReset USN">연연연거포병</option>
+                                <option value="연사거포병" class="TreeReset RN" style="display:none;">연사거포병</option>
+                                <option value="일등대공포병 (늦직권장)" class="TreeReset RN" style="display:none;">일등대공포병 (늦직권장)</option>
+                                <option value="포술장" class="TreeReset IN KM MN SN RM" style="display:none;">포술장</option>
+                                <option value="양용포병장 (늦직권장)" class="TreeReset IN" style="display:none;">양용포병장 (늦직권장)</option>
+                                <option value="대공속사병장" class="TreeReset KM" style="display:none;">대공속사병장</option>
+                                <option value="기관병">기관병</option>
+                                <option value="수리병">수리병</option>
+                                <option value="정찰기">정찰기</option>
+                                <option value="전투기">전투기</option>
+                                <option value="뇌격기">뇌격기</option>
+                                <option value="급강하폭격기">급강하폭격기</option>
+                                <option value="어뢰병"class="TreeReset USN RN KM MN SN RM">어뢰병</option>
+                                <option value="강화특수어뢰병" class="TreeReset IN" style="display:none;">강화특수어뢰병</option>
+                                <option value="고속어뢰병 (안씀)" class="TreeReset IN" style="display:none;">고속어뢰병 (안씀)</option>
+                                <option value="음탐병 (늦직권장)">음탐병 (늦직권장)</option>
+                                <option value="잠항병">잠항병</option>
+                                <option value="갑판병">갑판병</option>
+                                <option value="의무병">의무병</option>
+                                <option value="보수병 (안씀)">보수병 (안씀)</option>
+                                <option value="연연명포병 (안씀)" class="TreeReset USN" style="display:none;">연연명거포병 (안씀)</option>
+                                <option value="연명연포병 (안씀)" class="TreeReset USN" style="display:none;">연명연거포병 (안씀)</option>
+                                <option value="연명명포병 (안씀)" class="TreeReset USN" style="display:none;">연명명거포병 (안씀)</option>
+                                <option value="명연연포병 (안씀)" class="TreeReset USN" style="display:none;">명연연거포병 (안씀)</option>
+                                <option value="명연명포병 (안씀)" class="TreeReset USN" style="display:none;">명연명거포병 (안씀)</option>
+                                <option value="명명연포병 (안씀)" class="TreeReset USN" style="display:none;">명명연거포병 (안씀)</option>
+                                <option value="명명명포병 (안씀)" class="TreeReset USN" style="display:none;">명명명거포병 (안씀)</option>
+                                <option value="대공병장 (안씀)" class="TreeReset USN" style="display:none;">대공병장 (안씀)</option>
+                                <option value="강하병">강하병</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>수병레벨입력</td>
+                            <td></label><input type="number" id="LEVIP" class="re_sailor_calculate" step="1" value="120" min="2" max="125" size="2"></td>
+                        </tr>
+                        <tr>
+                            <td>수병강화입력</td>
+                            <td>
+                            <select id="boost_input" class="re_sailor_calculate">
+                                <option>--강화선택/없음--</option>
+                                <option value="POTboost1" class="boost1">잠재1강</option><option value="POTboost2" class="boost2">잠재2강</option>
+                                <option value="ACCboost1" class="boost1">명중1강</option><option value="ACCboost2" class="boost2">명중2강</option>
+                                <option value="RLDboost1" class="boost1">연사1강</option><option value="RLDboost2" class="boost2">연사2강</option>
+                                <option value="TORboost1" class="boost1">어뢰1강</option><option value="TORboost2" class="boost2">어뢰2강</option>
+                                <option value="REPboost1" class="boost1">수리1강</option><option value="REPboost2" class="boost2">수리2강</option>
+                                <option value="RESboost1" class="boost1">보수1강</option><option value="RESboost2" class="boost2">보수2강</option>
+                                <option value="ENGboost1" class="boost1">기관1강</option><option value="ENGboost2" class="boost2">기관2강</option>
+                                <option value="FIGboost1" class="boost1">전투1강</option><option value="FIGboost2" class="boost2">전투2강</option>
+                                <option value="BOMboost1" class="boost1">폭격1강</option><option value="BOMboost2" class="boost2">폭격2강</option>
+                                <option value="boost20" class="boost20" style="display:none;">20%강화</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr id="Gun_Reloadtime_Input_Row" style="display:none;" class="KR_input Gunner_Input">
+                            <td>함포 연사속도입력 <a id="Gun_Official_Shipyard1" class="Gun_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Gun_Reloadtime_Input" class="Gun_Reloadtime_Input" step="0.04" size="2" max="100"></td>
+                        </tr>
+                        <tr id="enforce_input_row" style="display:none;" class="KR_input Gunner_Input">
+                            <td>함선강화입력</td>
+                            <td>
+                                <select id="gun_enforce_input">
+                                    <option value="1">--함선강화/없음--</option>
+                                    <option value="0.97">함포 재장전시간 -3%</option>
+                                    <option value="0.91">함포 재장전시간 -9%</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="Gun_ActualReloadtime_Output_Row" style="display:none;" class="KR_input Gunner_Input">
+                            <td>구현 연사속도출력여부</td>
+                            <td><input type="checkbox" id="Gun_ActualReloadtime_Output" name="Gun_ActualReloadtime_Output" value="Gun_ActualReloadtime_Output" onchange="ActualTimeOutput();"></td>
+                        </tr>
+                        <tr id="RN_Abroad_Input_Row" style="display:none;" class="KR_input Captin_Input">
+                            <td>함장 영국유학여부　<a href="https://14desu.github.io/NFLab/#sailor_captin_RN_abroad" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="checkbox" id="RN_Abroad_Input" value="RN_Abroad"></td>
+                        </tr>
+                        <tr id="FCS_Guideline_Input_Row" style="display:none;" class="KR_input Captin_Input">
+                            <td>FCS 착탄보정한계거리 <a id="FCS_Official_Shipyard1" class="FCS_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/fcs.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="FCS_Guideline_Input" class="FCS_Guideline_Input" step="2" size="2"></td>
+                        </tr>
+                        <tr id="Target_Guideline_Input_Row" style="display:none;" class="KR_input Captin_Input">
+                            <td>목표 가이드라인거리</td>
+                            <td><input type="number" id="Target_Guideline_Input" step="2" value="3000" size="2"></td>
+                        </tr>
+                        <tr id="SS_Divetime_Input_Row" style="display:none;" class="KR_input Submerge_Input">
+                            <td>잠수함 잠항시간 [s] <a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td>
+                                <select id="SS_Class_Input">
+                                    <option value="SS1">SS1 Lv37-39</option>
+                                    <option value="SS2">SS2 Lv46-49</option>
+                                    <option value="SS3">SS3 Lv59-62</option>
+                                    <option value="SS4">SS4 Lv74-77</option>
+                                    <option value="SS5">SS5 Lv87-89</option>
+                                    <option value="PSS">PSS Lv95-97</option>
+                                    <option value="SS6" selected>SS6 Lv105</option>
+                                </select>
+                                <input type="number" id="SS_Divetime_Input" step="0.04" size="2" value="240" style="width:80px">
+                            </td>
+                        </tr>
+                        <tr id="Torpedo_Reloadtime_Input_Row" style="display:none;" class="KR_input Torpedo_Input">
+                            <td>어뢰발사관 실제체감시간[s] 입력 <a id="Torpedo_Official_Shipyard1" class="Torpedo_Official_Shipyard" href="https://www.navyfield.co.kr:444/guide/shipyard/torpedo.asp?Code1=1" target="_blank"><i class="fa-solid fa-link"></i></a></td>
+                            <td><input type="number" id="Torpedo_Reloadtime_Input" class="Torpedo_Reloadtime_Input" step="0.04" size="2" max="100" style="width:80px"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion col-md-12 col-lg-11 col-xl-10 col-xxl-9" id="Realabil_Calc_Input_Accrodion_tree_detail">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading_tree_detail">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_tree_detail" aria-expanded="true" aria-controls="collapse_tree_detail">
+                전직트리 / 늦직검토 / 상세정보
+            </button>
+        </h2>
+        <div id="collapse_tree_detail" class="accordion-collapse collapse" aria-labelledby="heading_tree_detail" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tr>
+                        <td>병종</td>
+                        <td>칼직LV</td>
+                        <td>늦직LV</td>
+                        <td>잠재</td>
+                        <td>명중</td>
+                        <td>연사</td>
+                        <td>어뢰</td>
+                        <td>대공</td>
+                        <td>수리</td>
+                        <td>보수</td>
+                        <td>기관</td>
+                        <td>함재</td>
+                        <td>전투</td>
+                        <td>폭격</td>
+                        <td>수병수증가</td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_1" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_1" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input1" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM1" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM1" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_2" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_2" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input2" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM2" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM2" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_3" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_3" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input3" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM3" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM3" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_4" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_4" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input4" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM4" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM4" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_5" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_5" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input5" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM5" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM5" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                    <tr id="tree_detail_class_outputrow_6" class="tree_detail_class_outputrow">
+                        <td><span id="tree_detail_class_6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_class_change_level_6" class="sailor_class_change_detail"></span></td>
+                        <td><input type="number" id="tree_detail_class_change_level_input6" class="sailor_class_change_input re_sailor_calculate" step="1" min="12" max="125" size="2" style="width:50px"></td>
+                        <td><span id="tree_detail_ability_change_POT6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ACC6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RLD6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_TOR6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AAW6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_REP6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_RES6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_ENG6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_AIR6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_FIG6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_BOM6" class="sailor_class_change_detail"></span></td>
+                        <td><span id="tree_detail_ability_change_NUM6" class="sailor_class_change_detail"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion col-sm-12 col-md-12 col-lg-12 col-xl-10 col-xxl-9" id="Sailor_Calc_Input_Accrodion3" style="width: 40rem;">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading3">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+            초기어빌 입력/계산
+            </button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse show" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <details>
+                    <summary>개근/전설보조/전설특무 히든어빌 입력참고용 (펼치기)</summary>
+                    <div>
+                        <table class="table table-bordered table-striped table-hover" style="width: 15rem;">
+                        <thead>
+                        <tr>
+                            <td>히든어빌</td>
+                            <td>90렙누적어빌</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>7</td>
+                            <td>648</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>737</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>826</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>915</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>1004</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>1093</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        개근/전설보조/전설특무의 부어빌(+9어빌)은 히든어빌을 초기어빌에 입력하세요
+                    </div>
+                </details>
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                        <!--수병자동입력-->
+                        <select id="Sailor_AutoInput" class="re_sailor_calculate">
+                            <option value="직접입력">직접입력</option>
+                            <option value="개근">개근</option>
+                            <option value="전설보조">전설보조</option>
+                            <option value="전설특무">전설특무</option>
+                            <option value="잠재플미">잠재플미</option>
+                            <option value="명중플미">명중플미</option>
+                            <option value="연사플미">연사플미</option>
+                            <option value="어뢰플미">어뢰플미</option>
+                            <option value="수리플미">수리플미</option>
+                            <option value="보수플미">보수플미</option>
+                            <option value="기관플미">기관플미</option>
+                            <option value="전투플미">전투플미</option>
+                            <option value="폭격플미">폭격플미</option>
+                        </select>
+                        </th>
+                        <th>성장어빌</th>
+                        <th>누적어빌</th>
+                        <th>갑판어빌</th>
+                        <th>갑판보정[%]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>잠재</td>
+                        <td><input type="number" id="POTIP" class="re_sailor_calculate" name="POTIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="POTGrowth"></span></td>
+                        <td><input type="number" id="POTTotal" name="POTTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="POTSeamanTotal" name="POTSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="POTSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>명중</td>
+                        <td><input type="number" id="ACCIP" class="re_sailor_calculate" name="ACCIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="ACCGrowth"></span></td>
+                        <td><input type="number" id="ACCTotal" name="ACCTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="ACCSeamanTotal" name="ACCSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="ACCSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>연사</td>
+                        <td><input type="number" id="RLDIP" class="re_sailor_calculate" name="RLDIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="RLDGrowth"></span></td>
+                        <td><input type="number" id="RLDTotal" name="RLDTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="RLDSeamanTotal" name="RLDSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="RLDSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>어뢰</td>
+                        <td><input type="number" id="TORIP" class="re_sailor_calculate" name="TORIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="TORGrowth"></span></td>
+                        <td><input type="number" id="TORTotal" name="TORTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="TORSeamanTotal" name="TORSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="TORSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>대공</td>
+                        <td><input type="number" id="AAWIP" class="re_sailor_calculate" name="AAWIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="AAWGrowth"></span></td>
+                        <td><input type="number" id="AAWTotal" name="AAWTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="AAWSeamanTotal" name="AAWSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="AAWSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>수리</td>
+                        <td><input type="number" id="REPIP" class="re_sailor_calculate" name="REPIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="REPGrowth"></span></td>
+                        <td><input type="number" id="REPTotal" name="REPTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="REPSeamanTotal" name="REPSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="REPSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>보수</td>
+                        <td><input type="number" id="RESIP" class="re_sailor_calculate" name="RESIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="RESGrowth"></span></td>
+                        <td><input type="number" id="RESTotal" name="RESTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="RESSeamanTotal" name="RESSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="RESSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>기관</td>
+                        <td><input type="number" id="ENGIP" class="re_sailor_calculate" name="ENGIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="ENGGrowth"></span></td>
+                        <td><input type="number" id="ENGTotal" name="ENGTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="ENGSeamanTotal" name="ENGSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="ENGSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>함재</td>
+                        <td><input type="number" id="AIRIP" class="re_sailor_calculate" name="AIRIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="AIRGrowth"></span></td>
+                        <td><input type="number" id="AIRTotal" name="AIRTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="AIRSeamanTotal" name="AIRSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="AIRSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>전투</td>
+                        <td><input type="number" id="FIGIP" class="re_sailor_calculate" name="FIGIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="FIGGrowth"></span></td>
+                        <td><input type="number" id="FIGTotal" name="FIGTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="FIGSeamanTotal" name="FIGSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="FIGSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>폭격</td>
+                        <td><input type="number" id="BOMIP" class="re_sailor_calculate" name="BOMIP" step="1" value="9" min="7" max="18" size="2" style="width:40px"></td>
+                        <td><span id="BOMGrowth"></span></td>
+                        <td><input type="number" id="BOMTotal" name="BOMTotal" class="sailor_total_output" step="1" value="" min="0" size="2" style="width:60px"></td>
+                        <td><input type="number" id="BOMSeamanTotal" name="BOMSeamanTotal" step="1" value="" min="0" size="2" style="width:50px"></td>
+                        <td><span id="BOMSeamanRate"></span></td>
+                    </tr>
+                    <tr>
+                        <td>수병수</td>
+                        <td></td>
+                        <td><span id="NUMGrowth"></span></td>
+                        <td><input type="number" id="NUMTotal" name="NUMTotal" class="sailor_total_output" step="1" value="" min="55" size="2" style="width:60px"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="sailor_calc_seamaninput_Accrodion" style="width: 25rem;">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="sailor_calc_seamaninput_heading">
+        <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#sailor_calc_seamaninput_collapse" aria-expanded="true" aria-controls="collapse1">
+            갑판병정보 입력
+        </button>
+        </h2>
+        <div id="sailor_calc_seamaninput_collapse" class="accordion-collapse collapse" aria-labelledby="sailor_calc_seamaninput_heading" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <tbody>
+                    <tr>
+                        <td rowspan="4">입력</td>
+                        <td>어빌종류선택</td>
+                        <td>
+                        <select id="sailor_calc_seaman_abil_type_input" class="sailor_calc_seaman_input">
+                            <option>--어빌선택--</option>
+                            <option value="잠재">잠재</option>
+                            <option value="명중">명중</option>
+                            <option value="연사">연사</option>
+                            <option value="어뢰">어뢰</option>
+                            <option value="수리">수리</option>
+                            <option value="보수">보수</option>
+                            <option value="기관">기관</option>
+                            <option value="전투">전투</option>
+                            <option value="폭격">폭격</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>갑판병1 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input1" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병2 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input2" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병3 어빌입력</td>
+                        <td><input type="number" id="sailor_calc_seaman_input3" class="sailor_calc_seaman_input" step="1" value="0" min="2" max="200" size="2"></td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td rowspan="2">중간계산</td>
+
+                        <td>갑판병수[명]</td>
+                        <td><input type="number" id="sailor_calc_seaman_number" step="1" value="0" min="2" max="3" size="2"></td>
+                    </tr>
+                    <tr>
+                        <td>갑판병효율[%]</td>
+                        <td><input type="number" id="sailor_calc_seaman_rate" step="1" value="0" min="2" max="20" size="2"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="Sailor_Calc_Input_Accrodion4" style="width: 45rem;">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading4">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+            수병능력 계산결과 / DCinside함대내 공개
+            </button>
+        </h2>
+        <div id="collapse4" class="accordion-collapse collapse show" aria-labelledby="heading4" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0">
+                <table class="table table-bordered table-striped table-hover table-sm">
+                    <thead>
+                    <tr>
+                        <td>사관[명]<br>숙련병/신병 입력 <input type="checkbox" id="sailor_exp_new_ip_check" value="sailor_exp_new_ip_check"></td>
+                        <td><input type="number" id="output_vetip1" class="output_sailor_ip output_vet_ip" step="1" value="100" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip2" class="output_sailor_ip output_vet_ip" step="1" value="180" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip3" class="output_sailor_ip output_vet_ip" step="1" value="250" max="500" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_vetip4" class="output_sailor_ip output_vet_ip" step="1" value="300" max="500" size="2" style="width:55px"></td>
+                        <td>40%<br><input type="number" id="output_vetip5" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:55px"></td>
+                        <td>45%<br><input type="number" id="output_vetip6" class="output_sailor_ip output_vet_ip" step="1" value="" max="500" size="2" style="width:55px"></td>
+                    </tr>
+                    <tr class="sailor_performance_input_detail" style="display:none;">
+                        <td>숙련병[명]</td>
+                        <td><input type="number" id="output_expip1" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip2" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip3" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip4" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip5" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_expip6" class="output_sailor_ip output_exp_ip" step="1" value="" max="1200" size="2" style="width:55px"></td>
+                    </tr>
+                    <tr class="sailor_performance_input_detail" style="display:none;">
+                        <td>신병[명]</td>
+                        <td><input type="number" id="output_newip1" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip2" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip3" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip4" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip5" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                        <td><input type="number" id="output_newip6" class="output_sailor_ip output_new_ip" step="1" value="0" max="1200" size="2" style="width:55px"></td>
+                    </tr>
+                    <tr class="sailor_performance_input_detail" style="display:none;">
+                        <td>수병빈혈도[%]</td>
+                        <td><span id="output_amenia1"></span></td>
+                        <td><span id="output_amenia2"></span></td>
+                        <td><span id="output_amenia3"></span></td>
+                        <td><span id="output_amenia4"></span></td>
+                        <td><span id="output_amenia5"></span></td>
+                        <td><span id="output_amenia6"></span></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="KR_RepairSpeed_Row" class="Basic_output KR_output">
+                        <td>수리속도[/s] KR</td>
+                        <td><span id="KR_RepairSpeed1"></span></td>
+                        <td><span id="KR_RepairSpeed2"></span></td>
+                        <td><span id="KR_RepairSpeed3"></span></td>
+                        <td><span id="KR_RepairSpeed4"></span></td>
+                        <td><span id="KR_RepairSpeed5"></span></td>
+                        <td><span id="KR_RepairSpeed6"></span></td>
+                    </tr>
+                    <tr id="Global_RepairSpeed_Row" class="Basic_output Global_output" style="display:none;">
+                        <td>수리속도[/s] Global *beta</td>
+                        <td><span id="Global_RepairSpeed1"></span></td>
+                        <td><span id="Global_RepairSpeed2"></span></td>
+                        <td><span id="Global_RepairSpeed3"></span></td>
+                        <td><span id="Global_RepairSpeed4"></span></td>
+                        <td><span id="Global_RepairSpeed5"></span></td>
+                        <td><span id="Global_RepairSpeed6"></span></td>
+                    </tr>
+                    <tr id="KR_Guideline_Row" style="display:none;" Class="KR_output Captin_Output">
+                        <td>가이드라인 길이 KR</td>
+                        <td><span id="KR_Guideline1"></span></td>
+                        <td><span id="KR_Guideline2"></span></td>
+                        <td><span id="KR_Guideline3"></span></td>
+                        <td><span id="KR_Guideline4"></span></td>
+                        <td><span id="KR_Guideline5"></span></td>
+                        <td><span id="KR_Guideline6"></span></td>
+                    </tr>
+                    <tr id="Global_Guideline_Row" style="display:none;" Class="Global_output Captin_Output">
+                        <td>가이드라인 길이 Global</td>
+                        <td><span id="Global_Guideline1"></span></td>
+                        <td><span id="Global_Guideline2"></span></td>
+                        <td><span id="Global_Guideline3"></span></td>
+                        <td><span id="Global_Guideline4"></span></td>
+                        <td><span id="Global_Guideline5"></span></td>
+                        <td><span id="Global_Guideline6"></span></td>
+                    </tr>
+                    <tr id="KR_RepairSpeed_BBCaptin_Row" style="display:none;" Class="KR_output Captin_Output">
+                    <td>수리속도[/s] KR<br>가이드라인 <span id="Target_Guildline"></span> 조정</td>
+                        <td><span id="KR_RepairSpeed_BBCaptin1"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin2"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin3"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin4"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin5"></span></td>
+                        <td><span id="KR_RepairSpeed_BBCaptin6"></span></td>
+                    </tr>
+                    <tr id="KR_RestoreRate_Row" class="Basic_output KR_output">
+                        <td>구조방어 KR</td>
+                        <td><span id="KR_RestoreRate1"></span></td>
+                        <td><span id="KR_RestoreRate2"></span></td>
+                        <td><span id="KR_RestoreRate3"></span></td>
+                        <td><span id="KR_RestoreRate4"></span></td>
+                        <td><span id="KR_RestoreRate5"></span></td>
+                        <td><span id="KR_RestoreRate6"></span></td>
+                    </tr>
+                    <tr id="Global_RestoreRate_Row" class="Basic_output Global_output" style="display:none;">
+                        <td>구조방어 Global *beta</td>
+                        <td><span id="Global_RestoreRate1"></span></td>
+                        <td><span id="Global_RestoreRate2"></span></td>
+                        <td><span id="Global_RestoreRate3"></span></td>
+                        <td><span id="Global_RestoreRate4"></span></td>
+                        <td><span id="Global_RestoreRate5"></span></td>
+                        <td><span id="Global_RestoreRate6"></span></td>
+                    </tr>
+                    <tr id="KR_OverheatTime_Row" style="display:none;" class="KR_output Engine_Output">
+                        <td><a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛시간[s]</a></td>
+                        <td><span id="KR_OverheatTime1"></span></td>
+                        <td><span id="KR_OverheatTime2"></span></td>
+                        <td><span id="KR_OverheatTime3"></span></td>
+                        <td><span id="KR_OverheatTime4"></span></td>
+                        <td><span id="KR_OverheatTime5"></span></td>
+                        <td><span id="KR_OverheatTime6"></span></td>
+                    </tr>
+                    <tr id="KR_OverheatRate_Row" style="display:none;" class="KR_output Engine_Output">
+                        <td><a href="https://nfsim.blogspot.com/2021/05/blog-post_8.html">기관오버힛속도 증가율[%]</a></td>
+                        <td><span id="KR_OverheatRate1"></span></td>
+                        <td><span id="KR_OverheatRate2"></span></td>
+                        <td><span id="KR_OverheatRate3"></span></td>
+                        <td><span id="KR_OverheatRate4"></span></td>
+                        <td><span id="KR_OverheatRate5"></span></td>
+                        <td><span id="KR_OverheatRate6"></span></td>
+                    </tr>
+                    <tr id="KR_SonarRange_Row" style="display:none;" class="KR_output Sonar_Output">
+                        <td>음탐만시야[%] KR</td>
+                        <td><span id="KR_SonarRange1"></span></td>
+                        <td><span id="KR_SonarRange2"></span></td>
+                        <td><span id="KR_SonarRange3"></span></td>
+                        <td><span id="KR_SonarRange4"></span></td>
+                        <td><span id="KR_SonarRange5"></span></td>
+                        <td><span id="KR_SonarRange6"></span></td>
+                    </tr>
+                    <tr id="KR_OxyCharge_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <td>산소충전량[/s]</td>
+                        <td><span id="KR_OxyCharge1"></span></td>
+                        <td><span id="KR_OxyCharge2"></span></td>
+                        <td><span id="KR_OxyCharge3"></span></td>
+                        <td><span id="KR_OxyCharge4"></span></td>
+                        <td><span id="KR_OxyCharge5"></span></td>
+                        <td><span id="KR_OxyCharge6"></span></td>
+                    </tr>
+                    <tr id="KR_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output">
+                    <td>산소충전시간[s] <span id="SS_Class_Output1" class="SS_Class_Output">SS6 240s</span></td>
+                        <td><span id="KR_OxyChargeTime1"></span></td>
+                        <td><span id="KR_OxyChargeTime2"></span></td>
+                        <td><span id="KR_OxyChargeTime3"></span></td>
+                        <td><span id="KR_OxyChargeTime4"></span></td>
+                        <td><span id="KR_OxyChargeTime5"></span></td>
+                        <td><span id="KR_OxyChargeTime6"></span></td>
+                    </tr>
+                    <tr id="KR_NeededSeaman_OxyChargeUp_Row" style="display:none;" class="KR_output Submerge_Output seaman_output">
+                        <td>산소충전구간업 필요갑판보정</td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp1"></span></td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp2"></span></td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp3"></span></td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp4"></span></td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp5"></span></td>
+                        <td><span id="KR_NeededSeaman_OxyChargeUp6"></span></td>
+                    </tr>
+                    <tr id="KR_WithSeaman_OxyChargeTime_Row" style="display:none;" class="KR_output Submerge_Output seaman_output">
+                        <td>갑판보정 산소충전시간[s] <span id="SS_Class_Output2" class="SS_Class_Output">SS6 240s</span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime1"></span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime2"></span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime3"></span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime4"></span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime5"></span></td>
+                        <td><span id="KR_WithSeaman_OxyChargeTime6"></span></td>
+                    </tr>
+                    <tr id="Global_GunnerReloadCap_Row" style="display:none;" class="Global_output Gunner_Output">
+                        <td>포병 연사캡[%] Global *beta</td>
+                        <td><span id="Global_GunnerReloadCap1"></span></td>
+                        <td><span id="Global_GunnerReloadCap2"></span></td>
+                        <td><span id="Global_GunnerReloadCap3"></span></td>
+                        <td><span id="Global_GunnerReloadCap4"></span></td>
+                        <td><span id="Global_GunnerReloadCap5"></span></td>
+                        <td><span id="Global_GunnerReloadCap6"></span></td>
+                    </tr>
+                    <tr id="SailorReloadRow" style="display:none;" class="KR_output Gunner_Output">
+                        <td>함포 수병연사구간</td>
+                        <td><span id="SailorReload1"></span></td>
+                        <td><span id="SailorReload2"></span></td>
+                        <td><span id="SailorReload3"></span></td>
+                        <td><span id="SailorReload4"></span></td>
+                        <td><span id="SailorReload5"></span></td>
+                        <td><span id="SailorReload6"></span></td>
+                    </tr>
+                    <tr id="AvgGunReloadRow" style="display:none;" class="KR_output Gunner_Output">
+                        <td>함포 평균연사속도 [s]</td>
+                        <td><span id="AvgGunReload1"></span></td>
+                        <td><span id="AvgGunReload2"></span></td>
+                        <td><span id="AvgGunReload3"></span></td>
+                        <td><span id="AvgGunReload4"></span></td>
+                        <td><span id="AvgGunReload5"></span></td>
+                        <td><span id="AvgGunReload6"></span></td>
+                    </tr>
+                    <tr id="ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail">
+                        <td>함포 구현연사속도 [s]</td>
+                        <td><span id="ActualGunReload1"></span></td>
+                        <td><span id="ActualGunReload2"></span></td>
+                        <td><span id="ActualGunReload3"></span></td>
+                        <td><span id="ActualGunReload4"></span></td>
+                        <td><span id="ActualGunReload5"></span></td>
+                        <td><span id="ActualGunReload6"></span></td>
+                    </tr>
+                    <tr id="NeededSeamanReloadUpRow" style="display:none;" class="KR_output Gunner_Output seaman_output">
+                        <td>함포 갑판보정 필요연사보정치[%]</td>
+                        <td><span id="NeededSeamanReloadUp1"></span></td>
+                        <td><span id="NeededSeamanReloadUp2"></span></td>
+                        <td><span id="NeededSeamanReloadUp3"></span></td>
+                        <td><span id="NeededSeamanReloadUp4"></span></td>
+                        <td><span id="NeededSeamanReloadUp5"></span></td>
+                        <td><span id="NeededSeamanReloadUp6"></span></td>
+                    </tr>
+                    <tr id="WithSeaman_GunReloadRow" style="display:none;" class="KR_output Gunner_Output seaman_output">
+                        <td>함포 갑판보정 평균연사속도 [s]</td>
+                        <td><span id="WithSeaman_GunReload1"></span></td>
+                        <td><span id="WithSeaman_GunReload2"></span></td>
+                        <td><span id="WithSeaman_GunReload3"></span></td>
+                        <td><span id="WithSeaman_GunReload4"></span></td>
+                        <td><span id="WithSeaman_GunReload5"></span></td>
+                        <td><span id="WithSeaman_GunReload6"></span></td>
+                    </tr>
+                    <tr id="WithSeaman_ActualGunReloadRow" style="display:none;" class="KR_output Gunner_Output_Detail seaman_output">
+                        <td>갑판보정 구현연사속도 [s]</td>
+                        <td><span id="WithSeaman_ActualGunReload1"></span></td>
+                        <td><span id="WithSeaman_ActualGunReload2"></span></td>
+                        <td><span id="WithSeaman_ActualGunReload3"></span></td>
+                        <td><span id="WithSeaman_ActualGunReload4"></span></td>
+                        <td><span id="WithSeaman_ActualGunReload5"></span></td>
+                        <td><span id="WithSeaman_ActualGunReload6"></span></td>
+                    </tr>
+                    <tr id="Torpedo_ReloadTier_Row" style="display:none;" class="KR_output Torpedo_Output">
+                        <td>어뢰 수병연사구간 *beta</td>
+                        <td><span id="Torpedo_ReloadTier1"></span></td>
+                        <td><span id="Torpedo_ReloadTier2"></span></td>
+                        <td><span id="Torpedo_ReloadTier3"></span></td>
+                        <td><span id="Torpedo_ReloadTier4"></span></td>
+                        <td><span id="Torpedo_ReloadTier5"></span></td>
+                        <td><span id="Torpedo_ReloadTier6"></span></td>
+                    </tr>
+                    <tr id="Torpedo_ReloadTime_Row" style="display:none;" class="KR_output Torpedo_Output">
+                        <td>어뢰 평균연사속도[s] *beta</td>
+                        <td><span id="Torpedo_ReloadTime1"></span></td>
+                        <td><span id="Torpedo_ReloadTime2"></span></td>
+                        <td><span id="Torpedo_ReloadTime3"></span></td>
+                        <td><span id="Torpedo_ReloadTime4"></span></td>
+                        <td><span id="Torpedo_ReloadTime5"></span></td>
+                        <td><span id="Torpedo_ReloadTime6"></span></td>
+                    </tr>
+                    <tr id="Torpedo_NeededSeamanReloadUp_Row" style="display:none;" class="KR_output Torpedo_Output seaman_output">
+                        <td>어뢰 갑판보정 필요보정치[%] *beta</td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp1"></span></td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp2"></span></td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp3"></span></td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp4"></span></td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp5"></span></td>
+                        <td><span id="Torpedo_NeededSeamanReloadUp6"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
