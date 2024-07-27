@@ -1,30 +1,6 @@
-$(document).ready(function () {
-  kr_gun_reload_api();
-});
-
 var kr_reload_tiercut_data = [];
-var pwcode = false;
-var AbilIndex = [
-  ["잠재", "POT"],
-  ["명중", "ACC"],
-  ["연사", "RLD"],
-  ["어뢰", "TOR"],
-  ["대공", "AAW"],
-  ["수리", "REP"],
-  ["보수", "RES"],
-  ["기관", "ENG"],
-  ["함재", "AIR"],
-  ["전투", "FIG"],
-  ["폭격", "BOM"],
-  ["수병수", "NUM"]
-];
-var sailor_class_change_number = 0;
-const REDIRECT_URL2 = "https://gall.dcinside.com/board/view/?id=nf&no=368543";
-
+const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbzT6yEb6A51gg9RpMdz2uxM2lsZtDtt9OHaT_V73Ue8mujdSTedn2nBATbXW4UzttZH/exec";
 function kr_gun_reload_api() {
-
-  const kr_gun_reload_api_url = "https://script.google.com/macros/s/AKfycbzT6yEb6A51gg9RpMdz2uxM2lsZtDtt9OHaT_V73Ue8mujdSTedn2nBATbXW4UzttZH/exec";
-
   fetch(kr_gun_reload_api_url)
     .then(response => response.json())
     .then(data => {
@@ -42,6 +18,28 @@ const kr_torpedo_tier_data = [
   [94, 5762746, 7695914],
   [96, 7784227, 10564236],
 ];
+
+$(document).ready(function () {
+  kr_gun_reload_api();
+});
+
+var pwcode = false;
+var AbilIndex = [
+  ["잠재", "POT"],
+  ["명중", "ACC"],
+  ["연사", "RLD"],
+  ["어뢰", "TOR"],
+  ["대공", "AAW"],
+  ["수리", "REP"],
+  ["보수", "RES"],
+  ["기관", "ENG"],
+  ["함재", "AIR"],
+  ["전투", "FIG"],
+  ["폭격", "BOM"],
+  ["수병수", "NUM"]
+];
+var sailor_class_change_number = 0;
+const REDIRECT_URL2 = "https://gall.dcinside.com/board/view/?id=nf&no=368543";
 
 function pwcode_check(){
   if( pwcode == false ) {
@@ -336,8 +334,8 @@ function sailor_performance_calc(){
       $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( "-" );
     }
     //함장가이드라인계산
-    $("#KR_Guideline"+(k+1)).html( kr_guideline_calc( sailor_realabil[k][0]) );
-    $("#Global_Guideline"+(k+1)).html( global_guideline_calc( sailor_realabil[k][0]) );
+    $("#KR_Guideline"+(k+1)).html( kr_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
+    $("#Global_Guideline"+(k+1)).html( global_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
     //구조방어계산
     $("#KR_RestoreRate"+(k+1)).html( KR_RestoreRate_calc( sailor_realabil[k][5]) );
     $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );
@@ -361,10 +359,10 @@ function sailor_performance_calc(){
     }
     $("#SailorReload"+(k+1)).html( reloadtiercalc );
     $("#NeededSeamanReloadUp"+(k+1)).html( Math.ceil((kr_reload_tiercut_data[reloadtiercalc]/sailor_realabil[k][2])*100-100) );
-    $("#AvgGunReload"+(k+1)).html( KR_AvgReloadTime_calc(reloadtiercalc) );
-    $("#ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc)) );
-    $("#WithSeaman_GunReload"+(k+1)).html( KR_AvgReloadTime_calc(reloadtiercalc+1) );
-    $("#WithSeaman_ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc+1)) );
+    $("#AvgGunReload"+(k+1)).html( KR_AvgReloadTime_calc( reloadtiercalc, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1 ) );
+    $("#ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1)) );
+    $("#WithSeaman_GunReload"+(k+1)).html( KR_AvgReloadTime_calc(reloadtiercalc+1, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1) );
+    $("#WithSeaman_ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc+1, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1)) );
     //KR 기관병계산
     $("#KR_OverheatTime"+(k+1)).html( KR_OverheatTime_calc( sailor_realabil[k][6] ) );
     $("#KR_OverheatRate"+(k+1)).html( KR_OverheatRate_calc( sailor_realabil[k][6] ) );
@@ -387,7 +385,7 @@ function sailor_performance_calc(){
       if(kr_torpedo_tier_data[j][1] < sailor_realabil[k][3] &&
       kr_torpedo_tier_data[j][2] > sailor_realabil[k][3]){
         $("#Torpedo_ReloadTier"+(k+1)).html( kr_torpedo_tier_data[j][0] );
-        $("#Torpedo_ReloadTime"+(k+1)).html( KR_TorpedoReloadTime_calc(kr_torpedo_tier_data[j][0]) );
+        $("#Torpedo_ReloadTime"+(k+1)).html( KR_TorpedoReloadTime_calc(kr_torpedo_tier_data[j][0],$("#Torpedo_Reloadtime_Input").val()) );
         if(j>0 && j<kr_torpedo_tier_data.length-1){
           $("#Torpedo_NeededSeamanReloadUp"+(k+1)).html( Math.ceil(kr_torpedo_tier_data[j+1][1]/sailor_realabil[k][3]*100-100) );
         }
