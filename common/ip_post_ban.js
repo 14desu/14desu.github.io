@@ -49,7 +49,7 @@ function active_user_ip_post() {
     "https://api.db-ip.com/v2/free/self",
   ];
 
-  const postURL = "https://script.google.com/macros/s/AKfycbzdQXog9jC80qvzs3gqq8yYI6DfcsS7EKTPLfw6m8jwzFcMwlkNoEj-RwKsa8qlSRi7mg/exec";
+  const activepostURL = "https://script.google.com/macros/s/AKfycbxL4KCkd78K92352gidpkuRqw3wRDkoMvCvDjVIuTzr-9MpWyXJ7UK49gG1k-1X52Qmfw/exec";
 
   tryAPI(0);
 
@@ -62,7 +62,7 @@ function active_user_ip_post() {
     $.getJSON(IPapiURLs[apiIndex])
       .done(function (data) {
         var visitorIP = data.ip || data.ip_address || data.ipAddress || data.query || data;
-        $.post(postURL, { ip: visitorIP })
+        $.post(activepostURL, { ip: visitorIP })
           .done(function () {
             console.log("POST 요청 성공");
           })
