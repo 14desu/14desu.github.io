@@ -23,7 +23,7 @@ $(document).ready(function () {
   kr_gun_reload_api();
 });
 
-var pwcode = false;
+var pwcode = true;
 var AbilIndex = [
   ["잠재", "POT"],
   ["명중", "ACC"],
@@ -108,239 +108,242 @@ function update_sailor_class_change_number(){
 
 function calculate_sailor_ability(){
 
-    //전직상세데이터가져오기
-    let sailor_tree_detail = Array.from(Array(sailor_class_change_number), () => Array(12).fill(0));
-    let sailor_class_change_level_input = new Array(sailor_class_change_number);
-    for (i = 0; i < sailor_class_change_number; i++) {
-      sailor_tree_detail[i][0] = $("#tree_detail_class_change_level_" + [i+1]).html()*1;
-      for (j = 0; j < AbilIndex.length; j++) {
-        sailor_tree_detail[i][j+1] = $("#tree_detail_ability_change_" + AbilIndex[j][1] + [i+1]).html();
-      }
-      sailor_class_change_level_input[i] = $("#tree_detail_class_change_level_input" + [i+1]).val();
-    }
+  ip_ban_check();
+  pwcode_check();
 
-    //입력초기어빌가져오기
-    let sailor_ability_growth = new Array(12);
-    for (i = 0; i < AbilIndex.length; i++) {
-      if (i < 11) {
-        sailor_ability_growth[i] = document.getElementById(AbilIndex[i][1] + "IP").value;
-      }
-      else if (i = 11) {
-        sailor_ability_growth[i] = 5;
-      }
+  //전직상세데이터가져오기
+  let sailor_tree_detail = Array.from(Array(sailor_class_change_number), () => Array(12).fill(0));
+  let sailor_class_change_level_input = new Array(sailor_class_change_number);
+  for (i = 0; i < sailor_class_change_number; i++) {
+    sailor_tree_detail[i][0] = $("#tree_detail_class_change_level_" + [i+1]).html()*1;
+    for (j = 0; j < AbilIndex.length; j++) {
+      sailor_tree_detail[i][j+1] = $("#tree_detail_ability_change_" + AbilIndex[j][1] + [i+1]).html();
     }
+    sailor_class_change_level_input[i] = $("#tree_detail_class_change_level_input" + [i+1]).val();
+  }
 
-    let sailor_ability_calculate = Array.from(Array(sailor_class_change_number), () => Array(12).fill(0));
-    let sailor_ability_total = [27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 55];
+  //입력초기어빌가져오기
+  let sailor_ability_growth = new Array(12);
+  for (i = 0; i < AbilIndex.length; i++) {
+    if (i < 11) {
+      sailor_ability_growth[i] = document.getElementById(AbilIndex[i][1] + "IP").value;
+    }
+    else if (i = 11) {
+      sailor_ability_growth[i] = 5;
+    }
+  }
 
-    // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
-    for (i = 0; i < 11; i++) {
-      if (sailor_ability_growth[i] == 14 && i != 0) {
-        sailor_ability_total[i] = 30;
-        if (i == 1 || i == 2) {
-          sailor_ability_total[1] = 30;
-          sailor_ability_total[2] = 30;
-        }
-      }
-      else if (sailor_ability_growth[i] == 17 && i == 0) {
-        sailor_ability_total[i] = 30;
-      }
-      else if ($("#Sailor_AutoInput").val() == "개근" || $("#Sailor_AutoInput").val() == "전설보조" || $("#Sailor_AutoInput").val() == "전설특무") {
-        sailor_ability_total[i] = sailor_ability_total[i] + (sailor_ability_growth[i] - 9) * (89);
-        sailor_ability_growth[i] = 9;
-      }
-    }
+  let sailor_ability_calculate = Array.from(Array(sailor_class_change_number), () => Array(12).fill(0));
+  let sailor_ability_total = [27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 55];
 
-    //강화여부체크 > 적용
-    for (i = 0; i < AbilIndex.length; i++) {
-      if ($("#boost_input").val() == AbilIndex[i][1] + "boost" + 1) {
-        sailor_ability_growth[i] = sailor_ability_growth[i] * 1 + 1;
-        sailor_ability_total[i] = sailor_ability_total[i] * 1 + 1;
-      }
-      if ($("#boost_input").val() == AbilIndex[i][1] + "boost" + 2) {
-        sailor_ability_growth[i] = sailor_ability_growth[i] * 1 + 2;
-        sailor_ability_total[i] = sailor_ability_total[i] * 1 + 2;
+  // Lv1 초기누적어빌 반영 *플미/개근/전설 > 초기30
+  for (i = 0; i < 11; i++) {
+    if (sailor_ability_growth[i] == 14 && i != 0) {
+      sailor_ability_total[i] = 30;
+      if (i == 1 || i == 2) {
+        sailor_ability_total[1] = 30;
+        sailor_ability_total[2] = 30;
       }
     }
+    else if (sailor_ability_growth[i] == 17 && i == 0) {
+      sailor_ability_total[i] = 30;
+    }
+    else if ($("#Sailor_AutoInput").val() == "개근" || $("#Sailor_AutoInput").val() == "전설보조" || $("#Sailor_AutoInput").val() == "전설특무") {
+      sailor_ability_total[i] = sailor_ability_total[i] + (sailor_ability_growth[i] - 9) * (89);
+      sailor_ability_growth[i] = 9;
+    }
+  }
 
-    //국가보너스 어빌 계산
-    if ($("#nation_sel").val() == "미국") {
-      sailor_ability_total[9] = sailor_ability_total[9] + 5;
+  //강화여부체크 > 적용
+  for (i = 0; i < AbilIndex.length; i++) {
+    if ($("#boost_input").val() == AbilIndex[i][1] + "boost" + 1) {
+      sailor_ability_growth[i] = sailor_ability_growth[i] * 1 + 1;
+      sailor_ability_total[i] = sailor_ability_total[i] * 1 + 1;
     }
-    else if ($("#nation_sel").val() == "영국") {
-      sailor_ability_total[5] = sailor_ability_total[5] + 3;
-      sailor_ability_total[6] = sailor_ability_total[6] + 3;
+    if ($("#boost_input").val() == AbilIndex[i][1] + "boost" + 2) {
+      sailor_ability_growth[i] = sailor_ability_growth[i] * 1 + 2;
+      sailor_ability_total[i] = sailor_ability_total[i] * 1 + 2;
     }
-    else if ($("#nation_sel").val() == "일본") {
-      sailor_ability_total[3] = sailor_ability_total[3] + 2;
-    }
-    else if ($("#nation_sel").val() == "독일") {
-      sailor_ability_total[1] = sailor_ability_total[1] + 4;
-      sailor_ability_total[2] = sailor_ability_total[2] + 4;
-      sailor_ability_total[7] = sailor_ability_total[7] + 2;
-      sailor_ability_total[9] = sailor_ability_total[9] + 2;
-    }
-    else if ($("#nation_sel").val() == "프랑스") {
-      sailor_ability_total[6] = sailor_ability_total[6] + 2;
-    }
-    else if ($("#nation_sel").val() == "소련") {
-      sailor_ability_total[1] = sailor_ability_total[1] + 4;
-      sailor_ability_total[2] = sailor_ability_total[2] + 4;
-      sailor_ability_total[7] = sailor_ability_total[7] + 2;
-      sailor_ability_total[9] = sailor_ability_total[9] + 2;
-    }
-    else if ($("#nation_sel").val() == "이탈리아") {
-      sailor_ability_total[2] = sailor_ability_total[2] + 8;
-      sailor_ability_total[9] = sailor_ability_total[9] + 2;
-    }
+  }
 
-    //입력초기어빌분 계산
+  //국가보너스 어빌 계산
+  if ($("#nation_sel").val() == "미국") {
+    sailor_ability_total[9] = sailor_ability_total[9] + 5;
+  }
+  else if ($("#nation_sel").val() == "영국") {
+    sailor_ability_total[5] = sailor_ability_total[5] + 3;
+    sailor_ability_total[6] = sailor_ability_total[6] + 3;
+  }
+  else if ($("#nation_sel").val() == "일본") {
+    sailor_ability_total[3] = sailor_ability_total[3] + 2;
+  }
+  else if ($("#nation_sel").val() == "독일") {
+    sailor_ability_total[1] = sailor_ability_total[1] + 4;
+    sailor_ability_total[2] = sailor_ability_total[2] + 4;
+    sailor_ability_total[7] = sailor_ability_total[7] + 2;
+    sailor_ability_total[9] = sailor_ability_total[9] + 2;
+  }
+  else if ($("#nation_sel").val() == "프랑스") {
+    sailor_ability_total[6] = sailor_ability_total[6] + 2;
+  }
+  else if ($("#nation_sel").val() == "소련") {
+    sailor_ability_total[1] = sailor_ability_total[1] + 4;
+    sailor_ability_total[2] = sailor_ability_total[2] + 4;
+    sailor_ability_total[7] = sailor_ability_total[7] + 2;
+    sailor_ability_total[9] = sailor_ability_total[9] + 2;
+  }
+  else if ($("#nation_sel").val() == "이탈리아") {
+    sailor_ability_total[2] = sailor_ability_total[2] + 8;
+    sailor_ability_total[9] = sailor_ability_total[9] + 2;
+  }
+
+  //입력초기어빌분 계산
+  for (r = 0; r < 12; r++) {
+    sailor_ability_total[r] = sailor_ability_total[r] + (($("#LEVIP").val() * 1 - 1) * sailor_ability_growth[r]);
+  }
+
+  //늦직입력 - 레벨체크
+  for (i = 0; i < sailor_class_change_number; i++) {
+    if (sailor_class_change_level_input[i] == "") {
+      continue;
+    }
+    if ($("#tree_detail_class_change_level_" + [i+1]).html()*1 > sailor_class_change_level_input[i]) {
+      alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
+      $("#tree_detail_class_change_level_input" + [i+1]).val(sailor_tree_detail[i][0]);
+    }
+    if ($("#LEVIP").val()*1 < sailor_class_change_level_input[i]) {
+      alert("늦직Lv은 수병Lv이하이어야 합니다")
+      $("#tree_detail_class_change_level_input" + [i+1]).val($("#LEVIP").val()*1);
+    }
+    if (sailor_tree_detail[i][0] < sailor_class_change_level_input[i]) {
+      sailor_tree_detail[i][0] = sailor_class_change_level_input[i];
+    }
+  }
+
+  //늦직입력 - 전직안하는 트리분 반영
+  for (i = 1; i < sailor_class_change_number; i++) {
+    if (sailor_class_change_level_input[i] == "" && sailor_class_change_level_input[i - 1] != ""){
+      sailor_tree_detail.length = i;
+    }
+  }
+
+  // 수병트리영향분 계산
+  for (i = 0; i < sailor_tree_detail.length; i++) {
+    if ($("#LEVIP").val() * 1 < sailor_tree_detail[i][0]) {
+      continue;
+    }
     for (r = 0; r < 12; r++) {
-      sailor_ability_total[r] = sailor_ability_total[r] + (($("#LEVIP").val() * 1 - 1) * sailor_ability_growth[r]);
+      if (sailor_tree_detail[i][r + 1] == "") {
+        sailor_tree_detail[i][r + 1] = 0;
+      }
+      sailor_ability_growth[r] = sailor_ability_growth[r] * 1 + sailor_tree_detail[i][r + 1] * 1;
+      sailor_ability_calculate[i][r] = sailor_ability_calculate[i][r] + (($("#LEVIP").val() * 1 - sailor_tree_detail[i][0] * 1) * sailor_tree_detail[i][r + 1]);
     }
+  }
 
-    //늦직입력 - 레벨체크
-    for (i = 0; i < sailor_class_change_number; i++) {
-      if (sailor_class_change_level_input[i] == "") {
-        continue;
-      }
-      if ($("#tree_detail_class_change_level_" + [i+1]).html()*1 > sailor_class_change_level_input[i]) {
-        alert("늦직Lv은 본래의 전직Lv보다 더 높아야 합니다")
-        $("#tree_detail_class_change_level_input" + [i+1]).val(sailor_tree_detail[i][0]);
-      }
-      if ($("#LEVIP").val()*1 < sailor_class_change_level_input[i]) {
-        alert("늦직Lv은 수병Lv이하이어야 합니다")
-        $("#tree_detail_class_change_level_input" + [i+1]).val($("#LEVIP").val()*1);
-      }
-      if (sailor_tree_detail[i][0] < sailor_class_change_level_input[i]) {
-        sailor_tree_detail[i][0] = sailor_class_change_level_input[i];
+  // 입력초기어빌 + 수병트리영향분 합산
+  for (i = 0; i < sailor_class_change_number; i++) {
+    for (r = 0; r < 12; r++) {
+      sailor_ability_total[r] = sailor_ability_total[r] + sailor_ability_calculate[i][r];
+      if (sailor_ability_total[r] < 0) {
+        sailor_ability_total[r] = 0;
       }
     }
+  }
 
-    //늦직입력 - 전직안하는 트리분 반영
-    for (i = 1; i < sailor_class_change_number; i++) {
-      if (sailor_class_change_level_input[i] == "" && sailor_class_change_level_input[i - 1] != ""){
-        sailor_tree_detail.length = i;
+  //영국 갑판병 보너스 어빌
+  if ($("#nation_sel").val() == "영국") {
+    if ($("#sailor_tree_select").val() == "갑판병") {
+      for (r = 0; r < 11; r++) {
+        sailor_ability_total[r] = sailor_ability_total[r] + 50;
       }
     }
+  }
 
-    // 수병트리영향분 계산
-    for (i = 0; i < sailor_tree_detail.length; i++) {
-      if ($("#LEVIP").val() * 1 < sailor_tree_detail[i][0]) {
-        continue;
-      }
-      for (r = 0; r < 12; r++) {
-        if (sailor_tree_detail[i][r + 1] == "") {
-          sailor_tree_detail[i][r + 1] = 0;
+  if ($("#boost_input").val() == "boost20") {
+    for (j = 0; j < 11; j++) {
+      sailor_ability_growth[j] = Math.floor(sailor_ability_growth[j] * 1.225);
+      sailor_ability_total[j] = Math.floor(sailor_ability_total[j] * 1.225);
+    }
+  }
+
+  // 수병 성장어빌/누적어빌/수병수 계산결과 output
+  for (i = 0; i < AbilIndex.length; i++) {
+
+    //성장어빌&누적어빌
+    $("#" + AbilIndex[i][1] + "Growth").html(sailor_ability_growth[i]);
+    $("#" + AbilIndex[i][1] + "Total").val(sailor_ability_total[i]);
+
+    if ($("#sailor_tree_select").val() == "갑판병") {
+      if (i < AbilIndex.length - 1) {
+        //갑판어빌
+        $("#" + AbilIndex[i][1] + "SeamanTotal").val(Math.floor(sailor_ability_total[i] * 0.07));
+        //갑판보정율
+        if ($("#server_input").val() == "Korea_server") {
+          $("#" + AbilIndex[i][1] + "SeamanRate").html(Math.floor(sailor_ability_total[i] / 300));
         }
-        sailor_ability_growth[r] = sailor_ability_growth[r] * 1 + sailor_tree_detail[i][r + 1] * 1;
-        sailor_ability_calculate[i][r] = sailor_ability_calculate[i][r] + (($("#LEVIP").val() * 1 - sailor_tree_detail[i][0] * 1) * sailor_tree_detail[i][r + 1]);
-      }
-    }
-
-    // 입력초기어빌 + 수병트리영향분 합산
-    for (i = 0; i < sailor_class_change_number; i++) {
-      for (r = 0; r < 12; r++) {
-        sailor_ability_total[r] = sailor_ability_total[r] + sailor_ability_calculate[i][r];
-        if (sailor_ability_total[r] < 0) {
-          sailor_ability_total[r] = 0;
-        }
-      }
-    }
-
-    //영국 갑판병 보너스 어빌
-    if ($("#nation_sel").val() == "영국") {
-      if ($("#sailor_tree_select").val() == "갑판병") {
-        for (r = 0; r < 11; r++) {
-          sailor_ability_total[r] = sailor_ability_total[r] + 50;
-        }
-      }
-    }
-
-    if ($("#boost_input").val() == "boost20") {
-      for (j = 0; j < 11; j++) {
-        sailor_ability_growth[j] = Math.floor(sailor_ability_growth[j] * 1.225);
-        sailor_ability_total[j] = Math.floor(sailor_ability_total[j] * 1.225);
-      }
-    }
-
-    // 수병 성장어빌/누적어빌/수병수 계산결과 output
-    for (i = 0; i < AbilIndex.length; i++) {
-
-      //성장어빌&누적어빌
-      $("#" + AbilIndex[i][1] + "Growth").html(sailor_ability_growth[i]);
-      $("#" + AbilIndex[i][1] + "Total").val(sailor_ability_total[i]);
-
-      if ($("#sailor_tree_select").val() == "갑판병") {
-        if (i < AbilIndex.length - 1) {
-          //갑판어빌
-          $("#" + AbilIndex[i][1] + "SeamanTotal").val(Math.floor(sailor_ability_total[i] * 0.07));
-          //갑판보정율
-          if ($("#server_input").val() == "Korea_server") {
-            $("#" + AbilIndex[i][1] + "SeamanRate").html(Math.floor(sailor_ability_total[i] / 300));
-          }
-          if ($("#server_input").val() == "Global_server") {
-            $("#" + AbilIndex[i][1] + "SeamanRate").html("");
-          }
-        }
-      }
-      else {
-        if (i < AbilIndex.length - 1) {
-          $("#" + AbilIndex[i][1] + "SeamanTotal").val("");
+        if ($("#server_input").val() == "Global_server") {
           $("#" + AbilIndex[i][1] + "SeamanRate").html("");
         }
       }
     }
-    sailor_performance_autoip();
-    sailor_performance_calc();
+    else {
+      if (i < AbilIndex.length - 1) {
+        $("#" + AbilIndex[i][1] + "SeamanTotal").val("");
+        $("#" + AbilIndex[i][1] + "SeamanRate").html("");
+      }
+    }
+  }
+  sailor_performance_autoip();
+  sailor_performance_calc();
 }
 
 function sailor_performance_calc(){
 
-  const output_vet_number = 6;
-  let abilindex = [
-    ["잠재", "POT"],
-    ["명중", "ACC"],
-    ["연사", "RLD"],
-    ["어뢰", "TOR"],
-    ["수리", "REP"],
-    ["보수", "RES"],
-    ["기관", "ENG"],
-    ["전투", "FIG"],
-    ["폭격", "BOM"],
-  ];
+const output_vet_number = 6;
+let abilindex = [
+  ["잠재", "POT"],
+  ["명중", "ACC"],
+  ["연사", "RLD"],
+  ["어뢰", "TOR"],
+  ["수리", "REP"],
+  ["보수", "RES"],
+  ["기관", "ENG"],
+  ["전투", "FIG"],
+  ["폭격", "BOM"],
+];
 
-  //함장목표가이드라인길이
-  var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
-  $("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
+//함장목표가이드라인길이
+var BBCaptin_Target_Guideline = ($("#Target_Guideline_Input").val() - $("#FCS_Guideline_Input").val());
+$("#Target_Guildline").html( $("#Target_Guideline_Input").val() );
 
-  let sailor_realabil = new Array(output_vet_number);
-  for (k=0; k<output_vet_number; k++){
-    sailor_realabil[k] = new Array(abilindex.length);
-    for(j=0; j<abilindex.length; j++){
-      sailor_realabil[k][j] = Realabil_Calc($("#"+abilindex[j][1]+"Total").val()*1,$("#output_vetip"+[k+1]).val()*1,$("#output_expip"+[k+1]).val()*1,($("#output_vetip"+[k+1]).val()*1+$("#output_expip"+[k+1]).val()*1+$("#output_newip"+[k+1]).val()*1)/$("#NUMTotal").val());
-      if(abilindex[j][0] == $("#sailor_calc_seaman_abil_type_input").val()){
-        sailor_realabil[k][j] = sailor_realabil[k][j] * ( 1 + $("#sailor_calc_seaman_rate").val() / 100 );
-      }
+let sailor_realabil = new Array(output_vet_number);
+for (k=0; k<output_vet_number; k++){
+  sailor_realabil[k] = new Array(abilindex.length);
+  for(j=0; j<abilindex.length; j++){
+    sailor_realabil[k][j] = Realabil_Calc($("#"+abilindex[j][1]+"Total").val()*1,$("#output_vetip"+[k+1]).val()*1,$("#output_expip"+[k+1]).val()*1,($("#output_vetip"+[k+1]).val()*1+$("#output_expip"+[k+1]).val()*1+$("#output_newip"+[k+1]).val()*1)/$("#NUMTotal").val());
+    if(abilindex[j][0] == $("#sailor_calc_seaman_abil_type_input").val()){
+      sailor_realabil[k][j] = sailor_realabil[k][j] * ( 1 + $("#sailor_calc_seaman_rate").val() / 100 );
     }
-    //수리속도계산
-    $("#KR_RepairSpeed"+(k+1)).html( KR_RepairSpeed_calc( sailor_realabil[k][4]) );
-    $("#Global_RepairSpeed"+(k+1)).html( Global_RepairSpeed_calc( sailor_realabil[k][4]) );
-    //함장수리속도계산
-    if( BBCaptin_Target_Guideline*1000 < sailor_realabil[k][0] ){
-      $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( KR_RepairSpeed_calc(sailor_realabil[k][4]*BBCaptin_Target_Guideline*1000/sailor_realabil[k][0]) );
-    }
-    else{
-      $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( "-" );
-    }
-    //함장가이드라인계산
-    $("#KR_Guideline"+(k+1)).html( kr_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
-    $("#Global_Guideline"+(k+1)).html( global_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
-    //구조방어계산
-    $("#KR_RestoreRate"+(k+1)).html( KR_RestoreRate_calc( sailor_realabil[k][5]) );
-    $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );
-    //Global 포병계산
-    $("#Global_GunnerReloadCap"+(k+1)).html( Global_GunReloadCap_calc( sailor_realabil[k][2]) );
+  }
+  //수리속도계산
+  $("#KR_RepairSpeed"+(k+1)).html( KR_RepairSpeed_calc( sailor_realabil[k][4]) );
+  $("#Global_RepairSpeed"+(k+1)).html( Global_RepairSpeed_calc( sailor_realabil[k][4]) );
+  //함장수리속도계산
+  if( BBCaptin_Target_Guideline*1000 < sailor_realabil[k][0] ){
+    $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( KR_RepairSpeed_calc(sailor_realabil[k][4]*BBCaptin_Target_Guideline*1000/sailor_realabil[k][0]) );
+  }
+  else{
+    $("#KR_RepairSpeed_BBCaptin"+(k+1)).html( "-" );
+  }
+  //함장가이드라인계산
+  $("#KR_Guideline"+(k+1)).html( kr_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
+  $("#Global_Guideline"+(k+1)).html( global_guideline_calc( sailor_realabil[k][0]) , $("#FCS_Guideline_Input").val()*1 );
+  //구조방어계산
+  $("#KR_RestoreRate"+(k+1)).html( KR_RestoreRate_calc( sailor_realabil[k][5]) );
+  $("#Global_RestoreRate"+(k+1)).html( Global_RestoreRate_calc( sailor_realabil[k][5]) );
+  //Global 포병계산
+  $("#Global_GunnerReloadCap"+(k+1)).html( Global_GunReloadCap_calc( sailor_realabil[k][2]) );
 
   }
 
@@ -414,12 +417,7 @@ function sailor_seaman_autocalc(){
 
 function Get_Result_Ship_Calc() {
 
-  if (ip_bancheck_status) {
-    alert("정상적인 접근이 아닙니다")
-    window.location.href = REDIRECT_URL;
-    return false;
-  }
-
+  ip_ban_check();
   pwcode_check();
 
   var POTabil = new Array(14);
@@ -500,12 +498,7 @@ function Get_Result_Ship_Calc() {
 
 function Get_Result_Realabil_Calc() {
 
-  if (ip_bancheck_status) {
-    alert("정상적인 접근이 아닙니다")
-    window.location.href = REDIRECT_URL;
-    return false;
-  }
-
+  ip_ban_check();
   pwcode_check();
 
   let AbilIndex = [
