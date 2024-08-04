@@ -1,245 +1,283 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
-        <title>네이비필드 연구실 / 게임일반</title>
-        <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> <!-- jQuery load -->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> <!-- icon load -->
-        <script src="../common/navbar_load.js"></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
 
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar // common/navbar.html에서 로딩 -->
-            <ul id ="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <!-- Sidebar // common/sidebar.html에서 로딩 -->
-                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <span id="test"></span>
-                <main>
-                    <div id="nf_general" class="container-fluid px-3">
-                        <h1 class="mt-2">네이비필드 연구실 / 게임일반</h1>
-                        <br>
-                        <!--경험치획득-->
-                        <div class="row g-0">
-                            <div class="card" id="get_experience" style="width: 30rem;">
-                                <h3 class="card-header">경험치획득</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        관련항목
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        <i class="fa-solid fa-check"></i>&nbsp; 팀 승리<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 팀 많은 어택량<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 팀 적은 중경순<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 팀 낮은 어뢰어택량<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 아군 기함생존<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 적군 기함격침<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 개인 어택유무 (1택여부)<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 탑승함선DP<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 함재기격추<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 어뢰어택량<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 프리미엄계정/PC방계정<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 3분30초 보너스<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp; 최소인원이상<br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        비관련항목
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        <i class="fa-solid fa-xmark"></i>&nbsp; 개인 많은 어택량<br>
-                                        <i class="fa-solid fa-xmark"></i>&nbsp; 개인 피어택량<br>
-                                        <i class="fa-solid fa-xmark"></i>&nbsp; 개인 격침수<br>
-                                        <i class="fa-solid fa-xmark"></i>&nbsp; 개인 시야확보<br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        그 외
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        대함대전 전투룸 > 입장유저를 반영한 보너스 경험치가 존재 <br>
-                                        중경순이 늘어나면 보너스 경험치 비율은 올라가지만<br>
-                                        실제로는 획득하는 경험치가 줄어든다<br>
-                                        ∵ 늘어나는 경험치 ＜ 중경순에게 배분되는 경험치<br>
-                                    </p>
+<head>
 
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;개인 어택여부 > 함포 1어택 or 함재기 1기격추<br>
-                                        <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;3분30초 보너스 > 프리미엄계정/PC방계정만 적용<br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--연사속도단위-->
-                        <div class="row g-0">
-                            <div class="card" id="reload_unit" style="width: 40rem;">
-                                <h3 class="card-header">연사속도단위</h3>
-                                <div class="card-body">
-                                    <i class="fa-solid fa-circle-info"></i> &nbsp; 네이비필드 : 25f 구동게임 > 1f = 0.04s(초)
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201145112818SC.jpg" class="img-fluid">
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-check"></i>&nbsp;구현 연사속도단위 : 0.24s<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        네이비필드 상에서의 연사속도는 0.24s의 배수로 구현된다<br>
-                                        > 최소 연사속도는 0.24s<br>
-                                        연사속도가 최대로 다다른 경우 0.24 s로 일정하게 포격이 구현되고<br>
-                                        이를 많은 유저들이 레이저대공이라고 부르고 있다<br>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
 
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-check"></i>&nbsp;평균 연사속도단위 : 0.04 s<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        최대연사구간에서 1구간 모자른 경우 위 사진과 같이 6연발이 된다<br>
-                                        포탄간격을 잘 살펴보면 0.48s-0.24s-0.24s-0.24s-0.24s-0.24s가 되는데<br>
-                                        이를 평균내보면 0.28s(7f)이고 최대연사 0.24(6f)보다 0.04s(1f)느리다<br>
-                                        이와같이 수병에의한 연사속도는 평균연사속도로 나타나고 최소단위는 0.04s이다<br> 
-                                    </p>
-                                </div>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
+    <title>네이비필드 연구실 / 게임일반</title>
+    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
+
+    <!-- jQuery load -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- icon load -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar // common/navbar.html에서 로딩 -->
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <!-- Sidebar // common/sidebar.html에서 로딩 -->
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <span id="test"></span>
+            <main>
+                <div id="nf_general" class="container-fluid px-3">
+                    <h1 class="mt-2">네이비필드 연구실 / 게임일반</h1>
+                    <br>
+                    <!--경험치획득-->
+                    <div class="row g-0">
+                        <div class="card" id="get_experience" style="width: 30rem;">
+                            <h3 class="card-header">경험치획득</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    관련항목
+                                </h5>
+                                <p class="card-text fs-6">
+                                    <i class="fa-solid fa-check"></i>&nbsp; 팀 승리<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 팀 많은 어택량<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 팀 적은 중경순<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 팀 낮은 어뢰어택량<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 아군 기함생존<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 적군 기함격침<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 개인 어택유무 (1택여부)<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 탑승함선DP<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 함재기격추<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 개인 많은 어뢰어택량<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 프리미엄계정/PC방계정<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 3분30초 보너스<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp; 최소인원이상<br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    비관련항목
+                                </h5>
+                                <p class="card-text fs-6">
+                                    <i class="fa-solid fa-xmark"></i>&nbsp; 개인 많은 어택량<br>
+                                    <i class="fa-solid fa-xmark"></i>&nbsp; 개인 피어택량<br>
+                                    <i class="fa-solid fa-xmark"></i>&nbsp; 개인 격침수<br>
+                                    <i class="fa-solid fa-xmark"></i>&nbsp; 개인 시야확보<br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    그 외
+                                </h5>
+                                <p class="card-text fs-6">
+                                    대함대전 전투룸 > 입장유저를 반영한 보너스 경험치가 존재 <br>
+                                    중경순이 늘어나면 보너스 경험치 비율은 올라가지만<br>
+                                    실제로는 획득하는 경험치가 줄어든다<br>
+                                    ∵ 늘어나는 경험치 ＜ 중경순에게 배분되는 경험치<br>
+                                </p>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;개인 어택여부 > 함포 1어택 or 함재기
+                                    1기격추<br>
+                                    <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;3분30초 보너스 > 프리미엄계정/PC방계정만
+                                    적용<br>
+                                </p>
                             </div>
                         </div>
-                        <br>
-                        <!--연사속도개념-->
-                        <div class="row g-0">
-                            <div class="card" id="reload_notions" style="width: 50rem;">
-                                <h3 class="card-header">연사속도개념</h3>
-                                <div class="card-body">
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221206101051582SC.jpg" class="img-fluid">
-                                    <h5 class="card-title lh-lg">
-                                        ① 수병 연사능력<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        수병의 연사어빌 x 수병구성(사관/숙련병) x 수병빈혈도 + 갑판보정<br>
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ② 수병 연사구간<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        수병구간이 1오를수록 1%씩 연사속도가 향상된다<br>
-                                        계단식구간이므로 구간컷을 살짝 넘기는 세팅이 고효율<br>
-                                        계산기를 통해서 구간컷을 넘기는데 필요한 갑판보정치를 확인가능<br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ③ 함포 연사속도<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        함포 컴포넌트에 설정되어 있는 초기연사속도<br>
-                                        Real어빌 0 수병으로 실험해보면 이 초기연사속도와 일치하지 않는다<br>
-                                        (한국서버의 경우 x 130%, 글로벌서버의 경우 안해봐서 몰?루)<br>
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1">공홈 쉽야드 함포정보</a>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ④ 평균 연사속도<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        함포 초기연사속도에 의존한 계단식 구간이 설정되어 있다<br>
-                                        함포 초기연사속도가 높은 고인치 전함주포는 계단식구간이 없다<br>
-                                        함포 초기연사속도가 낮은 저인치 대공포는 연사구간이 바뀌어도 동일연사인 계단식구간이 발생한다<br>
-                                        예) 영국 5.25RP대공 - 개근명강포병 + 갑판없음 <-동일연사-> 연사18산타포병 + 연사18구갑2명
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ⑤ 구현 연사속도<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        평균 연사속도에 의존해서 구현 연사속도가 결정된다<br>
-                                        이는 최소 구현연사속도단위가 0.24s 이기때문<br>
-                                        예1) 평균 0.28s > 구현 0.24s 83%(5/6) + 0.48s 17%(1/6)<br>
-                                        예2) 평균 2.36s > 구현 2.12s 17%(1/6) + 2.40s 83%(5/6)<br>
-                                    </p>
-                                </div>
+                    </div>
+                    <br>
+                    <!--연사속도단위-->
+                    <div class="row g-0">
+                        <div class="card" id="reload_unit" style="width: 40rem;">
+                            <h3 class="card-header">연사속도단위</h3>
+                            <div class="card-body">
+                                <i class="fa-solid fa-circle-info"></i> &nbsp; 네이비필드 : 25f 구동게임 > 1f = 0.04s(초)
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201145112818SC.jpg"
+                                    class="img-fluid">
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-check"></i>&nbsp;구현 연사속도단위 : 0.24s<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    네이비필드 상에서의 연사속도는 0.24s의 배수로 구현된다<br>
+                                    > 최소 연사속도는 0.24s<br>
+                                    연사속도가 최대로 다다른 경우 0.24 s로 일정하게 포격이 구현되고<br>
+                                    이를 많은 유저들이 레이저대공이라고 부르고 있다<br>
+
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-check"></i>&nbsp;평균 연사속도단위 : 0.04 s<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    최대연사구간에서 1구간 모자른 경우 위 사진과 같이 6연발이 된다<br>
+                                    포탄간격을 잘 살펴보면 0.48s-0.24s-0.24s-0.24s-0.24s-0.24s가 되는데<br>
+                                    이를 평균내보면 0.28s(7f)이고 최대연사 0.24(6f)보다 0.04s(1f)느리다<br>
+                                    이와같이 수병에의한 연사속도는 평균연사속도로 나타나고 최소단위는 0.04s이다<br>
+                                </p>
                             </div>
                         </div>
-                        <br>
-                        <!--함포 집탄 일반론-->
-                        <div class="row g-0">
-                            <div class="card" id="gunner_accuracy_general" style="width: 50rem;">
-                                <h3 class="card-header">함포 집탄 일반론</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        함포 집탄에 영향을 주는 요소<br>
-                                        <i class="fa-solid fa-check"></i> &nbsp;①FCS 명중보너스 = ②함포 명중보너스 >>>>>> ③포병 명중능력
-                                    </h5>
-                                    <p class="card-text lh-sm fs-6">
-                                        <i class="fa-solid fa-circle-info"></i> FCS차이 + 동일수병<br>
-                                        <img src="./RN_EBB115_FCS80_ACC3549.gif" style="width: 10rem;"><img src="./RN_EBB115_FCS75_ACC3549.gif" style="width: 10rem;"><br>
-                                    </p>
-                                    <p class="card-text lh-sm fs-6">
-                                        <i class="fa-solid fa-circle-info"></i> 동일FCS + 포병차이<br>
-                                        <img src="./RN_EBB115_FCS80_ACC3549.gif" style="width: 10rem;"><img src="./RN_EBB115_FCS80_ACC2072.gif" style="width: 10rem;"><img src="./RN_EBB115_FCS80_ACC1715.gif" style="width: 10rem;"><br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ①FCS 명중보너스
-                                    </h5>
-                                    <p class="card-text lh-sm fs-6">
-                                        집탄에 매우 큰 영향을 미치는 요소<br>
-                                        국적별 함선별로 탑제가능한 FCS의 명중보너스가 다르다<br>
-                                        FCS 명중보너스가 높은 미국 > 우월한 집탄<br>
-                                        FCS 명중보너스가 낮은 이탈리아 > 구제불가능한 집탄<br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ②함포 명중보너스
-                                    </h5>
-                                    <p class="card-text lh-sm fs-6">
-                                        집탄에 매우 큰 영향을 미치는 요소 but 히든스탯<br>
-                                        아래의 명중보너스설정함포의 경우 저렙저사관에서도 떡집탄이 나온다<br>
-                                        예1) 영국쿼드포 14"/4 Mark III<br>
-                                        예2) 각국8인치 이하 3연장 함포<br>
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련 패치노트</a><br>
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#accuracy-bonus-gun-list">명중보너스 적용함포 리스트 (전함함포, 12"이상)</a>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ③포병 명중능력
-                                    </h5>
-                                    <p class="card-text lh-sm fs-6">
-                                        저사관일 경우 영향 but 일정이상 어빌확보후에는 영향이 미미하거나 없다<br>
-                                        육성완료(Lv120/45%만사)기준<br>
-                                        - 영국 외 전국가 : 육성완료시 필요어빌충족, 신경쓸일 없음<br>
-                                        - 영국 : 프리미엄명중수병 or NF개근수병으로 칼직 육성시에도 갑판병없이 필요어빌충족가능<br>
-                                        　> 명중초기14+1누적2072/Real어빌4,815,328 충족 ↔ 명중초기14누적1952/Real어빌4,536,448 미달<br>
-                                        　> 추천 : 명중초기14+1 or 명중초기14+1갑판
-                                    </p>
-                                </div>
+                    </div>
+                    <br>
+                    <!--연사속도개념-->
+                    <div class="row g-0">
+                        <div class="card" id="reload_notions" style="width: 50rem;">
+                            <h3 class="card-header">연사속도개념</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221206101051582SC.jpg"
+                                    class="img-fluid">
+                                <h5 class="card-title lh-lg">
+                                    ① 수병 연사능력<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    수병의 연사어빌 x 수병구성(사관/숙련병) x 수병빈혈도 + 갑판보정<br>
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ② 수병 연사구간<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    수병구간이 1오를수록 1%씩 연사속도가 향상된다<br>
+                                    계단식구간이므로 구간컷을 살짝 넘기는 세팅이 고효율<br>
+                                    계산기를 통해서 구간컷을 넘기는데 필요한 갑판보정치를 확인가능<br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ③ 함포 연사속도<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    함포 컴포넌트에 설정되어 있는 초기연사속도<br>
+                                    Real어빌 0 수병으로 실험해보면 이 초기연사속도와 일치하지 않는다<br>
+                                    (한국서버의 경우 x 130%, 글로벌서버의 경우 안해봐서 몰?루)<br>
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://www.navyfield.co.kr:444/guide/shipyard/gun.asp?Code1=1">공홈 쉽야드
+                                        함포정보</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ④ 평균 연사속도<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    함포 초기연사속도에 의존한 계단식 구간이 설정되어 있다<br>
+                                    함포 초기연사속도가 높은 고인치 전함주포는 계단식구간이 없다<br>
+                                    함포 초기연사속도가 낮은 저인치 대공포는 연사구간이 바뀌어도 동일연사인 계단식구간이 발생한다<br>
+                                    예) 영국 5.25RP대공 - 개근명강포병 + 갑판없음 <-동일연사-> 연사18산타포병 + 연사18구갑2명
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ⑤ 구현 연사속도<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    평균 연사속도에 의존해서 구현 연사속도가 결정된다<br>
+                                    이는 최소 구현연사속도단위가 0.24s 이기때문<br>
+                                    예1) 평균 0.28s > 구현 0.24s 83%(5/6) + 0.48s 17%(1/6)<br>
+                                    예2) 평균 2.36s > 구현 2.12s 17%(1/6) + 2.40s 83%(5/6)<br>
+                                </p>
                             </div>
                         </div>
-                        <br>
-                        <!--명중보너스 함포목록-->
-                        <div class="row g-0">
-                            <div class="card" id="accuracy_bonus_gun_list" style="width: 50rem;">
-                                <h3 class="card-header">명중보너스 함포 리스트</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-circle-info"></i> &nbsp;12" 이상 명중보너스 적용함포 <br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;명중보너스가 존재하는 함포 리스트 (2023/01 운영자 문의로 확인)<br>
-                                        　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br> 
-                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;소련은 명중보너스 적용함포가 없다<br>
-                                        　<i class="fa-regular fa-thumbs-up"></i> &nbsp;프리미엄함선PBB/이벤트함선EBB의 명중보너스 적용함포가 다수<br>
-                                        　　 &nbsp;특별함선에 일반함선대비 메리트를 줘 놓고 이를 공개하지 않았다... Why...<br>
-                                    </p>
-                                    <table class="table table-bordered table-striped table-hover table-sm">
-                                        <thead>
+                    </div>
+                    <br>
+                    <!--함포 집탄 일반론-->
+                    <div class="row g-0">
+                        <div class="card" id="gunner_accuracy_general" style="width: 50rem;">
+                            <h3 class="card-header">함포 집탄 일반론</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    함포 집탄에 영향을 주는 요소<br>
+                                    <i class="fa-solid fa-check"></i> &nbsp;①FCS 명중보너스 = ②함포 명중보너스 >>>>>> ③포병 명중능력
+                                </h5>
+                                <p class="card-text lh-sm fs-6">
+                                    <i class="fa-solid fa-circle-info"></i> FCS차이 + 동일수병<br>
+                                    <img src="./RN_EBB115_FCS80_ACC3549.gif" style="width: 10rem;"><img
+                                        src="./RN_EBB115_FCS75_ACC3549.gif" style="width: 10rem;"><br>
+                                </p>
+                                <p class="card-text lh-sm fs-6">
+                                    <i class="fa-solid fa-circle-info"></i> 동일FCS + 포병차이<br>
+                                    <img src="./RN_EBB115_FCS80_ACC3549.gif" style="width: 10rem;"><img
+                                        src="./RN_EBB115_FCS80_ACC2072.gif" style="width: 10rem;"><img
+                                        src="./RN_EBB115_FCS80_ACC1715.gif" style="width: 10rem;"><br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ①FCS 명중보너스
+                                </h5>
+                                <p class="card-text lh-sm fs-6">
+                                    집탄에 매우 큰 영향을 미치는 요소<br>
+                                    국적별 함선별로 탑제가능한 FCS의 명중보너스가 다르다<br>
+                                    FCS 명중보너스가 높은 미국 > 우월한 집탄<br>
+                                    FCS 명중보너스가 낮은 이탈리아 > 구제불가능한 집탄<br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ②함포 명중보너스
+                                </h5>
+                                <p class="card-text lh-sm fs-6">
+                                    집탄에 매우 큰 영향을 미치는 요소 but 히든스탯<br>
+                                    아래의 명중보너스설정함포의 경우 저렙저사관에서도 떡집탄이 나온다<br>
+                                    예1) 영국쿼드포 14"/4 Mark III<br>
+                                    예2) 각국8인치 이하 3연장 함포<br>
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련
+                                        패치노트</a><br>
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://14desu.github.io/NFLab/nf_general.html#accuracy-bonus-gun-list">명중보너스
+                                        적용함포 리스트 (전함함포, 12"이상)</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ③포병 명중능력
+                                </h5>
+                                <p class="card-text lh-sm fs-6">
+                                    저사관일 경우 영향 but 일정이상 어빌확보후에는 영향이 미미하거나 없다<br>
+                                    육성완료(Lv120/45%만사)기준<br>
+                                    - 영국 외 전국가 : 육성완료시 필요어빌충족, 신경쓸일 없음<br>
+                                    - 영국 : 프리미엄명중수병 or NF개근수병으로 칼직 육성시에도 갑판병없이 필요어빌충족가능<br>
+                                    　> 명중초기14+1누적2072/Real어빌4,815,328 충족 ↔ 명중초기14누적1952/Real어빌4,536,448 미달<br>
+                                    　> 추천 : 명중초기14+1 or 명중초기14+1갑판
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--명중보너스 함포목록-->
+                    <div class="row g-0">
+                        <div class="card" id="accuracy_bonus_gun_list" style="width: 50rem;">
+                            <h3 class="card-header">명중보너스 함포 리스트</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-circle-info"></i> &nbsp;12" 이상 명중보너스 적용함포 <br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;명중보너스가 존재하는 함포 리스트 (2023/01
+                                    운영자 문의로 확인)<br>
+                                    　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br>
+                                    　<i class="fa-regular fa-lightbulb"></i> &nbsp;소련은 명중보너스 적용함포가 없다<br>
+                                    　<i class="fa-regular fa-thumbs-up"></i> &nbsp;프리미엄함선PBB/이벤트함선EBB의 명중보너스 적용함포가
+                                    다수<br>
+                                    　　 &nbsp;특별함선에 일반함선대비 메리트를 줘 놓고 이를 공개하지 않았다... Why...<br>
+                                </p>
+                                <table class="table table-bordered table-striped table-hover table-sm">
+                                    <thead>
                                         <tr>
                                             <th>국가</th>
                                             <th>레벨</th>
@@ -248,8 +286,8 @@
                                             <th>명중보너스</th>
                                             <th>비고</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
+                                    </thead>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="2">미국</td>
                                             <td>50</td>
@@ -265,8 +303,8 @@
                                             <td>?</td>
                                             <td>EBB 115 전용함포</td>
                                         </tr>
-                                        </tbody>
-                                        <tbody>
+                                    </tbody>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="5">영국</td>
                                             <td>74</td>
@@ -303,8 +341,8 @@
                                             <td>?</td>
                                             <td>일반 함포</td>
                                         </tr>
-                                        </tbody>
-                                        <tbody>
+                                    </tbody>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="4">일본</td>
                                             <td>50</td>
@@ -334,7 +372,7 @@
                                             <td>?</td>
                                             <td>EBB 115 전용함포</td>
                                         </tr>
-                                        <tbody>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="2">독일</td>
                                             <td>79</td>
@@ -350,8 +388,8 @@
                                             <td>?</td>
                                             <td>EBB 85 전용함포</td>
                                         </tr>
-                                        </tbody>
-                                        <tbody>
+                                    </tbody>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="2">프랑스</td>
                                             <td>85</td>
@@ -367,8 +405,8 @@
                                             <td>?</td>
                                             <td>EBB 115 전용함포</td>
                                         </tr>
-                                        </tbody>
-                                        <tbody>
+                                    </tbody>
+                                    <tbody>
                                         <tr>
                                             <td rowspan="7">이탈리아</td>
                                             <td>80</td>
@@ -419,237 +457,259 @@
                                             <td>?</td>
                                             <td>SD 전용함포</td>
                                         </tr>
-                                        </tbody>
-                                    </table>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-circle-info"></i> &nbsp;8" 이하 명중보너스 적용함포<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;미국/영국/일본/독일의 8"이하 3연장 함포에 명중보너스 적용 (2003/09 패치)<br>
-                                        　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br> 
-                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;일본 3연장 6.1"/60 Type 3은 명중보너스가 없다<br>
-                                        　<i class="fa-solid fa-link"></i>&nbsp;<a href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련 패치노트</a><br>
-                                    </p>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#gunner_accuracy_general"><i class="fa-solid fa-location-crosshairs"></i>&nbsp;함포 집탄 일반론</a><br>
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://14desu.github.io/NFLab/gunner_accuracy.html"><i class="fa-solid fa-location-crosshairs"></i>&nbsp;국가별 집탄상세</a>
-                                    </p>
-                                </div>
+                                    </tbody>
+                                </table>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-circle-info"></i> &nbsp;8" 이하 명중보너스 적용함포<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-location-crosshairs"></i> &nbsp;미국/영국/일본/독일의 8"이하 3연장 함포에
+                                    명중보너스 적용 (2003/09 패치)<br>
+                                    　<i class="fa-regular fa-circle-question"></i> &nbsp;명중보너스 적용수치는 게임사 비공개사항<br>
+                                    　<i class="fa-regular fa-lightbulb"></i> &nbsp;일본 3연장 6.1"/60 Type 3은 명중보너스가 없다<br>
+                                    　<i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://www.navyfield.co.kr:444/board/view.asp?Num=66410&Sort=Z02">관련
+                                        패치노트</a><br>
+                                </p>
                             </div>
-                        </div>
-                        <br>
-                        <!--잠수함 잠항시간-->
-                        <div class="row g-0">
-                            <div class="card" id="ss_divetime" style="width: 40rem;">
-                                <h3 class="card-header">잠수함 잠항시간</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-check"></i> &nbsp;잠수함 잠항시간 = 함체스펙 
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        각 잠수함 함체별로 정해져있다<br>
-                                        수병스펙에 의해 변동하지 않는다 
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;국가/차수별 잠항시간비교 
-                                    </h5>
-                                    단위:s(초)
-                                    <table class="table table-bordered table-striped table-hover table-sm">
-                                        <tr>
-                                            <th>차수 / Lv</th>
-                                            <th>미국</th>
-                                            <th>영국</th>
-                                            <th>일본</th>
-                                            <th>독일</th>
-                                            <th>프랑스</th>
-                                            <th>소련</th>
-                                            <th>이탈리아</th>
-                                        </tr>
-                                        <tr>
-                                            <td>SS1 Lv37-39</td>
-                                            <td>132</td>
-                                            <td>129.8</td>
-                                            <td>140.8</td>
-                                            <td>127.6</td>
-                                            <td>132.56</td>
-                                            <td>128</td>
-                                            <td>124</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SS2 Lv46-49</td>
-                                            <td>154</td>
-                                            <td>151.8</td>
-                                            <td>162.8</td>
-                                            <td>151.8</td>
-                                            <td>155.12</td>
-                                            <td>152</td>
-                                            <td>145</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SS3 Lv59-62</td>
-                                            <td>176</td>
-                                            <td>173.8</td>
-                                            <td>184.8</td>
-                                            <td>176</td>
-                                            <td>177.64</td>
-                                            <td>176</td>
-                                            <td>166</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SS4 Lv74-77</td>
-                                            <td>198.88</td>
-                                            <td>196.4</td>
-                                            <td>210.68</td>
-                                            <td>200.64</td>
-                                            <td>185.76</td>
-                                            <td>208</td>
-                                            <td>200</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SS5 Lv87-89</td>
-                                            <td>222.92</td>
-                                            <td>221.52</td>
-                                            <td>237.84</td>
-                                            <td>224.88</td>
-                                            <td>218</td>
-                                            <td>220.48</td>
-                                            <td>224</td>
-                                        </tr>
-                                        <tr>
-                                            <td>PSS Lv95-97</td>
-                                            <td>231</td>
-                                            <td>230</td>
-                                            <td>238</td>
-                                            <td>232</td>
-                                            <td>229</td>
-                                            <td>230</td>
-                                            <td>232</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SS6 Lv105</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                            <td>240</td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;잠수함에게 매우 중요하나 공홈 쉽야드에 누락된 정보<br>
-                                        <i class="fa-solid fa-check"></i> &nbsp;2022/11 운영자 문의로 확인한 정보를 기재함
-                                    </p>
-                                </div>
+                            <div class="card-footer text-muted">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://14desu.github.io/NFLab/nf_general.html#gunner_accuracy_general"><i
+                                            class="fa-solid fa-location-crosshairs"></i>&nbsp;함포 집탄 일반론</a><br>
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a
+                                        href="https://14desu.github.io/NFLab/gunner_accuracy.html"><i
+                                            class="fa-solid fa-location-crosshairs"></i>&nbsp;국가별 집탄상세</a>
+                                </p>
                             </div>
-                        </div>
-                        <br>
-                        <!--잠수함 산소충전 개념-->
-                        <div class="row g-0">
-                            <div class="card" id="ss-oxygen-charge-notions" style="width: 50rem;">
-                                <h3 class="card-header">잠수함 산소충전 개념</h3>
-                                <div class="card-body">
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221214103121944SC.jpg" class="img-fluid">
-                                    <h5 class="card-title lh-lg">
-                                        ① 수병 잠재능력<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-gauge-high"></i> &nbsp;수병의 잠재어빌 x 수병구성(사관/숙련병) x 수병빈혈도 + 갑판보정<br>
-                                        　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병빈혈도 90% 미만이면 잠재능력0 판정<br>
-                                        　<i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ② 수병 산소충전속도<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;잠재능력(=Real어빌)구간 → 산소충전속도 / 계단식구간<i class="fa-solid fa-stairs"></i><br>
-                                        　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력0 : 산소충전속도 0.48s /s (=1초당 0.48초 잠항가능산소충전)<br>
-                                        　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력5,750,000 : 산소충전속도 4.0s /s (=1초당 4.0초 잠항가능산소충전)<br>
-                                        　<i class="fa-solid fa-circle-info"></i> &nbsp;실데이터검증 → 계산공식검토완료 : 수병계산기 반영
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ③ 함체 잠항시간<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-hourglass"></i> &nbsp;함체 컴포넌트에 설정되어 있는 잠항시간(=산소탱크크기)<br>
-                                        　<i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime">잠수함 잠항시간 정보</a>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        ④ 산소충전시간<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;산소충전 최소단위 : 0.96s (= 24f) / 계단식구간<i class="fa-solid fa-stairs"></i><br>
-                                        　<i class="fa-solid fa-stopwatch"></i> &nbsp;산소충전시간 = ( 산소탱크크기 / 산소충전속도 ) 최소단위올림<br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--측면장갑 0.2인치-->
-                        <div class="row g-0">
-                            <div class="card" id="reason_belt_armor_1" style="width: 40rem;">
-                                <h3 class="card-header">측면장갑 0.2인치</h3>
-                                <div class="card-body">
-                                    <i class="fa-solid fa-circle-info"></i>&nbsp;측면장갑 0.2인치 세팅의 예)
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221206183605959SC.jpg" class="img-fluid">
-                                    <p class="card-text fs-6">
-                                        <br>
-                                        측면장갑 0.2인치 세팅의 이유 = 관통방어력1 확보<br>
-                                        네이비필드 모든함선에 공통적으로 추천되는 기본세팅이다
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-shield-halved"></i>&nbsp;어뢰에 의한 수병사망방지<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        네이비필드의 어뢰는 관통력이 1미만이다<br>
-                                        측면장갑의 관통방어력1을 확보하면 비관통판정이 되므로<br>
-                                        어뢰에 의해서 수병사망이 발생하지 않는다
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-shield-halved"></i>&nbsp;어뢰데미지 감소<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        측면장갑0.2인치로 관통방어력1을 확보하면 비관통판정이 되므로<br>
-                                        어뢰의 관통데미지를 막아냄으로서 어뢰데미지감소효과가 있다<br>
-                                        측면장갑20인치이상세팅하더라도 데미지감소효과는 크게 증가하지 않는다<br>
-                                        <i class="fa-solid fa-circle-info"></i>&nbsp;측갑0.2인치 > 데미지감소 -40후반%, 측갑20인치이상 > 데미지감소 -50후반%<br>
-                                        <i class="fa-solid fa-check"></i>&nbsp;적은투자-고효율인 0.2인치 관통방어력1 확보가 추천세팅
-                                    </p>
-
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-shield-halved"></i>&nbsp;급강하폭격기 매직도탄<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        급강하폭격기의 폭탄입사각이 측갑에서보면 90도에 가깝기 때문에<br>
-                                        매직도탄을 기대해 볼수 있다 (낮은확률 / 가끔 운빨로 기대해줄 수준)
-                                    </p>
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-link"></i>&nbsp;<a href="https://reggiane.tistory.com/95"><i class="fa-solid fa-square-rss"></i>&nbsp;측면장갑 두께별 데미지감소 실험</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-                    
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; g_dori</div>
                         </div>
                     </div>
-                </footer>
-            </div>
+                    <br>
+                    <!--잠수함 잠항시간-->
+                    <div class="row g-0">
+                        <div class="card" id="ss_divetime" style="width: 40rem;">
+                            <h3 class="card-header">잠수함 잠항시간</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-check"></i> &nbsp;잠수함 잠항시간 = 함체스펙
+                                </h5>
+                                <p class="card-text fs-6">
+                                    각 잠수함 함체별로 정해져있다<br>
+                                    수병스펙에 의해 변동하지 않는다
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-circle-info"></i>&nbsp;국가/차수별 잠항시간비교
+                                </h5>
+                                단위:s(초)
+                                <table class="table table-bordered table-striped table-hover table-sm">
+                                    <tr>
+                                        <th>차수 / Lv</th>
+                                        <th>미국</th>
+                                        <th>영국</th>
+                                        <th>일본</th>
+                                        <th>독일</th>
+                                        <th>프랑스</th>
+                                        <th>소련</th>
+                                        <th>이탈리아</th>
+                                    </tr>
+                                    <tr>
+                                        <td>SS1 Lv37-39</td>
+                                        <td>132</td>
+                                        <td>129.8</td>
+                                        <td>140.8</td>
+                                        <td>127.6</td>
+                                        <td>132.56</td>
+                                        <td>128</td>
+                                        <td>124</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SS2 Lv46-49</td>
+                                        <td>154</td>
+                                        <td>151.8</td>
+                                        <td>162.8</td>
+                                        <td>151.8</td>
+                                        <td>155.12</td>
+                                        <td>152</td>
+                                        <td>145</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SS3 Lv59-62</td>
+                                        <td>176</td>
+                                        <td>173.8</td>
+                                        <td>184.8</td>
+                                        <td>176</td>
+                                        <td>177.64</td>
+                                        <td>176</td>
+                                        <td>166</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SS4 Lv74-77</td>
+                                        <td>198.88</td>
+                                        <td>196.4</td>
+                                        <td>210.68</td>
+                                        <td>200.64</td>
+                                        <td>185.76</td>
+                                        <td>208</td>
+                                        <td>200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SS5 Lv87-89</td>
+                                        <td>222.92</td>
+                                        <td>221.52</td>
+                                        <td>237.84</td>
+                                        <td>224.88</td>
+                                        <td>218</td>
+                                        <td>220.48</td>
+                                        <td>224</td>
+                                    </tr>
+                                    <tr>
+                                        <td>PSS Lv95-97</td>
+                                        <td>231</td>
+                                        <td>230</td>
+                                        <td>238</td>
+                                        <td>232</td>
+                                        <td>229</td>
+                                        <td>230</td>
+                                        <td>232</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SS6 Lv105</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                        <td>240</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;잠수함에게 매우 중요하나 공홈 쉽야드에 누락된
+                                    정보<br>
+                                    <i class="fa-solid fa-check"></i> &nbsp;2022/11 운영자 문의로 확인한 정보를 기재함
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--잠수함 산소충전 개념-->
+                    <div class="row g-0">
+                        <div class="card" id="ss-oxygen-charge-notions" style="width: 50rem;">
+                            <h3 class="card-header">잠수함 산소충전 개념</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221214103121944SC.jpg"
+                                    class="img-fluid">
+                                <h5 class="card-title lh-lg">
+                                    ① 수병 잠재능력<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-gauge-high"></i> &nbsp;수병의 잠재어빌 x 수병구성(사관/숙련병) x 수병빈혈도 +
+                                    갑판보정<br>
+                                    　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병빈혈도 90% 미만이면 잠재능력0 판정<br>
+                                    　<i class="fa-solid fa-link"></i> &nbsp;<a
+                                        href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ② 수병 산소충전속도<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;잠재능력(=Real어빌)구간 → 산소충전속도 /
+                                    계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력0 : 산소충전속도 0.48s /s (=1초당 0.48초
+                                    잠항가능산소충전)<br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력5,750,000 : 산소충전속도 4.0s /s (=1초당 4.0초
+                                    잠항가능산소충전)<br>
+                                    　<i class="fa-solid fa-circle-info"></i> &nbsp;실데이터검증 → 계산공식검토완료 : 수병계산기 반영
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ③ 함체 잠항시간<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-hourglass"></i> &nbsp;함체 컴포넌트에 설정되어 있는 잠항시간(=산소탱크크기)<br>
+                                    　<i class="fa-solid fa-link"></i> &nbsp;<a
+                                        href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime">잠수함 잠항시간
+                                        정보</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ④ 산소충전시간<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;산소충전 최소단위 : 0.96s (= 24f) /
+                                    계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                    　<i class="fa-solid fa-stopwatch"></i> &nbsp;산소충전시간 = ( 산소탱크크기 / 산소충전속도 ) 최소단위올림<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--측면장갑 0.2인치-->
+                    <div class="row g-0">
+                        <div class="card" id="reason_belt_armor_1" style="width: 40rem;">
+                            <h3 class="card-header">측면장갑 0.2인치</h3>
+                            <div class="card-body">
+                                <i class="fa-solid fa-circle-info"></i>&nbsp;측면장갑 0.2인치 세팅의 예)
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221206183605959SC.jpg"
+                                    class="img-fluid">
+                                <p class="card-text fs-6">
+                                    <br>
+                                    측면장갑 0.2인치 세팅의 이유 = 관통방어력1 확보<br>
+                                    네이비필드 모든함선에 공통적으로 추천되는 기본세팅이다
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-shield-halved"></i>&nbsp;어뢰에 의한 수병사망방지<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    네이비필드의 어뢰는 관통력이 1미만이다<br>
+                                    측면장갑의 관통방어력1을 확보하면 비관통판정이 되므로<br>
+                                    어뢰에 의해서 수병사망이 발생하지 않는다
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-shield-halved"></i>&nbsp;어뢰데미지 감소<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    측면장갑0.2인치로 관통방어력1을 확보하면 비관통판정이 되므로<br>
+                                    어뢰의 관통데미지를 막아냄으로서 어뢰데미지감소효과가 있다<br>
+                                    측면장갑20인치이상세팅하더라도 데미지감소효과는 크게 증가하지 않는다<br>
+                                    <i class="fa-solid fa-circle-info"></i>&nbsp;측갑0.2인치 > 데미지감소 -40후반%, 측갑20인치이상 >
+                                    데미지감소 -50후반%<br>
+                                    <i class="fa-solid fa-check"></i>&nbsp;적은투자-고효율인 0.2인치 관통방어력1 확보가 추천세팅
+                                </p>
+
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-shield-halved"></i>&nbsp;급강하폭격기 매직도탄<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    급강하폭격기의 폭탄입사각이 측갑에서보면 90도에 가깝기 때문에<br>
+                                    매직도탄을 기대해 볼수 있다 (낮은확률 / 가끔 운빨로 기대해줄 수준)
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-link"></i>&nbsp;<a href="https://reggiane.tistory.com/95"><i
+                                            class="fa-solid fa-square-rss"></i>&nbsp;측면장갑 두께별 데미지감소 실험</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://14desu.github.io/common/scripts.js"></script>
-    </body>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
 </html>

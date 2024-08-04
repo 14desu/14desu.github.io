@@ -1,142 +1,175 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
-        <title>네이비필드 연구실 / 함재기 정보</title>
-        <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> <!-- jQuery load -->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> <!-- icon load -->
-        <script src="../common/navbar_load.js"></script>
-        <script src="./aircraft_info.js"></script>
 
-        <!--dataTables-->
-        <link href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-        <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js"></script>
+<head>
 
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
 
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar // common/navbar.html에서 로딩 -->
-            <ul id ="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <!-- Sidebar // common/sidebar.html에서 로딩 -->
-                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div id="aircraft_information" class="container-fluid px-3">
-                        <h1 class="mt-2">네이비필드 연구실 / 함재기 정보</h1>
-                        <br>
-                        <!--전투기-->
-                        <div class="row g-0">
-                            <div class="card" id="fighter_info" style="width: 80rem;">
-                                <h3 class="card-header">전투기</h3>
-                                <div class="card-body">
-                                    <span id="test"></span>
-                                    <input type="checkbox" class="btn-check fighter_input" id="fighter_input1" value="1차">
-                                    <label class="btn btn-outline-dark" for="fighter_input1">1차</label>
-                                    <input type="checkbox" class="btn-check fighter_input" id="fighter_input2" value="2차">
-                                    <label class="btn btn-outline-dark" for="fighter_input2">2차</label>
-                                    <input type="checkbox" class="btn-check fighter_input" id="fighter_input3" value="3차">
-                                    <label class="btn btn-outline-dark" for="fighter_input3">3차</label>
-                                    <input type="checkbox" class="btn-check fighter_input" id="fighter_input4" value="4차" checked>
-                                    <label class="btn btn-outline-dark" for="fighter_input4">4차</label>
-                                    <input type="checkbox" class="btn-check fighter_input" id="fighter_input5" value="국지">
-                                    <label class="btn btn-outline-dark" for="fighter_input5">국지</label>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
+    <title>네이비필드 연구실 / 함재기 정보</title>
+    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
 
-                                    <table id="fighter_output"  class="table table-bordered table-striped table-hover table-sm"></table>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--뇌격기-->
-                        <div class="row g-0">
-                            <div class="card" id="torpedo_info" style="width: 80rem;">
-                                <h3 class="card-header">뇌격기</h3>
-                                <div class="card-body">
-                                    <span id="test"></span>
-                                    <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input1" value="1차">
-                                    <label class="btn btn-outline-dark" for="torpedo_input1">1차</label>
-                                    <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input2" value="2차">
-                                    <label class="btn btn-outline-dark" for="torpedo_input2">2차</label>
-                                    <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input3" value="3차" checked>
-                                    <label class="btn btn-outline-dark" for="torpedo_input3">3차</label>
+    <!-- jQuery load -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- icon load -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
-                                    <table id="torpedo_output"  class="table table-bordered table-striped table-hover table-sm"></table>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--급폭기-->
-                        <div class="row g-0">
-                            <div class="card" id="bomber_info" style="width: 80rem;">
-                                <h3 class="card-header">급강하폭격기</h3>
-                                <div class="card-body">
-                                    <span id="test"></span>
-                                    <input type="checkbox" class="btn-check bomber_input" id="bomber_input1" value="1차">
-                                    <label class="btn btn-outline-dark" for="bomber_input1">1차</label>
-                                    <input type="checkbox" class="btn-check bomber_input" id="bomber_input2" value="2차">
-                                    <label class="btn btn-outline-dark" for="bomber_input2">2차</label>
-                                    <input type="checkbox" class="btn-check bomber_input" id="bomber_input3" value="3차" checked>
-                                    <label class="btn btn-outline-dark" for="bomber_input3">3차</label>
-                                    <input type="checkbox" class="btn-check bomber_input" id="bomber_input4" value="수송기">
-                                    <label class="btn btn-outline-dark" for="bomber_input4">수송기</label>
+    <!-- aircraft API -->
+    <script src="./aircraft_info.js"></script>
 
-                                    <table id="bomber_output"  class="table table-bordered table-striped table-hover table-sm"></table>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--정찰기-->
-                        <div class="row g-0">
-                            <div class="card" id="scout_info" style="width: 80rem;">
-                                <h3 class="card-header">정찰기</h3>
-                                <div class="card-body">
-                                    <span id="test"></span>
-                                    <input type="checkbox" class="btn-check scout_input" id="scout_input1" value="1차">
-                                    <label class="btn btn-outline-dark" for="scout_input1">1차</label>
-                                    <input type="checkbox" class="btn-check scout_input" id="scout_input2" value="2차">
-                                    <label class="btn btn-outline-dark" for="scout_input2">2차</label>
-                                    <input type="checkbox" class="btn-check scout_input" id="scout_input3" value="3차">
-                                    <label class="btn btn-outline-dark" for="scout_input3">3차</label>
-                                    <input type="checkbox" class="btn-check scout_input" id="scout_input4" value="4차">
-                                    <label class="btn btn-outline-dark" for="scout_input4">4차</label>
-                                    <input type="checkbox" class="btn-check scout_input" id="scout_input5" value="5차" checked>
-                                    <label class="btn btn-outline-dark" for="scout_input5">5차</label>
+    <!--dataTables-->
+    <link href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js"></script>
 
-                                    <table id="scout_output"  class="table table-bordered table-striped table-hover table-sm"></table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; g_dori</div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar // common/navbar.html에서 로딩 -->
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <!-- Sidebar // common/sidebar.html에서 로딩 -->
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            </nav>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://14desu.github.io/common/scripts.js"></script>
-    </body>
+        <div id="layoutSidenav_content">
+            <main>
+                <div id="aircraft_information" class="container-fluid px-3">
+                    <h1 class="mt-2">네이비필드 연구실 / 함재기 정보</h1>
+                    <br>
+                    <!--전투기-->
+                    <div class="row g-0">
+                        <div class="card" id="fighter_info" style="width: 80rem;">
+                            <h3 class="card-header">전투기</h3>
+                            <div class="card-body">
+                                <span id="test"></span>
+                                <input type="checkbox" class="btn-check fighter_input" id="fighter_input1" value="1차">
+                                <label class="btn btn-outline-dark" for="fighter_input1">1차</label>
+                                <input type="checkbox" class="btn-check fighter_input" id="fighter_input2" value="2차">
+                                <label class="btn btn-outline-dark" for="fighter_input2">2차</label>
+                                <input type="checkbox" class="btn-check fighter_input" id="fighter_input3" value="3차">
+                                <label class="btn btn-outline-dark" for="fighter_input3">3차</label>
+                                <input type="checkbox" class="btn-check fighter_input" id="fighter_input4" value="4차"
+                                    checked>
+                                <label class="btn btn-outline-dark" for="fighter_input4">4차</label>
+                                <input type="checkbox" class="btn-check fighter_input" id="fighter_input5" value="국지">
+                                <label class="btn btn-outline-dark" for="fighter_input5">국지</label>
+
+                                <table id="fighter_output"
+                                    class="table table-bordered table-striped table-hover table-sm"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--뇌격기-->
+                    <div class="row g-0">
+                        <div class="card" id="torpedo_info" style="width: 80rem;">
+                            <h3 class="card-header">뇌격기</h3>
+                            <div class="card-body">
+                                <span id="test"></span>
+                                <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input1" value="1차">
+                                <label class="btn btn-outline-dark" for="torpedo_input1">1차</label>
+                                <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input2" value="2차">
+                                <label class="btn btn-outline-dark" for="torpedo_input2">2차</label>
+                                <input type="checkbox" class="btn-check torpedo_input" id="torpedo_input3" value="3차"
+                                    checked>
+                                <label class="btn btn-outline-dark" for="torpedo_input3">3차</label>
+
+                                <table id="torpedo_output"
+                                    class="table table-bordered table-striped table-hover table-sm"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--급폭기-->
+                    <div class="row g-0">
+                        <div class="card" id="bomber_info" style="width: 80rem;">
+                            <h3 class="card-header">급강하폭격기</h3>
+                            <div class="card-body">
+                                <span id="test"></span>
+                                <input type="checkbox" class="btn-check bomber_input" id="bomber_input1" value="1차">
+                                <label class="btn btn-outline-dark" for="bomber_input1">1차</label>
+                                <input type="checkbox" class="btn-check bomber_input" id="bomber_input2" value="2차">
+                                <label class="btn btn-outline-dark" for="bomber_input2">2차</label>
+                                <input type="checkbox" class="btn-check bomber_input" id="bomber_input3" value="3차"
+                                    checked>
+                                <label class="btn btn-outline-dark" for="bomber_input3">3차</label>
+                                <input type="checkbox" class="btn-check bomber_input" id="bomber_input4" value="수송기">
+                                <label class="btn btn-outline-dark" for="bomber_input4">수송기</label>
+
+                                <table id="bomber_output"
+                                    class="table table-bordered table-striped table-hover table-sm"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--정찰기-->
+                    <div class="row g-0">
+                        <div class="card" id="scout_info" style="width: 80rem;">
+                            <h3 class="card-header">정찰기</h3>
+                            <div class="card-body">
+                                <span id="test"></span>
+                                <input type="checkbox" class="btn-check scout_input" id="scout_input1" value="1차">
+                                <label class="btn btn-outline-dark" for="scout_input1">1차</label>
+                                <input type="checkbox" class="btn-check scout_input" id="scout_input2" value="2차">
+                                <label class="btn btn-outline-dark" for="scout_input2">2차</label>
+                                <input type="checkbox" class="btn-check scout_input" id="scout_input3" value="3차">
+                                <label class="btn btn-outline-dark" for="scout_input3">3차</label>
+                                <input type="checkbox" class="btn-check scout_input" id="scout_input4" value="4차">
+                                <label class="btn btn-outline-dark" for="scout_input4">4차</label>
+                                <input type="checkbox" class="btn-check scout_input" id="scout_input5" value="5차"
+                                    checked>
+                                <label class="btn btn-outline-dark" for="scout_input5">5차</label>
+
+                                <table id="scout_output"
+                                    class="table table-bordered table-striped table-hover table-sm"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
 </html>

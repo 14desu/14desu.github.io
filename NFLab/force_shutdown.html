@@ -1,103 +1,129 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
-        <title>네이비필드 연구실 / 강제종료</title>
-        <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script> <!-- jQuery load -->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> <!-- icon load -->
-        <script src="../common/navbar_load.js"></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
 
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar // common/navbar.html에서 로딩 -->
-            <ul id ="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <!-- Sidebar // common/sidebar.html에서 로딩 -->
-                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <span id="test"></span>
-                <main>
-                    <div id="nf_general" class="container-fluid px-3">
-                        <h1 class="mt-2">네이비필드 연구실 / 강제종료</h1>
-                        <br>
-                        <!--강제종료의 이유-->
-                        <div class="row g-0">
-                            <div class="card" id="veterandie-forceshutdown" style="width: 35rem;">
-                                <h3 class="card-header">사관사망과 강제종료</h3>
-                                <div class="card-body">
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221205111845523SC.gif" class="img-fluid">
-                                    <p class="card-text"><br>
-                                        인게임에서 종종 사관/숙련병/신병이 죽는경우가 발생한다<br>
-                                        - 발생조건 > 함포/어뢰의 관통판정시 적은 확률<br>
-                                        - 수병사망시 > 특정사운드 + 우측하단 함장 인게임 메세지<br>
-                                        <br>
-                                        전투룸을 나가기전에 강제종료를 하면 사관/숙련병이 사망하지 않는다<br>
-                                        - 다만 이경우 해당 전투의 경험치 소득도 받지 못한다<br>
-                                        <br>
-                                        <i class="fa-solid fa-triangle-exclamation"></i>&nbsp;사관사망이 의심되면 강제종료를 하자<br>
-                                        - 함장 메세지가 중첩될 경우 직전 메세지가 가리는경우가 있다<br>
-                                        - 경험치는 게임한판 더 하면 되지만 사관은 돌아오지 않는다<br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <!--강제종료의 이유-->
-                        <div class="row g-0">
-                            <div class="card" id="autobat-forceshutdown" style="width: 45rem;">
-                                <h3 class="card-header">강제종료 bat파일 설정가이드</h3>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-list"></i>　강종bat파일 작성매뉴얼<br>
-                                        　① txt파일 새로만들기 → bat파일 명령문 입력 → 파일명/확장자 변경<br>
-                                        　② bat파일이동 / NavyField실행파일과 같은 폴더<br>
-                                        　③ bat파일 바로가기만들기<br>
-                                        　④ bat파일 바로가기 설정<br>
-                                        　⑤ bat파일 작업표시줄 설정<br>
-                                        <br>
-                                        <i class="fa-solid fa-gears"></i>　bat파일 명령문<br>
-                                        @echo off<br>
-                                        taskkill /im NavyField.exe /f<br>
-                                        <br>
-                                        <i class="fa-regular fa-circle-question"></i>　Why? 강종bat파일?<br>
-                                        　사관사망시 강제종료를 통해서 심폐소생술 무조건<br>
-                                        　매번 작업관리자를 열어서 프로세스종료 > 번거로움<br>
-                                    </p>
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20230402134051610SC.jpg" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-                    
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; g_dori</div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
+<head>
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
+    <title>네이비필드 연구실 / 강제종료</title>
+    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
+
+    <!-- jQuery load -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- icon load -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar // common/navbar.html에서 로딩 -->
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <!-- Sidebar // common/sidebar.html에서 로딩 -->
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            </nav>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://14desu.github.io/common/scripts.js"></script>
-    </body>
+        <div id="layoutSidenav_content">
+            <span id="test"></span>
+            <main>
+                <div id="nf_general" class="container-fluid px-3">
+                    <h1 class="mt-2">네이비필드 연구실 / 강제종료</h1>
+                    <br>
+                    <!--강제종료의 이유-->
+                    <div class="row g-0">
+                        <div class="card" id="veterandie-forceshutdown" style="width: 35rem;">
+                            <h3 class="card-header">사관사망과 강제종료</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221205111845523SC.gif"
+                                    class="img-fluid">
+                                <p class="card-text"><br>
+                                    인게임에서 종종 사관/숙련병/신병이 죽는경우가 발생한다<br>
+                                    - 발생조건 > 함포/어뢰의 관통판정시 적은 확률<br>
+                                    - 수병사망시 > 특정사운드 + 우측하단 함장 인게임 메세지<br>
+                                    <br>
+                                    전투룸을 나가기전에 강제종료를 하면 사관/숙련병이 사망하지 않는다<br>
+                                    - 다만 이경우 해당 전투의 경험치 소득도 받지 못한다<br>
+                                    <br>
+                                    <i class="fa-solid fa-triangle-exclamation"></i>&nbsp;사관사망이 의심되면 강제종료를 하자<br>
+                                    - 함장 메세지가 중첩될 경우 직전 메세지가 가리는경우가 있다<br>
+                                    - 경험치는 게임한판 더 하면 되지만 사관은 돌아오지 않는다<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--강제종료의 이유-->
+                    <div class="row g-0">
+                        <div class="card" id="autobat-forceshutdown" style="width: 45rem;">
+                            <h3 class="card-header">강제종료 bat파일 설정가이드</h3>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-list"></i>　강종bat파일 작성매뉴얼<br>
+                                    　① txt파일 새로만들기 → bat파일 명령문 입력 → 파일명/확장자 변경<br>
+                                    　② bat파일이동 / NavyField실행파일과 같은 폴더<br>
+                                    　③ bat파일 바로가기만들기<br>
+                                    　④ bat파일 바로가기 설정<br>
+                                    　⑤ bat파일 작업표시줄 설정<br>
+                                    <br>
+                                    <i class="fa-solid fa-gears"></i>　bat파일 명령문<br>
+                                    @echo off<br>
+                                    taskkill /im NavyField.exe /f<br>
+                                    <br>
+                                    <i class="fa-regular fa-circle-question"></i>　Why? 강종bat파일?<br>
+                                    　사관사망시 강제종료를 통해서 심폐소생술 무조건<br>
+                                    　매번 작업관리자를 열어서 프로세스종료 > 번거로움<br>
+                                </p>
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20230402134051610SC.jpg"
+                                    class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
 </html>

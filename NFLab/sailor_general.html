@@ -1,386 +1,425 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
-        <title>네이비필드 연구실 / 수병일반</title>
-        <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> <!-- jQuery load -->
-        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> <!-- icon load -->
-        <script src="../common/navbar_load.js"></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
 
-    </head>
-    <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar // common/navbar.html에서 로딩 -->
-            <ul id ="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <!-- Sidebar // common/sidebar.html에서 로딩 -->
-                <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <span id="test"></span>
-                <main>
-                    <div id="sailor_general" class="container-fluid px-3">
-                        <h1 class="mt-2">네이비필드 연구실 / 수병일반</h1>
-                        <br>
-                        <div class="row g-0">
-                            <div class="card" id="sailor-real-ability" style="width: 35rem;">
-                                <h3 class="card-header">수병능력</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-check"></i> &nbsp;수병능력 = Real어빌<br>
-                                        <i class="fa-solid fa-check"></i> &nbsp;Real어빌 = 어빌 x ( 사관 x 4 + 숙련병 x 1 ) x 수병빈혈도
-                                    </h5>
-                                    <p class="card-text lh-sm fs-6">
-                                        수병능력 ∝ 어빌<br>
-                                        수병능력 ∝ ( 사관 x 4 + 숙련병 x 1 )<br>
-                                        수병능력 ∝ 수병빈혈도<br>
-                                        수병빈혈도 = ( 사관 + 숙련병 + 신병 ) / 수병수<br>
-                                    </p>
+<head>
 
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <p class="card-text">
-                                        <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병능력 ≠ 어빌 ( 관련이 있으나 일치하지 않는다 )<br>
-                                        <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;갑판병 > 보정능력 ∝ only어빌 ↔ 수리/보수자체능력 ∝ Real어빌<br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row g-0">
-                            <div class="card" id="event-sailor-hidden-ability" style="width: 35rem;">
-                                <h3 class="card-header">이벤트수병 히든어빌</h3>
-                                <div class="card-body">
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201134854801SC.jpg" class="img-fluid">
-                                    <p class="card-text"><br>
-                                        이벤트수병 (개근/전설보조/전설특무) 에는 히든어빌이 있다.<br>
-                                        이로 인해 90렙 지급수병의 성장어빌↔누적어빌이 일치하지 않는다.<br>
-                                        부어빌의 성장어빌은 +9고정이나 누적어빌은 644~1100의 편차를 가진다.<br>
-                                        이는 1-90렙 구간의 성장치어빌이 +7~+12 랜덤로 반영되었기 때문이다.<br>
-                                        이를 이벤트수병의 히든어빌이라 한다.<br><br>
-                                        수병계산기에서 이벤트수병을 선택시 히든어빌을 반영한 계산을 지원한다.<br>
-                                        
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row g-0">
-                            <div class="card" id="sailor-related-ability">
-                                <h3 class="card-header">병종별 관련어빌</h3>
-                                <div class="card-body">
-                                    <table class="table table-bordered table-striped table-hover table-sm">
-                                        <tr>
-                                          <th>병종</th>
-                                          <th>잠재</th>
-                                          <th>명중</th>
-                                          <th>연사</th>
-                                          <th>어뢰</th>
-                                          <th>대공</th>
-                                          <th>수리</th>
-                                          <th>보수</th>
-                                          <th>기관</th>
-                                          <th>함재</th>
-                                          <th>전투</th>
-                                          <th>폭격</th>
-                                        </tr>
-                                        <tr>
-                                          <td>함장</td>
-                                          <td>●</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>○</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>포병</td>
-                                          <td>－</td>
-                                          <td>●~◎</td>
-                                          <td>◎</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>수리병</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>보수병</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>기관병</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>◎</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>정찰기</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>●~◎</td>
-                                        </tr>
-                                        <tr>
-                                          <td>급강하폭격기</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>●~◎</td>
-                                        </tr>
-                                        <tr>
-                                          <td>뇌격기</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>●~◎</td>
-                                        </tr>
-                                        <tr>
-                                          <td>전투기</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>○~●</td>
-                                        </tr>
-                                        <tr>
-                                          <td>어뢰병</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>음탐병</td>
-                                          <td>●</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>◎</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>잠항병</td>
-                                          <td>◎</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>의무병</td>
-                                          <td>◎</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>○</td>
-                                          <td>△</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                          <td>－</td>
-                                        </tr>
-                                        <tr>
-                                          <td>갑판병</td>
-                                          <td>□</td>
-                                          <td>□</td>
-                                          <td>□</td>
-                                          <td>□</td>
-                                          <td>－</td>
-                                          <td>○□</td>
-                                          <td>△□</td>
-                                          <td>□</td>
-                                          <td>－</td>
-                                          <td>□</td>
-                                          <td>□</td>
-                                        </tr>
-                                    </table>
-                                    <div class="lh-sm">
-                                        ◎　：매우중요, 최우선적으로 최대한 확보해야할 어빌리티<br>
-                                        ●　：매우중요, 다만 일정이상은 불필요한 어빌리티<br>
-                                        ○　：확보하면 좋은 어빌, 여러개 있을 경우 우선순위는 수리어빌리티<br>
-                                        □　：타수병어빌을 일정비율로 보정, 갑판병의 목적에 따라 확보해야할 어빌리티<br>
-                                        △　：관련은 있는 어빌리티이나 대부분의 경우에 의미없음<br>
-                                        －　：관련없는 어빌, 대공/함재어빌은 사장된 어빌리티<br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row g-0">
-                            <div class="card" id="seaman_general" style="width: 40rem;">
-                                <h3 class="card-header">갑판병의 효과</h3>
-                                <div class="card-body">
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-user-plus"></i>&nbsp;타수병의 능력보정<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        <i class="fa-solid fa-plus"></i> &nbsp;<b>동일함선탑승 타수병능력을 상향보정</b><br>
-                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;타수병의 주어빌을 보정<br>
-                                        　　<i class="fa-solid fa-vial"></i> &nbsp;함장-잠재어빌, 기관병-기관어빌, 수리병-수리어빌<br>
-                                        　<i class="fa-solid fa-power-off"></i> &nbsp;함장석 수병탑승 : 갑판병 보정효과의 발동조건<br>
-                                        　　<i class="fa-solid fa-vial"></i> &nbsp;횟수제 프리미엄쉽 함장석에 갑판병 탑승 : 보정효과 발동<br>
-                                        <br>
-                                        <i class="fa-solid fa-hand-holding-medical"></i> &nbsp;<b>상향보정율 : 1% 단위 계단식구간</b><i class="fa-solid fa-stairs"></i><br>
-                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;갑판어빌, 수병병종(갑판장/일등갑판병/이등갑판병), 수병국적이 관련<br>
-                                        　<i class="fa-solid fa-ban"></i> &nbsp;사관/숙련병, 수병빈혈도의 영향을 받지 않는다<br>
-                                        　<i class="fa-solid fa-magnifying-glass-plus"></i> &nbsp;어빌21당 1%보정 (갑판장일 경우, 전국가 동일)<br>
-                                        　　<i class="fa-solid fa-vial"></i> &nbsp;갑판잠재어빌 127 = 잠재능력 6% 보정, 갑판연사어빌 142 = 연사능력 6% 보정<br>
-                                        　<i class="fa-solid fa-arrow-trend-down"></i> &nbsp;복수탑승 페널티 = 1 / <i class="fa-solid fa-square-root-variable"></i>&nbsp;&nbsp;(x = 갑판병탑승인원)<br>
-                                        　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;최대3명까지만 복수탑승적용, 4명이상 탑승시에는 3명만 적용<br>
-                                        　<i class="fa-regular fa-lightbulb"></i> &nbsp;경우에 따라서는 복수탑승이 1명탑승보다 보정효율이 낮을 가능성이 존재<br>
-                                        　<i class="fa-solid fa-handshake-simple"></i> &nbsp;연합국/추축국 내에서 타국적보정가능 but 보정효율은 절반<br>
-                                        　　<i class="fa-solid fa-circle-info"></i> &nbsp;영국개근갑판으로 미국포병의 연사구간업 보정이 가능<br>
-                                    </p>
-                                    <h5 class="card-title lh-lg">
-                                        <i class="fa-solid fa-wrench"></i>&nbsp;갑판병자체 수리능력/보수능력<br>
-                                    </h5>
-                                    <p class="card-text fs-6">
-                                        타 병종과 동일하게 적용된다<br>
-                                        &nbsp;&nbsp;∝어빌, ∝사관/숙련병, ∝수병빈혈도<br>
-                                        갑판보정능력과 달리 함장석 수병미탑승시에도 적용된다<br>
-                                        갑판병 고사관은 갑판병자체의 수리능력을 올리려는 목적<br>
-                                        <i class="fa-regular fa-lightbulb"></i>&nbsp;수리병 보정효과 <i class="fa-solid fa-less-than"></i>&nbsp;갑판병자체 수리능력
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row g-0">
-                            <div class="card" id="sailor_weight" style="width: 35rem;">
-                                <h3 class="card-header">수병무게</h3>
-                                <div class="card-body">
-                                    <img src="https://www.navyfield.co.kr:444/file/screenshot/20221221200505699SC.jpg" class="img-fluid">
-                                    <p class="card-text fs-6">
-                                        <i class="fa-solid fa-users-line"></i> &nbsp;<b>네이비필드 수병은 무게를 가진다</b><br>
-                                        　<i class="fa-brands fa-docker"></i> &nbsp;수병무게 : 함선배수량에 반영됨 = 함선속도, 장갑량에 영향을 미침<br>
-                                        　　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;렙업후 신병충원시 만재배수량초과로 출항불가한 경우가 존재<br>
-                                        　　　　이럴때에는 방뢰 혹은 장갑을 1장 떼어주면 해결된다<br>
-                                        　<i class="fa-solid fa-percent"></i> &nbsp;수병수 x 국적계수 = 수병무게<br>
-                                        　　<i class="fa-solid fa-list"></i> &nbsp;국적계수 : 미국0.53, 영국0.55, 독일0.565, 나머지0.5<br>
-                                        　<i class="fa-solid fa-user-minus"></i> &nbsp;의도적으로 수병수를 줄이는 경우가 있다<br>
-                                        　　　영국폼폼이 : 연사플미 + 최대연사확보/다이어트<br>
-                                        　　　영국갑판 : 수병0명<br>
-                                        　　　영국함장 : 잠재플미 + 빨랫줄확보/다이어트<br>
-                                        　　<i class="fa-regular fa-square-caret-right"></i> &nbsp;목적 : 최대한 배수량 확보함으로 장갑or속도 이득<br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; g_dori</div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
+    <title>네이비필드 연구실 / 수병일반</title>
+    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
+
+    <!-- jQuery load -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- icon load -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar // common/navbar.html에서 로딩 -->
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <!-- Sidebar // common/sidebar.html에서 로딩 -->
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            </nav>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://14desu.github.io/common/scripts.js"></script>
-    </body>
+        <div id="layoutSidenav_content">
+            <span id="test"></span>
+            <main>
+                <div id="sailor_general" class="container-fluid px-3">
+                    <h1 class="mt-2">네이비필드 연구실 / 수병일반</h1>
+                    <br>
+                    <div class="row g-0">
+                        <div class="card" id="sailor-real-ability" style="width: 35rem;">
+                            <h3 class="card-header">수병능력</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-check"></i> &nbsp;수병능력 = Real어빌<br>
+                                    <i class="fa-solid fa-check"></i> &nbsp;Real어빌 = 어빌 x ( 사관 x 4 + 숙련병 x 1 ) x 수병빈혈도
+                                </h5>
+                                <p class="card-text lh-sm fs-6">
+                                    수병능력 ∝ 어빌<br>
+                                    수병능력 ∝ ( 사관 x 4 + 숙련병 x 1 )<br>
+                                    수병능력 ∝ 수병빈혈도<br>
+                                    수병빈혈도 = ( 사관 + 숙련병 + 신병 ) / 수병수<br>
+                                </p>
+
+                            </div>
+                            <div class="card-footer text-muted">
+                                <p class="card-text">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병능력 ≠ 어빌 ( 관련이 있으나 일치하지 않는다
+                                    )<br>
+                                    <i class="fa-solid fa-triangle-exclamation"></i> &nbsp;갑판병 > 보정능력 ∝ only어빌 ↔
+                                    수리/보수자체능력 ∝ Real어빌<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-0">
+                        <div class="card" id="event-sailor-hidden-ability" style="width: 35rem;">
+                            <h3 class="card-header">이벤트수병 히든어빌</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221201134854801SC.jpg"
+                                    class="img-fluid">
+                                <p class="card-text"><br>
+                                    이벤트수병 (개근/전설보조/전설특무) 에는 히든어빌이 있다.<br>
+                                    이로 인해 90렙 지급수병의 성장어빌↔누적어빌이 일치하지 않는다.<br>
+                                    부어빌의 성장어빌은 +9고정이나 누적어빌은 644~1100의 편차를 가진다.<br>
+                                    이는 1-90렙 구간의 성장치어빌이 +7~+12 랜덤로 반영되었기 때문이다.<br>
+                                    이를 이벤트수병의 히든어빌이라 한다.<br><br>
+                                    수병계산기에서 이벤트수병을 선택시 히든어빌을 반영한 계산을 지원한다.<br>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-0">
+                        <div class="card" id="sailor-related-ability">
+                            <h3 class="card-header">병종별 관련어빌</h3>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped table-hover table-sm">
+                                    <tr>
+                                        <th>병종</th>
+                                        <th>잠재</th>
+                                        <th>명중</th>
+                                        <th>연사</th>
+                                        <th>어뢰</th>
+                                        <th>대공</th>
+                                        <th>수리</th>
+                                        <th>보수</th>
+                                        <th>기관</th>
+                                        <th>함재</th>
+                                        <th>전투</th>
+                                        <th>폭격</th>
+                                    </tr>
+                                    <tr>
+                                        <td>함장</td>
+                                        <td>●</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>○</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>포병</td>
+                                        <td>－</td>
+                                        <td>●~◎</td>
+                                        <td>◎</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>수리병</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>보수병</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>기관병</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>◎</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>정찰기</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>●~◎</td>
+                                    </tr>
+                                    <tr>
+                                        <td>급강하폭격기</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>●~◎</td>
+                                    </tr>
+                                    <tr>
+                                        <td>뇌격기</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>●~◎</td>
+                                    </tr>
+                                    <tr>
+                                        <td>전투기</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>○~●</td>
+                                    </tr>
+                                    <tr>
+                                        <td>어뢰병</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>음탐병</td>
+                                        <td>●</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>◎</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>잠항병</td>
+                                        <td>◎</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>의무병</td>
+                                        <td>◎</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>○</td>
+                                        <td>△</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                        <td>－</td>
+                                    </tr>
+                                    <tr>
+                                        <td>갑판병</td>
+                                        <td>□</td>
+                                        <td>□</td>
+                                        <td>□</td>
+                                        <td>□</td>
+                                        <td>－</td>
+                                        <td>○□</td>
+                                        <td>△□</td>
+                                        <td>□</td>
+                                        <td>－</td>
+                                        <td>□</td>
+                                        <td>□</td>
+                                    </tr>
+                                </table>
+                                <div class="lh-sm">
+                                    ◎　：매우중요, 최우선적으로 최대한 확보해야할 어빌리티<br>
+                                    ●　：매우중요, 다만 일정이상은 불필요한 어빌리티<br>
+                                    ○　：확보하면 좋은 어빌, 여러개 있을 경우 우선순위는 수리어빌리티<br>
+                                    □　：타수병어빌을 일정비율로 보정, 갑판병의 목적에 따라 확보해야할 어빌리티<br>
+                                    △　：관련은 있는 어빌리티이나 대부분의 경우에 의미없음<br>
+                                    －　：관련없는 어빌, 대공/함재어빌은 사장된 어빌리티<br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-0">
+                        <div class="card" id="seaman_general" style="width: 40rem;">
+                            <h3 class="card-header">갑판병의 효과</h3>
+                            <div class="card-body">
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-user-plus"></i>&nbsp;타수병의 능력보정<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    <i class="fa-solid fa-plus"></i> &nbsp;<b>동일함선탑승 타수병능력을 상향보정</b><br>
+                                    　<i class="fa-regular fa-lightbulb"></i> &nbsp;타수병의 주어빌을 보정<br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;함장-잠재어빌, 기관병-기관어빌, 수리병-수리어빌<br>
+                                    　<i class="fa-solid fa-power-off"></i> &nbsp;함장석 수병탑승 : 갑판병 보정효과의 발동조건<br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;횟수제 프리미엄쉽 함장석에 갑판병 탑승 : 보정효과 발동<br>
+                                    <br>
+                                    <i class="fa-solid fa-hand-holding-medical"></i> &nbsp;<b>상향보정율 : 1% 단위 계단식구간</b><i
+                                        class="fa-solid fa-stairs"></i><br>
+                                    　<i class="fa-regular fa-lightbulb"></i> &nbsp;갑판어빌, 수병병종(갑판장/일등갑판병/이등갑판병), 수병국적이
+                                    관련<br>
+                                    　<i class="fa-solid fa-ban"></i> &nbsp;사관/숙련병, 수병빈혈도의 영향을 받지 않는다<br>
+                                    　<i class="fa-solid fa-magnifying-glass-plus"></i> &nbsp;어빌21당 1%보정 (갑판장일 경우, 전국가
+                                    동일)<br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;갑판잠재어빌 127 = 잠재능력 6% 보정, 갑판연사어빌 142 = 연사능력
+                                    6% 보정<br>
+                                    　<i class="fa-solid fa-arrow-trend-down"></i> &nbsp;복수탑승 페널티 = 1 / <i
+                                        class="fa-solid fa-square-root-variable"></i>&nbsp;&nbsp;(x = 갑판병탑승인원)<br>
+                                    　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;최대3명까지만 복수탑승적용, 4명이상 탑승시에는
+                                    3명만 적용<br>
+                                    　<i class="fa-regular fa-lightbulb"></i> &nbsp;경우에 따라서는 복수탑승이 1명탑승보다 보정효율이 낮을 가능성이
+                                    존재<br>
+                                    　<i class="fa-solid fa-handshake-simple"></i> &nbsp;연합국/추축국 내에서 타국적보정가능 but 보정효율은
+                                    절반<br>
+                                    　　<i class="fa-solid fa-circle-info"></i> &nbsp;영국개근갑판으로 미국포병의 연사구간업 보정이 가능<br>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    <i class="fa-solid fa-wrench"></i>&nbsp;갑판병자체 수리능력/보수능력<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    타 병종과 동일하게 적용된다<br>
+                                    &nbsp;&nbsp;∝어빌, ∝사관/숙련병, ∝수병빈혈도<br>
+                                    갑판보정능력과 달리 함장석 수병미탑승시에도 적용된다<br>
+                                    갑판병 고사관은 갑판병자체의 수리능력을 올리려는 목적<br>
+                                    <i class="fa-regular fa-lightbulb"></i>&nbsp;수리병 보정효과 <i
+                                        class="fa-solid fa-less-than"></i>&nbsp;갑판병자체 수리능력
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row g-0">
+                        <div class="card" id="sailor_weight" style="width: 35rem;">
+                            <h3 class="card-header">수병무게</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221221200505699SC.jpg"
+                                    class="img-fluid">
+                                <p class="card-text fs-6">
+                                    <i class="fa-solid fa-users-line"></i> &nbsp;<b>네이비필드 수병은 무게를 가진다</b><br>
+                                    　<i class="fa-brands fa-docker"></i> &nbsp;수병무게 : 함선배수량에 반영됨 = 함선속도, 장갑량에 영향을 미침<br>
+                                    　　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;렙업후 신병충원시 만재배수량초과로 출항불가한
+                                    경우가 존재<br>
+                                    　　　　이럴때에는 방뢰 혹은 장갑을 1장 떼어주면 해결된다<br>
+                                    　<i class="fa-solid fa-percent"></i> &nbsp;수병수 x 국적계수 = 수병무게<br>
+                                    　　<i class="fa-solid fa-list"></i> &nbsp;국적계수 : 미국0.53, 영국0.55, 독일0.565, 나머지0.5<br>
+                                    　<i class="fa-solid fa-user-minus"></i> &nbsp;의도적으로 수병수를 줄이는 경우가 있다<br>
+                                    　　　영국폼폼이 : 연사플미 + 최대연사확보/다이어트<br>
+                                    　　　영국갑판 : 수병0명<br>
+                                    　　　영국함장 : 잠재플미 + 빨랫줄확보/다이어트<br>
+                                    　　<i class="fa-regular fa-square-caret-right"></i> &nbsp;목적 : 최대한 배수량 확보함으로 장갑or속도
+                                    이득<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
 </html>
