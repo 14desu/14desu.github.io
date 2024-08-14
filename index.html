@@ -31,6 +31,16 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
         crossorigin="anonymous"></script>
 
+    <!-- index load -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#setting_index").load("./NFLab/setting_index.html");
+            $("#nf_general_index").load("./NFLab/nf_general_index.html");
+            $("#sailor_general_index").load("./NFLab/sailor_general_index.html");
+            $("#sailor_build_index").load("./NFLab/sailor_build_index.html");
+        });
+    </script>
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -117,71 +127,19 @@
                     <h2 class="mt-2"><i class="fa-solid fa-school"></i> 연구실</h2>
                     <br>
                     <div class="row g-0">
-                        <div class="card" style="width: 24rem;">
-                            <div class="card-body">
-                                <p class="btn btn-dark btn-lg">게임설정</p><br>
-                                <a href="https://14desu.github.io/NFLab/force_shutdown.html#autobat-forceshutdown"
-                                    class="btn btn-outline-dark">강종Bat파일</a>
-                                <a href="https://14desu.github.io/NFLab/window_mode.html"
-                                    class="btn btn-outline-dark">창모드 설정가이드</a>
-                            </div>
+                        <div id="setting_index" class="container-fluid px-3">
                         </div>
                     </div>
                     <div class="row g-0">
-                        <div class="card" style="width: 24rem;">
-                            <div class="card-body">
-                                <p class="btn btn-dark btn-lg">게임일반</p><br>
-                                <a href="https://14desu.github.io/NFLab/aircraft_info.html"
-                                    class="btn btn-outline-dark">함재기정보/비교툴</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#get_experience"
-                                    class="btn btn-outline-dark">경험치획득</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#reload_unit"
-                                    class="btn btn-outline-dark">연사속도 단위</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#reload_notions"
-                                    class="btn btn-outline-dark">연사속도 개념</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#gunner_accuracy_general"
-                                    class="btn btn-outline-dark">함포 집탄 일반론</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#accuracy_bonus_gun_list"
-                                    class="btn btn-outline-dark">명중보너스 적용함포</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime"
-                                    class="btn btn-outline-dark">잠수함 잠항시간</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#ss-oxygen-charge-notions"
-                                    class="btn btn-outline-dark">잠수함 산소충전 개념</a>
-                                <a href="https://14desu.github.io/NFLab/nf_general.html#reason_belt_armor_1"
-                                    class="btn btn-outline-dark">측면장갑 0.2인치</a>
-                            </div>
+                        <div id="nf_general_index" class="container-fluid px-3">
                         </div>
-                        <div class="card" style="width: 24rem;">
-                            <div class="card-body">
-                                <p class="btn btn-secondary btn-lg">수병일반</p><br>
-                                <a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability"
-                                    class="btn btn-outline-secondary">수병능력</a>
-                                <a href="https://14desu.github.io/NFLab/sailor_general.html#event-sailor-hidden-ability"
-                                    class="btn btn-outline-secondary">이벤트수병 히든어빌</a>
-                                <a href="https://14desu.github.io/NFLab/sailor_general.html#sailor-related-ability"
-                                    class="btn btn-outline-secondary">병종별 관련어빌</a>
-                                <a href="https://14desu.github.io/NFLab/force_shutdown.html#veterandie-forceshutdown"
-                                    class="btn btn-outline-secondary">사관사망과 강제종료</a>
-                                <a href="https://14desu.github.io/NFLab/sailor_general.html#seaman_general"
-                                    class="btn btn-outline-secondary">갑판병의 효과</a>
-                                <a href="https://14desu.github.io/NFLab/sailor_general.html#sailor_weight"
-                                    class="btn btn-outline-secondary">수병무게</a>
-                                <a href="https://nfsim.blogspot.com/2022/01/blog-post_30.html"
-                                    class="btn btn-outline-secondary">갑판병 어빌</a>
-                                <a href="https://nfsim.blogspot.com/2022/01/blog-post_10.html"
-                                    class="btn btn-outline-secondary">영국 구갑/반구갑</a>
-                            </div>
+                    </div>
+                    <div class="row g-0">
+                        <div id="sailor_general_index" class="container-fluid px-3">
                         </div>
-                        <div class="card" style="width: 24rem;">
-                            <div class="card-body">
-                                <p class="btn btn-success btn-lg">수병육성</p><br>
-                                <a href="https://14desu.github.io/NFLab/sailor_build_operator_rn_abroad.html"
-                                    class="btn btn-outline-success">영국유학 함장</a>
-                                <a href="https://14desu.github.io/NFLab/sailor_build_skip_rookiepilot.html"
-                                    class="btn btn-outline-success">함재기훈련병 건너뛰기</a>
-                                <a href="https://nfsim.blogspot.com/2021/05/1.html"
-                                    class="btn btn-outline-success">늦전직일반론</a>
-                            </div>
+                    </div>
+                    <div class="row g-0">
+                        <div id="sailor_build_index" class="container-fluid px-3">
                         </div>
                     </div>
                 </div>
