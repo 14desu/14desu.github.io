@@ -31,6 +31,13 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
         crossorigin="anonymous"></script>
 
+    <!-- index load -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#nf_general_index").load("./nf_general_index.html");
+        });
+    </script>
+
     <!-- aircraft API -->
     <script src="./aircraft_info.js"></script>
 
@@ -67,6 +74,13 @@
         <div id="layoutSidenav_content">
             <main>
                 <div id="aircraft_information" class="container-fluid px-3">
+                    <!--index-->
+                    <div class="row g-0">
+                        <div id="nf_general_index">
+                        </div>
+                    </div>
+                    <br>
+
                     <h1 class="mt-2">네이비필드 연구실 / 함재기 정보</h1>
                     <br>
                     <!--전투기-->
