@@ -360,7 +360,7 @@ for (k=0; k<output_vet_number; k++){
         reloadtiercalc = reloadtiercalc + 1;
       }
     }
-    $("#SailorReload"+(k+1)).html( reloadtiercalc );
+    $("#SailorReload"+(k+1)).html( "-" + (reloadtiercalc-1) + "%" );
     $("#NeededSeamanReloadUp"+(k+1)).html( Math.ceil((kr_reload_tiercut_data[reloadtiercalc]/sailor_realabil[k][2])*100-100) );
     $("#AvgGunReload"+(k+1)).html( KR_AvgReloadTime_calc( reloadtiercalc, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1 ) );
     $("#ActualGunReload"+(k+1)).html( KR_RealReloadTime_calc(KR_AvgReloadTime_calc(reloadtiercalc, $("#Gun_Reloadtime_Input").val()*1, $("#gun_enforce_input").val()*1)) );
