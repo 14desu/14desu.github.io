@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori">
+  <title>네이비필드 연구실 / 함재기훈련병 건너뛰기</title>
+  <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
+
+  <!-- jQuery load -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <!-- icon load -->
+  <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Googld Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
+    crossorigin="anonymous"></script>
+
+  <!-- index load -->
+  <script type="text/javascript">
+    $(document).ready(function () {
+        $("#sailor_build_index").load("./sailor_build_index.html");
+    });
+  </script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+        class="fas fa-bars"></i></button>
+    <!-- Navbar // common/navbar.html에서 로딩 -->
+    <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+    </ul>
+  </nav>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <!-- Sidebar // common/sidebar.html에서 로딩 -->
+      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+      </nav>
+    </div>
+    <div id="layoutSidenav_content">
+      <span id="test"></span>
+      <main>
+        <div id="sailor_general" class="container-fluid px-3">
+          <!--index-->
+          <div class="row g-0">
+            <div id="sailor_build_index">
+            </div>
+          </div>
+          <br>
+
+          <h1 class="mt-2">네이비필드 연구실 / 포병+갑판병 국적별 추천조합</h1>
+          <br>
+            <!--포병+갑판병 국적별 추천조합-->
+            <div class="row g-0">
+                <div class="card" id="reload-seaman-compare" style="width: 70rem;">
+                    <h3 class="card-header">포병+갑판병 국적별 추천조합</h3>
+                    <div class="card-body">
+                        <h5 class="card-title lh-lg">
+                            <i class="fa-solid fa-circle-info"></i> &nbsp;전함주포 / 45%만사관 / 산타수병제외<br>
+                        </h5>
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" class="btn btn-info">추천</button>
+                            <button type="button" class="btn btn-success">개인취향</button>
+                            <button type="button" class="btn btn-warning">고려가능</button>
+                        </div>
+                        　
+                        <div class="btn-group">
+                          <a href="#" class="btn btn-outline-dark">각국 포병육성 상세</a>
+                          <a href="#" class="btn btn-outline-dark">미국</a>
+                          <a href="#" class="btn btn-outline-dark">영국</a>
+                          <a href="#" class="btn btn-outline-dark">일본</a>
+                          <a href="#" class="btn btn-outline-dark">독일</a>
+                          <a href="#" class="btn btn-outline-dark">프랑스</a>
+                          <a href="#" class="btn btn-outline-dark">소련</a>
+                          <a href="#" class="btn btn-outline-dark">이탈리아</a>
+                        </div>
+                        <br><br>
+                        <table class="table table-bordered table-striped table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th rowspan="2">국가</th>
+                                <th rowspan="2">수병&강화</th>
+                                <th rowspan="2">전직방침</th>
+                                <th>갑판없음</th>
+                                <th colspan="2">갑판병1명</th>
+                                <th colspan="2">갑판병2명</th>
+                                <th colspan="2">갑판병3명</th>
+                            </tr>
+                            <tr>
+                                <th>연사구간</th>
+                                <th>연사구간</th>
+                                <th>갑판보정/구성</th>
+                                <th>연사구간</th>
+                                <th>갑판보정/구성</th>
+                                <th>연사구간</th>
+                                <th>갑판보정/구성</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>미국</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>연연연포병</td>
+                                <td>-89%<br>EBB:2.72s</td>
+                                <td class="table-info">-90%<br>EBB:2.52s</td>
+                                <td class="table-info">3%<br>갑판연사63<br>갑판초기연사8</td>
+                                <td>-90%<br>EBB:2.52s</td>
+                                <td>3%(=2명합5%)</td>
+                                <td>-90%<br>EBB:2.52s</td>
+                                <td>3%(=3명합6%)</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="6">영국</td>
+                                <td>NF개근수병<br>명중1강화</td>
+                                <td>연사거포병</td>
+                                <td class="table-info">-91%<br>EBB:2.36s</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄명중수병<br>연사1강화</td>
+                                <td>연사거포병</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td class="table-info">-91%<br>EBB:2.36s</td>
+                                <td class="table-info">6%<br>갑판연사126<br>갑판초기연사15</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>6%(2명합9%)</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>6%(=3명합11%)</td>
+                            </tr>
+                            <tr>
+                                <td>NF개근수병<br>연사1강화</td>
+                                <td>연사거포병</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td class="table-success">-92%<br>EBB:2.12s</td>
+                                <td class="table-success">9%(=3명합16%)<br>갑판연사126+126+84<br>갑판초기연사15+15+10</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄명중수병<br>명중1강화</td>
+                                <td>연사거포병</td>
+                                <td class="table-success">-90%<br>EBB:2.64s</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>-</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>-</td>
+                                <td class="table-warning">-91%<br>EBB:2.36s</td>
+                                <td class="table-warning">10%(=3명합18%)<br>갑판연사126+126+126<br>갑판초기연사15+15+15</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄명중수병<br>명중1강화</td>
+                                <td>연사거포병<br>중포55늦직<br>명중2202</td>
+                                <td>-89%<br>EBB:2.88s</td>
+                                <td class="table-success">-90%<br>EBB:2.64s</td>
+                                <td class="table-success">3%<br>갑판연사63<br>갑판초기연사7</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>3%(=2명합5%)</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>3%(=3명합6%)</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄명중수병<br>명중1강화</td>
+                                <td>연사거포병<br>중포65늦직<br>명중2302</td>
+                                <td>-89%<br>EBB:2.88s</td>
+                                <td>-89%<br>EBB:2.88s</td>
+                                <td>-</td>
+                                <td class="table-warning">-90%<br>EBB:2.64s</td>
+                                <td class="table-warning">7%(=2명합10%)<br>갑판연사126+84<br>갑판초기연사15+10</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>7%(=3명합13%)</td>
+                            </tr>
+                            <tr>
+                                <td>일본</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>-89%<br>EBB:2.84s</td>
+                                <td class="table-info">-90%<br>EBB:2.64s</td>
+                                <td class="table-info">1%<br>갑판연사21<br>갑판초기연사7</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>1%(=2명합2%)</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>1%(=3명합2%)</td>
+                            </tr>
+                            <tr>
+                                <td>독일</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td class="table-info">-91%<br>EBB:2.36s</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>프랑스</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td class="table-info">-90%<br>EBB:2.64s</td>
+                                <td>-90%<br>EBB:2.64s</td>
+                                <td>-</td>
+                                <td class="table-success">-91%<br>EBB:2.36s</td>
+                                <td class="table-success">7%(=2명합10%)<br>갑판연사126+84<br>갑판초기연사15+10</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td>7%(=3명합13%)</td>
+                            </tr>
+                            <tr>
+                                <td>소련</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td class="table-info">-90%<br>EBB:2.48s</td>
+                                <td>-90%<br>EBB:2.48s</td>
+                                <td>-</td>
+                                <td class="table-success">-91%<br>EBB:2.24s</td>
+                                <td class="table-success">7%(=2명합10%)<br>갑판연사126+84<br>갑판초기연사15+10</td>
+                                <td>-91%<br>EBB:2.24s</td>
+                                <td>7%(=3명합13%)</td>
+                            </tr>
+                            <tr>
+                                <td>이탈리아</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>-91%<br>EBB:2.36s</td>
+                                <td class="table-info">-92%<br>EBB:2.12s</td>
+                                <td class="table-info">2%<br>갑판연사42<br>갑판초기연사7</td>
+                                <td>-92%<br>EBB:2.12s</td>
+                                <td>2%(=2명합3%)</td>
+                                <td>-92%<br>EBB:2.12s</td>
+                                <td>2%(=3명합4%)</td>
+                            </tr>
+                            </tbody>
+                        </table>
+  
+                        <p class="card-text fs-6">
+                            <i class="fa-regular fa-comment-dots"></i> &nbsp;기본적으로 갑판병1명 이하가 추천조합<br>
+                            　<i class="fa-solid fa-quote-right"></i> &nbsp;갑판병탑승=기관병미탑승 → 갑판병이 많이 탑승할수록 기관 손해발생 (오버힛시간&속도)<br> 
+                            <i class="fa-solid fa-code-branch"></i> &nbsp;영국 : 명중확보가 중요한국가, 개근수병유무에 따라 추천조합이 달라짐<br>
+                            　<i class="fa-solid fa-user-slash"></i>/<i class="fa-solid fa-users"></i> &nbsp;개근수병 : 명강+0갑판, 추천세팅 / 연강+3갑판 연사구간up but 기관손해가 큼, 고인물 유희용세팅<br>
+                            　<i class="fa-solid fa-user"></i> &nbsp;프리미엄수병 : 프리미엄명중수병+(연사+1강화)+1갑판 연사구간up - 개근수병이 없는 유저에게 추천조합<br>
+                            <i class="fa-solid fa-user"></i> &nbsp;미국/일본/이탈리아 : 1갑판 연사구간up　<i class="fa-regular fa-thumbs-up"></i> &nbsp;고효율(전설보조/프리미엄수리수병 가능)<br>
+                            <i class="fa-solid fa-user-slash"></i>/<i class="fa-solid fa-user-group"></i> &nbsp;프랑스/소련 : 쿼드포주력-장탄량이 적은국가, 0갑판 추천 / 2갑판 연사구간up　<i class="fa-solid fa-scale-balanced"></i> &nbsp;1장1단,개인취향<br>
+                            <i class="fa-solid fa-user-slash"></i> &nbsp;독일 : 0갑판추천 (갑판보정 연사구간up 불가능)　<i class="fa-solid fa-square-xmark"></i> &nbsp;갑판병 비효율국가<br>
+                        </p>
+                        <h5 class="card-title lh-lg">
+                            <i class="fa-solid fa-circle-info"></i> &nbsp;전함 함급별 평균연사속도 / 45%만사관 / 각국 추천세팅<br>
+                        </h5>
+                        <table class="table table-bordered table-striped table-hover table-sm">
+                            <tr>
+                                <th>국가</th>
+                                <th>수병&강화</th>
+                                <th>전직방침</th>
+                                <th>갑판세팅</th>
+                                <th>연사구간</th>
+                                <th>SD</th>
+                                <th>EBB 115</th>
+                                <th>BB5<br>115포</th>
+                                <th>BB5<br>100포</th>
+                                <th>BB4</th>
+                                <th>EBB 85</th>
+                            </tr>
+                            <tr>
+                                <td>미국</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>연연연포병</td>
+                                <td>갑판병1명<br>3%</td>
+                                <td>-90%</td>
+                                <td class="table-danger">2.68s</td>
+                                <td class="table-warning">2.52s</td>
+                                <td class="table-warning">2.52s</td>
+                                <td class="table-warning">2.48s</td>
+                                <td class="table-success">2.24s</td>
+                                <td class="table-danger">2.48s</td>
+                            </tr>
+                            <tr>
+                                <td>영국</td>
+                                <td>NF개근수병<br>명중1강화</td>
+                                <td>연사거포병</td>
+                                <td>갑판병없음</td>
+                                <td>-91%</td>
+                                <td class="table-success">2.4s</td>
+                                <td class="table-success">2.36s</td>
+                                <td class="table-success">2.4s</td>
+                                <td class="table-success">2.32s</td>
+                                <td class="table-success">2.24s</td>
+                                <td class="table-success">2.24s</td>
+                            </tr>
+                            <tr>
+                                <td>일본</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병1명<br>1%</td>
+                                <td>-90%</td>
+                                <td class="table-danger">2.68s</td>
+                                <td class="table-danger">2.64s</td>
+                                <td class="table-danger">2.68s</td>
+                                <td class="table-danger">2.64s</td>
+                                <td class="table-danger">2.48s</td>
+                                <td class="table-warning">2.32s</td>
+                            </tr>
+                            <tr>
+                                <td>독일</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>-91%</td>
+                                <td class="table-success">2.36s</td>
+                                <td class="table-success">2.36s</td>
+                                <td class="table-success">2.36s</td>
+                                <td class="table-primary">2.2s</td>
+                                <td class="table-primary">2.04s</td>
+                                <td class="table-success">2.2s</td>
+                            </tr>
+                            <tr>
+                                <td>프랑스</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>-90%</td>
+                                <td class="table-danger">2.68s</td>
+                                <td class="table-danger">2.64s</td>
+                                <td class="table-danger">2.68s</td>
+                                <td class="table-warning">2.52s</td>
+                                <td class="table-danger">2.52s</td>
+                                <td class="table-danger">2.52s</td>
+                            </tr>
+                            <tr>
+                                <td>소련</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>-90%</td>
+                                <td class="table-warning">2.64s</td>
+                                <td class="table-warning">2.48s</td>
+                                <td class="table-warning">2.52s</td>
+                                <td class="table-success">2.36s</td>
+                                <td class="table-warning">2.32s</td>
+                                <td class="table-danger">2.48s</td>
+                            </tr>
+                            <tr>
+                                <td>이탈리아</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병1명<br>2%</td>
+                                <td>-92%</td>
+                                <td class="table-primary">2.04s</td>
+                                <td class="table-primary">2.12s</td>
+                                <td class="table-primary">2.04s</td>
+                                <td>-</td>
+                                <td class="table-primary">1.96s</td>
+                                <td class="table-primary">1.96s</td>
+                            </tr>
+                        </table>
+                        <!-- 풀버전 
+                        <table class="table table-bordered table-striped table-hover table-sm">
+                            <tr>
+                                <th>국가</th>
+                                <th>수병&강화</th>
+                                <th>전직방침</th>
+                                <th>갑판세팅</th>
+                                <th>연사구간</th>
+                                <th>SD</th>
+                                <th>EBB 115</th>
+                                <th>BB5<br>115포</th>
+                                <th>BB5<br>100포</th>
+                                <th>BB4</th>
+                                <th>EBB 85</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">미국</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>연연연포병</td>
+                                <td>갑판병없음</td>
+                                <td>90</td>
+                                <td>2.92s</td>
+                                <td>2.72s</td>
+                                <td>2.72s</td>
+                                <td>2.76s</td>
+                                <td>2.52s</td>
+                                <td>2.68s</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>연연연포병</td>
+                                <td>갑판병1명<br>3%</td>
+                                <td>91</td>
+                                <td>2.68s</td>
+                                <td>2.52s</td>
+                                <td>2.48s</td>
+                                <td>2.52s</td>
+                                <td>2.24s</td>
+                                <td>2.48s</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">영국</td>
+                                <td>프리미엄명중수병<br>명중1강화</td>
+                                <td>연사거포병</td>
+                                <td>갑판병없음</td>
+                                <td>91</td>
+                                <td>2.68s</td>
+                                <td>2.64s</td>
+                                <td>2.68s</td>
+                                <td>2.56s</td>
+                                <td>2.52s</td>
+                                <td>2.52s</td>
+                            </tr>
+                            <tr>
+                                <td>NF개근수병<br>명중1강화</td>
+                                <td>연사거포병</td>
+                                <td>갑판병없음</td>
+                                <td>92</td>
+                                <td>2.4s</td>
+                                <td>2.36s</td>
+                                <td>2.4s</td>
+                                <td>2.32s</td>
+                                <td>2.24s</td>
+                                <td>2.24s</td>
+                            </tr>
+                            <tr>
+                                <td>NF개근수병<br>연사1강화</td>
+                                <td>연사거포병</td>
+                                <td>갑판병3명<br>9%(=3명합16%)</td>
+                                <td>93</td>
+                                <td>2.16s</td>
+                                <td>2.12s</td>
+                                <td>2.16s</td>
+                                <td>2.12s</td>
+                                <td>2.0s</td>
+                                <td>2.04s</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">일본</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>90</td>
+                                <td>2.92s</td>
+                                <td>2.84s</td>
+                                <td>2.92s</td>
+                                <td>2.88s</td>
+                                <td>2.72s</td>
+                                <td>2.52s</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병1명<br>1%</td>
+                                <td>91</td>
+                                <td>2.68s</td>
+                                <td>2.64s</td>
+                                <td>2.68s</td>
+                                <td>2.64s</td>
+                                <td>2.48s</td>
+                                <td>2.32s</td>
+                            </tr>
+                            <tr>
+                                <td>독일</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>92</td>
+                                <td>2.36s</td>
+                                <td>2.36s</td>
+                                <td>2.36s</td>
+                                <td>2.2s</td>
+                                <td>2.04s</td>
+                                <td>2.2s</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">프랑스</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>91</td>
+                                <td>2.68s</td>
+                                <td>2.64s</td>
+                                <td>2.68s</td>
+                                <td>2.52s</td>
+                                <td>2.52s</td>
+                                <td>2.52s</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병2명<br>7%(=2명합10%)</td>
+                                <td>92</td>
+                                <td>2.4s</td>
+                                <td>2.36s</td>
+                                <td>2.4s</td>
+                                <td>2.24s</td>
+                                <td>2.24s</td>
+                                <td>2.24s</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">프랑스</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>91</td>
+                                <td>2.64s</td>
+                                <td>2.48s</td>
+                                <td>2.52s</td>
+                                <td>2.36s</td>
+                                <td>2.32s</td>
+                                <td>2.48s</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병2명<br>7%(=2명합10%)</td>
+                                <td>92</td>
+                                <td>2.36s</td>
+                                <td>2.24s</td>
+                                <td>2.24s</td>
+                                <td>2.16s</td>
+                                <td>2.12s</td>
+                                <td>2.2s</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">이탈리아</td>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병없음</td>
+                                <td>92</td>
+                                <td>2.32s</td>
+                                <td>2.36s</td>
+                                <td>2.24s</td>
+                                <td>-</td>
+                                <td>2.16s</td>
+                                <td>2.2s</td>
+                            </tr>
+                            <tr>
+                                <td>프리미엄연사수병<br>연사1강화</td>
+                                <td>포술장</td>
+                                <td>갑판병1명<br>2%</td>
+                                <td>93</td>
+                                <td>2.04s</td>
+                                <td>2.12s</td>
+                                <td>2.04s</td>
+                                <td>-</td>
+                                <td>1.96s</td>
+                                <td>1.96s</td>
+                            </tr>
+                        </table>
+                        -->
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p class="card-text">
+                            <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/simulator.html#Sailor_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;수병계산기</a>&nbsp;: 포병 연사구간, 함포 연사속도, 갑판병 보정율 계산가능<br>
+                            <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/simulator.html#Ship_Calc"><i class="fa-solid fa-calculator"></i>&nbsp;함선수리기관계산기</a>&nbsp;: 갑판병/기관병 구성에따른 함선 수리/기관성능을 계산가능<br>
+                            <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/sailor_general.html#seaman_general"><i class="fa-solid fa-book"></i>&nbsp;갑판병의 효과</a>&nbsp;: 갑판병의 기본지식<br>
+                            <i class="fa-solid fa-link"></i> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general_reload_theory.html#reload_theory"><i class="fa-solid fa-book"></i>&nbsp;연사속도개념</a> &nbsp;<a href="https://14desu.github.io/NFLab/nf_general_reload_theory.html#reload_unit"><i class="fa-solid fa-book"></i>&nbsp;연사속도단위</a>&nbsp;: 연사구간/연사속도의 기본지식<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+
+      </main>
+      <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid px-4">
+          <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; g_dori</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
+</html>
