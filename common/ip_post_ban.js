@@ -103,7 +103,7 @@ function ip_ban() {
     $.each(IPapiURLs, function (index, IPapiURL) {
       $.getJSON(IPapiURL, function (data) {
         var visitorIP = data.query || data.ip || data.ip_address || data.ipAddress || data;
-
+/*
         if (IPapiURL == "https://ip-api.io/api/json") {
           if (data.suspiciousFactors.isProxy || data.suspiciousFactors.isTorNode) {
             alert("정상적인 접근이 아닙니다")
@@ -119,7 +119,7 @@ function ip_ban() {
             return false;
           }
         }
-
+*/
         // IP 주소를 숫자 배열로 변환합니다.
         var visitorIPArray = visitorIP.split('.').map(Number);
 
