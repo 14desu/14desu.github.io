@@ -4,27 +4,30 @@ $(document).on("change",".VETERAN_INPUT",function(){
   KR_Veteran_Probability();
 });
 
+const Veteran_Output_Number = 500 + 1;
+const Veteran_DirectInput_Numner = 4;
+const Table_Row_Number = Veteran_Output_Number + Veteran_DirectInput_Numner
 var Veteran_Probability = new Array(5);
 for (var i = 0; i < 5; i++) {
-  Veteran_Probability[i] = new Array(440);
-  for (var j = 0; j < 440; j++) {
+  Veteran_Probability[i] = new Array(Table_Row_Number);
+  for (var j = 0; j < Table_Row_Number; j++) {
     Veteran_Probability[i][j] = 0;
   }
 }
-for(var j = 0; j < 440; j++) {
-  if(j==0){
-    Veteran_Probability[0][j] = $("#Veteran_Direct_Input").val()*1 ;
+for(var j = 0; j < Table_Row_Number; j++) {
+  if(j<Veteran_DirectInput_Numner){
+    Veteran_Probability[0][j] = $("#Veteran_Direct_Input"+[j+1]).val()*1 ;
   }
   else{
-    Veteran_Probability[0][j] = j-1;
+    Veteran_Probability[0][j] = j-Veteran_DirectInput_Numner;
   }
 }
 
 function KR_Veteran_Probability(){
   
-  for(var j = 0; j < 440; j++) {
-    if(j==0){
-      Veteran_Probability[0][j] = $("#Veteran_Direct_Input").val()*1 ;
+  for(var j = 0; j < Table_Row_Number; j++) {
+    if(j<Veteran_DirectInput_Numner){
+      Veteran_Probability[0][j] = $("#Veteran_Direct_Input"+[j+1]).val()*1 ;
     }
     Veteran_Probability[1][j] = KR_Veteran_Probability_calc(Veteran_Probability[0][j]);
     Veteran_Probability[2][j] = Veteran_Probability[1][j]*1.1;
@@ -41,7 +44,7 @@ function KR_Veteran_Probability(){
 
 function KR_Veteran_Probability_Show(){
   var Demical_Place = $("#Demical_Place_Input").val()*1;
-  for(var j = 0; j < 440; j++) {
+  for(var j = 0; j < Table_Row_Number; j++) {
     $("#FREE"+[j]).html( (Math.round(Veteran_Probability[1][j]*Math.pow(10, Demical_Place))/Math.pow(10, Demical_Place)).toFixed(Demical_Place) );
     $("#PAID"+[j]).html( (Math.round(Veteran_Probability[2][j]*Math.pow(10, Demical_Place))/Math.pow(10, Demical_Place)).toFixed(Demical_Place) );
     $("#EVENTFREE"+[j]).html( (Math.round(Veteran_Probability[3][j]*Math.pow(10, Demical_Place))/Math.pow(10, Demical_Place)).toFixed(Demical_Place) );
@@ -54,11 +57,11 @@ function KR_Veteran_Probability_Show(){
 const tbody = document.querySelector('#VETERANOUPUTTABLE tbody');
 const fragment = document.createDocumentFragment();
 
-for (let veteran_number = 1; veteran_number <= 439; veteran_number++) {
+for (let veteran_number = Veteran_DirectInput_Numner; veteran_number < Table_Row_Number; veteran_number++) {
   const row = document.createElement('tr');
-  row.className = 'ALLROW' + (veteran_number % 5 === 1 ? ' FIVEROW' : '') + (veteran_number % 10 === 1 ? ' TENROW' : '');
+  row.className = 'ALLROW' + (veteran_number % 5 === Veteran_DirectInput_Numner ? ' FIVEROW' : '') + (veteran_number % 10 === Veteran_DirectInput_Numner ? ' TENROW' : '');
   row.innerHTML = `
-    <td>${veteran_number-1}</td>
+    <td>${veteran_number-Veteran_DirectInput_Numner}</td>
     <td><span id="FREE${veteran_number}"></span></td>
     <td><span id="PAID${veteran_number}"></span></td>
     <td><span id="EVENTFREE${veteran_number}"></span></td>
