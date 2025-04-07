@@ -1,15 +1,3 @@
-$(document).ready(function () {
-  $(".ALLROW, .DIRECTIPROW").hide();
-  $(".TENROW").show();
-  KR_Veteran_Probability();
-});
-
-$(document).on("change",".VETERAN_INPUT",function(){
-  $(".ALLROW, .DIRECTIPROW").hide();
-  $("."+$("#Veteran_Unit").val()).show();
-  KR_Veteran_Probability();
-});
-
 const Veteran_Output_Number = 500 + 1;
 const Veteran_DirectInput_Numner = 4;
 const Table_Row_Number = Veteran_Output_Number + Veteran_DirectInput_Numner
@@ -76,4 +64,15 @@ for (let veteran_number = Veteran_DirectInput_Numner; veteran_number < Table_Row
   fragment.appendChild(row);
 }
 tbody.appendChild(fragment);
-KR_Veteran_Probability();
+
+$(document).ready(function () {
+  $(".ALLROW, .DIRECTIPROW").hide();
+  $(".TENROW").show();
+  KR_Veteran_Probability();
+});
+
+$(document).on("change",".VETERAN_INPUT",function(){
+  $(".ALLROW, .DIRECTIPROW").hide();
+  $("."+$("#Veteran_Unit").val()).show();
+  KR_Veteran_Probability();
+});
