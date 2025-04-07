@@ -1,3 +1,9 @@
+$(document).ready(function () {
+  $(".ALLROW, .DIRECTIPROW").hide();
+  $(".TENROW").show();
+  KR_Veteran_Probability();
+});
+
 $(document).on("change",".VETERAN_INPUT",function(){
   $(".ALLROW, .DIRECTIPROW").hide();
   $("."+$("#Veteran_Unit").val()).show();
@@ -70,3 +76,4 @@ for (let veteran_number = Veteran_DirectInput_Numner; veteran_number < Table_Row
   fragment.appendChild(row);
 }
 tbody.appendChild(fragment);
+KR_Veteran_Probability();
