@@ -70,7 +70,7 @@ $(document).ready(function () {
   $(".TENROW").show();
   setTimeout(function() {
     KR_Veteran_Probability();
-  }, 100);
+  }, 200);
 });
 
 $(document).on("change",".VETERAN_INPUT",function(){
