@@ -68,7 +68,9 @@ tbody.appendChild(fragment);
 $(document).ready(function () {
   $(".ALLROW, .DIRECTIPROW").hide();
   $(".TENROW").show();
-  KR_Veteran_Probability();
+  setTimeout(function() {
+    KR_Veteran_Probability();
+  }, 50);
 });
 
 $(document).on("change",".VETERAN_INPUT",function(){
