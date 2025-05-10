@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="Navyfield,Laboratory,네이비필드,연구실,g_dori,잠수함,산소충전">
+    <title>네이비필드 연구실 / 잠수함 산소충전 개념</title>
+    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
+
+    <!-- jQuery load -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- icon load -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Googld Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
+        crossorigin="anonymous"></script>
+
+    <!-- index load -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#nf_theory_index").load("./nf_theory_index.html");
+        });
+    </script>
+
+</head>
+
+<body class="sb-nav-fixed">
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button>
+        <!-- Navbar // common/navbar.html에서 로딩 -->
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <!-- Sidebar // common/sidebar.html에서 로딩 -->
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <span id="test"></span>
+            <main>
+                <div id="nf_theory" class="container-fluid px-3">
+                    <!--index-->
+                    <div class="row g-0">
+                        <div id="nf_theory_index">
+                        </div>
+                    </div>
+                    <br>
+                    
+                    <h1 class="mt-2">네이비필드 연구실 / 잠수함 산소충전 개념</h1>
+                    <br>
+
+                    <!--잠수함 산소충전 개념-->
+                    <div class="row g-0">
+                        <div class="card col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-8" id="ss-oxygen-charge-notions">
+                            <h3 class="card-header">잠수함 산소충전 개념</h3>
+                            <div class="card-body">
+                                <img src="https://www.navyfield.co.kr:444/file/screenshot/20221214103121944SC.jpg"
+                                    class="img-fluid">
+                                <h5 class="card-title lh-lg">
+                                    ① 수병 잠재능력<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-gauge-high"></i> &nbsp;수병의 잠재어빌 x 수병구성(사관/숙련병) x 수병빈혈도 +
+                                    갑판보정<br>
+                                    　<i class="fa-solid fa-triangle-exclamation"></i> &nbsp;수병빈혈도 90% 미만이면 잠재능력0 판정<br>
+                                    　<i class="fa-solid fa-link"></i> &nbsp;<a
+                                        href="https://14desu.github.io/NFLab/sailor_general.html#sailor-real-ability">수병능력설명</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ② 수병 산소충전속도<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;잠재능력(=Real어빌)구간 → 산소충전속도 /
+                                    계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력0 : 산소충전속도 0.48s /s (=1초당 0.48초
+                                    잠항가능산소충전)<br>
+                                    　　<i class="fa-solid fa-vial"></i> &nbsp;잠재능력5,750,000 : 산소충전속도 4.0s /s (=1초당 4.0초
+                                    잠항가능산소충전)<br>
+                                    　<i class="fa-solid fa-circle-info"></i> &nbsp;실데이터검증 → 계산공식검토완료 : 수병계산기 반영
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ③ 함체 잠항시간<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-hourglass"></i> &nbsp;함체 컴포넌트에 설정되어 있는 잠항시간(=산소탱크크기)<br>
+                                    　<i class="fa-solid fa-link"></i> &nbsp;<a
+                                        href="https://14desu.github.io/NFLab/nf_general.html#ss_divetime">잠수함 잠항시간
+                                        정보</a>
+                                </p>
+                                <h5 class="card-title lh-lg">
+                                    ④ 산소충전시간<br>
+                                </h5>
+                                <p class="card-text fs-6">
+                                    　<i class="fa-solid fa-arrow-up-right-dots"></i> &nbsp;산소충전 최소단위 : 0.96s (= 24f) /
+                                    계단식구간<i class="fa-solid fa-stairs"></i><br>
+                                    　<i class="fa-solid fa-stopwatch"></i> &nbsp;산소충전시간 = ( 산소탱크크기 / 산소충전속도 ) 최소단위올림<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+
+                </div>
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://14desu.github.io/common/scripts.js"></script>
+</body>
+
+</html>
