@@ -148,6 +148,9 @@ function calculate_sailor_ability(){
     else if (sailor_ability_growth[i] == 17 && i == 0) {
       sailor_ability_total[i] = 30;
     }
+    else if ($("#server_input").val() == "Global_server" && sailor_ability_growth[i] == 15) {
+    sailor_ability_total[i] = 36;
+    }
     else if ($("#Sailor_AutoInput").val() == "개근" || $("#Sailor_AutoInput").val() == "전설보조" || $("#Sailor_AutoInput").val() == "전설특무") {
       sailor_ability_total[i] = sailor_ability_total[i] + (sailor_ability_growth[i] - 9) * (89);
       sailor_ability_growth[i] = 9;
@@ -262,8 +265,8 @@ function calculate_sailor_ability(){
 
   if ($("#boost_input").val() == "boost20") {
     for (j = 0; j < 11; j++) {
-      sailor_ability_growth[j] = Math.floor(sailor_ability_growth[j] * 1.225);
-      sailor_ability_total[j] = Math.floor(sailor_ability_total[j] * 1.225);
+      sailor_ability_growth[j] = Global_boost_calc(sailor_ability_growth[j]);
+      sailor_ability_total[j] = Global_boost_calc(sailor_ability_total[j]);
     }
   }
 
