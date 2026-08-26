@@ -43,7 +43,7 @@
             noGuns: "이 국가에는 조건에 맞는 함포가 없습니다.",
             noProjectiles: "이 함포에 대응하는 포탄이 없습니다.",
             calculating: "사거리를 계산하는 중입니다…",
-            complete: "계산이 완료되었습니다.",
+            complete: "불러오기 완료되었습니다.",
             configError: "Cloudflare Worker API 주소를 설정해 주세요.",
             catalogError: "함포 목록을 불러오지 못했습니다.",
             calculationError: "사거리를 계산하지 못했습니다.",
@@ -77,7 +77,7 @@
             noGuns: "No matching guns are available for this nation.",
             noProjectiles: "No compatible projectiles are available.",
             calculating: "Calculating range…",
-            complete: "Calculation complete.",
+            complete: "Loading complete.",
             configError: "Configure the Cloudflare Worker API URL.",
             catalogError: "Could not load the gun catalog.",
             calculationError: "Could not calculate the range.",
@@ -143,7 +143,7 @@
             const element = $(selector);
             if (element) element.textContent = text(key);
         }
-        chart.setAttribute("aria-label", text("chartAria"));
+        chart?.setAttribute("aria-label", text("chartAria"));
     }
 
     function resetSelect(select, placeholder) {
@@ -175,7 +175,7 @@
         cancelRequest();
         degreeTable = [];
         results.hidden = true;
-        tableBody.replaceChildren();
+        tableBody?.replaceChildren();
         status.className = "alert alert-secondary py-2";
         status.textContent = text(messageKey);
         updateCalculateButton();
@@ -310,13 +310,7 @@
         const projectile = selectedProjectile();
         summary.textContent = `${gunLabel(gun)} · ${projectileLabel(projectile)}`;
         $("#gun-range-ui").textContent = number(result.uiRange);
-        $("#gun-range-ui-angle").textContent = `${result.uiAngleDegrees}°`;
-        $("#gun-range-max-angle-range").textContent = number(result.rangeAtMaxElevation);
-        $("#gun-range-max-angle").textContent = `${result.maxElevationDegrees}°`;
-        degreeTable = Array.isArray(result.degreeTable) ? result.degreeTable : [];
-        renderTable(degreeTable);
         results.hidden = false;
-        requestAnimationFrame(() => renderChart(degreeTable));
     }
 
     serverSelect.addEventListener("change", () => {
@@ -326,9 +320,6 @@
     countrySelect.addEventListener("change", populateGuns);
     gunSelect.addEventListener("change", populateProjectiles);
     projectileSelect.addEventListener("change", () => clearResults("chooseProjectile"));
-    window.addEventListener("resize", () => {
-        if (!results.hidden && degreeTable.length) renderChart(degreeTable);
-    });
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
