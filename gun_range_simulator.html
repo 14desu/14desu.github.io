@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Navyfield gun range simulator" />
+    <meta name="author" content="g_dori" />
+    <meta name="keywords" content="Navyfield,Simulator,네이비필드,함포,사거리">
+    <meta name="gun-range-api-base"
+        content="https://navyfield-gun-range-api.REPLACE_WITH_YOUR_SUBDOMAIN.workers.dev" />
+    <title>Navyfield Gun Range Simulator</title>
+    <link href="./common/styles.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#navbar").load("./common/navbar.html");
+            $("#sidenavAccordion").load("./common/sidebar.html");
+        });
+    </script>
+
+    <style>
+        .gun-range-card {
+            border: 1px solid #aeb8c2;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+        }
+
+        .gun-range-card .card-header {
+            background: linear-gradient(180deg, #203a53, #101d29);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .gun-range-label {
+            font-weight: 700;
+        }
+
+        .gun-range-number {
+            color: #0d6efd;
+            margin-right: 0.35rem;
+        }
+
+        .gun-range-result {
+            height: 100%;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.35rem;
+            background: #f8f9fa;
+        }
+
+        .gun-range-result-label {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: #5f6b76;
+            font-size: 0.875rem;
+        }
+
+        .gun-range-result output {
+            color: #14283b;
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .gun-range-chart-wrap {
+            min-height: 380px;
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.35rem;
+            background: #101b27;
+        }
+
+        #gun-range-chart {
+            display: block;
+            width: 100%;
+            height: 340px;
+        }
+
+        .gun-range-table-wrap {
+            max-height: 380px;
+            overflow: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0.35rem;
+        }
+
+        .gun-range-table-wrap thead th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        #gun-range-status {
+            min-height: 1.5rem;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">Navyfield Gun Range Simulator</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion"></nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-3 py-3">
+                    <h1 class="mt-2"><i class="fa-solid fa-bullseye"></i> Navyfield Gun Range Simulator</h1>
+                    <p id="gun-range-subtitle" class="text-muted">
+                        서버와 국가를 고른 뒤 11인치 이상 함포 및 대응 포탄을 선택하세요.
+                    </p>
+
+                    <section class="card gun-range-card mb-3">
+                        <div id="gun-range-input-title" class="card-header">함포 및 포탄 선택</div>
+                        <div class="card-body">
+                            <form id="gun-range-form" class="row g-3">
+                                <div class="col-12 col-lg-6">
+                                    <label for="gun-range-server" class="form-label gun-range-label">
+                                        <span class="gun-range-number">1.</span><span id="gun-range-server-label">서버</span>
+                                    </label>
+                                    <select id="gun-range-server" class="form-select" required>
+                                        <option value="korea">Korea server</option>
+                                        <option value="global">Global server</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label for="gun-range-country" class="form-label gun-range-label">
+                                        <span class="gun-range-number">2.</span><span id="gun-range-country-label">국가</span>
+                                    </label>
+                                    <select id="gun-range-country" class="form-select" required disabled>
+                                        <option value="">국가를 선택하세요</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label for="gun-range-gun" class="form-label gun-range-label">
+                                        <span class="gun-range-number">3.</span><span id="gun-range-gun-label">11인치 이상 함포</span>
+                                    </label>
+                                    <select id="gun-range-gun" class="form-select" required disabled>
+                                        <option value="">함포를 선택하세요</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <label for="gun-range-projectile" class="form-label gun-range-label">
+                                        <span class="gun-range-number">4.</span><span id="gun-range-projectile-label">대응 포탄</span>
+                                    </label>
+                                    <select id="gun-range-projectile" class="form-select" required disabled>
+                                        <option value="">포탄을 선택하세요</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 d-grid">
+                                    <button id="gun-range-calculate" class="btn btn-primary" type="submit" disabled>
+                                        사거리 계산
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <div id="gun-range-status" class="alert alert-secondary py-2" role="status">
+                        함포 카탈로그를 불러오는 중…
+                    </div>
+
+                    <section id="gun-range-results" class="card gun-range-card mb-3" aria-live="polite" hidden>
+                        <div id="gun-range-result-title" class="card-header">계산 결과</div>
+                        <div class="card-body">
+                            <p id="gun-range-selection-summary" class="text-muted"></p>
+                            <div class="row g-3 mb-3">
+                                <div class="col-12 col-md-6">
+                                    <div class="gun-range-result">
+                                        <span id="gun-range-ui-label" class="gun-range-result-label">UI 사거리</span>
+                                        <output id="gun-range-ui"></output>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="gun-range-result">
+                                        <span id="gun-range-ui-angle-label" class="gun-range-result-label">UI 사거리의 양각</span>
+                                        <output id="gun-range-ui-angle"></output>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="gun-range-result">
+                                        <span id="gun-range-max-angle-range-label" class="gun-range-result-label">최대 양각의 사거리</span>
+                                        <output id="gun-range-max-angle-range"></output>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="gun-range-result">
+                                        <span id="gun-range-max-angle-label" class="gun-range-result-label">최대 양각</span>
+                                        <output id="gun-range-max-angle"></output>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-12 col-xl-8">
+                                    <h3 id="gun-range-chart-title" class="h5">양각별 사거리 그래프</h3>
+                                    <div class="gun-range-chart-wrap">
+                                        <canvas id="gun-range-chart"
+                                            aria-label="0도부터 최대 양각까지 1도 간격 사거리 그래프"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-4">
+                                    <h3 id="gun-range-table-title" class="h5">1° 간격 사거리표</h3>
+                                    <div class="gun-range-table-wrap">
+                                        <table class="table table-bordered table-striped table-hover table-sm mb-0">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th id="gun-range-angle-heading">양각</th>
+                                                    <th id="gun-range-range-heading" class="text-end">사거리</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="gun-range-table-body"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="./common/scripts.js"></script>
+    <script src="./gun_range_simulator.js"></script>
+</body>
+
+</html>
