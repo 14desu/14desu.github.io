@@ -332,7 +332,7 @@
         status.className = "alert alert-info py-2";
         status.textContent = text("calculating");
         try {
-            const body = await fetchJson(apiUrl("/api/gun-range", {
+            const body = await fetchJson(apiUrl("/api/gun-range/calculate", {
                 server: serverSelect.value,
                 gunMeta: gunSelect.value,
                 projectileMeta: projectileSelect.value,
@@ -363,7 +363,7 @@
             return;
         }
         try {
-            const body = await fetchJson(apiUrl("/api/catalog"));
+            const body = await fetchJson(apiUrl("/api/gun-range/catalog"));
             catalog = body.catalog;
             const selectedServer = catalog.servers[serverSelect.value]
                 ? serverSelect.value
