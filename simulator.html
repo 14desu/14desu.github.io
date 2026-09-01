@@ -1,112 +1,195 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
-
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
-    <!-- End Google Tag Manager -->
-
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <meta name="keywords" content="Navyfield,Simulator,네이비필드,수병계산기,g_dori">
-    <title>네이비필드 수병계산기</title>
-    <link href="https://14desu.github.io/common/styles.css" rel="stylesheet" />
-
-    <!-- jQuery load -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Navyfield sailor growth ability simulator">
+    <meta name="sailor-api-base" content="https://navyfield-simulator-api.14desu.workers.dev">
+    <title>Navyfield Sailor Simulator</title>
+    <link href="./common/styles.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- icon load -->
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Googld Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
-        crossorigin="anonymous"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // 수병계산기 load
-            $("#Sailor_Calc").load("./calc/sailor_calc.html");
-            // 함선수리기관계산기 load
-            $("#Ship_Calc").load("./calc/ship_calc.html");
-            // Real어빌계산기 load
-            $("#Realabil_Calc").load("./calc/realabil_calc.html");
-
-            $(".treeoutputrow").hide();
-            $(".tree_detail_class_outputrow").hide();
+    <script>
+        $(function () {
+            $("#navbar").load("./common/navbar.html");
+            $("#sidenavAccordion").load("./common/sidebar.html");
         });
     </script>
-
+    <style>
+        .sailor-card { border: 1px solid #aeb8c2; box-shadow: 0 .25rem .75rem rgba(0,0,0,.08); }
+        .sailor-card .card-header { background: linear-gradient(180deg,#203a53,#101d29); color:#fff; font-weight:700; }
+        .step-number { color:#0d6efd; margin-right:.35rem; }
+        .ability-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(92px,1fr)); gap:.5rem; }
+        .ability-input label { display:block; color:#5f6b76; font-size:.78rem; font-weight:700; }
+        .ability-input input { font-variant-numeric:tabular-nums; }
+        .ability-input-placeholder { visibility:hidden; }
+        .ability-readonly { padding:.375rem .5rem; border:1px solid #ced4da; border-radius:.25rem; background:#e9ecef; font-variant-numeric:tabular-nums; }
+        .result-table td,.result-table th { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+        .result-table td:first-child,.result-table th:first-child { text-align:left; }
+        .performance-personnel-input { min-width:72px; }
+        .performance-case-detail { font-size:.72rem; }
+        .implemented-reload-table { min-width:980px; table-layout:fixed; }
+        .implemented-reload-table th:first-child { width:170px; white-space:nowrap; }
+        .implemented-reload-track { height:2.2rem; border:1px solid #adb5bd; border-radius:.2rem; background-image:linear-gradient(to right,rgba(108,117,125,.22) 1px,transparent 1px); background-size:25% 100%; overflow:hidden; }
+        .implemented-reload-fill { display:flex; height:100%; border-right:2px solid #212529; }
+        .implemented-reload-segment { display:flex; flex-basis:0; min-width:0; align-items:center; justify-content:center; border-right:1px solid rgba(33,37,41,.28); font-size:.68rem; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; }
+        .implemented-reload-segment:last-child { border-right:0; }
+        .implemented-reload-cumulative { display:flex; margin-top:.15rem; color:#5f6b76; font-size:.62rem; font-variant-numeric:tabular-nums; }
+        .implemented-reload-cumulative-value { flex-basis:0; min-width:0; padding-right:1px; border-right:1px solid #ced4da; text-align:right; white-space:nowrap; overflow:hidden; }
+        .implemented-reload-summary { margin-top:.25rem; color:#5f6b76; font-size:.72rem; font-variant-numeric:tabular-nums; }
+        #performance-gun-select, #performance-fcs-select { min-width:280px; }
+        #performance-fcs-guide-length { min-width:110px; }
+        .tree-table-wrap { overflow:auto; }
+        .tree-table td,.tree-table th { white-space:nowrap; text-align:center; }
+        .tree-table tfoot td { background:#fff; vertical-align:middle; }
+        .tree-table .promotion-bulk-label-cell { text-align:right; }
+        #sailor-status { min-height:1.5rem; }
+        @media (min-width: 992px) {
+            #result-section { max-width: 640px; margin-left:0; margin-right:auto; }
+            #performance-status, #performance-input-section { max-width:860px; margin-left:0; margin-right:auto; }
+            #performance-result-section { max-width:1040px; margin-left:0; margin-right:auto; }
+        }
+        [hidden] { display:none!important; }
+    </style>
 </head>
-
 <body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3" href="https://14desu.github.io/">Navyfield Simulator</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
+    <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav"><nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion"></nav></div>
+    <div id="layoutSidenav_content">
+        <main><div class="container-fluid px-3 py-3">
+            <h2 class="mt-2"><i class="fa-solid fa-calculator"></i> 수병계산기 / Sailor Simulator</h2>
+            <br>
 
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+            <h4>
+                <i class="fa-solid fa-person-digging"></i> 계산기 리뉴얼 / Simulator Renewal
+            </h4>
+            <p>
+                　　현재 수병계산기 리뉴얼을 진행 중이며, 일부 콘텐츠는 차차 업데이트될 예정입니다.<br>
+                　　The Sailor Simulator is currently being renewed, and some content will be updated gradually.<br>
+            </p>
 
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="https://14desu.github.io/">네이비필드 수병계산기</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <!-- Navbar // common/navbar.html에서 로딩 -->
-        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        </ul>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <!-- Sidebar // common/sidebar.html에서 로딩 -->
-            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-            </nav>
-        </div>
-        <div id="layoutSidenav_content">
-            <span id="test"></span>
-            <main>
+            <h4>
+                <i class="fa-solid fa-triangle-exclamation"></i> 주의사항 / Notice
+            </h4>
+            <p>
+                　　<i class="fa-solid fa-flask"></i> 본 사이트의 정보는 유저가 인게임에서 수집한 자료와 실험을 통해 도출한 가설을 바탕으로 하며, 실제 결과와 오차가 있을 수 있습니다.<br>
+                　　<i class="fa-solid fa-user-shield"></i> 모든 정보는 참고용으로만 활용하시고, 이용에 따른 판단과 책임은 사용자 본인에게 있습니다.<br>
+                　　<i class="fa-solid fa-flask"></i> The information on this site is based on data collected by players in-game and hypotheses derived from testing, so actual results may vary.<br>
+                　　<i class="fa-solid fa-user-shield"></i> Please use this information for reference only. You are solely responsible for any decisions made based on it.<br>
+            </p>
+            <p id="sailor-subtitle" class="text-muted">수병 전직 정보를 기반으로 현재 레벨의 성장 어빌리티와 누적 어빌리티를 계산합니다.</p>
 
-                <!-- 1. 수병 계산기 -->
-                <div class="row g-0">
-                    <div id="Sailor_Calc" class="container-fluid px-3">
+            <div id="sailor-status" class="alert alert-secondary py-2" role="status">수병 카탈로그를 불러오는 중…</div>
+
+            <section class="card sailor-card mb-3">
+                <div id="settings-title" class="card-header">수병 설정</div>
+                <div class="card-body">
+                    <form id="sailor-form" class="row g-3">
+                        <div class="col-12 col-md-6 col-xl-3"><label id="server-label" class="form-label fw-bold" for="sailor-server"><span class="step-number">1.</span>서버</label><select id="sailor-server" class="form-select"><option value="korea">Korea server</option><option value="global">Global server</option></select><div id="server-help" class="form-text">Global server users: select “Global server”.</div></div>
+                        <div class="col-12 col-md-6 col-xl-3"><label id="nation-label" class="form-label fw-bold" for="sailor-nation"><span class="step-number">2.</span>국가</label><select id="sailor-nation" class="form-select" disabled><option value="">국가를 선택하세요</option></select></div>
+                        <div class="col-12 col-md-6 col-xl-4"><label id="preset-label" class="form-label fw-bold" for="sailor-preset"><span class="step-number">3.</span>전직 트리 프리셋</label><select id="sailor-preset" class="form-select" disabled><option value="">전직 트리를 선택하세요</option></select></div>
+                        <div class="col-12 col-md-6 col-xl-2"><label id="level-label" class="form-label fw-bold" for="sailor-level"><span class="step-number">4.</span>현재 레벨</label><input id="sailor-level" class="form-control" type="number" min="1" max="125" value="120"></div>
+                        <div class="col-12 col-lg-6"><label id="sailor-type-label" class="form-label fw-bold" for="sailor-type"><span class="step-number">5.</span>수병 프리셋</label><select id="sailor-type" class="form-select"></select></div>
+                        <div class="col-12 col-lg-6"><label id="boost-label" class="form-label fw-bold" for="sailor-boost"><span class="step-number">6.</span>수병 강화 아이템</label><select id="sailor-boost" class="form-select"></select></div>
+                        <div class="col-12"><label id="growth-input-title" class="form-label fw-bold"><span class="step-number">7.</span>초기 성장 어빌리티</label><div id="base-growth-abilities" class="ability-grid"></div></div>
+                        <div class="col-12"><label id="total-input-title" class="form-label fw-bold"><span class="step-number">8.</span>초기 누적 어빌리티</label><div id="base-total-abilities" class="ability-grid"></div><div id="ability-help" class="form-text">수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.</div></div>
+                        <div id="event-hidden-section" class="col-12" hidden><label id="hidden-input-title" class="form-label fw-bold"><span class="step-number">9.</span>히든 어빌리티</label><div id="hidden-abilities" class="ability-grid"></div><div id="hidden-ability-help" class="form-text">표시된 레벨까지의 성장 차이를 누적 어빌리티에 반영합니다.</div></div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="tree-section" class="card sailor-card mb-3" hidden>
+                <div id="tree-title" class="card-header">적용 전직 트리</div>
+                <div class="card-body">
+                    <p id="promotion-help" class="form-text mt-0">실제 전직 Lv을 모두 비우면 전직 가능 Lv을 적용합니다. 하나라도 입력하면 빈 단계부터 전직하지 않은 것으로 계산합니다.</p>
+                    <div class="tree-table-wrap"><table class="table table-bordered table-striped table-sm tree-table mb-0"><thead><tr><th id="tree-step-heading">단계</th><th id="tree-class-heading">병종</th><th id="tree-required-heading">전직 가능 Lv.</th><th id="tree-actual-heading">실제 전직 Lv.</th><th id="tree-crew-heading">수병수 성장</th><th id="tree-potential-heading">잠재</th><th id="tree-accuracy-heading">명중</th><th id="tree-reload-heading">연사</th><th id="tree-torpedo-heading">어뢰</th><th id="tree-antiAir-heading">대공</th><th id="tree-repair-heading">수리</th><th id="tree-restore-heading">보수</th><th id="tree-engine-heading">기관</th><th id="tree-aircraft-heading">함재</th><th id="tree-fighter-heading">전투</th><th id="tree-bomber-heading">폭격</th></tr></thead><tbody id="tree-body"></tbody><tfoot><tr><td class="promotion-bulk-label-cell" colspan="3"><label id="promotion-bulk-label" class="fw-bold mb-0" for="promotion-bulk-input">실제 전직 Lv. 일괄 입력</label></td><td><input id="promotion-bulk-input" class="form-control form-control-sm" type="number" inputmode="numeric" min="1" step="1" autocomplete="off" placeholder="예: 25"></td><td><button id="promotion-bulk-apply" class="btn btn-outline-primary btn-sm w-100" type="button">적용</button></td><td colspan="11"></td></tr></tfoot></table></div>
+                    <div id="promotion-bulk-help" class="form-text mt-2">입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.</div>
+                    <div id="promotion-bulk-feedback" class="form-text" role="status" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <section id="result-section" class="card sailor-card mb-3" hidden>
+                <div id="result-title" class="card-header">현재 레벨 계산 결과</div>
+                <div class="card-body"><p id="result-summary" class="text-muted"></p><div class="table-responsive"><table class="table table-bordered table-striped result-table mb-0"><thead><tr><th id="result-ability-heading">어빌리티</th><th id="result-growth-heading">성장</th><th id="result-total-heading">누적</th><th id="result-deck-heading" hidden>표시</th></tr></thead><tbody id="result-body"></tbody></table></div><p id="result-ability-help" class="form-text mb-0">누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.</p><div class="mt-3"><h2 id="officer-title" class="h6">사관수</h2><div class="table-responsive"><table class="table table-bordered table-sm result-table mb-0"><thead id="officer-head"></thead><tbody id="officer-body"></tbody></table></div></div></div>
+            </section>
+
+            <div id="performance-status" class="alert alert-secondary py-2 mb-3" role="status" hidden></div>
+
+            <section id="performance-input-section" class="card sailor-card mb-3" hidden>
+                <div id="performance-input-title" class="card-header">성능 검토 입력</div>
+                <div class="card-body">
+                    <h2 id="performance-personnel-title" class="h6">사관 숙련병 신병 조건</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm result-table mb-0">
+                            <thead><tr><th id="performance-case-heading">조건</th><th id="performance-officer-heading">사관</th><th id="performance-veteran-heading">숙련병</th><th id="performance-rookie-heading">신병</th><th id="performance-crew-count-heading">현재 / 총 수병수</th><th id="performance-crew-rate-heading">수병 비율</th><th id="performance-deck-rate-heading">갑판병 보정률</th></tr></thead>
+                            <tbody id="performance-input-body"></tbody>
+                        </table>
+                    </div>
+                    <p id="performance-deck-help" class="form-text mb-0">갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.</p>
+                    <h2 id="performance-deck-ability-title" class="h6 mt-3">갑판병 보정 적용 어빌</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm text-center mb-0">
+                            <thead id="performance-deck-ability-head"></thead>
+                            <tbody id="performance-deck-ability-body"></tbody>
+                        </table>
+                    </div>
+                    <div id="performance-fcs-section" class="mt-3" hidden>
+                        <h2 id="performance-fcs-title" class="h6">시뮬레이트 적용 FCS</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm mb-0">
+                                <thead><tr><th id="performance-fcs-name-heading">FCS리스트</th><th id="performance-fcs-guide-length-heading">목표가이드라인길이</th><th id="performance-fcs-target-gun-heading">목표함포지정</th></tr></thead>
+                                <tbody><tr><td><select id="performance-fcs-select" class="form-select form-select-sm"></select></td><td><input id="performance-fcs-guide-length" class="form-control form-control-sm text-end" type="number" inputmode="numeric" min="100" max="9999" step="1"></td><td class="text-center"><input id="performance-fcs-target-gun" class="form-check-input" type="checkbox"></td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="performance-gun-section" class="mt-3" hidden>
+                        <h2 id="performance-gun-title" class="h6">시뮬레이트 적용 함포</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm mb-0">
+                                <thead><tr><th id="performance-gun-heading">함포</th><th id="performance-gun-class-heading">필요병종</th><th id="performance-gun-level-heading">필요레벨</th><th id="performance-gun-caliber-heading">구경</th><th id="performance-gun-barrels-heading">연장</th><th id="performance-gun-elevation-heading">최대양각</th><th id="performance-gun-reload-heading">함포 연사속도</th></tr></thead>
+                                <tbody><tr><td><select id="performance-gun-select" class="form-select form-select-sm"></select></td><td id="performance-gun-class"></td><td id="performance-gun-level"></td><td id="performance-gun-caliber"></td><td id="performance-gun-barrels"></td><td id="performance-gun-elevation"></td><td id="performance-gun-reload"></td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex align-items-center gap-2">
+                        <button id="performance-calculate-button" class="btn btn-primary" type="button">성능 계산 요청</button>
                     </div>
                 </div>
+            </section>
 
-                <!-- 2. 함선 수리/기관 계산기 -->
-                <div class="row g-0">
-                    <div id="Ship_Calc" class="container-fluid px-3">
+            <section id="performance-result-section" class="card sailor-card mb-3" hidden>
+                <div id="performance-result-title" class="card-header">수병 성능 시뮬레이션</div>
+                <div class="card-body">
+                    <h2 id="performance-result-table-title" class="h6">수병 성능 시뮬레이션 결과</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-sm result-table mb-0">
+                            <thead id="performance-result-head"></thead>
+                            <tbody id="performance-result-body"></tbody>
+                        </table>
+                    </div>
+                    <div id="performance-implemented-reload-section" class="mt-4" hidden>
+                        <h2 id="performance-implemented-reload-title" class="h6">12회 구현 연사시간 비교 [s]</h2>
+                        <p id="performance-implemented-reload-help" class="form-text">각 조건의 12회 구현 연사시간을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.</p>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm implemented-reload-table mb-0">
+                                <thead id="performance-implemented-reload-head"></thead>
+                                <tbody id="performance-implemented-reload-body"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-
-                <!-- 3. Real어빌 계산기 -->
-                <div class="row g-0">
-                    <div id="Realabil_Calc" class="container-fluid px-3">
-                    </div>
-                </div>
-
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; g_dori</div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+            </section>
+        </div></main>
+        <footer class="py-4 bg-light mt-auto"><div class="container-fluid px-4"><div class="text-muted small">Copyright &copy; g_dori</div></div></footer>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="https://14desu.github.io/common/scripts.js"></script>
-    <script src="./common/calc.js"></script>
-    <script src="./common/calc_background.js"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="./common/scripts.js"></script>
+    <script src="./simulator.js?v=20260901-editable-abilities-v43"></script>
 </body>
-
 </html>
