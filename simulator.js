@@ -333,7 +333,9 @@
         el("#performance-fcs-target-gun").checked = false;
         setPromotionBulkFeedback();
         hideResults();
-        setStatus(t().nationPlaceholder);
+        setStatus(server.value === "korea"
+            ? `${t().serverHelp}\n${t().nationPlaceholder}`
+            : t().nationPlaceholder);
     }
     async function loadNationCatalogs() {
         const selectedServer = server.value;
