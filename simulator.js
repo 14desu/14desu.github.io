@@ -359,7 +359,7 @@
         try {
             const response = await fetch(
                 `${API_BASE}/api/simulator/catalog?server=${encodeURIComponent(selectedServer)}&nationId=${encodeURIComponent(selectedNation)}&catalogVersion=5`,
-                { cache: "no-store" },
+                { cache: "default" },
             );
             const body = await response.json();
             if (!response.ok) throw new Error(body?.error?.message || body?.error || `HTTP ${response.status}`);
