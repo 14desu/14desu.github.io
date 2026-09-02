@@ -11,18 +11,16 @@
     const status = $("#gun-range-status");
     const results = $("#gun-range-results");
     const summary = $("#gun-range-selection-summary");
-    const chart = $("#gun-range-chart");
-    const tableBody = $("#gun-range-table-body");
 
     const TEXT = {
         ko: {
-            subtitle: "서버와 국가를 선택한 뒤 11인치 이상 함포와 대응 포탄을 선택하세요.",
+            subtitle: "서버와 국가를 선택한 뒤 6인치 이상·최대고각 60도 이하 함포와 대응 포탄을 선택하세요.",
             inputTitle: "함포 및 포탄 선택",
             serverLabel: "서버",
             countryLabel: "국가",
-            gunLabel: "11인치 이상 함포",
+            gunLabel: "6인치 이상 함포",
             projectileLabel: "대응 포탄",
-            calculate: "사거리 계산",
+            calculate: "쉽야드 사거리 보기",
             resultTitle: "계산 결과",
             uiLabel: "쉽야드 사거리",
             uiAngleLabel: "쉽야드 사거리의 양각",
@@ -50,13 +48,13 @@
             apiError: "API 오류",
         },
         en: {
-            subtitle: "Choose a server and nation, then select a gun of 11 inches or larger and a compatible projectile.",
+            subtitle: "Choose a server and nation, then select a gun of 6 inches or larger with a maximum angle of 60 degrees or less.",
             inputTitle: "Gun and projectile selection",
             serverLabel: "Server",
             countryLabel: "Nation",
-            gunLabel: "Guns 11 inches and above",
+            gunLabel: "Guns 6 inches and above",
             projectileLabel: "Compatible projectile",
-            calculate: "Calculate range",
+            calculate: "Show Shipyard range",
             resultTitle: "Results",
             uiLabel: "Shipyard range",
             uiAngleLabel: "Elevation for Shipyard range",
@@ -107,12 +105,14 @@
     const metaApiBase = document.querySelector('meta[name="gun-range-api-base"]')?.content ?? "";
     const queryApiBase = new URLSearchParams(location.search).get("api") ?? "";
     const apiBase = (queryApiBase || metaApiBase).replace(/\/$/, "");
+    const CATALOG_URL = `${apiBase}/catalog/gun-shipyard-catalog.json`;
+    const NATIONS = {
+        korea: [[1, "미국"], [2, "영국"], [3, "일본"], [4, "독일"], [5, "프랑스"], [6, "소련"], [7, "이탈리아"]],
+        global: [[1, "United States"], [2, "United Kingdom"], [3, "Japan"], [4, "Germany"], [5, "France"], [6, "Soviet Union"], [7, "Italy"], [8, "China"]],
+    };
 
     let catalog = null;
     let locale = "ko";
-    let activeRequest = null;
-    let requestSerial = 0;
-    let degreeTable = [];
 
     function text(key) {
         return TEXT[locale][key];
@@ -127,13 +127,13 @@
     }
 
     function selectedGun() {
-        const meta = Number(gunSelect.value);
-        return currentServer()?.guns.find((gun) => gun.meta === meta);
+        return currentServer()?.guns.find((gun) => gun.catalogKey === gunSelect.value);
     }
 
     function selectedProjectile() {
-        const meta = Number(projectileSelect.value);
-        return currentServer()?.projectiles.find((projectile) => projectile.meta === meta);
+        return selectedGun()?.projectiles.find(
+            (projectile) => projectile.catalogKey === projectileSelect.value,
+        );
     }
 
     function applyLocale() {
@@ -143,7 +143,6 @@
             const element = $(selector);
             if (element) element.textContent = text(key);
         }
-        chart?.setAttribute("aria-label", text("chartAria"));
     }
 
     function resetSelect(select, placeholder) {
@@ -158,24 +157,16 @@
     }
 
     function gunLabel(gun) {
-        return `L${gun.requiredLevel} ${gun.mountCode} ${gun.name} ${gun.maxElevation}°`;
+        const level = Number(gun.requirements?.[0]?.level) || 0;
+        return `L${level} ${gun.model} ${gun.maxAngle}°`;
     }
 
     function projectileLabel(projectile) {
-        return `${projectile.name} · HE ${number(projectile.heDamage)} · AP Bonus ${number(projectile.apBonus)}`;
-    }
-
-    function cancelRequest() {
-        requestSerial += 1;
-        activeRequest?.abort();
-        activeRequest = null;
+        return `${projectile.shellType} · HE ${number(projectile.heDamage)} · AP Bonus ${number(projectile.apBonus)}`;
     }
 
     function clearResults(messageKey) {
-        cancelRequest();
-        degreeTable = [];
         results.hidden = true;
-        tableBody?.replaceChildren();
         status.className = "alert alert-secondary py-2";
         status.textContent = text(messageKey);
         updateCalculateButton();
@@ -203,113 +194,22 @@
         const guns = countrySelect.value
             ? currentServer().guns.filter((gun) => gun.nationId === nationId)
             : [];
-        appendOptions(gunSelect, guns, (gun) => gun.meta, gunLabel);
+        appendOptions(gunSelect, guns, (gun) => gun.catalogKey, gunLabel);
         clearResults(guns.length ? "chooseGun" : "noGuns");
     }
 
     function populateProjectiles() {
         resetSelect(projectileSelect, text("projectilePlaceholder"));
         const gun = selectedGun();
-        const projectiles = gun
-            ? currentServer().projectiles.filter((row) => row.shellGroupId === gun.shellGroupId)
-            : [];
-        appendOptions(projectileSelect, projectiles, (row) => row.meta, projectileLabel);
+        const projectiles = gun?.projectiles || [];
+        appendOptions(projectileSelect, projectiles, (row) => row.catalogKey, projectileLabel);
         clearResults(projectiles.length ? "chooseProjectile" : "noProjectiles");
     }
 
-    function apiUrl(path, parameters = {}) {
-        const url = new URL(`${apiBase}${path}`);
-        for (const [key, value] of Object.entries(parameters)) url.searchParams.set(key, String(value));
-        return url;
-    }
-
-    async function fetchJson(url, options) {
-        const response = await fetch(url, options);
-        const body = await response.json().catch(() => ({}));
-        if (!response.ok || body.ok === false) {
-            throw new Error(body.error || `${text("apiError")} ${response.status}`);
-        }
-        return body;
-    }
-
-    function renderTable(rows) {
-        const fragment = document.createDocumentFragment();
-        for (const row of [...rows].sort((a, b) => b.angleDegrees - a.angleDegrees)) {
-            const tr = document.createElement("tr");
-            const angle = document.createElement("td");
-            const range = document.createElement("td");
-            angle.textContent = `${row.angleDegrees}°`;
-            range.textContent = number(row.range);
-            range.className = "text-end";
-            tr.append(angle, range);
-            fragment.append(tr);
-        }
-        tableBody.replaceChildren(fragment);
-    }
-
-    function renderChart(rows) {
-        const context = chart.getContext("2d");
-        const ratio = Math.max(1, window.devicePixelRatio || 1);
-        const width = Math.max(320, chart.parentElement.clientWidth - 2);
-        const height = 320;
-        chart.width = Math.round(width * ratio);
-        chart.height = Math.round(height * ratio);
-        chart.style.width = `${width}px`;
-        chart.style.height = `${height}px`;
-        context.setTransform(ratio, 0, 0, ratio, 0, 0);
-        context.clearRect(0, 0, width, height);
-
-        if (!rows.length) return;
-        const ordered = [...rows].sort((a, b) => a.angleDegrees - b.angleDegrees);
-        const pad = { left: 64, right: 18, top: 20, bottom: 43 };
-        const plotWidth = width - pad.left - pad.right;
-        const plotHeight = height - pad.top - pad.bottom;
-        const maxAngle = Math.max(1, ...ordered.map((row) => row.angleDegrees));
-        const maxRange = Math.max(1, ...ordered.map((row) => row.range));
-        const x = (angle) => pad.left + (angle / maxAngle) * plotWidth;
-        const y = (range) => pad.top + plotHeight - (range / maxRange) * plotHeight;
-
-        context.font = "12px sans-serif";
-        context.lineWidth = 1;
-        context.strokeStyle = "#d7dde3";
-        context.fillStyle = "#56616d";
-        context.textAlign = "right";
-        context.textBaseline = "middle";
-        for (let step = 0; step <= 5; step += 1) {
-            const value = Math.round((maxRange * step) / 5);
-            const py = y(value);
-            context.beginPath();
-            context.moveTo(pad.left, py);
-            context.lineTo(width - pad.right, py);
-            context.stroke();
-            context.fillText(number(value), pad.left - 8, py);
-        }
-
-        context.textAlign = "center";
-        context.textBaseline = "top";
-        const angleStep = maxAngle <= 20 ? 5 : 10;
-        for (let angle = 0; angle <= maxAngle; angle += angleStep) {
-            context.fillText(`${angle}°`, x(angle), pad.top + plotHeight + 9);
-        }
-        if (maxAngle % angleStep !== 0) context.fillText(`${maxAngle}°`, x(maxAngle), pad.top + plotHeight + 9);
-
-        context.beginPath();
-        ordered.forEach((row, index) => {
-            if (index === 0) context.moveTo(x(row.angleDegrees), y(row.range));
-            else context.lineTo(x(row.angleDegrees), y(row.range));
-        });
-        context.lineWidth = 3;
-        context.strokeStyle = "#0d6efd";
-        context.lineJoin = "round";
-        context.lineCap = "round";
-        context.stroke();
-    }
-
-    function renderResult(result) {
+    function renderResult(projectile) {
         const gun = selectedGun();
-        const projectile = selectedProjectile();
         summary.textContent = `${gunLabel(gun)} · ${projectileLabel(projectile)}`;
-        $("#gun-range-ui").textContent = number(result.uiRange);
+        $("#gun-range-ui").textContent = number(projectile.shipyardRange);
         results.hidden = false;
     }
 
@@ -321,37 +221,14 @@
     gunSelect.addEventListener("change", populateProjectiles);
     projectileSelect.addEventListener("change", () => clearResults("chooseProjectile"));
 
-    form.addEventListener("submit", async (event) => {
+    form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (calculateButton.disabled) return;
-        cancelRequest();
-        const serial = requestSerial;
-        const controller = new AbortController();
-        activeRequest = controller;
-        calculateButton.disabled = true;
-        status.className = "alert alert-info py-2";
-        status.textContent = text("calculating");
-        try {
-            const body = await fetchJson(apiUrl("/api/gun-range/calculate", {
-                server: serverSelect.value,
-                gunMeta: gunSelect.value,
-                projectileMeta: projectileSelect.value,
-            }), { signal: controller.signal });
-            if (serial !== requestSerial) return;
-            renderResult(body.result);
-            status.className = "alert alert-success py-2";
-            status.textContent = text("complete");
-        } catch (error) {
-            if (error.name === "AbortError" || serial !== requestSerial) return;
-            results.hidden = true;
-            status.className = "alert alert-danger py-2";
-            status.textContent = `${text("calculationError")} ${error.message}`;
-        } finally {
-            if (serial === requestSerial) {
-                activeRequest = null;
-                updateCalculateButton();
-            }
-        }
+        const projectile = selectedProjectile();
+        if (!Number.isFinite(Number(projectile?.shipyardRange))) return;
+        renderResult(projectile);
+        status.className = "alert alert-success py-2";
+        status.textContent = text("complete");
     });
 
     async function initialize() {
@@ -363,8 +240,29 @@
             return;
         }
         try {
-            const body = await fetchJson(apiUrl("/api/gun-range/catalog"));
-            catalog = body.catalog;
+            const response = await fetch(CATALOG_URL, { cache: "default" });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const staticCatalog = await response.json();
+            catalog = {
+                servers: Object.fromEntries(Object.entries(staticCatalog.servers || {}).map(
+                    ([serverId, source]) => [serverId, {
+                        ...source,
+                        countries: (NATIONS[serverId] || []).map(([id, name]) => ({ id, name })),
+                        guns: (source.guns || [])
+                            .map((gun, gunIndex) => ({
+                                ...gun,
+                                catalogKey: String(gunIndex),
+                                projectiles: (gun.projectiles || [])
+                                    .filter((projectile) => Number.isFinite(Number(projectile.shipyardRange)))
+                                    .map((projectile, projectileIndex) => ({
+                                        ...projectile,
+                                        catalogKey: String(projectileIndex),
+                                    })),
+                            }))
+                            .filter((gun) => gun.projectiles.length > 0),
+                    }],
+                )),
+            };
             const selectedServer = catalog.servers[serverSelect.value]
                 ? serverSelect.value
                 : Object.keys(catalog.servers)[0];

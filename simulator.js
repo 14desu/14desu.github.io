@@ -126,6 +126,7 @@
         },
     };
     const API_BASE = document.querySelector('meta[name="sailor-api-base"]')?.content.replace(/\/$/, "") || "";
+    const CATALOG_BASE = `${API_BASE}/catalog`;
     const el = (selector) => document.querySelector(selector);
     const server = el("#sailor-server");
     const nation = el("#sailor-nation");
@@ -147,6 +148,7 @@
     let availablePerformanceGuns = [];
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
+    let staticCatalogPromise = null;
     const deckCorrectionEnabled = Object.fromEntries(DECK_CORRECTION_ABILITIES.map(([key]) => [key, true]));
     const language = () => server.value === "global" ? "en" : "ko";
     const t = () => TEXT[language()];
@@ -176,6 +178,89 @@
         item.value = value;
         item.textContent = text;
         return item;
+    }
+
+    async function fetchStaticCatalog(name) {
+        const response = await fetch(`${CATALOG_BASE}/${name}`, { cache: "default" });
+        if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
+        return response.json();
+    }
+
+    function gunCalibre(model) {
+        const match = String(model || "").match(/(\d+(?:\.\d+)?)\s*"/);
+        return match ? Number(match[1]) : 0;
+    }
+
+    function normalizeStaticGun(gun, meta) {
+        const requirements = Array.isArray(gun.requirements) ? gun.requirements : [];
+        const primary = requirements[0] || {};
+        const secondary = requirements[1] || {};
+        const projectiles = Array.isArray(gun.projectiles) ? gun.projectiles : [];
+        const shipyardRange = projectiles.reduce(
+            (maximum, projectile) => Math.max(maximum, Number(projectile.shipyardRange) || 0),
+            0,
+        );
+        return {
+            ...gun,
+            meta,
+            name: gun.model,
+            requiredClassName: primary.sailorTypeName || "",
+            requiredLevel: Number(primary.level) || 0,
+            secondaryRequiredClassName: secondary.sailorTypeName || "",
+            secondaryRequiredLevel: Number(secondary.level) || 0,
+            mountCode: `${Math.max(1, Number(gun.barrelCount) || 1)}x`,
+            caliberInches: gunCalibre(gun.model),
+            maxElevation: Number(gun.maxAngle) || 0,
+            reloadSeconds: Number(gun.reloadSpeed) || 0,
+            shipyardRange,
+        };
+    }
+
+    async function loadStaticCatalogs() {
+        if (!staticCatalogPromise) {
+            staticCatalogPromise = Promise.all([
+                fetchStaticCatalog("sailor-catalog.json"),
+                fetchStaticCatalog("gun-shipyard-catalog.json"),
+                fetchStaticCatalog("fcs-catalog.json"),
+            ]).catch((error) => {
+                staticCatalogPromise = null;
+                throw error;
+            });
+        }
+        return staticCatalogPromise;
+    }
+
+    async function staticNationCatalog(serverId, nationId) {
+        const [sailorCatalog, gunCatalog, fcsCatalog] = await loadStaticCatalogs();
+        const numericNationId = Number(nationId);
+        const sailorServer = sailorCatalog.servers?.[serverId];
+        const sailorNation = sailorServer?.nations?.find((item) => item.id === numericNationId);
+        const gunServer = gunCatalog.servers?.[serverId];
+        const fcsServer = fcsCatalog.servers?.[serverId];
+        const fcsNation = fcsServer?.nations?.find((item) => item.id === numericNationId);
+        if (!sailorServer || !sailorNation || !gunServer || !fcsNation) {
+            throw new Error(t().unknownResponse);
+        }
+        return {
+            sailors: {
+                language: sailorServer.language,
+                nations: sailorServer.nations.map(({ id, name }) => ({ id, name })),
+                sailors: sailorNation.sailors,
+            },
+            equipment: {
+                guns: gunServer.guns
+                    .map((gun, index) => ({ gun, index }))
+                    .filter(({ gun }) => gun.nationId === numericNationId)
+                    .map(({ gun, index }) => normalizeStaticGun(gun, index)),
+                fcs: (fcsNation.fcs || []).map((fcs, index) => ({
+                    ...fcs,
+                    meta: index,
+                    name: fcs.fcs,
+                    requiredCapacity: Number(fcs.reqCapacity) || 0,
+                    spottingCorrectionLimitRange: Number(fcs.impactRevisionRangeLimit) || 0,
+                })),
+            },
+        };
     }
     function renderAbilityInputs() {
         for (const [containerId, type] of [["#base-growth-abilities", "growth"], ["#base-total-abilities", "total"]]) {
@@ -357,14 +442,9 @@
         }
         setStatus(t().loading);
         try {
-            const response = await fetch(
-                `${API_BASE}/api/simulator/catalog?server=${encodeURIComponent(selectedServer)}&nationId=${encodeURIComponent(selectedNation)}&catalogVersion=5`,
-                { cache: "default" },
-            );
-            const body = await response.json();
-            if (!response.ok) throw new Error(body?.error?.message || body?.error || `HTTP ${response.status}`);
+            const loadedCatalog = await staticNationCatalog(selectedServer, selectedNation);
             if (requestSequence !== catalogRequestSequence) return;
-            nationCatalog = body.catalog;
+            nationCatalog = loadedCatalog;
             catalog = nationCatalog?.sailors;
             if (!catalog?.sailors || !catalog?.nations) throw new Error(t().unknownResponse);
             paths = buildPaths(catalog.sailors.filter((item) => item.requiredLevel > 0));
@@ -687,7 +767,7 @@
         el("#performance-gun-barrels").textContent = performanceGunBarrels(selected.gun.barrelCount);
         el("#performance-gun-elevation").textContent = `${displayGunNumber(selected.gun.maxElevation)}°`;
         el("#performance-gun-reload").textContent = `${displayGunNumber(selected.gun.reloadSeconds)}s`;
-        if (latestPerformanceContext) latestPerformanceContext.gunMeta = selected.gun.meta;
+        if (latestPerformanceContext) latestPerformanceContext.gun = selected.gun;
     }
     function renderPerformanceGunInput(appliedClasses, currentLevel, currentClassName) {
         const select = el("#performance-gun-select");
@@ -700,14 +780,14 @@
             availablePerformanceGuns = [];
             select.replaceChildren();
             el("#performance-gun-section").hidden = true;
-            if (latestPerformanceContext) delete latestPerformanceContext.gunMeta;
+            if (latestPerformanceContext) delete latestPerformanceContext.gun;
             return;
         }
         if (isCaptainPath && !targetGunSpecified) {
             availablePerformanceGuns = [];
             select.replaceChildren();
             el("#performance-gun-section").hidden = true;
-            if (latestPerformanceContext) delete latestPerformanceContext.gunMeta;
+            if (latestPerformanceContext) delete latestPerformanceContext.gun;
             return;
         }
         availablePerformanceGuns = (nationCatalog?.equipment?.guns || [])
@@ -717,7 +797,7 @@
                     ? primaryGunRequirement(gun)
                     : gunRequirementForClasses(gun, appliedClasses, currentLevel),
             }))
-            .filter(({ requirement }) => requirement)
+            .filter(({ gun, requirement }) => requirement && (!targetGunSpecified || gun.shipyardRange > 0))
             .sort((left, right) =>
                 right.requirement.level - left.requirement.level
                 || right.gun.caliberInches - left.gun.caliberInches
@@ -901,7 +981,7 @@
         const button = el("#performance-calculate-button");
         button.disabled = !latestPerformanceContext
             || (latestPerformanceContext.isCaptainPath
-                && !Number.isInteger(latestPerformanceContext.fcsMeta));
+                && !el("#performance-fcs-select").value);
     }
     async function requestPerformanceCalculation() {
         if (!latestPerformanceContext) return;
@@ -931,14 +1011,28 @@
         });
         const targetGunSpecified = latestPerformanceContext.isCaptainPath
             && el("#performance-fcs-target-gun").checked
-            && Number.isInteger(latestPerformanceContext.gunMeta);
+            && latestPerformanceContext.gun;
         if ((!latestPerformanceContext.isCaptainPath || targetGunSpecified)
-            && Number.isInteger(latestPerformanceContext.gunMeta)) {
-            parameters.set("gunMeta", String(latestPerformanceContext.gunMeta));
+            && latestPerformanceContext.gun) {
+            parameters.set("gun", JSON.stringify({
+                name: latestPerformanceContext.gun.name,
+                reloadSeconds: latestPerformanceContext.gun.reloadSeconds,
+                shipyardRange: latestPerformanceContext.gun.shipyardRange || null,
+            }));
         }
         if (latestPerformanceContext.isCaptainPath) {
             parameters.set("performanceRole", "captain");
-            parameters.set("fcsMeta", String(latestPerformanceContext.fcsMeta));
+            const selectedFcsMeta = Number(el("#performance-fcs-select").value);
+            const selectedFcs = availablePerformanceFcs.find((fcs) => fcs.meta === selectedFcsMeta);
+            if (!selectedFcs) {
+                setPerformanceStatus(t().performanceFailed(t().unknownResponse), "danger");
+                updatePerformanceRequestAvailability();
+                return;
+            }
+            parameters.set("fcs", JSON.stringify({
+                name: selectedFcs.name,
+                spottingCorrectionLimitRange: selectedFcs.spottingCorrectionLimitRange,
+            }));
             if (!targetGunSpecified) {
                 const targetGuidelineLength = Number(el("#performance-fcs-guide-length").value);
                 if (Number.isInteger(targetGuidelineLength)
@@ -1271,9 +1365,6 @@
         latestPerformanceContext.isCaptainPath = renderPerformanceFcsCatalog(appliedClasses);
         el("#performance-fcs-guide-length").disabled = latestPerformanceContext.isCaptainPath
             && el("#performance-fcs-target-gun").checked;
-        if (latestPerformanceContext.isCaptainPath) {
-            latestPerformanceContext.fcsMeta = Number(el("#performance-fcs-select").value);
-        }
         renderPerformanceGunInput(
             appliedClasses,
             currentLevel,
@@ -1364,10 +1455,7 @@
         clearPerformanceApiResult();
     });
     el("#performance-calculate-button").addEventListener("click", requestPerformanceCalculation);
-    el("#performance-fcs-select").addEventListener("change", (event) => {
-        if (latestPerformanceContext?.isCaptainPath) {
-            latestPerformanceContext.fcsMeta = Number(event.target.value);
-        }
+    el("#performance-fcs-select").addEventListener("change", () => {
         clearPerformanceApiResult();
         updatePerformanceRequestAvailability();
     });
