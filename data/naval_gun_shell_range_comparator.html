@@ -47,7 +47,7 @@
 
         #comparison-table th,
         #comparison-table td {
-            padding: 0.48rem 0.42rem;
+            padding: 0.24rem 0.42rem;
             border-color: #dee2e6;
             text-align: center;
             vertical-align: middle;
@@ -281,105 +281,112 @@
                 <div class="container-fluid px-3 py-3">
                     <h1 class="mt-2"><i class="fa-solid fa-table-list"></i> 함포 포탄 사거리 비교 / Naval Gun Shell Range Comparator</h1>
 
+                    <div id="status" class="alert alert-secondary py-2" role="status">카탈로그를 불러오는 중입니다…</div>
+
                     <section class="card comparator-card mb-3">
                         <div class="card-header d-flex align-items-center justify-content-between gap-2">
-                            <span>검색 및 필터 / Search &amp; Filter</span>
+                            <span>검색 필터 Search Filter</span>
                             <button id="reset-filter" class="btn btn-sm btn-outline-light" type="button">
-                                초기화 / Reset
+                                초기화 Reset
                             </button>
                         </div>
                         <div class="card-body">
                             <div class="row g-3 align-items-end">
                                 <div class="col-12 col-xl-6">
-                                    <span class="form-label toolbar-label d-block">서버 / Server</span>
+                                    <span class="form-label toolbar-label d-block">서버 Server</span>
                                     <select id="server-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                                        <option value="">전체 / All</option>
-                                        <option value="korea">한국 / Korea</option>
-                                        <option value="global">글로벌 / Global</option>
+                                        <option value="">전체 All</option>
+                                        <option value="korea">한국 Korea</option>
+                                        <option value="global">글로벌 Global</option>
                                     </select>
                                     <div id="server-tiles" class="filter-tiles" role="group" aria-label="서버 필터"></div>
                                 </div>
                                 <div class="col-12 col-xl-6">
-                                    <span class="form-label toolbar-label d-block">국가 / Nation</span>
+                                    <span class="form-label toolbar-label d-block">국가 Nation</span>
                                     <select id="nation-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                                        <option value="">전체 / All</option>
+                                        <option value="">전체 All</option>
                                     </select>
                                     <div id="nation-tiles" class="filter-tiles" role="group" aria-label="국가 필터"></div>
                                 </div>
                                 <div class="col-12 col-xl-6">
-                                    <span class="form-label toolbar-label d-block">연장 / Barrels</span>
+                                    <span class="form-label toolbar-label d-block">연장 Barrels</span>
                                     <select id="barrel-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                                        <option value="">전체 / All</option>
+                                        <option value="">전체 All</option>
                                     </select>
                                     <div id="barrel-tiles" class="filter-tiles" role="group" aria-label="연장 필터"></div>
                                 </div>
                                 <div class="col-12 col-xl-6">
-                                    <span class="form-label toolbar-label d-block">함포 구분 / Naval Gun Type</span>
+                                    <span class="form-label toolbar-label d-block">함포 구분 Naval Gun Type</span>
                                     <select id="gun-type-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                                        <option value="">전체 / All</option>
-                                        <option value="large">11인치 이상 / 11 inches and above</option>
-                                        <option value="small">11인치 미만 / Under 11 inches</option>
-                                        <option value="aa">대공함포 / AA Naval Gun</option>
+                                        <option value="">전체 All</option>
+                                        <option value="large">11인치 이상 11 inches and above</option>
+                                        <option value="small">11인치 미만 Under 11 inches</option>
+                                        <option value="aa">대공함포 AA Naval Gun</option>
                                     </select>
                                     <div id="gun-type-tiles" class="filter-tiles" role="group" aria-label="함포 구분 필터"></div>
                                 </div>
                                 <div class="col-12 col-xl-6">
-                                    <span class="form-label toolbar-label d-block">출력 / View</span>
+                                    <span class="form-label toolbar-label d-block">출력 View</span>
                                     <select id="view-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
-                                        <option value="all">전체 / All</option>
-                                        <option value="list">리스트 / List</option>
-                                        <option value="graph">그래프 / Graph</option>
+                                        <option value="all">전체 All</option>
+                                        <option value="list">리스트 List</option>
+                                        <option value="graph">그래프 Graph</option>
                                     </select>
                                     <div id="view-tiles" class="filter-tiles" role="group" aria-label="출력 형식 필터"></div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-5">
-                                    <label class="form-label toolbar-label" for="text-filter">함포·포탄 검색 / Naval Gun &amp; Shell</label>
+                                    <label class="form-label toolbar-label" for="text-filter">함포·포탄 검색 Naval Gun &amp; Shell</label>
                                     <input id="text-filter" class="form-control" type="search"
-                                        placeholder="함포명 또는 포탄명 / Naval gun or shell name" />
+                                        placeholder="함포명 또는 포탄명 Naval gun or shell name" />
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
-                                    <span class="form-label toolbar-label d-block">함포 레벨 / Naval Gun Level</span>
+                                    <span class="form-label toolbar-label d-block">함포 레벨 Naval Gun Level</span>
                                     <div class="input-group">
-                                        <span class="input-group-text">최소 / Min</span>
+                                        <span class="input-group-text">최소 Min</span>
                                         <input id="level-min-filter" class="form-control" type="number" min="0"
                                             inputmode="numeric" aria-label="최소 함포 레벨" placeholder="0" />
-                                        <span class="input-group-text">최대 / Max</span>
+                                        <span class="input-group-text">최대 Max</span>
                                         <input id="level-max-filter" class="form-control" type="number" min="0"
                                             inputmode="numeric" aria-label="최대 함포 레벨" placeholder="120" />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
-                                    <span class="form-label toolbar-label d-block">최대고각 / Maximum Angle</span>
+                                    <span class="form-label toolbar-label d-block">최대고각 Maximum Angle</span>
                                     <div class="input-group">
-                                        <span class="input-group-text">최소 / Min</span>
+                                        <span class="input-group-text">최소 Min</span>
                                         <input id="angle-min-filter" class="form-control" type="number" min="0"
                                             inputmode="numeric" aria-label="최소 최대고각" placeholder="0" />
-                                        <span class="input-group-text">최대 / Max</span>
+                                        <span class="input-group-text">최대 Max</span>
                                         <input id="angle-max-filter" class="form-control" type="number" min="0"
                                             inputmode="numeric" aria-label="최대 최대고각" placeholder="60" />
                                     </div>
                                 </div>
                                 <div class="col-8 col-md-3 col-xl-2">
-                                    <label class="form-label toolbar-label" for="page-size">페이지당 함포 수 / Naval Guns per Page</label>
+                                    <label class="form-label toolbar-label" for="page-size">페이지당 함포 수 Naval Guns per Page</label>
                                     <select id="page-size" class="form-select">
                                         <option value="25">25</option>
                                         <option value="50" selected>50</option>
                                         <option value="100">100</option>
-                                        <option value="0">전체 / All</option>
+                                        <option value="0">전체 All</option>
                                     </select>
                                 </div>
                             </div>
+                            <small class="d-block mt-3 text-muted">버튼식 필터는 선택하지 않으면 전체를 표시합니다. 선택한 버튼을 다시 누르면 선택이 해제됩니다. Button filters show all results when no option is selected. Select an option to filter, or select it again to clear it.</small>
                         </div>
                     </section>
 
-                    <div id="status" class="alert alert-secondary py-2" role="status">카탈로그를 불러오는 중입니다…</div>
-
                     <section id="comparison-table-card" class="card comparator-card mb-3">
                         <div class="card-header d-flex flex-wrap justify-content-between gap-2">
-                            <span>비교표 / Comparison Table</span>
+                            <div>
+                                <span>비교표 Comparison Table</span>
+                            </div>
                             <span id="result-summary" class="fw-normal result-summary"></span>
                         </div>
                         <div class="card-body p-0">
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 px-3 pt-2">
+                                <small class="text-muted">열 제목을 누르면 함포 묶음 단위로 정렬됩니다.</small>
+                                <small id="table-display-summary" class="text-muted"></small>
+                            </div>
                             <div class="table-wrap">
                                 <table id="comparison-table" class="table table-bordered table-hover table-sm"
                                     aria-describedby="result-summary">
@@ -390,7 +397,6 @@
                                 </table>
                             </div>
                             <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 p-3">
-                                <small class="text-muted">열 제목을 누르면 함포 묶음 단위로 정렬됩니다.</small>
                                 <nav aria-label="비교표 페이지">
                                     <ul class="pagination pagination-sm mb-0">
                                         <li id="previous-page" class="page-item">
@@ -412,6 +418,9 @@
                             <span id="range-chart-summary" class="fw-normal result-summary"></span>
                         </div>
                         <div class="card-body p-0">
+                            <div class="d-flex flex-wrap justify-content-end px-3 pt-2">
+                                <small id="range-display-summary" class="text-muted"></small>
+                            </div>
                             <div class="range-chart-wrap">
                                 <table id="range-chart-table" class="table table-bordered table-hover table-sm"
                                     aria-describedby="range-chart-summary">
@@ -420,6 +429,19 @@
                                     </thead>
                                     <tbody id="range-chart-body"></tbody>
                                 </table>
+                            </div>
+                            <div class="d-flex justify-content-end p-3">
+                                <nav aria-label="사거리 그래프 페이지">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li id="range-previous-page" class="page-item">
+                                            <button class="page-link" type="button" aria-label="이전 페이지">&laquo;</button>
+                                        </li>
+                                        <li class="page-item disabled"><span id="range-page-status" class="page-link"></span></li>
+                                        <li id="range-next-page" class="page-item">
+                                            <button class="page-link" type="button" aria-label="다음 페이지">&raquo;</button>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </section>
@@ -443,7 +465,9 @@
         (() => {
             "use strict";
 
-            const CATALOG_URL = "https://navyfield-simulator-api.14desu.workers.dev/catalog/gun-shipyard-catalog.json";
+            // Update this value with each catalog deployment to request the new asset URL.
+            const CATALOG_VERSION = "20260905";
+            const CATALOG_URL = `https://navyfield-simulator-api.14desu.workers.dev/catalog/gun-shipyard-catalog.json?v=${CATALOG_VERSION}`;
             const NATIONS = {
                 korea: [
                     [0, "중립국 / Neutral"], [1, "미국 / United States"], [2, "영국 / United Kingdom"],
@@ -467,6 +491,9 @@
                 7: "#3b9138",
                 8: "#8e44ad",
             };
+            // Keep even the shortest range visible, while reserving the full
+            // width for comparing the ranges currently shown on the page.
+            const RANGE_CHART_MINIMUM_WIDTH = 5;
             const RANGE_COLUMNS = [
                 { key: "server", ko: "서버", en: "Server", className: "range-server" },
                 { key: "nation", ko: "국가", en: "Nation", className: "range-nation" },
@@ -517,13 +544,18 @@
                 rangeHead: document.querySelector("#range-chart-head"),
                 rangeBody: document.querySelector("#range-chart-body"),
                 rangeCard: document.querySelector("#range-chart-card"),
+                rangeDisplaySummary: document.querySelector("#range-display-summary"),
                 summary: document.querySelector("#result-summary"),
+                tableDisplaySummary: document.querySelector("#table-display-summary"),
                 head: document.querySelector("#table-head"),
                 body: document.querySelector("#table-body"),
                 tableCard: document.querySelector("#comparison-table-card"),
                 previous: document.querySelector("#previous-page"),
                 next: document.querySelector("#next-page"),
                 pageStatus: document.querySelector("#page-status"),
+                rangePrevious: document.querySelector("#range-previous-page"),
+                rangeNext: document.querySelector("#range-next-page"),
+                rangePageStatus: document.querySelector("#range-page-status"),
             };
 
             let catalog = null;
@@ -559,7 +591,13 @@
             }
 
             function nationName(nationId, serverId = elements.server.value || "korea") {
-                return NATIONS[serverId].find(([id]) => id === Number(nationId))?.[1] ?? String(nationId);
+                const label = NATIONS[serverId].find(([id]) => id === Number(nationId))?.[1] ?? String(nationId);
+                const parts = label.split("/").map((part) => part.trim());
+                return serverId === "global" ? parts.reverse().join(" ") : parts.join(" ");
+            }
+
+            function serverName(serverId) {
+                return serverId === "korea" ? "한국 Korea" : "글로벌 Global";
             }
 
             function gunCalibre(model) {
@@ -575,11 +613,43 @@
             }
 
             function defaultGroupCompare(left, right) {
-                return compareValues(left.serverOrder, right.serverOrder, true)
+                return compareValues(right.maximumRange, left.maximumRange, true)
+                    || compareValues(left.serverOrder, right.serverOrder, true)
                     || compareValues(left.nationId, right.nationId, true)
-                    || compareValues(right.maximumRange, left.maximumRange, true)
                     || compareValues(right.maximumRequiredLevel, left.maximumRequiredLevel, true)
                     || compareValues(left.model, right.model, false);
+            }
+
+            function selectedFilterLabel(select, label) {
+                if (!select.value || select.value === "all") return "";
+                const option = select.selectedOptions[0];
+                const parts = (option?.textContent || select.value).split("/").map((part) => part.trim());
+                if (select === elements.nation && elements.server.value !== "korea") parts.reverse();
+                return `${label} ${parts.join(" ")}`;
+            }
+
+            function filterSummary() {
+                const filters = [
+                    selectedFilterLabel(elements.server, "서버"),
+                    selectedFilterLabel(elements.nation, "국가"),
+                    selectedFilterLabel(elements.barrel, "연장"),
+                    selectedFilterLabel(elements.gunType, "함포 구분"),
+                ].filter(Boolean);
+                const query = elements.search.value.trim();
+                if (query) filters.push(`검색 ${query}`);
+                if (elements.levelMin.value !== "" || elements.levelMax.value !== "") {
+                    filters.push(`함포 레벨 ${elements.levelMin.value || "최소"}~${elements.levelMax.value || "최대"}`);
+                }
+                if (elements.angleMin.value !== "" || elements.angleMax.value !== "") {
+                    filters.push(`최대고각 ${elements.angleMin.value || "최소"}~${elements.angleMax.value || "최대"}`);
+                }
+                return filters.length ? `필터 ${filters.join(" · ")}` : "필터 전체";
+            }
+
+            function sortSummary(sortState, columns, defaultLabel) {
+                if (sortState.key === "default") return defaultLabel;
+                const column = columns.find(({ key }) => key === sortState.key);
+                return `${column?.ko || sortState.key} ${sortState.direction === "asc" ? "오름차순" : "내림차순"}`;
             }
 
             function filteredGroups() {
@@ -633,7 +703,13 @@
                 groups.forEach((gun) => {
                     gun.visibleProjectiles.sort((left, right) => {
                         if (!column || column.group) {
-                            return compareValues(right.shipyardRange, left.shipyardRange, true)
+                            const shellTypeRank = (shellType) => {
+                                if (shellType === "HE") return 0;
+                                if (shellType === "AP") return 1;
+                                return 2;
+                            };
+                            return shellTypeRank(left.shellType) - shellTypeRank(right.shellType)
+                                || compareValues(right.shipyardRange, left.shipyardRange, true)
                                 || compareValues(left.shellType, right.shellType, false);
                         }
                         const result = compareValues(left[column.key], right[column.key], column.numeric);
@@ -654,7 +730,7 @@
 
             function cellValue(gun, shell, column) {
                 if (!column.group) return shell[column.key];
-                if (column.key === "server") return gun.serverId === "korea" ? "한국 / Korea" : "글로벌 / Global";
+                if (column.key === "server") return serverName(gun.serverId);
                 if (column.key === "nation") return nationName(gun.nationId, gun.serverId);
                 if (column.key === "barrelCount" && gun.barrelCount === null) return "특수무기 / Special Weapon";
                 if (column.key === "requiredLevel") return requirementValues(gun, "level");
@@ -712,9 +788,9 @@
 
             function chartServerLabel(serverIds) {
                 if (serverIds.has("korea") && serverIds.has("global")) {
-                    return "한국 · 글로벌 / Korea · Global";
+                    return "한국 글로벌 Korea Global";
                 }
-                return serverIds.has("korea") ? "한국 / Korea" : "글로벌 / Global";
+                return serverName(serverIds.has("korea") ? "korea" : "global");
             }
 
             function rangeColumnValue(item, key) {
@@ -776,7 +852,10 @@
             function renderRangeChart(groups) {
                 renderRangeHead();
                 const rows = sortRangeChartRows(rangeChartRows(groups));
-                const scaleMaximum = Math.max(...rows.map((row) => row.range), 1);
+                const ranges = rows.map((row) => row.range);
+                const scaleMinimum = ranges.length ? Math.min(...ranges) : 0;
+                const scaleMaximum = ranges.length ? Math.max(...ranges) : 0;
+                const scaleSpan = scaleMaximum - scaleMinimum;
                 elements.rangeBody.replaceChildren();
 
                 for (const item of rows) {
@@ -804,7 +883,11 @@
                     track.className = "range-bar-track";
                     const bar = document.createElement("div");
                     bar.className = "range-bar";
-                    bar.style.width = `${(item.range / scaleMaximum) * 100}%`;
+                    const width = scaleSpan
+                        ? RANGE_CHART_MINIMUM_WIDTH
+                            + ((item.range - scaleMinimum) / scaleSpan * (100 - RANGE_CHART_MINIMUM_WIDTH))
+                        : RANGE_CHART_MINIMUM_WIDTH;
+                    bar.style.width = `${width}%`;
                     bar.style.backgroundColor = NATION_COLORS[item.nationId] || NATION_COLORS[0];
                     bar.setAttribute("role", "img");
                     bar.setAttribute("aria-label", `${item.model}: ${item.range.toLocaleString()}`);
@@ -871,13 +954,13 @@
                 elements.tableCard.hidden = view === "graph";
                 renderHead();
                 const groups = filteredGroups();
-                renderRangeChart(groups);
                 const totalShells = groups.reduce((sum, gun) => sum + gun.visibleProjectiles.length, 0);
                 const requestedSize = Number(elements.pageSize.value);
                 const size = requestedSize || Math.max(groups.length, 1);
                 const pages = Math.max(Math.ceil(groups.length / size), 1);
                 page = Math.min(page, pages);
                 const visibleGroups = groups.slice((page - 1) * size, page * size);
+                renderRangeChart(visibleGroups);
 
                 elements.body.replaceChildren();
                 for (const gun of visibleGroups) {
@@ -911,6 +994,13 @@
                 elements.pageStatus.textContent = `${page} / ${pages}`;
                 elements.previous.classList.toggle("disabled", page <= 1);
                 elements.next.classList.toggle("disabled", page >= pages);
+                elements.rangePageStatus.textContent = `${page} / ${pages}`;
+                elements.rangePrevious.classList.toggle("disabled", page <= 1);
+                elements.rangeNext.classList.toggle("disabled", page >= pages);
+                const pageSizeLabel = requestedSize ? requestedSize.toLocaleString() : "전체";
+                const filterLabel = filterSummary();
+                elements.tableDisplaySummary.textContent = `${filterLabel} · 정렬 ${sortSummary(sort, COLUMNS, "쉽야드사거리 내림차순")} · 페이지당 함포 수 ${pageSizeLabel}`;
+                elements.rangeDisplaySummary.textContent = `${filterLabel} · 정렬 ${sortSummary(rangeSort, RANGE_COLUMNS, "최대 사거리 내림차순")} · 페이지당 함포 수 ${pageSizeLabel}`;
             }
 
             function populateNations() {
@@ -952,15 +1042,19 @@
 
             function renderTiles(select, container) {
                 container.replaceChildren();
+                const allOption = [...select.options].find(({ value }) => value === "" || value === "all");
                 for (const option of select.options) {
+                    if (option === allOption) continue;
                     const button = document.createElement("button");
                     button.type = "button";
                     button.className = "filter-tile";
                     button.classList.toggle("active", option.value === select.value);
                     button.setAttribute("aria-pressed", option.value === select.value ? "true" : "false");
-                    button.textContent = option.textContent;
+                    const labelParts = option.textContent.split("/").map((part) => part.trim());
+                    if (select === elements.nation && elements.server.value !== "korea") labelParts.reverse();
+                    button.textContent = labelParts.join(" ");
                     button.addEventListener("click", () => {
-                        select.value = option.value;
+                        select.value = option.value === select.value ? allOption.value : option.value;
                         select.dispatchEvent(new Event("change"));
                     });
                     container.append(button);
@@ -1016,6 +1110,13 @@
                 page += 1;
                 render();
             });
+            elements.rangePrevious.querySelector("button").addEventListener("click", () => {
+                if (page > 1) { page -= 1; render(); }
+            });
+            elements.rangeNext.querySelector("button").addEventListener("click", () => {
+                page += 1;
+                render();
+            });
 
             async function initialize() {
                 populateNations();
@@ -1027,7 +1128,7 @@
                     populateBarrels();
                     refreshTiles();
                     elements.status.className = "alert alert-success py-2";
-                    elements.status.textContent = "함포·포탄 카탈로그를 불러왔습니다. / Catalog loaded.";
+                    elements.status.textContent = "함포·포탄 카탈로그를 불러왔습니다. Catalog loaded.";
                     render();
                 } catch (error) {
                     elements.status.className = "alert alert-danger py-2";
