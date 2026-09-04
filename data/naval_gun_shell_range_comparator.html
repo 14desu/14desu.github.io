@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Navyfield naval gun and shell range comparison table" />
+    <meta name="author" content="g_dori" />
+    <meta name="keywords" content="Navyfield,네이비필드,함포,포탄,사거리,비교" />
+    <title>함포 포탄 사거리 비교 / Naval Gun Shell Range Comparator</title>
+    <link href="../common/styles.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $("#navbar").load("../common/navbar.html");
+            $("#sidenavAccordion").load("../common/sidebar.html");
+        });
+    </script>
+    <style>
+        .comparator-card {
+            border: 1px solid #aeb8c2;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
+        }
+
+        .comparator-card .card-header {
+            background: linear-gradient(180deg, #203a53, #101d29);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .table-wrap {
+            max-height: calc(100vh - 19rem);
+            overflow: auto;
+            border: 1px solid #35516a;
+            border-radius: 0.25rem;
+        }
+
+        #comparison-table {
+            min-width: 1480px;
+            margin: 0;
+            color: #212529;
+            background: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #comparison-table th,
+        #comparison-table td {
+            padding: 0.48rem 0.42rem;
+            border-color: #dee2e6;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        #comparison-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            color: #263746;
+            background: #f7fbff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #comparison-table thead th:focus-visible {
+            outline: 3px solid #ffc107;
+            outline-offset: -3px;
+        }
+
+        #comparison-table tbody tr:nth-child(even) td {
+            background: #fff;
+        }
+
+        #comparison-table tbody tr:hover td {
+            background: #f4f9fd;
+        }
+
+        #comparison-table tbody tr.group-start td {
+            border-top-width: 2px;
+            border-top-color: #8da0b1;
+        }
+
+        #comparison-table td[rowspan] {
+            color: #14283b;
+            background: #fff;
+            font-weight: 400;
+        }
+
+        #comparison-table .text-start {
+            text-align: left !important;
+        }
+
+        .header-ko,
+        .header-en {
+            display: block;
+            line-height: 1.08;
+        }
+
+        .header-en {
+            margin-top: 0.18rem;
+            color: #667784;
+            font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: -0.015em;
+        }
+
+        .sort-icons {
+            display: inline-flex;
+            margin-left: 0.12rem;
+            gap: 0.02rem;
+            vertical-align: 0.02rem;
+        }
+
+        .sort-arrow {
+            color: #7a8995;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .sort-arrow.active {
+            color: #0d6efd;
+        }
+
+        .requirements-cell span {
+            display: block;
+        }
+
+        .toolbar-label {
+            font-weight: 700;
+        }
+
+        .filter-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .filter-tile {
+            padding: 0.38rem 0.72rem;
+            border: 1px solid #cbd5df;
+            border-radius: 0.35rem;
+            color: #35495b;
+            background: #fff;
+            font-size: 0.875rem;
+            line-height: 1.25;
+            transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+        }
+
+        .filter-tile:hover {
+            border-color: #6ea8d5;
+            color: #0b5c99;
+            background: #f7fbff;
+        }
+
+        .filter-tile.active {
+            border-color: #0d6efd;
+            color: #fff;
+            background: #0d6efd;
+            box-shadow: 0 0.125rem 0.3rem rgba(13, 110, 253, 0.2);
+        }
+
+        .result-summary {
+            min-height: 1.5rem;
+        }
+
+        .range-chart-wrap {
+            max-height: 34rem;
+            overflow: auto;
+            border: 1px solid #d8e0e7;
+            border-radius: 0.25rem;
+        }
+
+        #range-chart-table {
+            min-width: 760px;
+            margin: 0;
+            color: #263746;
+            background: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #range-chart-table th,
+        #range-chart-table td {
+            padding: 0.48rem 0.65rem;
+            border-color: #e0e6eb;
+            vertical-align: middle;
+        }
+
+        #range-chart-table thead th {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: #f7fbff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #range-chart-table thead th:focus-visible {
+            outline: 3px solid #ffc107;
+            outline-offset: -3px;
+        }
+
+        .range-server {
+            width: 9rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .range-model {
+            width: 24rem;
+        }
+
+        .range-nation {
+            width: 13rem;
+            white-space: nowrap;
+        }
+
+        .range-bar-cell {
+            min-width: 20rem;
+        }
+
+        .range-bar-layout {
+            display: grid;
+            grid-template-columns: minmax(8rem, 1fr) 6rem;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .range-bar-track {
+            height: 1.05rem;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e8edf2;
+        }
+
+        .range-bar {
+            min-width: 2px;
+            height: 100%;
+            border-radius: inherit;
+            transition: width 0.2s ease;
+        }
+
+        .range-value {
+            color: #0d6efd;
+            font-weight: 700;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .pagination .page-link {
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 767.98px) {
+            .table-wrap {
+                max-height: calc(100vh - 23rem);
+            }
+        }
+    </style>
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="https://14desu.github.io/">Navyfield Simulator</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"
+            aria-label="사이드바 열기">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion"></nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-3 py-3">
+                    <h1 class="mt-2"><i class="fa-solid fa-table-list"></i> 함포 포탄 사거리 비교 / Naval Gun Shell Range Comparator</h1>
+
+                    <section class="card comparator-card mb-3">
+                        <div class="card-header d-flex align-items-center justify-content-between gap-2">
+                            <span>검색 및 필터 / Search &amp; Filter</span>
+                            <button id="reset-filter" class="btn btn-sm btn-outline-light" type="button">
+                                초기화 / Reset
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-12 col-xl-6">
+                                    <span class="form-label toolbar-label d-block">서버 / Server</span>
+                                    <select id="server-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                        <option value="">전체 / All</option>
+                                        <option value="korea">한국 / Korea</option>
+                                        <option value="global">글로벌 / Global</option>
+                                    </select>
+                                    <div id="server-tiles" class="filter-tiles" role="group" aria-label="서버 필터"></div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <span class="form-label toolbar-label d-block">국가 / Nation</span>
+                                    <select id="nation-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                        <option value="">전체 / All</option>
+                                    </select>
+                                    <div id="nation-tiles" class="filter-tiles" role="group" aria-label="국가 필터"></div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <span class="form-label toolbar-label d-block">연장 / Barrels</span>
+                                    <select id="barrel-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                        <option value="">전체 / All</option>
+                                    </select>
+                                    <div id="barrel-tiles" class="filter-tiles" role="group" aria-label="연장 필터"></div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <span class="form-label toolbar-label d-block">함포 구분 / Naval Gun Type</span>
+                                    <select id="gun-type-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                        <option value="">전체 / All</option>
+                                        <option value="large">11인치 이상 / 11 inches and above</option>
+                                        <option value="small">11인치 미만 / Under 11 inches</option>
+                                        <option value="aa">대공함포 / AA Naval Gun</option>
+                                    </select>
+                                    <div id="gun-type-tiles" class="filter-tiles" role="group" aria-label="함포 구분 필터"></div>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <span class="form-label toolbar-label d-block">출력 / View</span>
+                                    <select id="view-filter" class="visually-hidden" tabindex="-1" aria-hidden="true">
+                                        <option value="all">전체 / All</option>
+                                        <option value="list">리스트 / List</option>
+                                        <option value="graph">그래프 / Graph</option>
+                                    </select>
+                                    <div id="view-tiles" class="filter-tiles" role="group" aria-label="출력 형식 필터"></div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-5">
+                                    <label class="form-label toolbar-label" for="text-filter">함포·포탄 검색 / Naval Gun &amp; Shell</label>
+                                    <input id="text-filter" class="form-control" type="search"
+                                        placeholder="함포명 또는 포탄명 / Naval gun or shell name" />
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <span class="form-label toolbar-label d-block">함포 레벨 / Naval Gun Level</span>
+                                    <div class="input-group">
+                                        <span class="input-group-text">최소 / Min</span>
+                                        <input id="level-min-filter" class="form-control" type="number" min="0"
+                                            inputmode="numeric" aria-label="최소 함포 레벨" placeholder="0" />
+                                        <span class="input-group-text">최대 / Max</span>
+                                        <input id="level-max-filter" class="form-control" type="number" min="0"
+                                            inputmode="numeric" aria-label="최대 함포 레벨" placeholder="120" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <span class="form-label toolbar-label d-block">최대고각 / Maximum Angle</span>
+                                    <div class="input-group">
+                                        <span class="input-group-text">최소 / Min</span>
+                                        <input id="angle-min-filter" class="form-control" type="number" min="0"
+                                            inputmode="numeric" aria-label="최소 최대고각" placeholder="0" />
+                                        <span class="input-group-text">최대 / Max</span>
+                                        <input id="angle-max-filter" class="form-control" type="number" min="0"
+                                            inputmode="numeric" aria-label="최대 최대고각" placeholder="60" />
+                                    </div>
+                                </div>
+                                <div class="col-8 col-md-3 col-xl-2">
+                                    <label class="form-label toolbar-label" for="page-size">페이지당 함포 수 / Naval Guns per Page</label>
+                                    <select id="page-size" class="form-select">
+                                        <option value="25">25</option>
+                                        <option value="50" selected>50</option>
+                                        <option value="100">100</option>
+                                        <option value="0">전체 / All</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div id="status" class="alert alert-secondary py-2" role="status">카탈로그를 불러오는 중입니다…</div>
+
+                    <section id="comparison-table-card" class="card comparator-card mb-3">
+                        <div class="card-header d-flex flex-wrap justify-content-between gap-2">
+                            <span>비교표 / Comparison Table</span>
+                            <span id="result-summary" class="fw-normal result-summary"></span>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-wrap">
+                                <table id="comparison-table" class="table table-bordered table-hover table-sm"
+                                    aria-describedby="result-summary">
+                                    <thead>
+                                        <tr id="table-head"></tr>
+                                    </thead>
+                                    <tbody id="table-body"></tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 p-3">
+                                <small class="text-muted">열 제목을 누르면 함포 묶음 단위로 정렬됩니다.</small>
+                                <nav aria-label="비교표 페이지">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li id="previous-page" class="page-item">
+                                            <button class="page-link" type="button" aria-label="이전 페이지">&laquo;</button>
+                                        </li>
+                                        <li class="page-item disabled"><span id="page-status" class="page-link"></span></li>
+                                        <li id="next-page" class="page-item">
+                                            <button class="page-link" type="button" aria-label="다음 페이지">&raquo;</button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="range-chart-card" class="card comparator-card mb-3" aria-labelledby="range-chart-title">
+                        <div class="card-header d-flex flex-wrap justify-content-between gap-2">
+                            <span id="range-chart-title">사거리 그래프 / Maximum Range Chart</span>
+                            <span id="range-chart-summary" class="fw-normal result-summary"></span>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="range-chart-wrap">
+                                <table id="range-chart-table" class="table table-bordered table-hover table-sm"
+                                    aria-describedby="range-chart-summary">
+                                    <thead>
+                                        <tr id="range-chart-head"></tr>
+                                    </thead>
+                                    <tbody id="range-chart-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; g_dori</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="../common/scripts.js"></script>
+    <script>
+        (() => {
+            "use strict";
+
+            const CATALOG_URL = "https://navyfield-simulator-api.14desu.workers.dev/catalog/gun-shipyard-catalog.json";
+            const NATIONS = {
+                korea: [
+                    [0, "중립국 / Neutral"], [1, "미국 / United States"], [2, "영국 / United Kingdom"],
+                    [3, "일본 / Japan"], [4, "독일 / Germany"], [5, "프랑스 / France"],
+                    [6, "소련 / Soviet Union"], [7, "이탈리아 / Italy"],
+                ],
+                global: [
+                    [0, "Neutral / 중립국"], [1, "United States / 미국"], [2, "United Kingdom / 영국"],
+                    [3, "Japan / 일본"], [4, "Germany / 독일"], [5, "France / 프랑스"],
+                    [6, "Soviet Union / 소련"], [7, "Italy / 이탈리아"], [8, "중국 / China"],
+                ],
+            };
+            const NATION_COLORS = {
+                0: "#7b8794",
+                1: "#4169e1",
+                2: "#c94b3a",
+                3: "#d89b1d",
+                4: "#495057",
+                5: "#56add6",
+                6: "#b52b3a",
+                7: "#3b9138",
+                8: "#8e44ad",
+            };
+            const RANGE_COLUMNS = [
+                { key: "server", ko: "서버", en: "Server", className: "range-server" },
+                { key: "nation", ko: "국가", en: "Nation", className: "range-nation" },
+                { key: "model", ko: "함포명", en: "Naval Gun", className: "range-model" },
+                { key: "range", ko: "최대 사거리", en: "Maximum Range", numeric: true },
+            ];
+
+            const COLUMNS = [
+                { key: "server", ko: "서버", en: "Server", group: true },
+                { key: "nation", ko: "국가", en: "Nation", group: true, align: "text-start" },
+                { key: "model", ko: "함포명", en: "Naval Gun", group: true, align: "text-start" },
+                { key: "capacity", ko: "필요용적", en: "Required Space", group: true, numeric: true },
+                { key: "requiredLevel", ko: "필요레벨", en: "Required Level", group: true, numeric: true },
+                { key: "requiredClass", ko: "필요병종", en: "Required Sailor Class", group: true },
+                { key: "maxAngle", ko: "최대고각", en: "Maximum Angle", group: true, numeric: true },
+                { key: "reloadSpeed", ko: "연사속도(초)", en: "Reload Time (sec)", group: true, numeric: true },
+                { key: "barrelCount", ko: "연장", en: "Barrels", group: true, numeric: true },
+                { key: "muzzleSpeed", ko: "초구탄속", en: "Muzzle Velocity", group: true, numeric: true },
+                { key: "shellType", ko: "포탄명", en: "Shell", align: "text-start" },
+                { key: "capacityPerBind", ko: "1 bind당 용적", en: "Space per Bind", numeric: true },
+                { key: "bind", ko: "Bind", en: "Bind", numeric: true },
+                { key: "apBonus", ko: "AP 보너스", en: "AP Bonus", numeric: true },
+                { key: "heDamage", ko: "HE 데미지", en: "HE Damage", numeric: true },
+                { key: "weightPerShell", ko: "1발당 무게(kg)", en: "Shell Weight (kg)", numeric: true },
+                { key: "shipyardRange", ko: "쉽야드사거리", en: "Shipyard Range", numeric: true },
+            ];
+
+            const elements = {
+                server: document.querySelector("#server-filter"),
+                serverTiles: document.querySelector("#server-tiles"),
+                nation: document.querySelector("#nation-filter"),
+                nationTiles: document.querySelector("#nation-tiles"),
+                barrel: document.querySelector("#barrel-filter"),
+                barrelTiles: document.querySelector("#barrel-tiles"),
+                gunType: document.querySelector("#gun-type-filter"),
+                gunTypeTiles: document.querySelector("#gun-type-tiles"),
+                view: document.querySelector("#view-filter"),
+                viewTiles: document.querySelector("#view-tiles"),
+                search: document.querySelector("#text-filter"),
+                levelMin: document.querySelector("#level-min-filter"),
+                levelMax: document.querySelector("#level-max-filter"),
+                angleMin: document.querySelector("#angle-min-filter"),
+                angleMax: document.querySelector("#angle-max-filter"),
+                pageSize: document.querySelector("#page-size"),
+                reset: document.querySelector("#reset-filter"),
+                status: document.querySelector("#status"),
+                rangeSummary: document.querySelector("#range-chart-summary"),
+                rangeHead: document.querySelector("#range-chart-head"),
+                rangeBody: document.querySelector("#range-chart-body"),
+                rangeCard: document.querySelector("#range-chart-card"),
+                summary: document.querySelector("#result-summary"),
+                head: document.querySelector("#table-head"),
+                body: document.querySelector("#table-body"),
+                tableCard: document.querySelector("#comparison-table-card"),
+                previous: document.querySelector("#previous-page"),
+                next: document.querySelector("#next-page"),
+                pageStatus: document.querySelector("#page-status"),
+            };
+
+            let catalog = null;
+            let page = 1;
+            let sort = { key: "default", direction: "asc" };
+            let rangeSort = { key: "range", direction: "desc" };
+
+            function compareValues(left, right, numeric) {
+                if (numeric) return (Number(left) || 0) - (Number(right) || 0);
+                return String(left ?? "").localeCompare(String(right ?? ""), undefined, {
+                    numeric: true,
+                    sensitivity: "base",
+                });
+            }
+
+            function requirementValues(gun, key) {
+                const values = (gun.requirements || []).map((item) => item[key]).filter((value) => value !== undefined);
+                return [...new Set(values)];
+            }
+
+            function groupValue(gun, key) {
+                if (key === "server") return gun.serverOrder;
+                if (key === "nation") return nationName(gun.nationId, gun.serverId);
+                if (key === "requiredLevel") return Math.min(...requirementValues(gun, "level").map(Number));
+                if (key === "requiredClass") return requirementValues(gun, "sailorTypeName").join(" / ");
+                return gun[key];
+            }
+
+            function shellSortValue(gun, column) {
+                const values = gun.visibleProjectiles.map((shell) => shell[column.key]);
+                values.sort((left, right) => compareValues(left, right, column.numeric));
+                return sort.direction === "asc" ? values[0] : values[values.length - 1];
+            }
+
+            function nationName(nationId, serverId = elements.server.value || "korea") {
+                return NATIONS[serverId].find(([id]) => id === Number(nationId))?.[1] ?? String(nationId);
+            }
+
+            function gunCalibre(model) {
+                const text = String(model);
+                const inchMatch = text.match(/(\d+(?:\.\d+)?)\s*(?:["”¨]|\/\d+)/);
+                if (inchMatch) return Number(inchMatch[1]);
+                const millimetreMatch = text.match(/(\d+(?:\.\d+)?)\s*mm\b/i);
+                return millimetreMatch ? Number(millimetreMatch[1]) / 25.4 : NaN;
+            }
+
+            function isAaGun(gun) {
+                return (gun.projectiles || []).some((shell) => shell.shellCategory === "AA");
+            }
+
+            function defaultGroupCompare(left, right) {
+                return compareValues(left.serverOrder, right.serverOrder, true)
+                    || compareValues(left.nationId, right.nationId, true)
+                    || compareValues(right.maximumRange, left.maximumRange, true)
+                    || compareValues(right.maximumRequiredLevel, left.maximumRequiredLevel, true)
+                    || compareValues(left.model, right.model, false);
+            }
+
+            function filteredGroups() {
+                const serverIds = elements.server.value ? [elements.server.value] : ["korea", "global"];
+                const source = serverIds.flatMap((serverId, serverOrder) =>
+                    (catalog?.servers?.[serverId]?.guns || []).map((gun, sourceIndex) => ({
+                        ...gun,
+                        serverId,
+                        serverOrder,
+                        sourceIndex,
+                    })),
+                );
+                const nationId = Number(elements.nation.value);
+                const barrelFilter = elements.barrel.value;
+                const barrelSelected = barrelFilter !== "";
+                const barrelCount = Number(barrelFilter);
+                const gunType = elements.gunType.value;
+                const minimumLevel = elements.levelMin.value === "" ? -Infinity : Number(elements.levelMin.value);
+                const maximumLevel = elements.levelMax.value === "" ? Infinity : Number(elements.levelMax.value);
+                const minimumAngle = elements.angleMin.value === "" ? -Infinity : Number(elements.angleMin.value);
+                const maximumAngle = elements.angleMax.value === "" ? Infinity : Number(elements.angleMax.value);
+                const query = elements.search.value.trim().toLocaleLowerCase();
+
+                const groups = source.flatMap((gun) => {
+                    if (elements.nation.value !== "" && gun.nationId !== nationId) return [];
+                    if (barrelSelected && barrelFilter === "special" && gun.barrelCount !== null) return [];
+                    if (barrelSelected && barrelFilter !== "special" && Number(gun.barrelCount) !== barrelCount) return [];
+                    const requiredLevels = requirementValues(gun, "level").map(Number).filter(Number.isFinite);
+                    if ((elements.levelMin.value !== "" || elements.levelMax.value !== "")
+                        && !requiredLevels.some((level) => level >= minimumLevel && level <= maximumLevel)) return [];
+                    if ((elements.angleMin.value !== "" || elements.angleMax.value !== "")
+                        && !(Number(gun.maxAngle) >= minimumAngle && Number(gun.maxAngle) <= maximumAngle)) return [];
+                    const calibre = gunCalibre(gun.model);
+                    if (gunType === "large" && !(calibre >= 11)) return [];
+                    if (gunType === "small" && !(calibre < 11)) return [];
+                    if (gunType === "aa" && !isAaGun(gun)) return [];
+                    const gunMatches = !query || gun.model.toLocaleLowerCase().includes(query);
+                    const visibleProjectiles = (gun.projectiles || []).filter((shell) =>
+                        (gunType !== "aa" || shell.shellCategory === "AA")
+                        && (gunMatches || shell.shellType.toLocaleLowerCase().includes(query)),
+                    );
+                    return visibleProjectiles.length ? [{
+                        ...gun,
+                        visibleProjectiles,
+                        maximumRange: Math.max(...visibleProjectiles.map((shell) => Number(shell.shipyardRange) || 0)),
+                        maximumRequiredLevel: Math.max(...requiredLevels, 0),
+                    }] : [];
+                });
+
+                const column = COLUMNS.find(({ key }) => key === sort.key);
+                groups.forEach((gun) => {
+                    gun.visibleProjectiles.sort((left, right) => {
+                        if (!column || column.group) {
+                            return compareValues(right.shipyardRange, left.shipyardRange, true)
+                                || compareValues(left.shellType, right.shellType, false);
+                        }
+                        const result = compareValues(left[column.key], right[column.key], column.numeric);
+                        return sort.direction === "asc" ? result : -result;
+                    });
+                });
+
+                groups.sort((left, right) => {
+                    if (!column) return defaultGroupCompare(left, right);
+                    const leftValue = column.group ? groupValue(left, column.key) : shellSortValue(left, column);
+                    const rightValue = column.group ? groupValue(right, column.key) : shellSortValue(right, column);
+                    const result = compareValues(leftValue, rightValue, column.numeric);
+                    if (result) return sort.direction === "asc" ? result : -result;
+                    return compareValues(left.model, right.model, false) || left.sourceIndex - right.sourceIndex;
+                });
+                return groups;
+            }
+
+            function cellValue(gun, shell, column) {
+                if (!column.group) return shell[column.key];
+                if (column.key === "server") return gun.serverId === "korea" ? "한국 / Korea" : "글로벌 / Global";
+                if (column.key === "nation") return nationName(gun.nationId, gun.serverId);
+                if (column.key === "barrelCount" && gun.barrelCount === null) return "특수무기 / Special Weapon";
+                if (column.key === "requiredLevel") return requirementValues(gun, "level");
+                if (column.key === "requiredClass") return requirementValues(gun, "sailorTypeName");
+                return gun[column.key];
+            }
+
+            function appendCell(row, value, column, rowSpan) {
+                const cell = document.createElement("td");
+                if (rowSpan) cell.rowSpan = rowSpan;
+                if (column.align) cell.classList.add(column.align);
+                if (Array.isArray(value)) {
+                    cell.classList.add("requirements-cell");
+                    for (const item of value) {
+                        const line = document.createElement("span");
+                        line.textContent = item;
+                        cell.append(line);
+                    }
+                } else {
+                    cell.textContent = value ?? "-";
+                }
+                row.append(cell);
+            }
+
+            function normalizeChartModel(model) {
+                return String(model ?? "")
+                    .normalize("NFKC")
+                    .replace(/[“”]/g, '"')
+                    .replace(/\bmark\s*(\d+)/gi, "mark $1")
+                    .replace(/\s+/g, " ")
+                    .trim()
+                    .toLocaleLowerCase();
+            }
+
+            function rangeChartRows(groups) {
+                const merged = new Map();
+                for (const gun of groups) {
+                    const range = Number(gun.maximumRange) || 0;
+                    if (range <= 0) continue;
+                    const key = `${gun.nationId}\u0000${normalizeChartModel(gun.model)}\u0000${range}`;
+                    const existing = merged.get(key);
+                    if (existing) {
+                        existing.serverIds.add(gun.serverId);
+                    } else {
+                        merged.set(key, {
+                            nationId: gun.nationId,
+                            model: gun.model,
+                            range,
+                            serverIds: new Set([gun.serverId]),
+                        });
+                    }
+                }
+                return [...merged.values()];
+            }
+
+            function chartServerLabel(serverIds) {
+                if (serverIds.has("korea") && serverIds.has("global")) {
+                    return "한국 · 글로벌 / Korea · Global";
+                }
+                return serverIds.has("korea") ? "한국 / Korea" : "글로벌 / Global";
+            }
+
+            function rangeColumnValue(item, key) {
+                if (key === "server") return chartServerLabel(item.serverIds);
+                if (key === "nation") {
+                    return nationName(item.nationId, item.serverIds.has("korea") ? "korea" : "global");
+                }
+                return item[key];
+            }
+
+            function sortRangeChartRows(rows) {
+                const column = RANGE_COLUMNS.find(({ key }) => key === rangeSort.key);
+                return rows.sort((left, right) => {
+                    const result = compareValues(
+                        rangeColumnValue(left, column.key),
+                        rangeColumnValue(right, column.key),
+                        column.numeric,
+                    );
+                    if (result) return rangeSort.direction === "asc" ? result : -result;
+                    return right.range - left.range
+                        || left.nationId - right.nationId
+                        || compareValues(left.model, right.model, false);
+                });
+            }
+
+            function renderRangeHead() {
+                elements.rangeHead.replaceChildren();
+                for (const column of RANGE_COLUMNS) {
+                    const header = document.createElement("th");
+                    header.scope = "col";
+                    header.tabIndex = 0;
+                    header.dataset.key = column.key;
+                    if (column.className) header.className = column.className;
+                    const active = rangeSort.key === column.key;
+                    header.setAttribute("aria-sort", active
+                        ? (rangeSort.direction === "asc" ? "ascending" : "descending")
+                        : "none");
+                    header.innerHTML = `<span class="header-ko">${column.ko}<span class="sort-icons" aria-hidden="true">`
+                        + `<span class="sort-arrow${active && rangeSort.direction === "asc" ? " active" : ""}">▲</span>`
+                        + `<span class="sort-arrow${active && rangeSort.direction === "desc" ? " active" : ""}">▼</span></span></span>`
+                        + `<span class="header-en">${column.en}</span>`;
+                    const activate = () => {
+                        rangeSort = rangeSort.key === column.key
+                            ? { key: column.key, direction: rangeSort.direction === "asc" ? "desc" : "asc" }
+                            : { key: column.key, direction: column.numeric ? "desc" : "asc" };
+                        render();
+                    };
+                    header.addEventListener("click", activate);
+                    header.addEventListener("keydown", (event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            activate();
+                        }
+                    });
+                    elements.rangeHead.append(header);
+                }
+            }
+
+            function renderRangeChart(groups) {
+                renderRangeHead();
+                const rows = sortRangeChartRows(rangeChartRows(groups));
+                const scaleMaximum = Math.max(...rows.map((row) => row.range), 1);
+                elements.rangeBody.replaceChildren();
+
+                for (const item of rows) {
+                    const row = document.createElement("tr");
+                    const serverCell = document.createElement("td");
+                    serverCell.className = "range-server";
+                    serverCell.textContent = chartServerLabel(item.serverIds);
+
+                    const nationCell = document.createElement("td");
+                    nationCell.className = "range-nation";
+                    nationCell.textContent = nationName(
+                        item.nationId,
+                        item.serverIds.has("korea") ? "korea" : "global",
+                    );
+
+                    const modelCell = document.createElement("td");
+                    modelCell.className = "range-model";
+                    modelCell.textContent = item.model;
+
+                    const graphCell = document.createElement("td");
+                    graphCell.className = "range-bar-cell";
+                    const layout = document.createElement("div");
+                    layout.className = "range-bar-layout";
+                    const track = document.createElement("div");
+                    track.className = "range-bar-track";
+                    const bar = document.createElement("div");
+                    bar.className = "range-bar";
+                    bar.style.width = `${(item.range / scaleMaximum) * 100}%`;
+                    bar.style.backgroundColor = NATION_COLORS[item.nationId] || NATION_COLORS[0];
+                    bar.setAttribute("role", "img");
+                    bar.setAttribute("aria-label", `${item.model}: ${item.range.toLocaleString()}`);
+                    const value = document.createElement("span");
+                    value.className = "range-value";
+                    value.textContent = item.range.toLocaleString();
+                    track.append(bar);
+                    layout.append(track, value);
+                    graphCell.append(layout);
+                    row.append(serverCell, nationCell, modelCell, graphCell);
+                    elements.rangeBody.append(row);
+                }
+
+                if (!rows.length) {
+                    const row = document.createElement("tr");
+                    const cell = document.createElement("td");
+                    cell.colSpan = 4;
+                    cell.className = "py-4 text-center text-muted";
+                    cell.textContent = "현재 필터에서 사거리 정보가 있는 함포가 없습니다. / No range data for the current filters.";
+                    row.append(cell);
+                    elements.rangeBody.append(row);
+                }
+                elements.rangeSummary.textContent = `함포 ${rows.length.toLocaleString()}개 / ${rows.length.toLocaleString()} naval guns`;
+            }
+
+            function renderHead() {
+                elements.head.replaceChildren();
+                for (const column of COLUMNS) {
+                    const header = document.createElement("th");
+                    header.scope = "col";
+                    header.tabIndex = 0;
+                    header.dataset.key = column.key;
+                    header.setAttribute("aria-sort", sort.key === column.key
+                        ? (sort.direction === "asc" ? "ascending" : "descending")
+                        : "none");
+                    const isActiveSort = sort.key === column.key;
+                    const ascendingActive = isActiveSort && sort.direction === "asc";
+                    const descendingActive = isActiveSort && sort.direction === "desc";
+                    header.innerHTML = `<span class="header-ko">${column.ko}<span class="sort-icons" aria-hidden="true">`
+                        + `<span class="sort-arrow${ascendingActive ? " active" : ""}">▲</span>`
+                        + `<span class="sort-arrow${descendingActive ? " active" : ""}">▼</span></span></span>`
+                        + `<span class="header-en">${column.en}</span>`;
+                    const activate = () => {
+                        sort = sort.key === column.key
+                            ? { key: column.key, direction: sort.direction === "asc" ? "desc" : "asc" }
+                            : { key: column.key, direction: "asc" };
+                        page = 1;
+                        render();
+                    };
+                    header.addEventListener("click", activate);
+                    header.addEventListener("keydown", (event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            activate();
+                        }
+                    });
+                    elements.head.append(header);
+                }
+            }
+
+            function render() {
+                const view = elements.view.value;
+                elements.rangeCard.hidden = view === "list";
+                elements.tableCard.hidden = view === "graph";
+                renderHead();
+                const groups = filteredGroups();
+                renderRangeChart(groups);
+                const totalShells = groups.reduce((sum, gun) => sum + gun.visibleProjectiles.length, 0);
+                const requestedSize = Number(elements.pageSize.value);
+                const size = requestedSize || Math.max(groups.length, 1);
+                const pages = Math.max(Math.ceil(groups.length / size), 1);
+                page = Math.min(page, pages);
+                const visibleGroups = groups.slice((page - 1) * size, page * size);
+
+                elements.body.replaceChildren();
+                for (const gun of visibleGroups) {
+                    gun.visibleProjectiles.forEach((shell, shellIndex) => {
+                        const row = document.createElement("tr");
+                        if (shellIndex === 0) row.classList.add("group-start");
+                        for (const column of COLUMNS) {
+                            if (column.group && shellIndex > 0) continue;
+                            appendCell(
+                                row,
+                                cellValue(gun, shell, column),
+                                column,
+                                column.group ? gun.visibleProjectiles.length : 0,
+                            );
+                        }
+                        elements.body.append(row);
+                    });
+                }
+
+                if (!groups.length) {
+                    const row = document.createElement("tr");
+                    const cell = document.createElement("td");
+                    cell.colSpan = COLUMNS.length;
+                    cell.className = "py-4 text-center";
+                    cell.textContent = "조건에 맞는 함포 또는 포탄이 없습니다. / No matching naval guns or shells.";
+                    row.append(cell);
+                    elements.body.append(row);
+                }
+
+                elements.summary.textContent = `함포 ${groups.length.toLocaleString()}문 · 포탄 ${totalShells.toLocaleString()}개`;
+                elements.pageStatus.textContent = `${page} / ${pages}`;
+                elements.previous.classList.toggle("disabled", page <= 1);
+                elements.next.classList.toggle("disabled", page >= pages);
+            }
+
+            function populateNations() {
+                elements.nation.replaceChildren(new Option("전체 / All", ""));
+                const nationSource = elements.server.value === "korea" ? NATIONS.korea : NATIONS.global;
+                for (const [id, name] of nationSource) {
+                    elements.nation.add(new Option(name, String(id)));
+                }
+                renderTiles(elements.nation, elements.nationTiles);
+            }
+
+            function populateBarrels() {
+                const selected = elements.barrel.value;
+                const guns = Object.values(catalog?.servers || {}).flatMap((server) => server.guns || []);
+                const values = [...new Set(guns
+                    .filter((gun) => gun.barrelCount !== null)
+                    .map((gun) => Number(gun.barrelCount)))].filter(Number.isFinite).sort((left, right) => left - right);
+                elements.barrel.replaceChildren(new Option("전체 / All", ""));
+                for (const value of values) {
+                    const barrelNames = {
+                        1: ["단장", "Single Barrel"],
+                        2: ["연장", "Double Barrel"],
+                        3: ["3연장", "Triple Barrel"],
+                        4: ["4연장", "Quad Barrel"],
+                        5: ["5연장", "Quintuple Barrel"],
+                        7: ["7연장", "Septuple Barrel"],
+                        8: ["8연장", "Octuple Barrel"],
+                    };
+                    const [korean, english] = barrelNames[value] ?? [`${value}연장`, `${value}-Barrel`];
+                    const label = `${korean} / ${english}`;
+                    elements.barrel.add(new Option(label, String(value)));
+                }
+                if (guns.some((gun) => gun.barrelCount === null)) {
+                    elements.barrel.add(new Option("특수무기 / Special Weapon", "special"));
+                }
+                elements.barrel.value = selected;
+                renderTiles(elements.barrel, elements.barrelTiles);
+            }
+
+            function renderTiles(select, container) {
+                container.replaceChildren();
+                for (const option of select.options) {
+                    const button = document.createElement("button");
+                    button.type = "button";
+                    button.className = "filter-tile";
+                    button.classList.toggle("active", option.value === select.value);
+                    button.setAttribute("aria-pressed", option.value === select.value ? "true" : "false");
+                    button.textContent = option.textContent;
+                    button.addEventListener("click", () => {
+                        select.value = option.value;
+                        select.dispatchEvent(new Event("change"));
+                    });
+                    container.append(button);
+                }
+            }
+
+            function refreshTiles() {
+                renderTiles(elements.server, elements.serverTiles);
+                renderTiles(elements.nation, elements.nationTiles);
+                renderTiles(elements.barrel, elements.barrelTiles);
+                renderTiles(elements.gunType, elements.gunTypeTiles);
+                renderTiles(elements.view, elements.viewTiles);
+            }
+
+            elements.server.addEventListener("change", () => {
+                populateNations();
+                page = 1;
+                refreshTiles();
+                render();
+            });
+            elements.nation.addEventListener("change", () => { page = 1; refreshTiles(); render(); });
+            elements.barrel.addEventListener("change", () => { page = 1; refreshTiles(); render(); });
+            elements.gunType.addEventListener("change", () => { page = 1; refreshTiles(); render(); });
+            elements.view.addEventListener("change", () => { refreshTiles(); render(); });
+            elements.search.addEventListener("input", () => { page = 1; render(); });
+            elements.levelMin.addEventListener("input", () => { page = 1; render(); });
+            elements.levelMax.addEventListener("input", () => { page = 1; render(); });
+            elements.angleMin.addEventListener("input", () => { page = 1; render(); });
+            elements.angleMax.addEventListener("input", () => { page = 1; render(); });
+            elements.pageSize.addEventListener("change", () => { page = 1; render(); });
+            elements.reset.addEventListener("click", () => {
+                elements.server.value = "";
+                populateNations();
+                elements.nation.value = "";
+                elements.barrel.value = "";
+                elements.gunType.value = "";
+                elements.view.value = "all";
+                elements.search.value = "";
+                elements.levelMin.value = "";
+                elements.levelMax.value = "";
+                elements.angleMin.value = "";
+                elements.angleMax.value = "";
+                page = 1;
+                sort = { key: "default", direction: "asc" };
+                rangeSort = { key: "range", direction: "desc" };
+                refreshTiles();
+                render();
+            });
+            elements.previous.querySelector("button").addEventListener("click", () => {
+                if (page > 1) { page -= 1; render(); }
+            });
+            elements.next.querySelector("button").addEventListener("click", () => {
+                page += 1;
+                render();
+            });
+
+            async function initialize() {
+                populateNations();
+                refreshTiles();
+                try {
+                    const response = await fetch(CATALOG_URL, { cache: "default" });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    catalog = await response.json();
+                    populateBarrels();
+                    refreshTiles();
+                    elements.status.className = "alert alert-success py-2";
+                    elements.status.textContent = "함포·포탄 카탈로그를 불러왔습니다. / Catalog loaded.";
+                    render();
+                } catch (error) {
+                    elements.status.className = "alert alert-danger py-2";
+                    elements.status.textContent = `카탈로그를 불러오지 못했습니다. / Failed to load catalog: ${error.message}`;
+                }
+            }
+
+            initialize();
+        })();
+    </script>
+</body>
+
+</html>
