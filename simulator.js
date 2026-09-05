@@ -149,7 +149,7 @@
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
     let staticCatalogPromise = null;
-    const deckCorrectionEnabled = Object.fromEntries(DECK_CORRECTION_ABILITIES.map(([key]) => [key, true]));
+    const seamanCorrectionEnabled = Object.fromEntries(DECK_CORRECTION_ABILITIES.map(([key]) => [key, true]));
     const language = () => server.value === "global" ? "en" : "ko";
     const t = () => TEXT[language()];
     const abilityLabel = (ability) => ability[language() === "ko" ? 1 : 2];
@@ -564,7 +564,7 @@
         const officers = [...fixedOfficers, Math.floor(crewCount * 0.4), Math.floor(crewCount * 0.45)];
         return officers.map((officerCount) => {
             const safeOfficers = Math.min(officerCount, maximumPerformanceOfficers(crewCount));
-            return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, deckCorrectionRate: 0 };
+            return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, seamanCorrectionRate: 0 };
         });
     }
     function maximumPerformanceOfficers(crewCount) {
@@ -574,7 +574,7 @@
         return performanceCompositions.map((composition, index) => {
             const currentCrew = performanceCurrentCrew(composition);
             const crewRate = performanceCrewCount > 0 ? currentCrew / performanceCrewCount * 100 : 0;
-            const deckCorrectionRate = Number(composition.deckCorrectionRate) || 0;
+            const seamanCorrectionRate = Number(composition.seamanCorrectionRate) || 0;
             const percentageOfficerRate = [40, 45, 50].find((rate) =>
                 composition.officers === Math.floor(performanceCrewCount * rate / 100)
             );
@@ -584,17 +584,17 @@
             const officerRateLabel = showActualOfficerCount && percentageOfficerRate
                 ? (language() === "ko" ? `사관 ${percentageOfficerRate}%` : `Officers ${percentageOfficerRate}%`)
                 : null;
-            if (!performanceDetailedHeaders[index] && deckCorrectionRate <= 0) {
+            if (!performanceDetailedHeaders[index] && seamanCorrectionRate <= 0) {
                 return officerRateLabel ? [officerLabel, officerRateLabel] : [officerLabel];
             }
             const labels = language() === "ko"
                 ? [officerLabel, `숙련 ${composition.veterans} · 신병 ${composition.rookies}`, `총원 ${crewRate.toFixed(1)}%`]
                 : [officerLabel, `Veterans ${composition.veterans} · Rookies ${composition.rookies}`, `Total ${crewRate.toFixed(1)}%`];
             if (officerRateLabel) labels.splice(1, 0, officerRateLabel);
-            if (deckCorrectionRate > 0) {
+            if (seamanCorrectionRate > 0) {
                 labels.splice(2, 0, language() === "ko"
-                    ? `갑판병 보정률 ${displayGunNumber(deckCorrectionRate)}%`
-                    : `Seaman correction ${displayGunNumber(deckCorrectionRate)}%`);
+                    ? `수병 보정률 ${displayGunNumber(seamanCorrectionRate)}%`
+                    : `Seaman correction ${displayGunNumber(seamanCorrectionRate)}%`);
             }
             return labels;
         });
@@ -611,7 +611,7 @@
             const checkbox = document.createElement("input");
             checkbox.className = "form-check-input performance-deck-ability-checkbox";
             checkbox.type = "checkbox";
-            checkbox.checked = deckCorrectionEnabled[key];
+            checkbox.checked = seamanCorrectionEnabled[key];
             checkbox.dataset.ability = key;
             checkbox.setAttribute("aria-label", abilityLabel(ability));
             cell.append(checkbox);
@@ -676,7 +676,7 @@
             deckRateInput.min = "0";
             deckRateInput.max = "12";
             deckRateInput.step = "1";
-            deckRateInput.value = String(composition.deckCorrectionRate);
+            deckRateInput.value = String(composition.seamanCorrectionRate);
             deckRateInput.dataset.index = String(index);
             const deckRateSuffix = document.createElement("span");
             deckRateSuffix.className = "input-group-text";
@@ -1004,7 +1004,7 @@
             abilities: JSON.stringify(ABILITIES.slice(0, -1).map(([key]) => ({
                 key,
                 value: latestPerformanceContext.abilities[key],
-                applyDeckCorrection: deckCorrectionEnabled[key] === true,
+                applySeamanCorrection: seamanCorrectionEnabled[key] === true,
             }))),
             crewCount: String(latestPerformanceContext.crewCount),
             conditions: JSON.stringify(performanceCompositions),
@@ -1060,8 +1060,8 @@
             el("#performance-result-head").replaceChildren(headRow);
             const resultBody = el("#performance-result-body");
             resultBody.replaceChildren();
-            const hasAppliedDeckCorrection = body.result.results.some((result) =>
-                Number(result.performance?.appliedDeckCorrectionPercent) > 0
+            const hasAppliedSeamanCorrection = body.result.results.some((result) =>
+                Number(result.performance?.appliedSeamanCorrectionPercent) > 0
             );
             const isGlobalReloadCap = (result) => server.value === "global"
                 && Number(result.performance?.gunReloadEfficiencyChangePercent) <= -66;
@@ -1078,15 +1078,15 @@
                 [t().performanceReloadCapProgress, "gunReloadAbilityCapProgressPercent", (value) => `${Number(value).toFixed(1)}%`],
                 [t().performanceAverageReload, "averageGunReloadSeconds", (value) => String(value)],
                 ...(allGlobalReloadCaps ? [] : [
-                    [t().performanceRequiredDeck, "requiredDeckCorrectionPercent", (value) => value === null ? "" : `${value}%`],
-                    [t().performanceAverageReloadWithDeck, "averageGunReloadSecondsWithRequiredDeckCorrection", (value) => value === null ? "" : String(value)],
+                    [t().performanceRequiredDeck, "requiredSeamanCorrectionPercent", (value) => value === null ? "" : `${value}%`],
+                    [t().performanceAverageReloadWithDeck, "averageGunReloadSecondsWithRequiredSeamanCorrection", (value) => value === null ? "" : String(value)],
                 ]),
             ];
             const performanceRows = [
                 [t().performanceRepair, "repairSpeedPerSecond", (value) => String(value)],
                 [t().performanceStructural, "structuralDefense", (value) => String(value)],
-                ...(hasAppliedDeckCorrection
-                    ? [[t().performanceAppliedDeckCorrection, "appliedDeckCorrectionPercent", (value) => `${value}%`]]
+                ...(hasAppliedSeamanCorrection
+                    ? [[t().performanceAppliedDeckCorrection, "appliedSeamanCorrectionPercent", (value) => `${value}%`]]
                     : []),
                 [t().performanceGuidelineLength, "guidelineLength", (value) => String(value)],
                 ...reloadRows,
@@ -1099,9 +1099,9 @@
                 row.append(heading);
                 body.result.results.forEach((result) => {
                     const cell = document.createElement("td");
-                    const isDeckSuggestionRow = valueKey === "requiredDeckCorrectionPercent"
-                        || valueKey === "averageGunReloadSecondsWithRequiredDeckCorrection";
-                    const showReloadCapOnly = isDeckSuggestionRow && isGlobalReloadCap(result);
+                    const isSeamanSuggestionRow = valueKey === "requiredSeamanCorrectionPercent"
+                        || valueKey === "averageGunReloadSecondsWithRequiredSeamanCorrection";
+                    const showReloadCapOnly = isSeamanSuggestionRow && isGlobalReloadCap(result);
                     if (showReloadCapOnly) appendReloadCapLabel(cell);
                     else if (valueKey === "gunReloadAbilityCapProgressPercent"
                         && isGlobalReloadCap(result)) {
@@ -1110,7 +1110,7 @@
                         cell.textContent = "100.0%";
                     } else cell.textContent = formatValue(result.performance[valueKey]);
                     if (valueKey === "gunReloadEfficiencyChangePercent"
-                        && Number(result.performance.appliedDeckCorrectionPercent) === 0
+                        && Number(result.performance.appliedSeamanCorrectionPercent) === 0
                         && isGlobalReloadCap(result)) {
                         appendReloadCapLabel(cell);
                     }
@@ -1450,8 +1450,8 @@
         if (!event.target.matches(".performance-deck-rate-input")) return;
         const composition = performanceCompositions[Number(event.target.dataset.index)];
         if (!composition) return;
-        composition.deckCorrectionRate = Math.min(12, Math.max(0, Number(event.target.value) || 0));
-        event.target.value = String(composition.deckCorrectionRate);
+        composition.seamanCorrectionRate = Math.min(12, Math.max(0, Number(event.target.value) || 0));
+        event.target.value = String(composition.seamanCorrectionRate);
         clearPerformanceApiResult();
     });
     el("#performance-calculate-button").addEventListener("click", requestPerformanceCalculation);
@@ -1465,7 +1465,7 @@
     });
     el("#performance-deck-ability-body").addEventListener("change", (event) => {
         if (!event.target.matches(".performance-deck-ability-checkbox")) return;
-        deckCorrectionEnabled[event.target.dataset.ability] = event.target.checked;
+        seamanCorrectionEnabled[event.target.dataset.ability] = event.target.checked;
         clearPerformanceApiResult();
     });
     selectServer();
