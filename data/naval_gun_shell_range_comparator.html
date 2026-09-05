@@ -724,12 +724,12 @@
                 groups.forEach((gun) => {
                     gun.visibleProjectiles.sort((left, right) => {
                         if (!column || column.group) {
-                            const shellTypeRank = (shellType) => {
-                                if (shellType === "HE") return 0;
-                                if (shellType === "AP") return 1;
+                            const shellTypeRank = (shell) => {
+                                if (shell.shellCategory === "HE") return 0;
+                                if (shell.shellCategory === "AP") return 1;
                                 return 2;
                             };
-                            return shellTypeRank(left.shellType) - shellTypeRank(right.shellType)
+                            return shellTypeRank(left) - shellTypeRank(right)
                                 || compareValues(right.shipyardRange, left.shipyardRange, true)
                                 || compareValues(left.shellType, right.shellType, false);
                         }
