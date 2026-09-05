@@ -174,7 +174,7 @@
         }
 
         #range-chart-table {
-            min-width: 760px;
+            min-width: 650px;
             margin: 0;
             color: #263746;
             background: #fff;
@@ -203,27 +203,27 @@
         }
 
         .range-server {
-            width: 9rem;
-            text-align: center;
-            white-space: nowrap;
+            width: 7rem;
+            text-align: left;
+            white-space: pre;
         }
 
         .range-model {
-            width: 24rem;
+            width: 18rem;
         }
 
         .range-nation {
-            width: 13rem;
+            width: 10rem;
             white-space: nowrap;
         }
 
         .range-bar-cell {
-            min-width: 20rem;
+            min-width: 16rem;
         }
 
         .range-bar-layout {
             display: grid;
-            grid-template-columns: minmax(8rem, 1fr) 6rem;
+            grid-template-columns: minmax(6rem, 1fr) 5rem;
             align-items: center;
             gap: 0.8rem;
         }
@@ -514,7 +514,7 @@
             ];
 
             const COLUMNS = [
-                { key: "server", ko: "서버", en: "Server", group: true },
+                { key: "server", ko: "서버", en: "Server", group: true, align: "text-start" },
                 { key: "nation", ko: "국가", en: "Nation", group: true, align: "text-start" },
                 { key: "model", ko: "함포명", en: "Naval Gun", group: true, align: "text-start" },
                 { key: "capacity", ko: "필요용적", en: "Required Space", group: true, numeric: true },
@@ -809,7 +809,7 @@
 
             function chartServerLabel(serverIds) {
                 if (serverIds.has("korea") && serverIds.has("global")) {
-                    return "한국 글로벌 Korea Global";
+                    return "한국 Korea\n글로벌 Global";
                 }
                 return serverName(serverIds.has("korea") ? "korea" : "global");
             }
@@ -941,6 +941,7 @@
                     header.scope = "col";
                     header.tabIndex = 0;
                     header.dataset.key = column.key;
+                    if (column.align) header.classList.add(column.align);
                     header.setAttribute("aria-sort", sort.key === column.key
                         ? (sort.direction === "asc" ? "ascending" : "descending")
                         : "none");
