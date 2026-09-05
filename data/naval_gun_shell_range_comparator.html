@@ -340,6 +340,17 @@
                                         placeholder="함포명 또는 포탄명 Naval gun or shell name" />
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
+                                    <span class="form-label toolbar-label d-block">구경 Calibre (in)</span>
+                                    <div class="input-group">
+                                        <span class="input-group-text">최소 Min</span>
+                                        <input id="calibre-min-filter" class="form-control" type="number" min="0" step="0.01"
+                                            inputmode="decimal" aria-label="최소 구경" placeholder="예: 11" />
+                                        <span class="input-group-text">최대 Max</span>
+                                        <input id="calibre-max-filter" class="form-control" type="number" min="0" step="0.01"
+                                            inputmode="decimal" aria-label="최대 구경" placeholder="예: 18" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <span class="form-label toolbar-label d-block">함포 레벨 Naval Gun Level</span>
                                     <div class="input-group">
                                         <span class="input-group-text">최소 Min</span>
@@ -396,7 +407,7 @@
                                     <tbody id="table-body"></tbody>
                                 </table>
                             </div>
-                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 p-3">
+                            <div class="d-flex flex-wrap justify-content-start align-items-center gap-2 p-3">
                                 <nav aria-label="비교표 페이지">
                                     <ul class="pagination pagination-sm mb-0">
                                         <li id="previous-page" class="page-item">
@@ -430,7 +441,7 @@
                                     <tbody id="range-chart-body"></tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-end p-3">
+                            <div class="d-flex justify-content-start p-3">
                                 <nav aria-label="사거리 그래프 페이지">
                                     <ul class="pagination pagination-sm mb-0">
                                         <li id="range-previous-page" class="page-item">
@@ -466,7 +477,7 @@
             "use strict";
 
             // Update this value with each catalog deployment to request the new asset URL.
-            const CATALOG_VERSION = "20260905";
+            const CATALOG_VERSION = "20260905-2";
             const CATALOG_URL = `https://navyfield-simulator-api.14desu.workers.dev/catalog/gun-shipyard-catalog.json?v=${CATALOG_VERSION}`;
             const NATIONS = {
                 korea: [
@@ -533,6 +544,8 @@
                 view: document.querySelector("#view-filter"),
                 viewTiles: document.querySelector("#view-tiles"),
                 search: document.querySelector("#text-filter"),
+                calibreMin: document.querySelector("#calibre-min-filter"),
+                calibreMax: document.querySelector("#calibre-max-filter"),
                 levelMin: document.querySelector("#level-min-filter"),
                 levelMax: document.querySelector("#level-max-filter"),
                 angleMin: document.querySelector("#angle-min-filter"),
@@ -637,6 +650,9 @@
                 ].filter(Boolean);
                 const query = elements.search.value.trim();
                 if (query) filters.push(`검색 ${query}`);
+                if (elements.calibreMin.value !== "" || elements.calibreMax.value !== "") {
+                    filters.push(`구경 ${elements.calibreMin.value || "최소"}~${elements.calibreMax.value || "최대"}in`);
+                }
                 if (elements.levelMin.value !== "" || elements.levelMax.value !== "") {
                     filters.push(`함포 레벨 ${elements.levelMin.value || "최소"}~${elements.levelMax.value || "최대"}`);
                 }
@@ -671,6 +687,8 @@
                 const maximumLevel = elements.levelMax.value === "" ? Infinity : Number(elements.levelMax.value);
                 const minimumAngle = elements.angleMin.value === "" ? -Infinity : Number(elements.angleMin.value);
                 const maximumAngle = elements.angleMax.value === "" ? Infinity : Number(elements.angleMax.value);
+                const minimumCalibre = elements.calibreMin.value === "" ? -Infinity : Number(elements.calibreMin.value);
+                const maximumCalibre = elements.calibreMax.value === "" ? Infinity : Number(elements.calibreMax.value);
                 const query = elements.search.value.trim().toLocaleLowerCase();
 
                 const groups = source.flatMap((gun) => {
@@ -683,6 +701,8 @@
                     if ((elements.angleMin.value !== "" || elements.angleMax.value !== "")
                         && !(Number(gun.maxAngle) >= minimumAngle && Number(gun.maxAngle) <= maximumAngle)) return [];
                     const calibre = gunCalibre(gun.model);
+                    if ((elements.calibreMin.value !== "" || elements.calibreMax.value !== "")
+                        && !(calibre >= minimumCalibre && calibre <= maximumCalibre)) return [];
                     if (gunType === "large" && !(calibre >= 11)) return [];
                     if (gunType === "small" && !(calibre < 11)) return [];
                     if (gunType === "aa" && !isAaGun(gun)) return [];
@@ -1080,6 +1100,8 @@
             elements.gunType.addEventListener("change", () => { page = 1; refreshTiles(); render(); });
             elements.view.addEventListener("change", () => { refreshTiles(); render(); });
             elements.search.addEventListener("input", () => { page = 1; render(); });
+            elements.calibreMin.addEventListener("input", () => { page = 1; render(); });
+            elements.calibreMax.addEventListener("input", () => { page = 1; render(); });
             elements.levelMin.addEventListener("input", () => { page = 1; render(); });
             elements.levelMax.addEventListener("input", () => { page = 1; render(); });
             elements.angleMin.addEventListener("input", () => { page = 1; render(); });
@@ -1093,6 +1115,8 @@
                 elements.gunType.value = "";
                 elements.view.value = "all";
                 elements.search.value = "";
+                elements.calibreMin.value = "";
+                elements.calibreMax.value = "";
                 elements.levelMin.value = "";
                 elements.levelMax.value = "";
                 elements.angleMin.value = "";
