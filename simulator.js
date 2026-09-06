@@ -1043,7 +1043,11 @@
                 if (server.value === "global"
                     && key === "engineOverheatRateMultipleSailorsPercent"
                     && Number(result.performance[key]) >= 70) {
-                    appendEngineCapLabel(cell);
+                    appendCapLabel(cell);
+                }
+                if (key === "structuralDefenseMultipleEngineSailors"
+                    && Number(result.performance[key]) >= 900) {
+                    appendCapLabel(cell);
                 }
                 row.append(cell);
             });
@@ -1053,12 +1057,10 @@
             && results.some((result) => Number(result.performance?.engineOverheatRateMultipleSailorsPercent) >= 70));
         section.hidden = false;
     }
-    function appendEngineCapLabel(cell) {
+    function appendCapLabel(cell) {
         const capLabel = document.createElement("small");
         capLabel.className = "d-block fw-normal text-muted";
-        capLabel.textContent = server.value === "global"
-            ? "Engine cap reached"
-            : "\uAE30\uAD00\uCEA1 \uB3C4\uB2EC";
+        capLabel.textContent = server.value === "global" ? "Reach the cap" : "상한도달";
         cell.append(capLabel);
     }
     function clearPerformanceApiResult() {
@@ -1175,10 +1177,7 @@
             const allGlobalReloadCaps = body.result.results.length > 0
                 && body.result.results.every(isGlobalReloadCap);
             const appendReloadCapLabel = (cell) => {
-                const capLabel = document.createElement("small");
-                capLabel.className = "d-block fw-normal text-muted";
-                capLabel.textContent = t().performanceAbilityCapReached;
-                cell.append(capLabel);
+                appendCapLabel(cell);
             };
             const reloadRows = latestPerformanceContext.isGunnerPath ? [
                 [t().performanceReloadEfficiency, "gunReloadEfficiencyChangePercent", (value) => `${value}%`],
@@ -1228,7 +1227,11 @@
                     if (server.value === "global"
                         && valueKey === "engineOverheatRateOneSailorPercent"
                         && Number(result.performance[valueKey]) >= 70) {
-                        appendEngineCapLabel(cell);
+                        appendCapLabel(cell);
+                    }
+                    if (valueKey === "structuralDefense"
+                        && Number(result.performance[valueKey]) >= 900) {
+                        appendCapLabel(cell);
                     }
                     row.append(cell);
                 });
