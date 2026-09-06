@@ -11427,6 +11427,31 @@ body {
   width: 225px;
   margin: 0;
 }
+.sb-topnav .navbar-brand.brand-bilingual,
+.sb-topnav .navbar-brand:not(.brand-bilingual) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 0.9;
+}
+.sb-topnav .navbar-brand.brand-bilingual .brand-en {
+  font-size: 0.94em;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual) {
+  font-size: 0;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::before,
+.sb-topnav .navbar-brand:not(.brand-bilingual)::after {
+  display: block;
+  font-size: 1rem;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::before {
+  content: "네이비필드 수병계산기";
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::after {
+  content: "Navyfield Simulator";
+  font-size: 0.94rem;
+}
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.5);
 }
