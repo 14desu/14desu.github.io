@@ -11432,10 +11432,14 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2px;
   line-height: 0.9;
 }
 .sb-topnav .navbar-brand.brand-bilingual .brand-en {
-  font-size: 0.94em;
+  font-size: 0.94rem;
+}
+.sb-topnav .navbar-brand.brand-bilingual > :not(.brand-en) {
+  font-size: 1rem;
 }
 .sb-topnav .navbar-brand:not(.brand-bilingual) {
   font-size: 0;
@@ -11451,6 +11455,20 @@ body {
 .sb-topnav .navbar-brand:not(.brand-bilingual)::after {
   content: "Navyfield Simulator";
   font-size: 0.94rem;
+}
+.calculator-notice .notice-item {
+  margin-bottom: 0.6rem;
+}
+.calculator-notice .notice-en {
+  margin-top: -4px;
+  padding-left: 3.3rem;
+}
+.renewal-message .translation {
+  margin-top: -4px;
+  padding-left: 2rem;
+}
+.renewal-message {
+  margin-bottom: 1rem;
 }
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.5);
