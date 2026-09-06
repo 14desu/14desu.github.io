@@ -381,6 +381,10 @@
                                         <option value="0">전체 All</option>
                                     </select>
                                 </div>
+                                <div class="col-12">
+                                    <span class="form-label toolbar-label d-block">리스트 출력 항목 List Columns</span>
+                                    <div id="column-selector" class="d-flex flex-wrap gap-2" role="group" aria-label="리스트 출력 항목"></div>
+                                </div>
                             </div>
                             <small class="d-block mt-3 text-muted">버튼식 필터는 선택하지 않으면 전체를 표시합니다. 선택한 버튼을 다시 누르면 선택이 해제됩니다. Button filters show all results when no option is selected. Select an option to filter, or select it again to clear it.</small>
                         </div>
@@ -532,6 +536,11 @@
                 { key: "weightPerShell", ko: "1발당 무게(kg)", en: "Shell Weight (kg)", numeric: true },
                 { key: "shipyardRange", ko: "쉽야드사거리", en: "Shipyard Range", numeric: true },
             ];
+            const DEFAULT_VISIBLE_COLUMN_KEYS = new Set([
+                "server", "nation", "model", "requiredLevel", "maxAngle",
+                "barrelCount", "shellType", "apBonus", "heDamage", "shipyardRange",
+            ]);
+            let visibleColumnKeys = new Set(DEFAULT_VISIBLE_COLUMN_KEYS);
 
             const elements = {
                 server: document.querySelector("#server-filter"),
@@ -551,6 +560,7 @@
                 levelMax: document.querySelector("#level-max-filter"),
                 angleMin: document.querySelector("#angle-min-filter"),
                 angleMax: document.querySelector("#angle-max-filter"),
+                columnSelector: document.querySelector("#column-selector"),
                 pageSize: document.querySelector("#page-size"),
                 reset: document.querySelector("#reset-filter"),
                 status: document.querySelector("#status"),
@@ -571,6 +581,33 @@
                 rangeNext: document.querySelector("#range-next-page"),
                 rangePageStatus: document.querySelector("#range-page-status"),
             };
+
+            function visibleColumns() {
+                return COLUMNS.filter((column) => visibleColumnKeys.has(column.key));
+            }
+
+            function renderColumnSelector() {
+                elements.columnSelector.replaceChildren();
+                for (const column of COLUMNS) {
+                    const label = document.createElement("label");
+                    label.className = "form-check form-check-inline mb-0";
+                    const checkbox = document.createElement("input");
+                    checkbox.className = "form-check-input";
+                    checkbox.type = "checkbox";
+                    checkbox.checked = visibleColumnKeys.has(column.key);
+                    checkbox.addEventListener("change", () => {
+                        if (checkbox.checked) visibleColumnKeys.add(column.key);
+                        else if (visibleColumnKeys.size > 1) visibleColumnKeys.delete(column.key);
+                        else checkbox.checked = true;
+                        render();
+                    });
+                    const text = document.createElement("span");
+                    text.className = "form-check-label ms-1";
+                    text.textContent = `${column.ko} / ${column.en}`;
+                    label.append(checkbox, text);
+                    elements.columnSelector.append(label);
+                }
+            }
 
             let catalog = null;
             let page = 1;
@@ -936,7 +973,7 @@
 
             function renderHead() {
                 elements.head.replaceChildren();
-                for (const column of COLUMNS) {
+                for (const column of visibleColumns()) {
                     const header = document.createElement("th");
                     header.scope = "col";
                     header.tabIndex = 0;
@@ -989,7 +1026,7 @@
                     gun.visibleProjectiles.forEach((shell, shellIndex) => {
                         const row = document.createElement("tr");
                         if (shellIndex === 0) row.classList.add("group-start");
-                        for (const column of COLUMNS) {
+                        for (const column of visibleColumns()) {
                             if (column.group && shellIndex > 0) continue;
                             appendCell(
                                 row,
@@ -1005,7 +1042,7 @@
                 if (!groups.length) {
                     const row = document.createElement("tr");
                     const cell = document.createElement("td");
-                    cell.colSpan = COLUMNS.length;
+                    cell.colSpan = visibleColumns().length;
                     cell.className = "py-4 text-center";
                     cell.textContent = "조건에 맞는 함포 또는 포탄이 없습니다. / No matching naval guns or shells.";
                     row.append(cell);
@@ -1123,6 +1160,8 @@
                 elements.levelMax.value = "";
                 elements.angleMin.value = "";
                 elements.angleMax.value = "";
+                visibleColumnKeys = new Set(DEFAULT_VISIBLE_COLUMN_KEYS);
+                renderColumnSelector();
                 page = 1;
                 sort = { key: "default", direction: "asc" };
                 rangeSort = { key: "range", direction: "desc" };
@@ -1146,6 +1185,7 @@
 
             async function initialize() {
                 populateNations();
+                renderColumnSelector();
                 refreshTiles();
                 try {
                     const response = await fetch(CATALOG_URL, { cache: "default" });
