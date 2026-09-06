@@ -143,6 +143,7 @@
     let performanceCompositions = [];
     let performanceDetailedHeaders = [];
     let performanceCrewCount = null;
+    let performanceEngineCrewCount = 1;
     let performanceServer = null;
     let latestPerformanceContext = null;
     let availablePerformanceGuns = [];
@@ -735,9 +736,31 @@
         section.hidden = availablePerformanceFcs.length === 0;
         return !section.hidden;
     }
+    function isGunnerPath(appliedClasses) {
+        /* Legacy encoding-broken implementation retained only for source compatibility.
+        return [...appliedClasses].some((className) => server.value === "korea"
+            ? className.includes("포병")
+            : /\b(?:Gunner|Gunnery)\b/i.test(className));
+    }
+    function isEngineSailorClass(className) {
+        return server.value === "korea"
+            ? className.includes("\uAE30\uAD00\uBCD1")
+            : /\b(?:Engine|Engineer)\b/i.test(className);
+    }
+    function displayGunNumber(value) {
+        */
+        return [...appliedClasses].some((className) => server.value === "korea"
+            ? className.includes("\uD3EC\uBCD1")
+            : /\b(?:Gunner|Gunnery)\b/i.test(className));
+    }
     function displayGunNumber(value) {
         const number = Number(value) || 0;
         return Number.isInteger(number) ? String(number) : String(Number(number.toFixed(2)));
+    }
+    function isEngineSailorClass(className) {
+        return server.value === "korea"
+            ? className.includes("\uAE30\uAD00\uBCD1")
+            : /\b(?:Engine|Engineer)\b/i.test(className);
     }
     function primaryGunRequirement(gun) {
         const requirements = [
@@ -776,7 +799,8 @@
             ? appliedClasses.has("관제병")
             : appliedClasses.has("Bridge Operator");
         const targetGunSpecified = isCaptainPath && el("#performance-fcs-target-gun").checked;
-        if (isTorpedoSailorClass(currentClassName)) {
+        const hasGunnerPath = isGunnerPath(appliedClasses);
+        if ((!isCaptainPath && !hasGunnerPath) || isTorpedoSailorClass(currentClassName)) {
             availablePerformanceGuns = [];
             select.replaceChildren();
             el("#performance-gun-section").hidden = true;
@@ -805,7 +829,10 @@
             );
         select.replaceChildren();
         el("#performance-gun-section").hidden = availablePerformanceGuns.length === 0;
-        if (!availablePerformanceGuns.length) return;
+        if (!availablePerformanceGuns.length) {
+            if (latestPerformanceContext) delete latestPerformanceContext.gun;
+            return;
+        }
         for (const { gun, requirement } of availablePerformanceGuns) {
             select.append(option(String(gun.meta), performanceGunLabel(gun, requirement)));
         }
@@ -813,6 +840,15 @@
             select.value = String(previousMeta);
         }
         updatePerformanceGunDetails();
+    }
+    function renderPerformanceEngineCrewInput(isEngineSailor) {
+        const section = el("#performance-engine-crew-section");
+        const input = el("#performance-engine-crew-count");
+        section.hidden = !isEngineSailor;
+        input.value = String(performanceEngineCrewCount);
+        el("#performance-engine-crew-label").textContent = server.value === "global"
+            ? "Embarked engine sailors"
+            : "\uD0D1\uC2B9 \uAE30\uAD00\uBCD1 \uC218";
     }
     function fitPerformanceComposition(composition, changedField) {
         const reductionOrder = {
@@ -961,10 +997,78 @@
         });
         section.hidden = false;
     }
+    function renderMultipleEnginePerformance(results, caseLabels) {
+        const section = el("#performance-engine-multiple-result-section");
+        const head = el("#performance-engine-multiple-result-head");
+        const body = el("#performance-engine-multiple-result-body");
+        const capNote = el("#performance-engine-cap-note");
+        capNote.textContent = server.value === "global"
+            ? "Because this cap excludes the ship and engine overheat margins, the ability cap may be reached slightly sooner in practice."
+            : "함선 오버힛여유율과 엔진오버힛여유율을 제외한 캡이므로 실제로는 약간 더 빨리 어빌캡에 도달합니다.";
+        head.replaceChildren();
+        body.replaceChildren();
+        capNote.hidden = true;
+        if (!latestPerformanceContext?.isEngineSailor
+            || latestPerformanceContext.engineSailorCount <= 1) {
+            section.hidden = true;
+            return;
+        }
+        el("#performance-engine-multiple-result-title").textContent = server.value === "global"
+            ? `Engine performance · ${latestPerformanceContext.engineSailorCount} sailors`
+            : `기관병 ${latestPerformanceContext.engineSailorCount}명 성능`;
+        const headRow = document.createElement("tr");
+        const itemHeading = document.createElement("th");
+        itemHeading.textContent = t().performanceItem;
+        headRow.append(itemHeading);
+        caseLabels.forEach((lines) => appendPerformanceCaseHeading(headRow, lines));
+        head.append(headRow);
+        el("#performance-engine-multiple-result-title").textContent = server.value === "global"
+            ? `Engine performance simulation results · ${latestPerformanceContext.engineSailorCount} sailors`
+            : `\uAE30\uAD00\uBCD1 ${latestPerformanceContext.engineSailorCount}\uBA85 \uC131\uB2A5 \uC2DC\uBBAC\uB808\uC774\uC158 \uACB0\uACFC`;
+        const rows = [
+            [server.value === "global" ? "Repair speed [/s]" : "\uC218\uB9AC\uC18D\uB3C4 [/s]", "repairSpeedMultipleEngineSailorsPerSecond", (value) => String(value)],
+            [server.value === "global" ? "Structural defense" : "\uAD6C\uC870\uBC29\uC5B4", "structuralDefenseMultipleEngineSailors", (value) => String(value)],
+            [server.value === "global" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeMultipleSailorsSeconds", (value) => String(value)],
+            [server.value === "global" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateMultipleSailorsPercent", (value) => `${value}%`],
+        ];
+        for (const [label, key, format] of rows) {
+            const row = document.createElement("tr");
+            const heading = document.createElement("th");
+            heading.scope = "row";
+            heading.textContent = label;
+            row.append(heading);
+            results.forEach((result) => {
+                const cell = document.createElement("td");
+                cell.textContent = format(result.performance[key]);
+                if (server.value === "global"
+                    && key === "engineOverheatRateMultipleSailorsPercent"
+                    && Number(result.performance[key]) >= 70) {
+                    appendEngineCapLabel(cell);
+                }
+                row.append(cell);
+            });
+            body.append(row);
+        }
+        capNote.hidden = !(server.value === "global"
+            && results.some((result) => Number(result.performance?.engineOverheatRateMultipleSailorsPercent) >= 70));
+        section.hidden = false;
+    }
+    function appendEngineCapLabel(cell) {
+        const capLabel = document.createElement("small");
+        capLabel.className = "d-block fw-normal text-muted";
+        capLabel.textContent = server.value === "global"
+            ? "Engine cap reached"
+            : "\uAE30\uAD00\uCEA1 \uB3C4\uB2EC";
+        cell.append(capLabel);
+    }
     function clearPerformanceApiResult() {
         el("#performance-result-section").hidden = true;
         el("#performance-result-head").replaceChildren();
         el("#performance-result-body").replaceChildren();
+        el("#performance-engine-multiple-result-section").hidden = true;
+        el("#performance-engine-multiple-result-head").replaceChildren();
+        el("#performance-engine-multiple-result-body").replaceChildren();
+        el("#performance-engine-cap-note").hidden = true;
         el("#performance-implemented-reload-section").hidden = true;
         el("#performance-implemented-reload-head").replaceChildren();
         el("#performance-implemented-reload-body").replaceChildren();
@@ -1009,10 +1113,13 @@
             crewCount: String(latestPerformanceContext.crewCount),
             conditions: JSON.stringify(performanceCompositions),
         });
+        if (latestPerformanceContext.isEngineSailor) {
+            parameters.set("engineSailorCount", String(latestPerformanceContext.engineSailorCount));
+        }
         const targetGunSpecified = latestPerformanceContext.isCaptainPath
             && el("#performance-fcs-target-gun").checked
             && latestPerformanceContext.gun;
-        if ((!latestPerformanceContext.isCaptainPath || targetGunSpecified)
+        if ((latestPerformanceContext.isGunnerPath || targetGunSpecified)
             && latestPerformanceContext.gun) {
             parameters.set("gun", JSON.stringify({
                 name: latestPerformanceContext.gun.name,
@@ -1073,7 +1180,7 @@
                 capLabel.textContent = t().performanceAbilityCapReached;
                 cell.append(capLabel);
             };
-            const reloadRows = latestPerformanceContext.isCaptainPath ? [] : [
+            const reloadRows = latestPerformanceContext.isGunnerPath ? [
                 [t().performanceReloadEfficiency, "gunReloadEfficiencyChangePercent", (value) => `${value}%`],
                 [t().performanceReloadCapProgress, "gunReloadAbilityCapProgressPercent", (value) => `${Number(value).toFixed(1)}%`],
                 [t().performanceAverageReload, "averageGunReloadSeconds", (value) => String(value)],
@@ -1081,10 +1188,14 @@
                     [t().performanceRequiredDeck, "requiredSeamanCorrectionPercent", (value) => value === null ? "" : `${value}%`],
                     [t().performanceAverageReloadWithDeck, "averageGunReloadSecondsWithRequiredSeamanCorrection", (value) => value === null ? "" : String(value)],
                 ]),
-            ];
+            ] : [];
             const performanceRows = [
                 [t().performanceRepair, "repairSpeedPerSecond", (value) => String(value)],
                 [t().performanceStructural, "structuralDefense", (value) => String(value)],
+                ...(latestPerformanceContext.isEngineSailor ? [
+                    [server.value === "global" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeOneSailorSeconds", (value) => String(value)],
+                    [server.value === "global" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateOneSailorPercent", (value) => `${value}%`],
+                ] : []),
                 ...(hasAppliedSeamanCorrection
                     ? [[t().performanceAppliedDeckCorrection, "appliedSeamanCorrectionPercent", (value) => `${value}%`]]
                     : []),
@@ -1113,6 +1224,11 @@
                         && Number(result.performance.appliedSeamanCorrectionPercent) === 0
                         && isGlobalReloadCap(result)) {
                         appendReloadCapLabel(cell);
+                    }
+                    if (server.value === "global"
+                        && valueKey === "engineOverheatRateOneSailorPercent"
+                        && Number(result.performance[valueKey]) >= 70) {
+                        appendEngineCapLabel(cell);
                     }
                     row.append(cell);
                 });
@@ -1178,6 +1294,7 @@
                 }
             }
             renderImplementedReloadVisualization(body.result.results, caseLabels);
+            renderMultipleEnginePerformance(body.result.results, caseLabels);
             el("#performance-result-section").hidden = false;
             setPerformanceStatus(t().performanceComplete, "success");
         } catch (error) {
@@ -1355,14 +1472,19 @@
         el("#officer-body").replaceChildren(officerCountRow);
         const currentClassName = scheduledStages.at(-1)?.stage.name || path[0].name;
         const appliedClasses = new Set(scheduledStages.map(({ stage }) => stage.name));
+        const isEngineSailor = isEngineSailorClass(currentClassName);
         latestPerformanceContext = {
             nationId: Number(nation.value),
             sailorClass: currentClassName,
             abilities: Object.fromEntries(ABILITIES.slice(0, -1).map(([key]) => [key, total[key]])),
             crewCount: total.crewGrowth,
+            isEngineSailor,
+            engineSailorCount: performanceEngineCrewCount,
         };
+        renderPerformanceEngineCrewInput(isEngineSailor);
         renderPerformanceInputs(total.crewGrowth);
         latestPerformanceContext.isCaptainPath = renderPerformanceFcsCatalog(appliedClasses);
+        latestPerformanceContext.isGunnerPath = isGunnerPath(appliedClasses);
         el("#performance-fcs-guide-length").disabled = latestPerformanceContext.isCaptainPath
             && el("#performance-fcs-target-gun").checked;
         renderPerformanceGunInput(
@@ -1455,6 +1577,11 @@
         clearPerformanceApiResult();
     });
     el("#performance-calculate-button").addEventListener("click", requestPerformanceCalculation);
+    el("#performance-engine-crew-count").addEventListener("input", (event) => {
+        performanceEngineCrewCount = Math.min(10, Math.max(1, Math.floor(Number(event.target.value) || 1)));
+        event.target.value = String(performanceEngineCrewCount);
+        calculate();
+    });
     el("#performance-fcs-select").addEventListener("change", () => {
         clearPerformanceApiResult();
         updatePerformanceRequestAvailability();
