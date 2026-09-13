@@ -28,10 +28,33 @@
         .result-table td:first-child,.result-table th:first-child { text-align:left; }
         .performance-personnel-input { min-width:72px; }
         .simulator-mode-switch { display:flex; height:2rem; }
-        .simulator-mode-switch .btn { display:flex; min-width:8rem; height:2rem; align-items:center; justify-content:center; padding:.2rem .6rem; font-size:.875rem; line-height:1.2; }
+        .simulator-mode-switch .btn { display:flex; min-width:6rem; height:2rem; align-items:center; justify-content:center; padding:.2rem .6rem; font-size:.875rem; line-height:1.2; }
+        .calculator-settings-header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem .75rem; }
+        .calculator-settings-header .simulator-mode-switch { flex:0 0 auto; }
+        .sailor-settings-header { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+        #active-sailor-layer { max-width:70%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .calculator-notice-details { margin-bottom:.6rem; }
+        .calculator-notice-details > summary { display:flex; align-items:center; gap:.4rem; cursor:pointer; list-style:none; }
+        .calculator-notice-details > summary::-webkit-details-marker { display:none; }
+        .calculator-notice-details > summary::after { content:"\25B8"; margin-left:.2rem; font-size:.85rem; transition:transform .15s ease; }
+        .calculator-notice-details[open] > summary::after { transform:rotate(90deg); }
+        .calculator-notice-details .calculator-notice { margin-top:.35rem; }
         .ship-layer-bar { display:flex; align-items:center; gap:.35rem; overflow-x:auto; padding:.35rem; background:#f1f4f6; border:1px solid #d5dce2; border-radius:.25rem; }
         .ship-layer-tabs { display:flex; gap:.25rem; }
         .ship-layer-tab { white-space:nowrap; }
+        .ship-layer-bar.ship-roster { display:block; padding:0; overflow-x:auto; background:#fff; }
+        .ship-layer-bar.ship-roster .ship-layer-tabs { display:block; min-width:1050px; }
+        .ship-layer-roster-table { width:100%; margin:0; font-size:.78rem; table-layout:auto; }
+        .ship-layer-roster-table th, .ship-layer-roster-table td { padding:.22rem .35rem!important; text-align:center; vertical-align:middle; white-space:nowrap; }
+        .ship-layer-roster-table .ship-layer-seat-cell { width:7rem; }
+        .ship-layer-roster-table .ship-layer-class-cell { text-align:left; }
+        .ship-layer-roster-table .ship-layer-tab { width:100%; }
+        .ship-layer-roster-table .ship-roster-control { min-height:1.7rem; padding:.08rem 1.7rem .08rem .3rem; font-size:.76rem; line-height:1.2; }
+        .ship-layer-roster-table input.ship-roster-control { padding-right:.3rem; text-align:center; }
+        .ship-layer-roster-table .ship-roster-level { width:4.5rem; }
+        .ship-layer-roster-table .ship-roster-class-change { width:5.5rem; }
+        .ship-layer-roster-table .ship-roster-personnel { width:8rem; }
+        .ship-layer-roster-table tr.table-active > * { background-color:#e3edf6; }
         .compact-card-body { padding:.75rem; }
         #sailor-form { --bs-gutter-x:.65rem; --bs-gutter-y:.55rem; }
         #sailor-form .form-label { margin-bottom:.2rem; font-size:.85rem; }
@@ -79,7 +102,7 @@
         .result-table .ability-readonly { min-height:1.65rem; margin-right:auto; margin-left:auto; padding:.14rem .25rem; text-align:center; font-size:.8rem; line-height:1.2; }
         .tree-table td, .tree-table th { padding:.22rem .3rem!important; text-align:center!important; vertical-align:middle; }
         .tree-table .form-control { min-height:1.75rem; padding:.1rem .25rem; text-align:center; font-size:.8rem; }
-        .tree-table .promotion-bulk-label-cell { text-align:center!important; }
+        .tree-table .class-change-bulk-label-cell { text-align:center!important; }
         #performance-input-section .card-body, #performance-result-section .card-body { padding:.65rem; font-size:.82rem; }
         #performance-input-section .table, #performance-result-section .table { font-size:.8rem; }
         #performance-input-section .form-text, #performance-result-section .form-text { font-size:.75rem; }
@@ -115,7 +138,7 @@
         .tree-table-wrap { overflow:auto; }
         .tree-table td,.tree-table th { white-space:nowrap; text-align:center; }
         .tree-table tfoot td { background:#fff; vertical-align:middle; }
-        .tree-table .promotion-bulk-label-cell { text-align:right; }
+        .tree-table .class-change-bulk-label-cell { text-align:right; }
         #sailor-status { min-height:1.5rem; white-space:pre-line; }
         @media (min-width: 992px) {
             #result-section { max-width: 640px; margin-left:0; margin-right:auto; }
@@ -136,7 +159,6 @@
     <div id="layoutSidenav_content">
         <main><div class="container-fluid px-3 py-3">
             <h2 class="mt-2"><i class="fa-solid fa-calculator"></i> 수병계산기 / Sailor Simulator</h2>
-            <br>
 
             <h4>
                 <i class="fa-solid fa-person-digging"></i> 계산기 리뉴얼 / Simulator Renewal
@@ -146,19 +168,21 @@
                 <div class="translation">The Sailor Simulator is currently being renewed, and some content will be updated gradually.</div>
             </div>
 
-            <h4>
-                <i class="fa-solid fa-triangle-exclamation"></i> 주의사항 / Notice
-            </h4>
-            <div class="calculator-notice">
-                <div class="notice-item">
-                    　　<i class="fa-solid fa-flask"></i> 본 사이트의 정보는 유저가 인게임에서 수집한 자료와 실험을 통해 도출한 가설을 바탕으로 하며, 실제 결과와 오차가 있을 수 있습니다.
-                    <div class="notice-en">The information on this site is based on data collected by players in-game and hypotheses derived from testing, so actual results may vary.</div>
+            <details class="calculator-notice-details">
+                <summary class="simulator-intro-title">
+                    <i class="fa-solid fa-triangle-exclamation"></i> 주의사항 / Notice
+                </summary>
+                <div class="calculator-notice">
+                    <div class="notice-item">
+                        　　<i class="fa-solid fa-flask"></i> 본 사이트의 정보는 유저가 인게임에서 수집한 자료와 실험을 통해 도출한 가설을 바탕으로 하며, 실제 결과와 오차가 있을 수 있습니다.
+                        <div class="notice-en">The information on this site is based on data collected by players in-game and hypotheses derived from testing, so actual results may vary.</div>
+                    </div>
+                    <div class="notice-item">
+                        　　<i class="fa-solid fa-user-shield"></i> 모든 정보는 참고용으로만 활용하시고, 이용에 따른 판단과 책임은 사용자 본인에게 있습니다.
+                        <div class="notice-en">Please use this information for reference only. You are solely responsible for any decisions made based on it.</div>
+                    </div>
                 </div>
-                <div class="notice-item">
-                    　　<i class="fa-solid fa-user-shield"></i> 모든 정보는 참고용으로만 활용하시고, 이용에 따른 판단과 책임은 사용자 본인에게 있습니다.
-                    <div class="notice-en">Please use this information for reference only. You are solely responsible for any decisions made based on it.</div>
-                </div>
-            </div>
+            </details>
             <p id="sailor-subtitle" class="text-muted">수병 전직 정보를 기반으로 현재 레벨의 성장 어빌리티와 누적 어빌리티를 계산합니다.</p>
 
             <div id="sailor-status" class="alert alert-secondary py-2" role="status">수병 카탈로그를 불러오는 중…</div>
@@ -168,22 +192,25 @@
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <div class="btn-group simulator-mode-switch" role="group" aria-label="Simulator mode">
                             <input class="btn-check" type="radio" name="simulator-mode" id="single-sailor-mode" value="single" checked>
-                            <label class="btn btn-outline-secondary" for="single-sailor-mode">수병 계산</label>
+                            <label class="btn btn-outline-secondary" for="single-sailor-mode">수병</label>
                             <input class="btn-check" type="radio" name="simulator-mode" id="ship-mode" value="ship">
-                            <label class="btn btn-outline-secondary" for="ship-mode">함선 계산</label>
+                            <label class="btn btn-outline-secondary" for="ship-mode">함선</label>
                         </div>
                         <span class="small text-muted">함선 계산은 지정한 함선에 탑승한 여러 수병의 성능을 합산해 출력합니다. (미구현)</span>
                     </div>
                     <div id="ship-layer-controls" class="ship-layer-bar mt-2">
                         <div id="ship-layer-tabs" class="ship-layer-tabs" role="tablist"></div>
-                        <button id="ship-layer-add" class="btn btn-sm btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i> 수병 추가</button>
-                        <button id="ship-layer-remove" class="btn btn-sm btn-outline-secondary" type="button">수병 삭제</button>
+                        <button id="sailor-layer-add" class="btn btn-sm btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i> 수병 추가</button>
+                        <button id="sailor-layer-remove" class="btn btn-sm btn-outline-secondary" type="button">수병 삭제</button>
                     </div>
                 </div>
             </section>
 
             <section class="card sailor-card mb-3">
-                <div id="settings-title" class="card-header">수병 설정</div>
+                <div class="card-header sailor-settings-header">
+                    <span id="settings-title">수병 설정</span>
+                    <span id="active-sailor-layer" class="badge bg-light text-dark" hidden></span>
+                </div>
                 <div class="card-body compact-card-body">
                     <form id="sailor-form" class="row g-2">
                         <div class="col-12 col-md-6 col-xl-3"><label id="server-label" class="form-label fw-bold" for="sailor-server"><span class="step-number">1.</span>서버</label><select id="sailor-server" class="form-select"><option value="korea">Korea server</option><option value="global">Global server</option></select><div id="server-help" class="form-text">Global server users: select “Global server”.</div></div>
@@ -202,10 +229,10 @@
             <section id="tree-section" class="card sailor-card mb-3" hidden>
                 <div id="tree-title" class="card-header">적용 전직 트리</div>
                 <div class="card-body">
-                    <p id="promotion-help" class="form-text mt-0">실제 전직 Lv을 모두 비우면 전직 가능 Lv을 적용합니다. 하나라도 입력하면 빈 단계부터 전직하지 않은 것으로 계산합니다.</p>
-                        <div class="tree-table-wrap"><table class="table table-bordered table-striped table-sm tree-table mb-0"><thead><tr><th id="tree-step-heading">단계</th><th id="tree-class-heading">병종</th><th id="tree-required-heading">전직 가능 Lv.</th><th id="tree-actual-heading">실제 전직 Lv.</th><th id="tree-crew-heading">수병수 성장</th><th id="tree-potential-heading">잠재</th><th id="tree-accuracy-heading">명중</th><th id="tree-reload-heading">연사</th><th id="tree-torpedo-heading">어뢰</th><th id="tree-antiAir-heading">대공</th><th id="tree-repair-heading">수리</th><th id="tree-restore-heading">보수</th><th id="tree-engine-heading">기관</th><th id="tree-aircraft-heading">함재</th><th id="tree-fighter-heading">전투</th><th id="tree-bomber-heading">폭격</th></tr></thead><tbody id="tree-body"></tbody><tfoot><tr><td class="promotion-bulk-label-cell" colspan="3"><label id="promotion-bulk-label" class="fw-bold mb-0" for="promotion-bulk-input">실제 전직 Lv. 일괄 입력</label></td><td><input id="promotion-bulk-input" class="form-control form-control-sm" type="number" inputmode="numeric" min="1" step="1" autocomplete="off" placeholder="예) 120"></td><td><button id="promotion-bulk-apply" class="btn btn-outline-primary btn-sm w-100" type="button">적용</button></td><td colspan="11"></td></tr></tfoot></table></div>
-                    <div id="promotion-bulk-help" class="form-text mt-2">입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.</div>
-                    <div id="promotion-bulk-feedback" class="form-text" role="status" aria-live="polite"></div>
+                    <p id="class-change-help" class="form-text mt-0">실제 전직 Lv을 모두 비우면 전직 가능 Lv을 적용합니다. 하나라도 입력하면 빈 단계부터 전직하지 않은 것으로 계산합니다.</p>
+                        <div class="tree-table-wrap"><table class="table table-bordered table-striped table-sm tree-table mb-0"><thead><tr><th id="tree-step-heading">단계</th><th id="tree-class-heading">병종</th><th id="tree-required-heading">전직 가능 Lv.</th><th id="tree-actual-heading">실제 전직 Lv.</th><th id="tree-crew-heading">수병수 성장</th><th id="tree-potential-heading">잠재</th><th id="tree-accuracy-heading">명중</th><th id="tree-reload-heading">연사</th><th id="tree-torpedo-heading">어뢰</th><th id="tree-antiAir-heading">대공</th><th id="tree-repair-heading">수리</th><th id="tree-restore-heading">보수</th><th id="tree-engine-heading">기관</th><th id="tree-aircraft-heading">함재</th><th id="tree-fighter-heading">전투</th><th id="tree-bomber-heading">폭격</th></tr></thead><tbody id="tree-body"></tbody><tfoot><tr><td class="class-change-bulk-label-cell" colspan="3"><label id="class-change-bulk-label" class="fw-bold mb-0" for="class-change-bulk-input">실제 전직 Lv. 일괄 입력</label></td><td><input id="class-change-bulk-input" class="form-control form-control-sm" type="number" inputmode="numeric" min="1" step="1" autocomplete="off" placeholder="예) 120"></td><td><button id="class-change-bulk-apply" class="btn btn-outline-primary btn-sm w-100" type="button">적용</button></td><td colspan="11"></td></tr></tfoot></table></div>
+                    <div id="class-change-bulk-help" class="form-text mt-2">입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.</div>
+                    <div id="class-change-bulk-feedback" class="form-text" role="status" aria-live="polite"></div>
                 </div>
             </section>
 
@@ -222,7 +249,7 @@
                     <h2 id="performance-personnel-title" class="h6">사관 숙련병 신병 조건</h2>
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm result-table mb-0">
-                            <thead><tr><th id="performance-case-heading">조건</th><th id="performance-officer-heading">사관</th><th id="performance-veteran-heading">숙련병</th><th id="performance-rookie-heading">신병</th><th id="performance-crew-count-heading">현재 / 총 수병수</th><th id="performance-crew-rate-heading">수병 비율</th><th id="performance-deck-rate-heading">갑판병 보정률</th></tr></thead>
+                            <thead><tr><th id="performance-case-heading">조건</th><th id="performance-condition-select-heading">출력</th><th id="performance-officer-heading">사관</th><th id="performance-veteran-heading">숙련병</th><th id="performance-rookie-heading">신병</th><th id="performance-crew-count-heading">현재 / 총 수병수</th><th id="performance-crew-rate-heading">수병 비율</th><th id="performance-deck-rate-heading">갑판병 보정률</th></tr></thead>
                             <tbody id="performance-input-body"></tbody>
                         </table>
                     </div>
@@ -301,6 +328,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-    <script src="./simulator.js?v=20260908-bulk-placeholder-v76"></script>
+    <script src="./simulator.js?v=20260914-class-change-schema-v94"></script>
 </body>
 </html>
