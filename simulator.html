@@ -19,7 +19,7 @@
         .sailor-card { border: 1px solid #aeb8c2; box-shadow: 0 .25rem .75rem rgba(0,0,0,.08); }
         .sailor-card .card-header { background: linear-gradient(180deg,#203a53,#101d29); color:#fff; font-weight:700; }
         .step-number { color:#0d6efd; margin-right:.35rem; }
-        .ability-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(92px,1fr)); gap:.5rem; }
+        .ability-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(82px,1fr)); gap:.3rem; }
         .ability-input label { display:block; color:#5f6b76; font-size:.78rem; font-weight:700; }
         .ability-input input { font-variant-numeric:tabular-nums; }
         .ability-input-placeholder { visibility:hidden; }
@@ -27,16 +27,89 @@
         .result-table td,.result-table th { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
         .result-table td:first-child,.result-table th:first-child { text-align:left; }
         .performance-personnel-input { min-width:72px; }
+        .simulator-mode-switch { display:flex; height:2rem; }
+        .simulator-mode-switch .btn { display:flex; min-width:8rem; height:2rem; align-items:center; justify-content:center; padding:.2rem .6rem; font-size:.875rem; line-height:1.2; }
+        .ship-layer-bar { display:flex; align-items:center; gap:.35rem; overflow-x:auto; padding:.35rem; background:#f1f4f6; border:1px solid #d5dce2; border-radius:.25rem; }
+        .ship-layer-tabs { display:flex; gap:.25rem; }
+        .ship-layer-tab { white-space:nowrap; }
+        .compact-card-body { padding:.75rem; }
+        #sailor-form { --bs-gutter-x:.65rem; --bs-gutter-y:.55rem; }
+        #sailor-form .form-label { margin-bottom:.2rem; font-size:.85rem; }
+        #sailor-form .form-text { margin-top:.2rem; font-size:.75rem; }
+        .ability-settings-summary { cursor:pointer; color:#1d4f7a; font-weight:700; }
+        .result-table.table > :not(caption) > * > * { padding:.3rem .45rem; }
+        .officer-rate-table { table-layout:fixed; }
+        .officer-rate-table th:first-child { width:50%; text-align:left; }
+        .result-view-switch .btn { padding:.15rem .5rem; font-size:.78rem; }
+        .result-table .initial-ability-cell { min-width:155px; padding:.2rem!important; }
+        .initial-ability-cell .ability-input { display:grid; grid-template-columns:2.2rem 4.6rem; align-items:center; gap:.2rem; margin:.1rem 0; }
+        .initial-ability-cell .ability-input label { margin:0; font-size:.68rem; }
+        .initial-ability-cell .ability-input .form-control, .initial-ability-cell .ability-readonly { min-width:0; width:4.6rem; padding:.12rem .25rem; font-size:.75rem; }
+        .result-table .form-control { max-width:5.5rem; margin-left:auto; padding:.16rem .3rem; }
+        #result-section[data-view="current"] .initial-setting-column { display:none; }
+        #result-section[data-view="initial"] .current-result-column { display:none; }
+        .result-table .initial-ability-cell { min-width:0; padding:.18rem!important; }
+        .initial-ability-cell .ability-input { display:block; margin:0; }
+        .initial-ability-cell .ability-input label { display:none; }
+        .initial-ability-cell .ability-input .form-control, .initial-ability-cell .ability-readonly { width:4.6rem; font-size:.8rem; line-height:1.2; }
+        .result-table .result-total-input { width:5rem; max-width:5rem; }
+        .calculator-mode-inputs .form-label { margin-bottom:.2rem; font-size:.82rem; }
+        .initial-source-section { display:none!important; }
+        .result-tree-layout { display:grid; gap:1rem; align-items:start; }
+        @media (min-width: 1200px) { .result-tree-layout { grid-template-columns:minmax(420px, .9fr) minmax(0, 1.1fr); } }
+        .calculator-mode-inputs .form-label, #sailor-form .form-label { min-height:1.25rem; margin-bottom:.2rem; font-size:.82rem; line-height:1.25rem; }
+        .calculator-mode-inputs .form-select, #sailor-form .form-select, #sailor-form .form-control { min-height:2rem; padding-top:.2rem; padding-bottom:.2rem; font-size:.875rem; line-height:1.35; }
+        .calculator-mode-inputs > div { display:flex; flex-direction:column; justify-content:flex-start; }
+        .calculator-mode-inputs .form-text { margin-top:.15rem; font-size:.72rem; line-height:1.15; }
+        .result-table td, .result-table th { padding:.25rem .35rem!important; text-align:center; vertical-align:middle; }
+        .result-table tbody th:first-child { text-align:left; }
+        .result-table thead th { text-align:center!important; }
+        .result-table .form-control { margin-right:auto; margin-left:auto; text-align:center!important; }
+        .result-tree-layout { gap:.5rem; }
+        .result-tree-layout #result-section { width:100%; max-width:none; margin:0!important; }
+        .result-tree-layout #tree-section { width:100%; margin:0!important; }
+        .result-tree-layout .card-body { padding:.65rem; font-size:.82rem; }
+        .result-tree-layout .table { font-size:.8rem; }
+        .result-tree-layout .form-text, .result-tree-layout .text-muted { font-size:.75rem; }
+        #sailor-subtitle { display:none; }
+        .simulator-intro-title { margin-top:.6rem; margin-bottom:.3rem; font-size:1.08rem; }
+        .renewal-message, .calculator-notice { font-size:.96rem; line-height:1.45; }
+        .renewal-message .translation, .calculator-notice .notice-en { font-size:.9rem; }
+        #sailor-status { min-height:0; margin-bottom:.5rem; padding:.25rem .5rem!important; font-size:.75rem; line-height:1.25; }
+        .result-table .ability-readonly { min-height:1.65rem; margin-right:auto; margin-left:auto; padding:.14rem .25rem; text-align:center; font-size:.8rem; line-height:1.2; }
+        .tree-table td, .tree-table th { padding:.22rem .3rem!important; text-align:center!important; vertical-align:middle; }
+        .tree-table .form-control { min-height:1.75rem; padding:.1rem .25rem; text-align:center; font-size:.8rem; }
+        .tree-table .promotion-bulk-label-cell { text-align:center!important; }
+        #performance-input-section .card-body, #performance-result-section .card-body { padding:.65rem; font-size:.82rem; }
+        #performance-input-section .table, #performance-result-section .table { font-size:.8rem; }
+        #performance-input-section .form-text, #performance-result-section .form-text { font-size:.75rem; }
+        #result-section .form-control,
+        #performance-input-section .form-control,
+        #performance-input-section .form-select,
+        #performance-input-section .input-group-text { min-height:1.65rem; padding-top:.08rem; padding-bottom:.08rem; font-size:.8rem; line-height:1.2; }
+        #performance-input-section .form-control, #performance-input-section .form-select { height:1.65rem; }
+        #performance-status { padding:.25rem .5rem!important; font-size:.75rem; line-height:1.3; }
+        @media (min-width: 992px) { #performance-result-section { width:50%; max-width:none; } }
         .performance-case-detail { font-size:.72rem; }
-        .implemented-reload-table { min-width:980px; table-layout:fixed; }
-        .implemented-reload-table th:first-child { width:170px; white-space:nowrap; }
+        #performance-implemented-reload-section .table-responsive { overflow-x:hidden; }
+        .implemented-reload-table { width:100%; min-width:0; table-layout:fixed; }
+        .implemented-reload-condition-column { width:105px; }
+        .implemented-reload-timeline-column { width:auto; }
+        .implemented-reload-table th:first-child { white-space:normal; }
+        .implemented-reload-table td { min-width:0; overflow:hidden; }
         .implemented-reload-track { height:2.2rem; border:1px solid #adb5bd; border-radius:.2rem; background-image:linear-gradient(to right,rgba(108,117,125,.22) 1px,transparent 1px); background-size:25% 100%; overflow:hidden; }
         .implemented-reload-fill { display:flex; height:100%; border-right:2px solid #212529; }
-        .implemented-reload-segment { display:flex; flex-basis:0; min-width:0; align-items:center; justify-content:center; border-right:1px solid rgba(33,37,41,.28); font-size:.68rem; font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; }
+        .implemented-reload-segment { display:flex; flex-basis:0; min-width:0; align-items:center; justify-content:center; border-right:1px solid rgba(33,37,41,.28); font-size:clamp(.5rem,.7vw,.68rem); font-weight:700; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; }
         .implemented-reload-segment:last-child { border-right:0; }
-        .implemented-reload-cumulative { display:flex; margin-top:.15rem; color:#5f6b76; font-size:.62rem; font-variant-numeric:tabular-nums; }
+        .implemented-reload-cumulative { display:flex; margin-top:.15rem; color:#5f6b76; font-size:clamp(.46rem,.62vw,.62rem); font-variant-numeric:tabular-nums; }
         .implemented-reload-cumulative-value { flex-basis:0; min-width:0; padding-right:1px; border-right:1px solid #ced4da; text-align:right; white-space:nowrap; overflow:hidden; }
         .implemented-reload-summary { margin-top:.25rem; color:#5f6b76; font-size:.72rem; font-variant-numeric:tabular-nums; }
+        @media (max-width: 767.98px) {
+            .implemented-reload-condition-column { width:76px; }
+            .implemented-reload-track { height:1.8rem; }
+            .implemented-reload-cumulative-value:nth-child(even) { color:transparent; }
+            .implemented-reload-summary { font-size:.62rem; }
+        }
         #performance-gun-select, #performance-fcs-select { min-width:280px; }
         #performance-fcs-guide-length { min-width:110px; }
         .tree-table-wrap { overflow:auto; }
@@ -90,10 +163,29 @@
 
             <div id="sailor-status" class="alert alert-secondary py-2" role="status">수병 카탈로그를 불러오는 중…</div>
 
+            <section class="card sailor-card mb-3" id="simulator-mode-section">
+                <div class="card-body compact-card-body">
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <div class="btn-group simulator-mode-switch" role="group" aria-label="Simulator mode">
+                            <input class="btn-check" type="radio" name="simulator-mode" id="single-sailor-mode" value="single" checked>
+                            <label class="btn btn-outline-secondary" for="single-sailor-mode">수병 계산</label>
+                            <input class="btn-check" type="radio" name="simulator-mode" id="ship-mode" value="ship">
+                            <label class="btn btn-outline-secondary" for="ship-mode">함선 계산</label>
+                        </div>
+                        <span class="small text-muted">함선 계산은 지정한 함선에 탑승한 여러 수병의 성능을 합산해 출력합니다. (미구현)</span>
+                    </div>
+                    <div id="ship-layer-controls" class="ship-layer-bar mt-2">
+                        <div id="ship-layer-tabs" class="ship-layer-tabs" role="tablist"></div>
+                        <button id="ship-layer-add" class="btn btn-sm btn-outline-secondary" type="button"><i class="fa-solid fa-plus"></i> 수병 추가</button>
+                        <button id="ship-layer-remove" class="btn btn-sm btn-outline-secondary" type="button">수병 삭제</button>
+                    </div>
+                </div>
+            </section>
+
             <section class="card sailor-card mb-3">
                 <div id="settings-title" class="card-header">수병 설정</div>
-                <div class="card-body">
-                    <form id="sailor-form" class="row g-3">
+                <div class="card-body compact-card-body">
+                    <form id="sailor-form" class="row g-2">
                         <div class="col-12 col-md-6 col-xl-3"><label id="server-label" class="form-label fw-bold" for="sailor-server"><span class="step-number">1.</span>서버</label><select id="sailor-server" class="form-select"><option value="korea">Korea server</option><option value="global">Global server</option></select><div id="server-help" class="form-text">Global server users: select “Global server”.</div></div>
                         <div class="col-12 col-md-6 col-xl-3"><label id="nation-label" class="form-label fw-bold" for="sailor-nation"><span class="step-number">2.</span>국가</label><select id="sailor-nation" class="form-select" disabled><option value="">국가를 선택하세요</option></select></div>
                         <div class="col-12 col-md-6 col-xl-4"><label id="preset-label" class="form-label fw-bold" for="sailor-preset"><span class="step-number">3.</span>전직 트리 프리셋</label><select id="sailor-preset" class="form-select" disabled><option value="">전직 트리를 선택하세요</option></select></div>
@@ -111,14 +203,14 @@
                 <div id="tree-title" class="card-header">적용 전직 트리</div>
                 <div class="card-body">
                     <p id="promotion-help" class="form-text mt-0">실제 전직 Lv을 모두 비우면 전직 가능 Lv을 적용합니다. 하나라도 입력하면 빈 단계부터 전직하지 않은 것으로 계산합니다.</p>
-                    <div class="tree-table-wrap"><table class="table table-bordered table-striped table-sm tree-table mb-0"><thead><tr><th id="tree-step-heading">단계</th><th id="tree-class-heading">병종</th><th id="tree-required-heading">전직 가능 Lv.</th><th id="tree-actual-heading">실제 전직 Lv.</th><th id="tree-crew-heading">수병수 성장</th><th id="tree-potential-heading">잠재</th><th id="tree-accuracy-heading">명중</th><th id="tree-reload-heading">연사</th><th id="tree-torpedo-heading">어뢰</th><th id="tree-antiAir-heading">대공</th><th id="tree-repair-heading">수리</th><th id="tree-restore-heading">보수</th><th id="tree-engine-heading">기관</th><th id="tree-aircraft-heading">함재</th><th id="tree-fighter-heading">전투</th><th id="tree-bomber-heading">폭격</th></tr></thead><tbody id="tree-body"></tbody><tfoot><tr><td class="promotion-bulk-label-cell" colspan="3"><label id="promotion-bulk-label" class="fw-bold mb-0" for="promotion-bulk-input">실제 전직 Lv. 일괄 입력</label></td><td><input id="promotion-bulk-input" class="form-control form-control-sm" type="number" inputmode="numeric" min="1" step="1" autocomplete="off" placeholder="예: 25"></td><td><button id="promotion-bulk-apply" class="btn btn-outline-primary btn-sm w-100" type="button">적용</button></td><td colspan="11"></td></tr></tfoot></table></div>
+                        <div class="tree-table-wrap"><table class="table table-bordered table-striped table-sm tree-table mb-0"><thead><tr><th id="tree-step-heading">단계</th><th id="tree-class-heading">병종</th><th id="tree-required-heading">전직 가능 Lv.</th><th id="tree-actual-heading">실제 전직 Lv.</th><th id="tree-crew-heading">수병수 성장</th><th id="tree-potential-heading">잠재</th><th id="tree-accuracy-heading">명중</th><th id="tree-reload-heading">연사</th><th id="tree-torpedo-heading">어뢰</th><th id="tree-antiAir-heading">대공</th><th id="tree-repair-heading">수리</th><th id="tree-restore-heading">보수</th><th id="tree-engine-heading">기관</th><th id="tree-aircraft-heading">함재</th><th id="tree-fighter-heading">전투</th><th id="tree-bomber-heading">폭격</th></tr></thead><tbody id="tree-body"></tbody><tfoot><tr><td class="promotion-bulk-label-cell" colspan="3"><label id="promotion-bulk-label" class="fw-bold mb-0" for="promotion-bulk-input">실제 전직 Lv. 일괄 입력</label></td><td><input id="promotion-bulk-input" class="form-control form-control-sm" type="number" inputmode="numeric" min="1" step="1" autocomplete="off" placeholder="예) 120"></td><td><button id="promotion-bulk-apply" class="btn btn-outline-primary btn-sm w-100" type="button">적용</button></td><td colspan="11"></td></tr></tfoot></table></div>
                     <div id="promotion-bulk-help" class="form-text mt-2">입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.</div>
                     <div id="promotion-bulk-feedback" class="form-text" role="status" aria-live="polite"></div>
                 </div>
             </section>
 
             <section id="result-section" class="card sailor-card mb-3" hidden>
-                <div id="result-title" class="card-header">현재 레벨 계산 결과</div>
+                <div id="result-title" class="card-header">수병 계산 결과</div>
                 <div class="card-body"><p id="result-summary" class="text-muted"></p><div class="table-responsive"><table class="table table-bordered table-striped result-table mb-0"><thead><tr><th id="result-ability-heading">어빌리티</th><th id="result-growth-heading">성장</th><th id="result-total-heading">누적</th><th id="result-deck-heading" hidden>표시</th></tr></thead><tbody id="result-body"></tbody></table></div><p id="result-ability-help" class="form-text mb-0">누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.</p><div class="mt-3"><h2 id="officer-title" class="h6">사관수</h2><div class="table-responsive"><table class="table table-bordered table-sm result-table mb-0"><thead id="officer-head"></thead><tbody id="officer-body"></tbody></table></div></div></div>
             </section>
 
@@ -195,6 +287,7 @@
                         <p id="performance-implemented-reload-help" class="form-text">각 조건의 12회 구현 연사시간을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.</p>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm implemented-reload-table mb-0">
+                                <colgroup><col class="implemented-reload-condition-column"><col class="implemented-reload-timeline-column"></colgroup>
                                 <thead id="performance-implemented-reload-head"></thead>
                                 <tbody id="performance-implemented-reload-body"></tbody>
                             </table>
@@ -208,6 +301,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-    <script src="./simulator.js?v=20260906-engine-performance-v65"></script>
+    <script src="./simulator.js?v=20260908-bulk-placeholder-v76"></script>
 </body>
 </html>
