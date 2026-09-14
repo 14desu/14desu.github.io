@@ -6,7 +6,7 @@
         ["restore", "보수", "Restore"], ["engine", "기관", "Engine"], ["aircraft", "함재", "Aircraft"],
         ["fighter", "전투", "Fighter"], ["bomber", "폭격", "Bomber"], ["crewGrowth", "수병수", "Crew"],
     ];
-    const DECK_CORRECTION_ABILITIES = ABILITIES.slice(0, -1);
+    const SEAMAN_ADJ_ABILITIES = ABILITIES.slice(0, -1);
     const NATIONS = {
         korea: [
             [1, "미국"], [2, "영국"], [3, "일본"], [4, "독일"],
@@ -17,49 +17,49 @@
             [5, "France"], [6, "Soviet Union"], [7, "Italy"], [8, "China"],
         ],
     };
-    function growthValues(base, overrides = {}) {
+    function initialGrowthValues(base, overrides = {}) {
         return Object.fromEntries(ABILITIES.slice(0, -1).map(([key]) => [key, overrides[key] ?? base]));
     }
-    function level12Totals(base, overrides = {}) {
-        return { ...growthValues(base, overrides), crewGrowth: 110 };
+    function level12Abilities(base, overrides = {}) {
+        return { ...initialGrowthValues(base, overrides), crewGrowth: 110 };
     }
     function eliteType(id, name, key, base, specialized, paired = base) {
         const overrides = { [key]: specialized };
         if (key === "accuracy") overrides.reload = paired;
         if (key === "reload") overrides.accuracy = paired;
-        return { id, en: name, growth: growthValues(base, overrides), total: { [key]: 30 } };
+        return { id, en: name, initialGrowth: initialGrowthValues(base, overrides), ability: { [key]: 30 } };
     }
     function superEliteType(id, name, key, specialized = 15, paired = 10) {
         const sailor = eliteType(id, name, key, 10, specialized, paired);
-        sailor.total[key] = 36;
+        sailor.ability[key] = 36;
         return sailor;
     }
     function advancedEliteType(id, name, key, specialized) {
         const sailor = eliteType(id, name, key, 10, specialized);
         sailor.initialLevel = 12;
-        sailor.total = level12Totals(140, { [key]: 223 });
+        sailor.ability = level12Abilities(140, { [key]: 223 });
         return sailor;
     }
     const KOREA_SAILOR_TYPES = [
         { id: "normal", ko: "일반 수병", en: "Normal sailor" },
-        { id: "attendance", ko: "개근 수병 Lv90", en: "Attendance event sailor Lv90", event: true, level: 90, growth: { accuracy: 14, reload: 14 }, total: { accuracy: 30, reload: 30 } },
-        { id: "legendSupport", ko: "전설 보조 수병 Lv90", en: "Legendary support sailor Lv90", event: true, level: 90, growth: { repair: 14, restore: 14, engine: 14 }, total: { repair: 30, restore: 30, engine: 30 } },
-        { id: "legendSpecial", ko: "전설 특무 수병 Lv90", en: "Legendary special sailor Lv90", event: true, level: 90, growth: { aircraft: 14, fighter: 14, bomber: 14 }, total: { aircraft: 30, fighter: 30, bomber: 30 } },
-        { id: "premiumPotential", ko: "프리미엄 잠재 수병 Lv12", en: "Premium potential sailor Lv12", growth: { potential: 17 }, total: { potential: 30 } },
-        { id: "premiumAccuracy", ko: "프리미엄 명중 수병 Lv12", en: "Premium accuracy sailor Lv12", growth: { accuracy: 14, reload: 11 }, total: { accuracy: 30, reload: 30 } },
-        { id: "premiumReload", ko: "프리미엄 연사 수병 Lv12", en: "Premium reload sailor Lv12", growth: { accuracy: 11, reload: 14 }, total: { accuracy: 30, reload: 30 } },
-        { id: "premiumTorpedo", ko: "프리미엄 어뢰 수병 Lv12", en: "Premium torpedo sailor Lv12", growth: { torpedo: 14 }, total: { torpedo: 30 } },
-        { id: "premiumRepair", ko: "프리미엄 수리 수병 Lv12", en: "Premium repair sailor Lv12", growth: { repair: 14 }, total: { repair: 30 } },
-        { id: "premiumRestore", ko: "프리미엄 보수 수병 Lv12", en: "Premium restore sailor Lv12", growth: { restore: 14 }, total: { restore: 30 } },
-        { id: "premiumEngine", ko: "프리미엄 기관 수병 Lv12", en: "Premium engine sailor Lv12", growth: { engine: 14 }, total: { engine: 30 } },
-        { id: "premiumFighter", ko: "프리미엄 전투 수병 Lv12", en: "Premium fighter sailor Lv12", growth: { fighter: 14 }, total: { fighter: 30 } },
-        { id: "premiumBomber", ko: "프리미엄 폭격 수병 Lv12", en: "Premium bomber sailor Lv12", growth: { bomber: 14 }, total: { bomber: 30 } },
+        { id: "attendance", ko: "개근 수병 Lv90", en: "Attendance event sailor Lv90", event: true, level: 90, initialGrowth: { accuracy: 14, reload: 14 }, ability: { accuracy: 30, reload: 30 } },
+        { id: "legendSupport", ko: "전설 보조 수병 Lv90", en: "Legendary support sailor Lv90", event: true, level: 90, initialGrowth: { repair: 14, restore: 14, engine: 14 }, ability: { repair: 30, restore: 30, engine: 30 } },
+        { id: "legendSpecial", ko: "전설 특무 수병 Lv90", en: "Legendary special sailor Lv90", event: true, level: 90, initialGrowth: { aircraft: 14, fighter: 14, bomber: 14 }, ability: { aircraft: 30, fighter: 30, bomber: 30 } },
+        { id: "premiumPotential", ko: "프리미엄 잠재 수병 Lv12", en: "Premium potential sailor Lv12", initialGrowth: { potential: 17 }, ability: { potential: 30 } },
+        { id: "premiumAccuracy", ko: "프리미엄 명중 수병 Lv12", en: "Premium accuracy sailor Lv12", initialGrowth: { accuracy: 14, reload: 11 }, ability: { accuracy: 30, reload: 30 } },
+        { id: "premiumReload", ko: "프리미엄 연사 수병 Lv12", en: "Premium reload sailor Lv12", initialGrowth: { accuracy: 11, reload: 14 }, ability: { accuracy: 30, reload: 30 } },
+        { id: "premiumTorpedo", ko: "프리미엄 어뢰 수병 Lv12", en: "Premium torpedo sailor Lv12", initialGrowth: { torpedo: 14 }, ability: { torpedo: 30 } },
+        { id: "premiumRepair", ko: "프리미엄 수리 수병 Lv12", en: "Premium repair sailor Lv12", initialGrowth: { repair: 14 }, ability: { repair: 30 } },
+        { id: "premiumRestore", ko: "프리미엄 보수 수병 Lv12", en: "Premium restore sailor Lv12", initialGrowth: { restore: 14 }, ability: { restore: 30 } },
+        { id: "premiumEngine", ko: "프리미엄 기관 수병 Lv12", en: "Premium engine sailor Lv12", initialGrowth: { engine: 14 }, ability: { engine: 30 } },
+        { id: "premiumFighter", ko: "프리미엄 전투 수병 Lv12", en: "Premium fighter sailor Lv12", initialGrowth: { fighter: 14 }, ability: { fighter: 30 } },
+        { id: "premiumBomber", ko: "프리미엄 폭격 수병 Lv12", en: "Premium bomber sailor Lv12", initialGrowth: { bomber: 14 }, ability: { bomber: 30 } },
     ];
     const GLOBAL_SAILOR_TYPES = [
         { id: "normal", en: "Normal sailor" },
-        { id: "nfXSailor", en: "NF X Sailor Lv12", initialLevel: 12, growth: growthValues(18), total: level12Totals(251), source: "https://www.navyfield.com/Store/View.aspx?num=333&category=C&page=1" },
-        { id: "advancedHero", en: "Advanced Hero Sailor Lv12", initialLevel: 12, growth: growthValues(16), total: level12Totals(212), source: "https://www.navyfield.com/Store/View.aspx?num=400&category=C&page=1" },
-        { id: "heroSailor", en: "Hero Sailor Lv12", initialLevel: 12, growth: growthValues(14), total: level12Totals(184) },
+        { id: "nfXSailor", en: "NF X Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(18), ability: level12Abilities(251), source: "https://www.navyfield.com/Store/View.aspx?num=333&category=C&page=1" },
+        { id: "advancedHero", en: "Advanced Hero Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(16), ability: level12Abilities(212), source: "https://www.navyfield.com/Store/View.aspx?num=400&category=C&page=1" },
+        { id: "heroSailor", en: "Hero Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(14), ability: level12Abilities(184) },
         eliteType("elitePotential", "Elite Potential Sailor", "potential", 9, 16),
         eliteType("eliteAccuracy", "Elite Accuracy Sailor", "accuracy", 9, 13, 11),
         eliteType("eliteReload", "Elite Reload Sailor", "reload", 9, 13, 11),
@@ -92,10 +92,10 @@
             subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병", shipCalculation: "함선", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} 포병석 ${gunnerSlots} 보조석 ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `탑승 수병 ${total}명 (함장 1 + 포병 ${gunnerSlots} + 보조 ${supportSlots})`,
-            shipRosterTitle: "함선 수병 설정", selectedSailorLayer: (name) => `선택: ${name}`,
+            shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
             rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterOfficer: "사관", performanceOutput: "출력", onTime: "칼직",
             server: "서버", nation: "국가", preset: "전직 트리 프리셋", level: "현재 레벨", sailorType: "수병 프리셋", boost: "수병 강화 아이템",
-            growthInput: "초기 성장 어빌리티", totalInput: "초기 누적 어빌리티", hiddenInput: (level) => `히든 어빌리티 (Lv1 ~ Lv${level})`, abilityHelp: "수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.",
+            initialGrowthInput: "초기 성장 어빌리티", initialAbilityInput: "초기 누적 어빌리티", hiddenGrowthInput: (level) => `히든 어빌리티 (Lv1 ~ Lv${level})`, abilityHelp: "수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.",
             hiddenHelp: "히든 어빌리티는 수병명 끝에 표시된 레벨까지 실제로 적용된 성장값입니다. 누적 보정값은 (히든 어빌리티 - 초기 성장 어빌리티) × (표시 레벨 - 1)이며, 현재 레벨이 표시 레벨보다 낮으면 반영하지 않습니다.",
             nationPlaceholder: "국가를 선택하세요", presetPlaceholder: "전직 트리를 선택하세요", none: "강화 없음", boost20: "전체 20% 강화",
             plus1: "1강", plus2: "2강", loading: "국가별 시뮬레이터 카탈로그를 불러오는 중…", unknownResponse: "알 수 없는 API 응답 형식입니다.",
@@ -106,9 +106,9 @@
             classChangeBulkHelp: "입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.",
             classChangeBulkInvalid: (minimum, maximum) => `전직 레벨은 ${minimum}~${maximum} 사이의 정수로 입력하세요.`, classChangeBulkApplied: (level) => `Lv.${level}을 2단계 이후 실제 전직 레벨에 일괄 적용했습니다.`, classChangeBulkCleared: "일괄 입력을 비워 기본 전직 가능 레벨을 적용했습니다.", classChangeBulkKoreaCap: (level) => `Lv.${level}을 일괄 적용하고 한국 서버 2단계만 Lv.25로 조정했습니다.`,
             step: "단계", className: "병종", required: "전직 가능 Lv.", actual: "실제 전직 Lv.", crewGrowth: "수병수 성장",
-            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", total: "누적", deckAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", officerTitle: "사관수", officerRate: "사관 비율", officerCount: "사관수", performanceInputTitle: "성능 검토 입력", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceDeckAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceOfficer: "사관", performanceVeteran: "숙련병", performanceRookie: "신병", performanceDeckRate: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티를 수정하고 계산을 요청할 수 있습니다.\n성능 검토 조건을 입력하고 계산을 요청하세요.", performanceCalculate: "성능 계산 요청", performanceCalculating: "계산 요청 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 요청 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedDeckCorrection: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredDeck: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithDeck: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
+            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", currentAbility: "누적", seamanAdjAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", officerTitle: "사관수", officerRate: "사관 비율", officerCount: "사관수", performanceInputTitle: "성능 검토 입력", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceSeamanAdjAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceOfficer: "사관", performanceVeteran: "숙련병", performanceRookie: "신병", performanceSeamanAdjustmentPercent: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티를 수정하고 계산을 요청할 수 있습니다.\n성능 검토 조건을 입력하고 계산을 요청하세요.", performanceCalculate: "성능 계산 요청", performanceCalculating: "계산 요청 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 요청 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedSeamanAdjustment: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredSeamanAdjustment: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithSeamanAdjustment: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
             performanceFcsTitle: "시뮬레이트 적용 FCS", performanceFcsName: "FCS리스트", performanceFcsGuideLength: "목표가이드라인길이", performanceFcsTargetGun: "목표함포지정", performanceFcsAccuracy: "명중 보너스", performanceFcsCapacity: "필요용적", performanceGuidelineLength: "가이드라인 길이", performanceGuidelineAdjustment: "목표가이드라인 수병조절", performanceGuidelineTargetInput: (target) => `${target} : 직접입력`, performanceGuidelineTargetGun: (target, gunName) => `${target} : ${gunName}`, performanceGuidelineRepair: (target) => `가이드라인 (${target}) 수리속도 [/s]`, performanceGuidelineStructural: (target) => `가이드라인 (${target}) 구조방어`, performanceGuidelineNoAdjustment: "조절 불필요", performanceGuidelineUnavailable: "불가능", performanceGuidelineAdjustmentImpossible: "사관수 고정 조건에서 조절 불가", performanceGuidelineCalculated: (length) => `가이드라인 계산 : ${length}`, performanceGuidelineOfficer: (value) => `사관 ${value}`, performanceGuidelineVeteran: (value) => `숙련병 ${value}`, performanceGuidelineRookie: (value) => `신병 ${value}`,
-            performanceDeckHelp: "갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.",
+            performanceSeamanAdjustmentHelp: "갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.",
             performanceImplementedReloadTitle: "12회 구현 연사시간 비교 [s]", performanceImplementedReloadHelp: "각 조건의 12회 구현 연사시간을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.", performanceTimeline: "12회 누적시간 [s]", performanceShotNumber: (index) => `${index}회차`, performanceTimelineSummary: (total, average) => `총 ${total}s · 평균 ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `${index}회차: ${interval}s · 누적 ${cumulative}s`,
             performanceResultTableTitle: "수병 성능 시뮬레이션 결과",
         },
@@ -116,10 +116,10 @@
             subtitle: "", settingsTitle: "Sailor settings", calculatorSettings: "Simulator settings", sailorCalculation: "Sailor", shipCalculation: "Ship", sailorLayer: "Sailor", addSailor: "Add sailor", removeSailor: "Remove sailor", captain: "B.O.", gunner: "Gunner", support: "Support", ship: "Ship List", shipPlaceholder: "Select a ship", modeHelp: "Selecting a ship automatically creates one B.O. plus its gunner and support sailor slots.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} Gunner ${gunnerSlots} Support ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `${total} Sailor Slot (1 B.O. + ${gunnerSlots} Gunner + ${supportSlots} Support)`,
-            shipRosterTitle: "Ship Sailor Settings", selectedSailorLayer: (name) => `Selected: ${name}`,
+            shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
             rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterOfficer: "Officers", performanceOutput: "Output", onTime: "OnTime",
             server: "Server", nation: "Nation", preset: "Class change path preset", level: "Current level", sailorType: "Sailor preset", boost: "Sailor enhancement item",
-            growthInput: "Initial growth abilities", totalInput: "Initial accumulated abilities", hiddenInput: (level) => `Hidden abilities (Lv1 ~ Lv${level})`, abilityHelp: "Selecting a sailor type fills the initial values automatically. Crew values are read-only.",
+            initialGrowthInput: "Initial growth abilities", initialAbilityInput: "Initial accumulated abilities", hiddenGrowthInput: (level) => `Hidden abilities (Lv1 ~ Lv${level})`, abilityHelp: "Selecting a sailor type fills the initial values automatically. Crew values are read-only.",
             hiddenHelp: "Hidden abilities are the growth values actually applied through the level shown at the end of the sailor name. The accumulated correction is (hidden ability - initial growth ability) × (displayed level - 1), and is not applied when the current level is below the displayed level.",
             hiddenDisabledHelp: "Hidden ability input is disabled because this Lv12 preset starts with accumulated abilities that already include levels 1–12.",
             nationPlaceholder: "Select a nation", presetPlaceholder: "Select a class change path", none: "No enhancement", boost20: "Premium Sailors / increase +20%",
@@ -131,9 +131,9 @@
             classChangeBulkHelp: "Applies one level to every stage after Sailor. No stage is set below its required class change level.",
             classChangeBulkInvalid: (minimum, maximum) => `Enter a whole-number class change level from ${minimum} to ${maximum}.`, classChangeBulkApplied: (level) => `Applied Lv.${level} to every actual class change level after Sailor.`, classChangeBulkCleared: "Cleared bulk input and restored the required class change levels.", classChangeBulkKoreaCap: (level) => `Applied Lv.${level} in bulk and adjusted Korea-server stage 2 to Lv.25.`,
             step: "Stage", className: "Class", required: "Required Lv.", actual: "Actual Lv.", crewGrowth: "Crew growth",
-            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", total: "Ability", deckAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", officerTitle: "Officers", officerRate: "Officer rate", officerCount: "Officers", performanceInputTitle: "Performance review inputs", performancePersonnelTitle: "Officer, veteran, and rookie conditions", performanceDeckAbilityTitle: "Abilities affected by seaman correction", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceOfficer: "Officers", performanceVeteran: "Veterans", performanceRookie: "Rookies", performanceDeckRate: "Seaman correction rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Review or edit accumulated abilities and performance conditions, then request a calculation.", performanceCalculate: "Request performance simulation", performanceCalculating: "Requesting calculation…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance request failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedDeckCorrection: "Seaman correction applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredDeck: "Seaman correction needed for next reload tier", performanceAverageReloadWithDeck: "Average reload with required correction [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
+            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", currentAbility: "Ability", seamanAdjAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", officerTitle: "Officers", officerRate: "Officer rate", officerCount: "Officers", performanceInputTitle: "Performance review inputs", performancePersonnelTitle: "Officer, veteran, and rookie conditions", performanceSeamanAdjAbilityTitle: "Abilities affected by seaman adjustment", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceOfficer: "Officers", performanceVeteran: "Veterans", performanceRookie: "Rookies", performanceSeamanAdjustmentPercent: "Seaman adjustment rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Review or edit accumulated abilities and performance conditions, then request a calculation.", performanceCalculate: "Request performance simulation", performanceCalculating: "Requesting calculation…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance request failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedSeamanAdjustment: "Seaman adjustment applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredSeamanAdjustment: "Seaman adjustment needed for next reload tier", performanceAverageReloadWithSeamanAdjustment: "Average reload with required adjustment [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
             performanceFcsTitle: "FCS applied to simulation", performanceFcsName: "FCS list", performanceFcsGuideLength: "Target guideline length", performanceFcsTargetGun: "Specify target gun", performanceFcsAccuracy: "Accuracy bonus", performanceFcsCapacity: "Required capacity", performanceGuidelineLength: "Guideline length", performanceGuidelineAdjustment: "Target guideline sailor adjustment", performanceGuidelineTargetInput: (target) => `${target}: direct input`, performanceGuidelineTargetGun: (target, gunName) => `${target}: ${gunName}`, performanceGuidelineRepair: (target) => `Guideline (${target}) repair speed [/s]`, performanceGuidelineStructural: (target) => `Guideline (${target}) structural defense`, performanceGuidelineNoAdjustment: "No adjustment needed", performanceGuidelineUnavailable: "Unavailable", performanceGuidelineAdjustmentImpossible: "Cannot adjust while keeping officers fixed", performanceGuidelineCalculated: (length) => `Calculated guideline: ${length}`, performanceGuidelineOfficer: (value) => `Officers ${value}`, performanceGuidelineVeteran: (value) => `Veterans ${value}`, performanceGuidelineRookie: (value) => `Rookies ${value}`,
-            performanceDeckHelp: "Enter a seaman correction from 0% to 12%. The entered rate is applied when calculating the related performance values.",
+            performanceSeamanAdjustmentHelp: "Enter a seaman adjustment from 0% to 12%. The entered rate is applied when calculating the related performance values.",
             performanceImplementedReloadTitle: "12-shot implemented reload comparison [s]", performanceImplementedReloadHelp: "Compares 12 implemented reload intervals for each case. Cumulative time through each shot appears below the bar; slow intervals are soft red, medium intervals yellow, and fast intervals green.", performanceTimeline: "12-shot cumulative time [s]", performanceShotNumber: (index) => `Shot ${index}`, performanceTimelineSummary: (total, average) => `Total ${total}s · average ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `Shot ${index}: ${interval}s · cumulative ${cumulative}s`,
             performanceResultTableTitle: "Performance results",
         },
@@ -176,7 +176,7 @@
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
     let staticCatalogPromise = null;
-    const seamanCorrectionEnabled = Object.fromEntries(DECK_CORRECTION_ABILITIES.map(([key]) => [key, true]));
+    const seamanAdjustmentEnabled = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => [key, true]));
     let simulatorMode = "single";
     let resultView = "all";
     let activeShipLayer = 0;
@@ -204,10 +204,10 @@
         return match ? Number(match[1]) : null;
     };
     const selectedInitialLevel = (selected) => Math.max(1, Number(selected?.initialLevel) || 1);
-    const hasPresetGrowthValues = (selected) => Boolean(selected?.growth);
-    const hasPresetTotalValues = (selected) => Boolean(selected?.total);
-    const hasPresetTotalValue = (selected, key) => Object.prototype.hasOwnProperty.call(selected?.total || {}, key);
-    const hiddenAbilityInputDisabled = (selected) => server.value === "global" && selectedInitialLevel(selected) > 1;
+    const hasPresetInitialGrowthValues = (selected) => Boolean(selected?.initialGrowth);
+    const hasPresetAbilityValues = (selected) => Boolean(selected?.ability);
+    const hasPresetAbilityValue = (selected, key) => Object.prototype.hasOwnProperty.call(selected?.ability || {}, key);
+    const hiddenGrowthInputDisabled = (selected) => server.value === "global" && selectedInitialLevel(selected) > 1;
 
     function setStatus(message, kind = "secondary") {
         status.className = `alert alert-${kind} py-2`;
@@ -324,58 +324,58 @@
         };
     }
     function renderAbilityInputs() {
-        for (const [containerId, type] of [["#base-growth-abilities", "growth"], ["#base-total-abilities", "total"]]) {
+        for (const [containerId, type] of [["#initial-growth-abilities", "initialGrowth"], ["#initial-abilities", "initialAbility"]]) {
             const wrap = el(containerId);
             wrap.replaceChildren();
             for (const ability of ABILITIES) {
                 const [key] = ability;
                 const box = document.createElement("div");
                 box.className = "ability-input";
-                const defaultValue = type === "growth" ? (key === "crewGrowth" ? 5 : 9) : (key === "crewGrowth" ? 55 : 27);
+                const defaultValue = type === "initialGrowth" ? (key === "crewGrowth" ? 5 : 9) : (key === "crewGrowth" ? 55 : 27);
                 const label = document.createElement("label");
-                label.htmlFor = `base-${type}-${key}`;
+                label.htmlFor = `${type === "initialGrowth" ? "initial-growth" : "initial-ability"}-${key}`;
                 label.textContent = abilityLabel(ability);
                 box.append(label);
                 if (key === "crewGrowth") {
                     const value = document.createElement("div");
-                    value.id = `base-${type}-${key}`;
+                    value.id = `${type === "initialGrowth" ? "initial-growth" : "initial-ability"}-${key}`;
                     value.className = "ability-readonly";
-                    value.dataset[`${type}Ability`] = key;
+                    value.dataset[type] = key;
                     value.textContent = String(defaultValue);
                     box.append(value);
                 } else {
                     const input = document.createElement("input");
-                    input.id = `base-${type}-${key}`;
+                    input.id = `${type === "initialGrowth" ? "initial-growth" : "initial-ability"}-${key}`;
                     input.className = "form-control form-control-sm";
                     input.type = "number";
                     input.step = "1";
                     input.value = String(defaultValue);
-                    input.dataset[`${type}Ability`] = key;
+                    input.dataset[type] = key;
                     box.append(input);
                 }
                 wrap.append(box);
             }
         }
     }
-    function renderHiddenAbilityInputs() {
-        const wrap = el("#hidden-abilities");
+    function renderHiddenGrowthInputs() {
+        const wrap = el("#hidden-growth-abilities");
         wrap.replaceChildren();
         for (const ability of ABILITIES.slice(0, -1)) {
             const [key] = ability;
             const box = document.createElement("div");
             box.className = "ability-input";
             const label = document.createElement("label");
-            label.htmlFor = `hidden-${key}`;
+            label.htmlFor = `hidden-growth-${key}`;
             label.textContent = abilityLabel(ability);
             const input = document.createElement("input");
-            input.id = `hidden-${key}`;
+            input.id = `hidden-growth-${key}`;
             input.className = "form-control form-control-sm";
             input.type = "number";
             input.step = "1";
             input.min = "7";
             input.max = "12";
             input.value = "9";
-            input.dataset.hiddenAbility = key;
+            input.dataset.hiddenGrowth = key;
             box.append(label, input);
             wrap.append(box);
         }
@@ -391,10 +391,10 @@
         for (const type of types) sailorType.append(option(type.id, type[language()]));
         sailorType.value = types.some((type) => type.id === selected) ? selected : "normal";
     }
-    function updateHiddenAbilityTitle(selected) {
+    function updateHiddenGrowthTitle(selected) {
         const sailorLevel = selectedSailorLevel(selected);
         if (!sailorLevel) return;
-        el("#hidden-input-title").innerHTML = `<span class="step-number">${simulatorMode === "ship" ? 10 : 9}.</span>${t().hiddenInput(sailorLevel)}`;
+        el("#hidden-growth-input-title").innerHTML = `<span class="step-number">${simulatorMode === "ship" ? 10 : 9}.</span>${t().hiddenGrowthInput(sailorLevel)}`;
     }
     function applySailorType(recalculate = true) {
         const selected = selectedSailorType();
@@ -405,27 +405,27 @@
             actualClassChangeLevels = [];
             bulkClassChangeLevel = "";
         }
-        const disableHiddenAbilities = hiddenAbilityInputDisabled(selected);
-        const disableGrowthAbilities = hasPresetGrowthValues(selected);
-        const disableTotalAbilities = hasPresetTotalValues(selected);
+        const disableHiddenGrowth = hiddenGrowthInputDisabled(selected);
+        const disableInitialGrowthAbilities = hasPresetInitialGrowthValues(selected);
+        const disableAbilityValues = hasPresetAbilityValues(selected);
         for (const [key] of ABILITIES.slice(0, -1)) {
-            const initialGrowth = selected.growth?.[key] ?? 9;
-            const disablePresetTotalAbility = hasPresetTotalValue(selected, key);
-            const growthInput = el(`#base-growth-${key}`);
-            const totalInput = el(`#base-total-${key}`);
-            growthInput.value = String(initialGrowth);
-            growthInput.disabled = disableGrowthAbilities;
-            totalInput.value = String(selected.total?.[key] ?? 27);
-            totalInput.disabled = disablePresetTotalAbility;
-            el(`#hidden-${key}`).value = String(initialGrowth);
-            el(`#hidden-${key}`).disabled = disableHiddenAbilities || disablePresetTotalAbility;
+            const initialGrowth = selected.initialGrowth?.[key] ?? 9;
+            const disablePresetAbility = hasPresetAbilityValue(selected, key);
+            const initialGrowthInput = el(`#initial-growth-${key}`);
+            const abilityInput = el(`#initial-ability-${key}`);
+            initialGrowthInput.value = String(initialGrowth);
+            initialGrowthInput.disabled = disableInitialGrowthAbilities;
+            abilityInput.value = String(selected.ability?.[key] ?? 27);
+            abilityInput.disabled = disablePresetAbility;
+            el(`#hidden-growth-${key}`).value = String(initialGrowth);
+            el(`#hidden-growth-${key}`).disabled = disableHiddenGrowth || disablePresetAbility;
         }
-        el("#base-growth-crewGrowth").textContent = String(selected.growth?.crewGrowth ?? 5);
-        el("#base-total-crewGrowth").textContent = String(selected.total?.crewGrowth ?? 55);
-        el("#event-hidden-section").hidden = !selectedSailorLevel(selected) || disableHiddenAbilities;
-        el("#hidden-ability-help").textContent = disableHiddenAbilities ? t().hiddenDisabledHelp : t().hiddenHelp;
-        el("#result-ability-help").textContent = disableTotalAbilities ? t().fixedResultAbilityHelp : t().resultAbilityHelp;
-        updateHiddenAbilityTitle(selected);
+        el("#initial-growth-crewGrowth").textContent = String(selected.initialGrowth?.crewGrowth ?? 5);
+        el("#initial-ability-crewGrowth").textContent = String(selected.ability?.crewGrowth ?? 55);
+        el("#hidden-growth-section").hidden = !selectedSailorLevel(selected) || disableHiddenGrowth;
+        el("#hidden-growth-help").textContent = disableHiddenGrowth ? t().hiddenDisabledHelp : t().hiddenHelp;
+        el("#result-ability-help").textContent = disableAbilityValues ? t().fixedResultAbilityHelp : t().resultAbilityHelp;
+        updateHiddenGrowthTitle(selected);
         renderBoostOptions();
         if (recalculate) calculate();
     }
@@ -445,22 +445,23 @@
     }
     function updateStepLabels() {
         const shipStepOffset = simulatorMode === "ship" ? 1 : 0;
-        for (const [selector, number, key] of [["#server-label", 1, "server"], ["#nation-label", 2, "nation"], ["#preset-label", 3 + shipStepOffset, "preset"], ["#level-label", 4 + shipStepOffset, "level"], ["#sailor-type-label", 5 + shipStepOffset, "sailorType"], ["#boost-label", 6 + shipStepOffset, "boost"], ["#growth-input-title", 7 + shipStepOffset, "growthInput"], ["#total-input-title", 8 + shipStepOffset, "totalInput"]]) {
+        for (const [selector, number, key] of [["#server-label", 1, "server"], ["#nation-label", 2, "nation"], ["#preset-label", 3 + shipStepOffset, "preset"], ["#level-label", 4 + shipStepOffset, "level"], ["#sailor-type-label", 5 + shipStepOffset, "sailorType"], ["#boost-label", 6 + shipStepOffset, "boost"], ["#initial-growth-input-title", 7 + shipStepOffset, "initialGrowthInput"], ["#initial-ability-input-title", 8 + shipStepOffset, "initialAbilityInput"]]) {
             el(selector).innerHTML = `<span class="step-number">${number}.</span>${t()[key]}`;
         }
         el("#ship-label").innerHTML = `<span class="step-number">3.</span>${t().ship}`;
         const selected = selectedSailorType();
         const sailorLevel = selectedSailorLevel(selected) || selectedInitialLevel(selected);
-        el("#hidden-input-title").innerHTML = `<span class="step-number">${9 + shipStepOffset}.</span>${t().hiddenInput(sailorLevel)}`;
+        el("#hidden-growth-input-title").innerHTML = `<span class="step-number">${9 + shipStepOffset}.</span>${t().hiddenGrowthInput(sailorLevel)}`;
     }
     function applyLanguage() {
         document.documentElement.lang = language();
+        el("#active-sailor-layer").setAttribute("aria-label", t().selectSailorLayer);
         const labels = {
             "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
             "#class-change-bulk-label": "classChangeBulkLabel", "#class-change-bulk-help": "classChangeBulkHelp",
-            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-deck-ability-title": "performanceDeckAbilityTitle", "#performance-deck-help": "performanceDeckHelp", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-gun-heading": "performanceGun", "#performance-gun-class-heading": "performanceGunClass", "#performance-gun-level-heading": "performanceGunLevel", "#performance-gun-caliber-heading": "performanceGunCaliber", "#performance-gun-barrels-heading": "performanceGunBarrels", "#performance-gun-elevation-heading": "performanceGunElevation", "#performance-gun-reload-heading": "performanceGunReload", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-deck-rate-heading": "performanceDeckRate", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-ability-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
+            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-seaman-adjustment-help": "performanceSeamanAdjustmentHelp", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-gun-heading": "performanceGun", "#performance-gun-class-heading": "performanceGunClass", "#performance-gun-level-heading": "performanceGunLevel", "#performance-gun-caliber-heading": "performanceGunCaliber", "#performance-gun-barrels-heading": "performanceGunBarrels", "#performance-gun-elevation-heading": "performanceGunElevation", "#performance-gun-reload-heading": "performanceGunReload", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-seaman-adjustment-percent-heading": "performanceSeamanAdjustmentPercent", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
             "#tree-required-heading": "required", "#tree-actual-heading": "actual", "#tree-crew-heading": "crewGrowth",
-            "#result-ability-heading": "ability", "#result-growth-heading": "currentGrowth", "#result-total-heading": "total", "#result-deck-heading": "deckAbility",
+            "#result-ability-heading": "ability", "#result-growth-heading": "currentGrowth", "#result-current-ability-heading": "currentAbility", "#result-seaman-adj-heading": "seamanAdjAbility",
         };
         for (const [selector, key] of Object.entries(labels)) el(selector).textContent = t()[key];
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
@@ -472,8 +473,8 @@
         }
         updateStepLabels();
         renderAbilityInputs();
-        renderHiddenAbilityInputs();
-        renderDeckCorrectionAbilities();
+        renderHiddenGrowthInputs();
+        renderSeamanAdjAbilities();
         renderSailorTypeOptions();
         applySailorType(false);
         initializeResultViewControls();
@@ -512,7 +513,7 @@
         heading.textContent = text;
         return heading;
     }
-    function renderResultTableHeader(initialLevel = level.value || 1, currentLevel = level.value || 1, showHidden = !el("#event-hidden-section").hidden, showDeck = false) {
+    function renderResultTableHeader(initialLevel = level.value || 1, currentLevel = level.value || 1, showHidden = !el("#hidden-growth-section").hidden, showSeamanAdj = false) {
         const table = el("#result-body").closest("table");
         const head = table.tHead;
         head.replaceChildren();
@@ -523,23 +524,23 @@
         const currentLabel = language() === "ko" ? "현재레벨" : "Current level";
         const growthLabel = language() === "ko" ? "성장" : "Growth";
         const hiddenLabel = language() === "ko" ? "히든" : "Hidden";
-        const totalLabel = language() === "ko" ? "누적" : "Ability";
+        const abilityValueLabel = language() === "ko" ? "누적" : "Ability";
         const initial = resultHeading("result-initial-heading", `${initialLabel} Lv.${initialLevel}`, "initial-setting-column text-center");
         initial.colSpan = showHidden ? 3 : 2;
         const current = resultHeading("result-current-heading", `${currentLabel} Lv.${currentLevel}`, "current-result-column text-center");
-        current.colSpan = showDeck ? 3 : 2;
-        const deck = resultHeading("result-deck-heading", t().deckAbility);
-        deck.className = "current-result-column";
-        deck.hidden = !showDeck;
+        current.colSpan = showSeamanAdj ? 3 : 2;
+        const seamanAdjHeading = resultHeading("result-seaman-adj-heading", t().seamanAdjAbility);
+        seamanAdjHeading.className = "current-result-column";
+        seamanAdjHeading.hidden = !showSeamanAdj;
         top.append(ability, initial, current);
         const bottom = document.createElement("tr");
         bottom.append(
             resultHeading("result-initial-growth-heading", growthLabel, "initial-setting-column"),
             ...(showHidden ? [resultHeading("result-initial-hidden-heading", hiddenLabel, "initial-setting-column")] : []),
-            resultHeading("result-initial-total-heading", totalLabel, "initial-setting-column"),
+            resultHeading("result-initial-ability-heading", abilityValueLabel, "initial-setting-column"),
             resultHeading("result-growth-heading", t().currentGrowth, "current-result-column"),
-            resultHeading("result-total-heading", t().total, "current-result-column"),
-            deck,
+            resultHeading("result-current-ability-heading", t().currentAbility, "current-result-column"),
+            seamanAdjHeading,
         );
         head.append(top, bottom);
     }
@@ -630,21 +631,21 @@
         return output;
     }
     function readStartingValues() {
-        const growth = {};
-        const total = {};
-        document.querySelectorAll("[data-growth-ability]").forEach((input) => {
-            growth[input.dataset.growthAbility] = Number(input.value ?? input.textContent) || 0;
+        const initialGrowth = {};
+        const abilityByType = {};
+        document.querySelectorAll("[data-initial-growth]").forEach((input) => {
+            initialGrowth[input.dataset.initialGrowth] = Number(input.value ?? input.textContent) || 0;
         });
-        document.querySelectorAll("[data-total-ability]").forEach((input) => {
-            total[input.dataset.totalAbility] = Number(input.value ?? input.textContent) || 0;
+        document.querySelectorAll("[data-initial-ability]").forEach((input) => {
+            abilityByType[input.dataset.initialAbility] = Number(input.value ?? input.textContent) || 0;
         });
-        const initialGrowth = { ...growth };
+        const hiddenGrowthBaseline = { ...initialGrowth };
         const [boostKey, amount] = boost.value.split(":");
         if (boostKey && boostKey !== "all") {
-            growth[boostKey] += Number(amount);
-            total[boostKey] += Number(amount);
+            initialGrowth[boostKey] += Number(amount);
+            abilityByType[boostKey] += Number(amount);
         }
-        return { growth, total, initialGrowth };
+        return { initialGrowth, hiddenGrowthBaseline, abilityByType };
     }
     function classChangeBulkStartIndex(path) {
         if (!path.length) return 0;
@@ -711,7 +712,7 @@
         const officers = [...fixedOfficers, Math.floor(crewCount * 0.4), Math.floor(crewCount * 0.45)];
         return officers.map((officerCount) => {
             const safeOfficers = Math.min(officerCount, maximumPerformanceOfficers(crewCount));
-            return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, seamanCorrectionRate: 0 };
+            return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, seamanAdjustmentPercent: 0 };
         });
     }
     function maximumPerformanceOfficers(crewCount) {
@@ -721,7 +722,7 @@
         return performanceCompositions.map((composition, index) => {
             const currentCrew = performanceCurrentCrew(composition);
             const crewRate = performanceCrewCount > 0 ? currentCrew / performanceCrewCount * 100 : 0;
-            const seamanCorrectionRate = Number(composition.seamanCorrectionRate) || 0;
+            const seamanAdjustmentPercent = Number(composition.seamanAdjustmentPercent) || 0;
             const percentageOfficerRate = [40, 45, 50].find((rate) =>
                 composition.officers === Math.floor(performanceCrewCount * rate / 100)
             );
@@ -733,7 +734,7 @@
                 : null;
             const hasRookies = Number(composition.rookies) > 0;
             const hasReducedCrew = currentCrew !== performanceCrewCount;
-            const showDetails = hasRookies || hasReducedCrew || seamanCorrectionRate > 0;
+            const showDetails = hasRookies || hasReducedCrew || seamanAdjustmentPercent > 0;
             if (!showDetails) {
                 return officerRateLabel ? [officerLabel, officerRateLabel] : [officerLabel];
             }
@@ -741,34 +742,34 @@
                 ? [officerLabel, `숙련 ${composition.veterans} · 신병 ${composition.rookies}`, `총원 ${crewRate.toFixed(1)}%`]
                 : [officerLabel, `Veterans ${composition.veterans} · Rookies ${composition.rookies}`, `Total ${crewRate.toFixed(1)}%`];
             if (officerRateLabel) labels.splice(1, 0, officerRateLabel);
-            if (seamanCorrectionRate > 0) {
+            if (seamanAdjustmentPercent > 0) {
                 labels.splice(2, 0, language() === "ko"
-                    ? `수병 보정률 ${displayGunNumber(seamanCorrectionRate)}%`
-                    : `Seaman correction ${displayGunNumber(seamanCorrectionRate)}%`);
+                    ? `갑판병 보정률 ${displayGunNumber(seamanAdjustmentPercent)}%`
+                    : `Seaman adjustment ${displayGunNumber(seamanAdjustmentPercent)}%`);
             }
             return labels;
         });
     }
-    function renderDeckCorrectionAbilities() {
+    function renderSeamanAdjAbilities() {
         const headRow = document.createElement("tr");
         const inputRow = document.createElement("tr");
-        for (const ability of DECK_CORRECTION_ABILITIES) {
+        for (const ability of SEAMAN_ADJ_ABILITIES) {
             const [key] = ability;
             const heading = document.createElement("th");
             heading.textContent = abilityLabel(ability);
             headRow.append(heading);
             const cell = document.createElement("td");
             const checkbox = document.createElement("input");
-            checkbox.className = "form-check-input performance-deck-ability-checkbox";
+            checkbox.className = "form-check-input performance-seaman-adj-ability-checkbox";
             checkbox.type = "checkbox";
-            checkbox.checked = seamanCorrectionEnabled[key];
+            checkbox.checked = seamanAdjustmentEnabled[key];
             checkbox.dataset.ability = key;
             checkbox.setAttribute("aria-label", abilityLabel(ability));
             cell.append(checkbox);
             inputRow.append(cell);
         }
-        el("#performance-deck-ability-head").replaceChildren(headRow);
-        el("#performance-deck-ability-body").replaceChildren(inputRow);
+        el("#performance-seaman-adj-ability-head").replaceChildren(headRow);
+        el("#performance-seaman-adj-ability-body").replaceChildren(inputRow);
     }
     function performanceCurrentCrew(composition) {
         return composition.officers + composition.veterans + composition.rookies;
@@ -827,23 +828,23 @@
             const rateCell = document.createElement("td");
             rateCell.dataset.crewRate = String(index);
             row.append(countCell, rateCell);
-            const deckRateCell = document.createElement("td");
-            const deckRateGroup = document.createElement("div");
-            deckRateGroup.className = "input-group input-group-sm";
-            const deckRateInput = document.createElement("input");
-            deckRateInput.className = "form-control text-end performance-deck-rate-input";
-            deckRateInput.type = "number";
-            deckRateInput.min = "0";
-            deckRateInput.max = "12";
-            deckRateInput.step = "1";
-            deckRateInput.value = String(composition.seamanCorrectionRate);
-            deckRateInput.dataset.index = String(index);
-            const deckRateSuffix = document.createElement("span");
-            deckRateSuffix.className = "input-group-text";
-            deckRateSuffix.textContent = "%";
-            deckRateGroup.append(deckRateInput, deckRateSuffix);
-            deckRateCell.append(deckRateGroup);
-            row.append(deckRateCell);
+            const seamanAdjustmentCell = document.createElement("td");
+            const seamanAdjustmentGroup = document.createElement("div");
+            seamanAdjustmentGroup.className = "input-group input-group-sm";
+            const seamanAdjustmentInput = document.createElement("input");
+            seamanAdjustmentInput.className = "form-control text-end performance-seaman-adjustment-input";
+            seamanAdjustmentInput.type = "number";
+            seamanAdjustmentInput.min = "0";
+            seamanAdjustmentInput.max = "12";
+            seamanAdjustmentInput.step = "1";
+            seamanAdjustmentInput.value = String(composition.seamanAdjustmentPercent);
+            seamanAdjustmentInput.dataset.index = String(index);
+            const seamanAdjustmentSuffix = document.createElement("span");
+            seamanAdjustmentSuffix.className = "input-group-text";
+            seamanAdjustmentSuffix.textContent = "%";
+            seamanAdjustmentGroup.append(seamanAdjustmentInput, seamanAdjustmentSuffix);
+            seamanAdjustmentCell.append(seamanAdjustmentGroup);
+            row.append(seamanAdjustmentCell);
             body.append(row);
             updatePerformanceCrewDisplay(index);
         });
@@ -1251,12 +1252,12 @@
     async function requestPerformanceCalculation() {
         if (!latestPerformanceContext) return;
         for (const [key] of ABILITIES.slice(0, -1)) {
-            const input = el(`[data-result-total-ability="${key}"]`);
+            const input = el(`[data-result-ability="${key}"]`);
             if (!input || !input.checkValidity()) {
                 input?.reportValidity();
                 return;
             }
-            latestPerformanceContext.abilities[key] = Number(input.value);
+            latestPerformanceContext.abilityByType[key] = Number(input.value);
         }
         const button = el("#performance-calculate-button");
         button.disabled = true;
@@ -1268,8 +1269,8 @@
             sailorClass: latestPerformanceContext.sailorClass,
             abilities: JSON.stringify(ABILITIES.slice(0, -1).map(([key]) => ({
                 key,
-                value: latestPerformanceContext.abilities[key],
-                applySeamanCorrection: seamanCorrectionEnabled[key] === true,
+                ability: latestPerformanceContext.abilityByType[key],
+                applySeamanAdjustment: seamanAdjustmentEnabled[key] === true,
             }))),
             crewCount: String(latestPerformanceContext.crewCount),
             conditions: JSON.stringify(performanceCompositions),
@@ -1328,8 +1329,8 @@
             el("#performance-result-head").replaceChildren(headRow);
             const resultBody = el("#performance-result-body");
             resultBody.replaceChildren();
-            const hasAppliedSeamanCorrection = body.result.results.some((result) =>
-                Number(result.performance?.appliedSeamanCorrectionPercent) > 0
+            const hasAppliedSeamanAdjustment = body.result.results.some((result) =>
+                Number(result.performance?.appliedSeamanAdjustmentPercent) > 0
             );
             const isGlobalReloadCap = (result) => server.value === "global"
                 && Number(result.performance?.gunReloadEfficiencyChangePercent) <= -66;
@@ -1343,8 +1344,8 @@
                 [t().performanceReloadCapProgress, "gunReloadAbilityCapProgressPercent", (value) => `${Number(value).toFixed(1)}%`],
                 [t().performanceAverageReload, "averageGunReloadSeconds", (value) => String(value)],
                 ...(allGlobalReloadCaps ? [] : [
-                    [t().performanceRequiredDeck, "requiredSeamanCorrectionPercent", (value) => value === null ? "" : `${value}%`],
-                    [t().performanceAverageReloadWithDeck, "averageGunReloadSecondsWithRequiredSeamanCorrection", (value) => value === null ? "" : String(value)],
+                    [t().performanceRequiredSeamanAdjustment, "requiredSeamanAdjustmentPercent", (value) => value === null ? "" : `${value}%`],
+                    [t().performanceAverageReloadWithSeamanAdjustment, "averageGunReloadSecondsWithRequiredSeamanAdjustment", (value) => value === null ? "" : String(value)],
                 ]),
             ] : [];
             const performanceRows = [
@@ -1354,8 +1355,8 @@
                     [server.value === "global" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeOneSailorSeconds", (value) => String(value)],
                     [server.value === "global" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateOneSailorPercent", (value) => `${value}%`],
                 ] : []),
-                ...(hasAppliedSeamanCorrection
-                    ? [[t().performanceAppliedDeckCorrection, "appliedSeamanCorrectionPercent", (value) => `${value}%`]]
+                ...(hasAppliedSeamanAdjustment
+                    ? [[t().performanceAppliedSeamanAdjustment, "appliedSeamanAdjustmentPercent", (value) => `${value}%`]]
                     : []),
                 [t().performanceGuidelineLength, "guidelineLength", (value) => String(value)],
                 ...reloadRows,
@@ -1368,8 +1369,8 @@
                 row.append(heading);
                 body.result.results.forEach((result) => {
                     const cell = document.createElement("td");
-                    const isSeamanSuggestionRow = valueKey === "requiredSeamanCorrectionPercent"
-                        || valueKey === "averageGunReloadSecondsWithRequiredSeamanCorrection";
+                    const isSeamanSuggestionRow = valueKey === "requiredSeamanAdjustmentPercent"
+                        || valueKey === "averageGunReloadSecondsWithRequiredSeamanAdjustment";
                     const showReloadCapOnly = isSeamanSuggestionRow && isGlobalReloadCap(result);
                     if (showReloadCapOnly) appendReloadCapLabel(cell);
                     else if (valueKey === "gunReloadAbilityCapProgressPercent"
@@ -1379,7 +1380,7 @@
                         cell.textContent = "100.0%";
                     } else cell.textContent = formatValue(result.performance[valueKey]);
                     if (valueKey === "gunReloadEfficiencyChangePercent"
-                        && Number(result.performance.appliedSeamanCorrectionPercent) === 0
+                        && Number(result.performance.appliedSeamanAdjustmentPercent) === 0
                         && isGlobalReloadCap(result)) {
                         appendReloadCapLabel(cell);
                     }
@@ -1467,7 +1468,7 @@
     }
     function calculate() {
         for (const [key] of ABILITIES) {
-            for (const [inputId, containerId] of [[`base-growth-${key}`, "#base-growth-abilities"], [`base-total-${key}`, "#base-total-abilities"], [`hidden-${key}`, "#hidden-abilities"]]) {
+            for (const [inputId, containerId] of [[`initial-growth-${key}`, "#initial-growth-abilities"], [`initial-ability-${key}`, "#initial-abilities"], [`hidden-growth-${key}`, "#hidden-growth-abilities"]]) {
                 const input = el(`#${inputId}`);
                 const box = input?.closest(".ability-input");
                 const container = el(containerId);
@@ -1484,7 +1485,8 @@
         const initialLevel = selectedInitialLevel(selected);
         const currentLevel = Math.max(initialLevel, Math.min(Number(level.max), Number(level.value) || initialLevel));
         level.value = String(currentLevel);
-        const { growth, total, initialGrowth } = readStartingValues();
+        const { initialGrowth, hiddenGrowthBaseline, abilityByType } = readStartingValues();
+        const currentGrowth = { ...initialGrowth };
         const allowLateClassChange = !(server.value === "korea" && selected.event);
         const hasCustomLevels = allowLateClassChange && actualClassChangeLevels.some((value) => value !== "" && value !== undefined);
         let pathOpen = true;
@@ -1543,11 +1545,11 @@
         const applyClassChange = ({ stage }) => {
             for (const [key] of ABILITIES) {
                 if (key === "crewGrowth") {
-                    growth[key] = stage.crewGrowth;
+                    currentGrowth[key] = stage.crewGrowth;
                 } else {
-                    growth[key] += Number(stage.abilities[key] || 0);
+                    currentGrowth[key] += Number(stage.abilities[key] || 0);
                     const bonus = Number(stage.bonusAbilities?.[key] || 0);
-                    total[key] += bonus;
+                    abilityByType[key] += bonus;
                 }
             }
         };
@@ -1556,32 +1558,32 @@
             classChangeIndex += 1;
         }
         for (let nextLevel = initialLevel + 1; nextLevel <= currentLevel; nextLevel += 1) {
-            for (const [key] of ABILITIES) total[key] += growth[key];
+            for (const [key] of ABILITIES) abilityByType[key] += currentGrowth[key];
             while (classChangeIndex < scheduledStages.length && scheduledStages[classChangeIndex].actualLevel === nextLevel) {
                 applyClassChange(scheduledStages[classChangeIndex]);
                 classChangeIndex += 1;
             }
         }
         const sailorLevel = selectedSailorLevel(selected);
-        if (sailorLevel && currentLevel >= sailorLevel && !hiddenAbilityInputDisabled(selected)) {
+        if (sailorLevel && currentLevel >= sailorLevel && !hiddenGrowthInputDisabled(selected)) {
             const hiddenLevelUps = sailorLevel - 1;
             for (const [key] of ABILITIES.slice(0, -1)) {
-                const hiddenGrowth = Number(el(`#hidden-${key}`).value) || 0;
-                total[key] += (hiddenGrowth - initialGrowth[key]) * hiddenLevelUps;
+                const hiddenGrowth = Number(el(`#hidden-growth-${key}`).value) || 0;
+                abilityByType[key] += (hiddenGrowth - hiddenGrowthBaseline[key]) * hiddenLevelUps;
             }
         }
-        for (const [key] of ABILITIES) total[key] = Math.max(0, total[key]);
+        for (const [key] of ABILITIES) abilityByType[key] = Math.max(0, abilityByType[key]);
         if (boost.value === "all:20") {
             for (const [key] of ABILITIES.slice(0, -1)) {
-                growth[key] = Math.floor(growth[key] / 9 * 11);
-                total[key] = Math.floor(total[key] / 9 * 11);
+                currentGrowth[key] = Math.floor(currentGrowth[key] / 9 * 11);
+                abilityByType[key] = Math.floor(abilityByType[key] / 9 * 11);
             }
         }
-        const isDeckPath = path.some((stage) => server.value === "korea"
+        const isSeamanPath = path.some((stage) => server.value === "korea"
             ? /갑판/.test(stage.name)
             : ["2nd Seaman", "1st Seaman", "Chief Seaman"].includes(stage.name));
-        const showHidden = !el("#event-hidden-section").hidden;
-        renderResultTableHeader(initialLevel, currentLevel, showHidden, isDeckPath);
+        const showHidden = !el("#hidden-growth-section").hidden;
+        renderResultTableHeader(initialLevel, currentLevel, showHidden, isSeamanPath);
         const resultBody = el("#result-body");
         resultBody.replaceChildren();
         for (const ability of ABILITIES) {
@@ -1591,7 +1593,7 @@
             labelCell.scope = "row";
             labelCell.textContent = abilityLabel(ability);
             const initialCells = [];
-            for (const [inputId, visible] of [[`base-growth-${key}`, true], [`hidden-${key}`, showHidden], [`base-total-${key}`, true]]) {
+            for (const [inputId, visible] of [[`initial-growth-${key}`, true], [`hidden-growth-${key}`, showHidden], [`initial-ability-${key}`, true]]) {
                 const input = el(`#${inputId}`);
                 const box = input?.closest(".ability-input");
                 const initialCell = document.createElement("td");
@@ -1600,37 +1602,37 @@
                 initialCells.push(initialCell);
             }
             const growthCell = document.createElement("td");
-            growthCell.textContent = String(growth[key]);
-            const totalCell = document.createElement("td");
+            growthCell.textContent = String(currentGrowth[key]);
+            const abilityCell = document.createElement("td");
             if (key === "crewGrowth") {
-                totalCell.textContent = String(total[key]);
+                abilityCell.textContent = String(abilityByType[key]);
             } else {
-                const totalInput = document.createElement("input");
-                totalInput.type = "number";
-                totalInput.min = "0";
-                totalInput.step = "1";
-                totalInput.required = true;
-                totalInput.value = String(total[key]);
-                totalInput.className = "form-control form-control-sm text-end result-total-input";
-                totalInput.dataset.resultTotalAbility = key;
-                totalInput.disabled = hasPresetTotalValue(selected, key);
-                totalInput.setAttribute("aria-label", `${abilityLabel(ability)} ${t().total}`);
-                totalCell.append(totalInput);
+                const abilityInput = document.createElement("input");
+                abilityInput.type = "number";
+                abilityInput.min = "0";
+                abilityInput.step = "1";
+                abilityInput.required = true;
+                abilityInput.value = String(abilityByType[key]);
+                abilityInput.className = "form-control form-control-sm text-end result-ability-input";
+                abilityInput.dataset.resultAbility = key;
+                abilityInput.disabled = hasPresetAbilityValue(selected, key);
+                abilityInput.setAttribute("aria-label", `${abilityLabel(ability)} ${t().currentAbility}`);
+                abilityCell.append(abilityInput);
             }
-            row.append(labelCell, ...initialCells.filter((_, index) => index !== 1 || showHidden), growthCell, totalCell);
-            if (isDeckPath) {
-                const deckCell = document.createElement("td");
-                deckCell.textContent = key === "crewGrowth" ? String(total[key]) : String(Math.floor(total[key] * 0.07));
-                const totalInput = totalCell.querySelector("input");
-                if (totalInput) {
-                    totalInput.addEventListener("input", () => {
-                        const editedTotal = Number(totalInput.value);
-                        deckCell.textContent = Number.isFinite(editedTotal)
-                            ? String(Math.floor(Math.max(0, editedTotal) * 0.07))
+            row.append(labelCell, ...initialCells.filter((_, index) => index !== 1 || showHidden), growthCell, abilityCell);
+            if (isSeamanPath) {
+                const seamanAdjCell = document.createElement("td");
+                seamanAdjCell.textContent = key === "crewGrowth" ? String(abilityByType[key]) : String(Math.floor(abilityByType[key] * 0.07));
+                const abilityInput = abilityCell.querySelector("input");
+                if (abilityInput) {
+                    abilityInput.addEventListener("input", () => {
+                        const editedAbility = Number(abilityInput.value);
+                        seamanAdjCell.textContent = Number.isFinite(editedAbility)
+                            ? String(Math.floor(Math.max(0, editedAbility) * 0.07))
                             : "";
                     });
                 }
-                row.append(deckCell);
+                row.append(seamanAdjCell);
             }
             resultBody.append(row);
         }
@@ -1649,7 +1651,7 @@
             rateCell.textContent = `${Math.round(rate * 100)}%`;
             officerHeadRow.append(rateCell);
             const countCell = document.createElement("td");
-            countCell.textContent = String(Math.floor(total.crewGrowth * rate));
+            countCell.textContent = String(Math.floor(abilityByType.crewGrowth * rate));
             officerCountRow.append(countCell);
         }
         const officerTable = el("#officer-head").closest("table");
@@ -1662,13 +1664,13 @@
         latestPerformanceContext = {
             nationId: Number(nation.value),
             sailorClass: currentClassName,
-            abilities: Object.fromEntries(ABILITIES.slice(0, -1).map(([key]) => [key, total[key]])),
-            crewCount: total.crewGrowth,
+            abilityByType: Object.fromEntries(ABILITIES.slice(0, -1).map(([key]) => [key, abilityByType[key]])),
+            crewCount: abilityByType.crewGrowth,
             isEngineSailor,
             engineSailorCount: performanceEngineCrewCount,
         };
         renderPerformanceEngineCrewInput(isEngineSailor);
-        renderPerformanceInputs(total.crewGrowth);
+        renderPerformanceInputs(abilityByType.crewGrowth);
         latestPerformanceContext.isCaptainPath = renderPerformanceFcsCatalog(appliedClasses);
         latestPerformanceContext.isGunnerPath = isGunnerPath(appliedClasses);
         el("#performance-fcs-guide-length").disabled = latestPerformanceContext.isCaptainPath
@@ -1685,6 +1687,7 @@
         el("#result-summary").textContent = `${nationName(server.value, nation.value)} · ${currentClassName} · Lv.${currentLevel} · ${t().appliedSailorPreset}: ${sailorPresetText} · ${t().appliedBoost}: ${boostText}`;
         el("#tree-section").hidden = false;
         el("#result-section").hidden = false;
+        el(".settings-result-layout")?.classList.add("has-result");
         setResultView("all");
         setStatus(t().complete, "success");
         refreshActiveLayerSummary(path.at(-1)?.name || currentClassName);
@@ -1696,13 +1699,14 @@
         clearPerformanceApiResult();
         el("#tree-section").hidden = true;
         el("#result-section").hidden = true;
+        el(".settings-result-layout")?.classList.remove("has-result");
         el("#performance-input-section").hidden = true;
         el("#performance-fcs-section").hidden = true;
         el("#performance-gun-section").hidden = true;
     }
     function captureShipLayerState() {
         const fields = {};
-        document.querySelectorAll("[id^=\"base-growth-\"], [id^=\"base-total-\"], [id^=\"hidden-\"], #sailor-level, #sailor-type, #sailor-boost, #sailor-preset").forEach((field) => {
+        document.querySelectorAll("[id^=\"initial-growth-\"], [id^=\"initial-ability-\"], [id^=\"hidden-growth-\"], #sailor-level, #sailor-type, #sailor-boost, #sailor-preset").forEach((field) => {
             if (!(field instanceof HTMLInputElement || field instanceof HTMLSelectElement)) return;
             if (field.id === "sailor-server" || field.id === "sailor-nation") return;
             fields[field.id] = field.value;
@@ -1875,13 +1879,17 @@
         tabs.replaceChildren();
         const layerBar = tabs.closest(".ship-layer-bar");
         layerBar?.classList.toggle("ship-roster", simulatorMode === "ship");
-        const activeLayerLabel = el("#active-sailor-layer");
-        if (activeLayerLabel) {
+        const activeLayerSelect = el("#active-sailor-layer");
+        if (activeLayerSelect) {
             const showActiveLayer = simulatorMode === "ship" && Boolean(selectedShip());
-            activeLayerLabel.hidden = !showActiveLayer;
-            activeLayerLabel.textContent = showActiveLayer
-                ? t().selectedSailorLayer(shipLayerLabel(shipLayers[activeShipLayer], activeShipLayer))
-                : "";
+            activeLayerSelect.hidden = !showActiveLayer;
+            activeLayerSelect.replaceChildren();
+            if (showActiveLayer) {
+                shipLayers.forEach((layer, index) => {
+                    activeLayerSelect.append(option(String(index), shipLayerLabel(layer, index)));
+                });
+                activeLayerSelect.value = String(activeShipLayer);
+            }
         }
         if (simulatorMode === "ship") {
             const table = document.createElement("table");
@@ -2254,17 +2262,17 @@
         el("#level-label").closest(".col-12").className = "col-12 col-md-3 col-lg-2";
         el("#sailor-type-label").closest(".col-12").className = "col-12 col-md-9 col-lg-5";
         el("#boost-label").closest(".col-12").className = "col-12 col-lg-5";
-        const growthSection = el("#growth-input-title").closest(".col-12");
-        const totalSection = el("#total-input-title").closest(".col-12");
-        const hiddenSection = el("#event-hidden-section");
-        [growthSection, totalSection, hiddenSection].forEach((section) => { section.classList.add("initial-source-section"); });
+        const initialGrowthSection = el("#initial-growth-input-title").closest(".col-12");
+        const initialAbilitySection = el("#initial-ability-input-title").closest(".col-12");
+        const hiddenGrowthSection = el("#hidden-growth-section");
+        [initialGrowthSection, initialAbilitySection, hiddenGrowthSection].forEach((section) => { section.classList.add("initial-source-section"); });
         el("#officer-title").parentElement.hidden = true;
+        const settings = el("#sailor-settings-section");
         const result = el("#result-section");
-        const tree = el("#tree-section");
         const layout = document.createElement("div");
-        layout.className = "result-tree-layout";
-        tree.before(layout);
-        layout.append(result, tree);
+        layout.className = "settings-result-layout";
+        settings.before(layout);
+        layout.append(settings, result);
         updateIntroNoticeVisibility();
         updateSimulatorModeUi();
     }
@@ -2274,6 +2282,10 @@
         input.addEventListener("change", () => {
             if (input.checked) setSimulatorMode(input.value);
         });
+    });
+    el("#active-sailor-layer").addEventListener("change", (event) => {
+        const index = Number(event.target.value);
+        if (Number.isInteger(index)) activateShipLayer(index);
     });
     el("#ship-select").addEventListener("change", () => {
         resizeShipLayersForShip(selectedShip());
@@ -2318,10 +2330,10 @@
     sailorType.addEventListener("change", () => applySailorType());
     boost.addEventListener("change", calculate);
     el("#sailor-form").addEventListener("input", (event) => {
-        if (event.target.matches("[data-growth-ability], [data-total-ability], [data-hidden-ability]")) calculate();
+        if (event.target.matches("[data-initial-growth], [data-initial-ability], [data-hidden-growth]")) calculate();
     });
     el("#result-body").addEventListener("input", (event) => {
-        if (event.target.matches("[data-growth-ability], [data-total-ability], [data-hidden-ability]")) calculate();
+        if (event.target.matches("[data-initial-growth], [data-initial-ability], [data-hidden-growth]")) calculate();
     });
     el("#tree-body").addEventListener("change", (event) => {
         if (!event.target.matches(".class-change-level-input")) return;
@@ -2373,11 +2385,11 @@
         refreshActiveLayerSummary();
     });
     el("#performance-input-body").addEventListener("input", (event) => {
-        if (!event.target.matches(".performance-deck-rate-input")) return;
+        if (!event.target.matches(".performance-seaman-adjustment-input")) return;
         const composition = performanceCompositions[Number(event.target.dataset.index)];
         if (!composition) return;
-        composition.seamanCorrectionRate = Math.min(12, Math.max(0, Number(event.target.value) || 0));
-        event.target.value = String(composition.seamanCorrectionRate);
+        composition.seamanAdjustmentPercent = Math.min(12, Math.max(0, Number(event.target.value) || 0));
+        event.target.value = String(composition.seamanAdjustmentPercent);
         clearPerformanceApiResult();
     });
     el("#performance-calculate-button").addEventListener("click", requestPerformanceCalculation);
@@ -2394,9 +2406,9 @@
         updatePerformanceGunDetails();
         clearPerformanceApiResult();
     });
-    el("#performance-deck-ability-body").addEventListener("change", (event) => {
-        if (!event.target.matches(".performance-deck-ability-checkbox")) return;
-        seamanCorrectionEnabled[event.target.dataset.ability] = event.target.checked;
+    el("#performance-seaman-adj-ability-body").addEventListener("change", (event) => {
+        if (!event.target.matches(".performance-seaman-adj-ability-checkbox")) return;
+        seamanAdjustmentEnabled[event.target.dataset.ability] = event.target.checked;
         clearPerformanceApiResult();
     });
     selectServer();
