@@ -103,7 +103,7 @@ import {
     ];
     const TEXT = {
         ko: {
-            subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병", shipCalculation: "함선", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "Global server users: select “Global server”.",
+            subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병모드", shipCalculation: "함선모드", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} 포병석 ${gunnerSlots} 보조석 ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `탑승가능 수병수 ${total}명 (함장석1 + 포병석${gunnerSlots} + 보조석${supportSlots})`,
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
@@ -145,7 +145,7 @@ import {
             performanceResultTableTitle: "수병 성능 시뮬레이션 결과",
         },
         en: {
-            subtitle: "", settingsTitle: "Sailor settings", calculatorSettings: "Simulator settings", sailorCalculation: "Sailor", shipCalculation: "Ship", sailorLayer: "Sailor", addSailor: "Add sailor", removeSailor: "Remove sailor", captain: "B.O.", gunner: "Gunner", support: "Support", ship: "Ship List", shipPlaceholder: "Select a ship", modeHelp: "Selecting a ship automatically creates one B.O. plus its gunner and support sailor slots.", serverHelp: "Global server users: select “Global server”.",
+            subtitle: "", settingsTitle: "Sailor settings", calculatorSettings: "Simulator settings", sailorCalculation: "Sailor mode", shipCalculation: "Ship mode", sailorLayer: "Sailor", addSailor: "Add sailor", removeSailor: "Remove sailor", captain: "B.O.", gunner: "Gunner", support: "Support", ship: "Ship List", shipPlaceholder: "Select a ship", modeHelp: "Selecting a ship automatically creates one B.O. plus its gunner and support sailor slots.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} Gunner ${gunnerSlots} Support ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `${total} Sailor Slot (1 B.O. + ${gunnerSlots} Gunner + ${supportSlots} Support)`,
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
@@ -229,7 +229,7 @@ import {
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
     let staticCatalogPromise = null;
-    let simulatorMode = "single";
+    let simulatorMode = "ship";
     let shipClassFilter = "BB";
     let globalShipSpecialtyMode = "repair";
     let resultView = "all";
@@ -239,7 +239,7 @@ import {
         ship: [{ role: "captain", roleIndex: 1, state: null }],
     };
     const activeLayerIndexes = { single: 0, ship: 0 };
-    let shipLayers = layerSets.single;
+    let shipLayers = layerSets[simulatorMode];
     let changingShipLayer = false;
     const language = () => server.value === "global" ? "en" : "ko";
     const t = () => TEXT[language()];
