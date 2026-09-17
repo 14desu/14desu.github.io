@@ -145,7 +145,7 @@ import {
             performanceResultTableTitle: "수병 성능 시뮬레이션 결과",
         },
         en: {
-            subtitle: "", settingsTitle: "Sailor settings", calculatorSettings: "Simulator settings", sailorCalculation: "Sailor mode", shipCalculation: "Ship mode", sailorLayer: "Sailor", addSailor: "Add sailor", removeSailor: "Remove sailor", captain: "B.O.", gunner: "Gunner", support: "Support", ship: "Ship List", shipPlaceholder: "Select a ship", modeHelp: "Selecting a ship automatically creates one B.O. plus its gunner and support sailor slots.", serverHelp: "Global server users: select “Global server”.",
+            subtitle: "", settingsTitle: "Sailor settings", calculatorSettings: "Simulator settings", sailorCalculation: "Sailor mode", shipCalculation: "Ship mode", sailorLayer: "Sailor", addSailor: "Add sailor", removeSailor: "Remove sailor", captain: "B.O.", gunner: "Gunner", support: "Support", ship: "Ship List", shipPlaceholder: "Select a ship", modeHelp: "Selecting a ship automatically creates 1 B.O. slot and its gunner and support sailor slots.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} Gunner ${gunnerSlots} Support ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `${total} Sailor Slot (1 B.O. + ${gunnerSlots} Gunner + ${supportSlots} Support)`,
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
@@ -264,6 +264,7 @@ import {
     const hiddenGrowthInputDisabled = (selected) => server.value === "global" && selectedInitialLevel(selected) > 1;
 
     function setStatus(message, kind = "secondary") {
+        status.hidden = false;
         status.className = `alert alert-${kind} py-2`;
         status.textContent = message;
     }
@@ -879,8 +880,19 @@ import {
             server.value === "korea" && enteredLevel > 25 ? "warning" : "success",
         );
     }
+    function defaultGlobalShipOfficerCount() {
+        if (server.value !== "global" || simulatorMode !== "ship") return 250;
+        const activeLayer = shipLayers[activeShipLayer];
+        const nationId = Number(nation.value);
+        const usesGunnerOfficerDefault = activeLayer?.role === "gunner"
+            && nationId !== 4
+            && nationId !== 7;
+        return usesGunnerOfficerDefault ? 220 : 200;
+    }
     function defaultPerformanceCompositions(crewCount) {
-        const fixedOfficers = server.value === "korea" ? [180, 250, 300] : [100, 250, 300];
+        const fixedOfficers = server.value === "korea"
+            ? [180, 250, 300]
+            : [100, defaultGlobalShipOfficerCount(), 300];
         const officers = [...fixedOfficers, Math.floor(crewCount * 0.4), Math.floor(crewCount * 0.45)];
         return officers.map((officerCount) => {
             const safeOfficers = Math.min(officerCount, maximumPerformanceOfficers(crewCount));
@@ -1843,7 +1855,8 @@ import {
         el("#result-section").hidden = false;
         el(".settings-result-layout")?.classList.add("has-result");
         setResultView("all");
-        setStatus(t().complete, "success");
+        status.hidden = true;
+        status.textContent = "";
         refreshActiveLayerSummary(path.at(-1)?.name || currentClassName);
         calculatePerformance();
     }
