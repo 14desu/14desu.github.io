@@ -2921,9 +2921,13 @@ import {
         appendShipEquipmentDetail(container, `${isKorean ? "용적" : "Capacity"} ${item.capacity}`);
         appendShipEquipmentDetail(container, `${isKorean ? "연사" : "Reload"} ${displayGunNumber(item.reloadSeconds)}s`);
         const showRange = select.id.endsWith("-r-gun") && Number(item.shipyardRange) > 0;
+        const showMaxAngle = ["ship-equipment-t-gun", "ship-equipment-t-gun-2"].includes(select.id)
+            && Number(item.maxElevation) > 0;
         appendShipEquipmentDetail(container, showRange
             ? `${isKorean ? "쉽야드사거리" : "Shipyard range"} ${displayGunNumber(item.shipyardRange)}`
-            : "");
+            : showMaxAngle
+                ? `${isKorean ? "최대고각" : "MaxAngle"} ${displayGunNumber(item.maxElevation)}`
+                : "");
     }
     function updateShipEquipmentCustomSelection(select) {
         const toggle = el(`#${select.id}-toggle`);
@@ -3167,6 +3171,9 @@ import {
             const mountCount = displayedShipMountCount(mount, outputSuffix);
             details.textContent = `${mountCount} ${language() === "ko" ? "마운트" : "mounts"} × ${performanceGunBarrels(gun.barrelCount)} · ${language() === "ko" ? "함포 연사속도" : "Reload"} ${displayGunNumber(gun.reloadSeconds)}s`
                 + (mount === "R" ? ` · ${language() === "ko" ? "쉽야드 사거리" : "Shipyard range"} ${displayGunNumber(gun.shipyardRange)}` : "")
+                + (mount === "T" && Number(gun.maxElevation) > 0
+                    ? ` · ${language() === "ko" ? "최대고각" : "MaxAngle"} ${displayGunNumber(gun.maxElevation)}`
+                    : "")
                 + ` · ${shipGunShellDetails(mount, gun)}`;
             title.append(details);
         }
