@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start': new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Navyfield sailor growth ability simulator">
     <meta name="sailor-api-base" content="https://navyfield-simulator-api.14desu.workers.dev">
     <title>Navyfield Sailor Simulator</title>
-    <link href="./common/styles.css?v=20260906-notice-spacing-v1" rel="stylesheet">
+    <link href="./common/styles.css?v=20260918-mobile-sidebar-toggle-v2" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
+        crossorigin="anonymous"></script>
     <script>
         $(function () {
             $("#navbar").load("./common/navbar.html");
@@ -213,9 +229,17 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand ps-3" href="https://14desu.github.io/">Navyfield Simulator</a>
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button"><i class="fas fa-bars"></i></button>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="사이드바 열기/닫기">
+        <svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/>
+        </svg>
+    </button>
     <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
 </nav>
 <div id="layoutSidenav">
