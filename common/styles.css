@@ -11471,10 +11471,42 @@ body {
   margin-bottom: 1rem;
 }
 .sb-topnav.navbar-dark #sidebarToggle {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.75);
 }
 .sb-topnav.navbar-light #sidebarToggle {
   color: #212529;
+}
+.sb-topnav #sidebarToggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+.sb-topnav #sidebarToggle .sidebar-toggle-icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+@media (max-width: 575.98px) {
+  .sb-topnav .navbar-brand {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .sb-topnav #sidebarToggle {
+    order: 0 !important;
+    margin-right: 0.25rem !important;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+  .sb-topnav #navbar {
+    flex: 0 0 auto;
+    margin-right: 0.25rem !important;
+    margin-left: 0 !important;
+  }
 }
 
 .sb-sidenav {
