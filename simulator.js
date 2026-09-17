@@ -152,7 +152,7 @@ import {
             shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed", shipBaseSpeedManualInput: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
             shipOfficerBulk: "Bulk officers", shipOfficerRatePlaceholder: "Officer count",
-            shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed [knt]", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
+            shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `Base ship speed ${value} · User manual input`,
@@ -530,6 +530,10 @@ import {
         };
         for (const [selector, key] of Object.entries(labels)) el(selector).textContent = key === "shipGuidelineLength"
             ? (language() === "ko" ? "함선 가이드라인 길이" : "Ship guideline length") : t()[key];
+        const overheatSpeedLabel = el("#ship-overheat-speed-label");
+        const overheatSpeedUnit = document.createElement("strong");
+        overheatSpeedUnit.textContent = "[knot]";
+        overheatSpeedLabel.replaceChildren(t().shipOverheatSpeed, " ", overheatSpeedUnit);
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
         el("#class-change-bulk-apply").textContent = t().classChangeBulkApply;
         renderShipSailorPresetButtons();
