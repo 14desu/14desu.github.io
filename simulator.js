@@ -1,3 +1,11 @@
+import {
+    calculateSailorPerformance,
+    calculateShipEngineOverheat,
+    calculateShipOverheatSpeed,
+    calculateShipRepairSpeedDetails,
+    SHIP_BASE_REPAIR_SPEED,
+} from "./sailor-performance/index.js";
+
 (() => {
     "use strict";
     const ABILITIES = [
@@ -7,6 +15,12 @@
         ["fighter", "전투", "Fighter"], ["bomber", "폭격", "Bomber"], ["crewGrowth", "수병수", "Crew"],
     ];
     const SEAMAN_ADJ_ABILITIES = ABILITIES.slice(0, -1);
+    const SPECIAL_LANDING_CLASS_NAMES = new Set([
+        "에어본", "US 마린", "에어어설트", "로열 마린", "공수부대", "육전대",
+        "팔슈름 얘거", "마리네", "GIA", "마린 프랑세즈", "V.D.V", "Morskoi", "Folgore", "San Marco",
+        "Air Borne", "US Marine", "Air Assault", "Royal Marine", "IJN Air Borne", "IJN Marine",
+        "Fallschirm Jaeger", "Marine", "GIA (Groupes de l'Infanterie de l'Air)", "French Marine",
+    ]);
     const NATIONS = {
         korea: [
             [1, "미국"], [2, "영국"], [3, "일본"], [4, "독일"],
@@ -91,9 +105,21 @@
         ko: {
             subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병", shipCalculation: "함선", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "Global server users: select “Global server”.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} 포병석 ${gunnerSlots} 보조석 ${supportSlots}`,
-            shipCapacity: (total, gunnerSlots, supportSlots) => `탑승 수병 ${total}명 (함장 1 + 포병 ${gunnerSlots} + 보조 ${supportSlots})`,
+            shipCapacity: (total, gunnerSlots, supportSlots) => `탑승가능 수병수 ${total}명 (함장석1 + 포병석${gunnerSlots} + 보조석${supportSlots})`,
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
-            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterOfficer: "사관", performanceOutput: "출력", onTime: "칼직",
+            shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도", shipBaseSpeedManualInput: "유저수동입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
+            shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
+            shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "사관수",
+            shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "수병 연사효율 구간", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
+            shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
+            shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
+            shipOverheatSpeedBaseBreakdown: (value) => `함선 기본속도 ${value} · 유저수동입력`,
+            shipOverheatSpeedRateBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} 수병 ${sailorValue}`,
+            shipOverheatSpeedRateMaxed: (value) => `함선+수병 Maxed +${value}%`,
+            shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(함선 ${shipValue} 수병 ${sailorValue})`,
+            shipGuidelineBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
+            shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS 용적 ${fcsCapacity} · 엔진 용적 ${engineCapacity} · R mount 용적 ${rCapacity} · T mount 용적 ${tCapacity}`,
+            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterOfficer: "사관", rosterVeteran: "숙련병", rosterRookie: "신병", rosterTotalCrew: "총수병수", performanceOutput: "출력", onTime: "칼직",
             server: "서버", nation: "국가", preset: "전직 트리 프리셋", level: "현재 레벨", sailorType: "수병 프리셋", boost: "수병 강화 아이템",
             initialGrowthInput: "초기 성장 어빌리티", initialAbilityInput: "초기 누적 어빌리티", hiddenGrowthInput: (level) => `히든 어빌리티 (Lv1 ~ Lv${level})`, abilityHelp: "수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.",
             hiddenHelp: "히든 어빌리티는 수병명 끝에 표시된 레벨까지 실제로 적용된 성장값입니다. 누적 보정값은 (히든 어빌리티 - 초기 성장 어빌리티) × (표시 레벨 - 1)이며, 현재 레벨이 표시 레벨보다 낮으면 반영하지 않습니다.",
@@ -106,7 +132,13 @@
             classChangeBulkHelp: "입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.",
             classChangeBulkInvalid: (minimum, maximum) => `전직 레벨은 ${minimum}~${maximum} 사이의 정수로 입력하세요.`, classChangeBulkApplied: (level) => `Lv.${level}을 2단계 이후 실제 전직 레벨에 일괄 적용했습니다.`, classChangeBulkCleared: "일괄 입력을 비워 기본 전직 가능 레벨을 적용했습니다.", classChangeBulkKoreaCap: (level) => `Lv.${level}을 일괄 적용하고 한국 서버 2단계만 Lv.25로 조정했습니다.`,
             step: "단계", className: "병종", required: "전직 가능 Lv.", actual: "실제 전직 Lv.", crewGrowth: "수병수 성장",
-            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", currentAbility: "누적", seamanAdjAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", officerTitle: "사관수", officerRate: "사관 비율", officerCount: "사관수", performanceInputTitle: "성능 검토 입력", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceSeamanAdjAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceOfficer: "사관", performanceVeteran: "숙련병", performanceRookie: "신병", performanceSeamanAdjustmentPercent: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티를 수정하고 계산을 요청할 수 있습니다.\n성능 검토 조건을 입력하고 계산을 요청하세요.", performanceCalculate: "성능 계산 요청", performanceCalculating: "계산 요청 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 요청 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedSeamanAdjustment: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredSeamanAdjustment: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithSeamanAdjustment: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
+            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", currentAbility: "누적", seamanAdjAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", officerTitle: "사관수", officerRate: "사관 비율", officerCount: "사관수", performanceInputTitle: "수병 성능 설정", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceSeamanAdjAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceOfficer: "사관", performanceVeteran: "숙련병", performanceRookie: "신병", performanceSeamanAdjustmentPercent: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티와 성능 설정이 바뀌면 자동으로 계산됩니다.", performanceCalculating: "계산 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedSeamanAdjustment: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredSeamanAdjustment: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithSeamanAdjustment: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
+            performanceSeamanSeats: (labels, mode) => labels.length > 0
+                ? labels.join(" + ")
+                : mode === "ship"
+                    ? "미탑승 *함선내 갑판병 설정시 갑판병보정이 적용됩니다"
+                    : "미탑승 *수병추가 갑판병 설정시 갑판병보정이 적용됩니다",
+            performanceSeamanGlobalWarning: "글로벌 서버 갑판병 보정은 한국 서버 로직을 임시 적용했으며 확인이 필요합니다.",
             performanceFcsTitle: "시뮬레이트 적용 FCS", performanceFcsName: "FCS리스트", performanceFcsGuideLength: "목표가이드라인길이", performanceFcsTargetGun: "목표함포지정", performanceFcsAccuracy: "명중 보너스", performanceFcsCapacity: "필요용적", performanceGuidelineLength: "가이드라인 길이", performanceGuidelineAdjustment: "목표가이드라인 수병조절", performanceGuidelineTargetInput: (target) => `${target} : 직접입력`, performanceGuidelineTargetGun: (target, gunName) => `${target} : ${gunName}`, performanceGuidelineRepair: (target) => `가이드라인 (${target}) 수리속도 [/s]`, performanceGuidelineStructural: (target) => `가이드라인 (${target}) 구조방어`, performanceGuidelineNoAdjustment: "조절 불필요", performanceGuidelineUnavailable: "불가능", performanceGuidelineAdjustmentImpossible: "사관수 고정 조건에서 조절 불가", performanceGuidelineCalculated: (length) => `가이드라인 계산 : ${length}`, performanceGuidelineOfficer: (value) => `사관 ${value}`, performanceGuidelineVeteran: (value) => `숙련병 ${value}`, performanceGuidelineRookie: (value) => `신병 ${value}`,
             performanceSeamanAdjustmentHelp: "갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.",
             performanceImplementedReloadTitle: "12회 구현 연사시간 비교 [s]", performanceImplementedReloadHelp: "각 조건의 12회 구현 연사시간을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.", performanceTimeline: "12회 누적시간 [s]", performanceShotNumber: (index) => `${index}회차`, performanceTimelineSummary: (total, average) => `총 ${total}s · 평균 ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `${index}회차: ${interval}s · 누적 ${cumulative}s`,
@@ -117,7 +149,19 @@
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} Gunner ${gunnerSlots} Support ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `${total} Sailor Slot (1 B.O. + ${gunnerSlots} Gunner + ${supportSlots} Support)`,
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
-            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterOfficer: "Officers", performanceOutput: "Output", onTime: "OnTime",
+            shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed", shipBaseSpeedManualInput: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
+            shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
+            shipOfficerBulk: "Bulk officers", shipOfficerRatePlaceholder: "Officer count",
+            shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed [knt]", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
+            shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
+            shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
+            shipOverheatSpeedBaseBreakdown: (value) => `Base ship speed ${value} · User manual input`,
+            shipOverheatSpeedRateBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} Sailor ${sailorValue}`,
+            shipOverheatSpeedRateMaxed: (value) => `Ship+Sailor Maxed +${value}%`,
+            shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(Ship ${shipValue} Sailor ${sailorValue})`,
+            shipGuidelineBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
+            shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS capacity ${fcsCapacity} · Engine capacity ${engineCapacity} · R mount capacity ${rCapacity} · T mount capacity ${tCapacity}`,
+            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterOfficer: "Officers", rosterVeteran: "Veterans", rosterRookie: "Rookies", rosterTotalCrew: "Total Sailors", performanceOutput: "Output", onTime: "OnTime",
             server: "Server", nation: "Nation", preset: "Class change path preset", level: "Current level", sailorType: "Sailor preset", boost: "Sailor enhancement item",
             initialGrowthInput: "Initial growth abilities", initialAbilityInput: "Initial accumulated abilities", hiddenGrowthInput: (level) => `Hidden abilities (Lv1 ~ Lv${level})`, abilityHelp: "Selecting a sailor type fills the initial values automatically. Crew values are read-only.",
             hiddenHelp: "Hidden abilities are the growth values actually applied through the level shown at the end of the sailor name. The accumulated correction is (hidden ability - initial growth ability) × (displayed level - 1), and is not applied when the current level is below the displayed level.",
@@ -131,7 +175,13 @@
             classChangeBulkHelp: "Applies one level to every stage after Sailor. No stage is set below its required class change level.",
             classChangeBulkInvalid: (minimum, maximum) => `Enter a whole-number class change level from ${minimum} to ${maximum}.`, classChangeBulkApplied: (level) => `Applied Lv.${level} to every actual class change level after Sailor.`, classChangeBulkCleared: "Cleared bulk input and restored the required class change levels.", classChangeBulkKoreaCap: (level) => `Applied Lv.${level} in bulk and adjusted Korea-server stage 2 to Lv.25.`,
             step: "Stage", className: "Class", required: "Required Lv.", actual: "Actual Lv.", crewGrowth: "Crew growth",
-            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", currentAbility: "Ability", seamanAdjAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", officerTitle: "Officers", officerRate: "Officer rate", officerCount: "Officers", performanceInputTitle: "Performance review inputs", performancePersonnelTitle: "Officer, veteran, and rookie conditions", performanceSeamanAdjAbilityTitle: "Abilities affected by seaman adjustment", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceOfficer: "Officers", performanceVeteran: "Veterans", performanceRookie: "Rookies", performanceSeamanAdjustmentPercent: "Seaman adjustment rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Review or edit accumulated abilities and performance conditions, then request a calculation.", performanceCalculate: "Request performance simulation", performanceCalculating: "Requesting calculation…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance request failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedSeamanAdjustment: "Seaman adjustment applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredSeamanAdjustment: "Seaman adjustment needed for next reload tier", performanceAverageReloadWithSeamanAdjustment: "Average reload with required adjustment [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
+            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", currentAbility: "Ability", seamanAdjAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", officerTitle: "Officers", officerRate: "Officer rate", officerCount: "Officers", performanceInputTitle: "Sailor performance settings", performancePersonnelTitle: "Officer, veteran, and rookie conditions", performanceSeamanAdjAbilityTitle: "Abilities affected by seaman adjustment", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceOfficer: "Officers", performanceVeteran: "Veterans", performanceRookie: "Rookies", performanceSeamanAdjustmentPercent: "Seaman adjustment rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Performance is recalculated automatically when abilities or settings change.", performanceCalculating: "Calculating…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance calculation failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedSeamanAdjustment: "Seaman adjustment applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredSeamanAdjustment: "Seaman adjustment needed for next reload tier", performanceAverageReloadWithSeamanAdjustment: "Average reload with required adjustment [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
+            performanceSeamanSeats: (labels, mode) => labels.length > 0
+                ? labels.join(" + ")
+                : mode === "ship"
+                    ? "Not embarked *Seaman adjustment applies when a Seaman is assigned aboard the ship."
+                    : "Not embarked *Seaman adjustment applies when an added sailor is set as a Seaman.",
+            performanceSeamanGlobalWarning: "Global Seaman adjustment temporarily uses the Korea-server formula and still requires verification.",
             performanceFcsTitle: "FCS applied to simulation", performanceFcsName: "FCS list", performanceFcsGuideLength: "Target guideline length", performanceFcsTargetGun: "Specify target gun", performanceFcsAccuracy: "Accuracy bonus", performanceFcsCapacity: "Required capacity", performanceGuidelineLength: "Guideline length", performanceGuidelineAdjustment: "Target guideline sailor adjustment", performanceGuidelineTargetInput: (target) => `${target}: direct input`, performanceGuidelineTargetGun: (target, gunName) => `${target}: ${gunName}`, performanceGuidelineRepair: (target) => `Guideline (${target}) repair speed [/s]`, performanceGuidelineStructural: (target) => `Guideline (${target}) structural defense`, performanceGuidelineNoAdjustment: "No adjustment needed", performanceGuidelineUnavailable: "Unavailable", performanceGuidelineAdjustmentImpossible: "Cannot adjust while keeping officers fixed", performanceGuidelineCalculated: (length) => `Calculated guideline: ${length}`, performanceGuidelineOfficer: (value) => `Officers ${value}`, performanceGuidelineVeteran: (value) => `Veterans ${value}`, performanceGuidelineRookie: (value) => `Rookies ${value}`,
             performanceSeamanAdjustmentHelp: "Enter a seaman adjustment from 0% to 12%. The entered rate is applied when calculating the related performance values.",
             performanceImplementedReloadTitle: "12-shot implemented reload comparison [s]", performanceImplementedReloadHelp: "Compares 12 implemented reload intervals for each case. Cumulative time through each shot appears below the bar; slow intervals are soft red, medium intervals yellow, and fast intervals green.", performanceTimeline: "12-shot cumulative time [s]", performanceShotNumber: (index) => `Shot ${index}`, performanceTimelineSummary: (total, average) => `Total ${total}s · average ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `Shot ${index}: ${interval}s · cumulative ${cumulative}s`,
@@ -145,12 +195,14 @@
         "gun-shipyard-catalog.json": "20260906-3",
         "fcs-catalog.json": "20260912-1",
         "ship-catalog.json": "20260912-4",
+        "engine-catalog.json": "20260915-1",
     };
     const STATIC_CATALOG_SCHEMAS = {
         "sailor-catalog.json": 2,
         "gun-shipyard-catalog.json": 2,
         "fcs-catalog.json": 1,
         "ship-catalog.json": 3,
+        "engine-catalog.json": 1,
     };
     const el = (selector) => document.querySelector(selector);
     const server = el("#sailor-server");
@@ -163,11 +215,12 @@
     let catalog = null;
     let nationCatalog = null;
     let paths = [];
+    let pathFilterMode = "final";
     let actualClassChangeLevels = [];
     let bulkClassChangeLevel = "";
     let performanceCompositions = [];
     let performanceDetailedHeaders = [];
-    let performanceSelectedConditionIndex = 0;
+    let performanceSelectedConditionIndex = defaultPerformanceConditionIndex();
     let performanceCrewCount = null;
     let performanceEngineCrewCount = 1;
     let performanceServer = null;
@@ -176,8 +229,9 @@
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
     let staticCatalogPromise = null;
-    const seamanAdjustmentEnabled = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => [key, true]));
     let simulatorMode = "single";
+    let shipClassFilter = "BB";
+    let globalShipSpecialtyMode = "repair";
     let resultView = "all";
     let activeShipLayer = 0;
     const layerSets = {
@@ -281,6 +335,7 @@
                 fetchStaticCatalog("gun-shipyard-catalog.json"),
                 fetchStaticCatalog("fcs-catalog.json"),
                 fetchStaticCatalog("ship-catalog.json"),
+                fetchStaticCatalog("engine-catalog.json"),
             ]).catch((error) => {
                 staticCatalogPromise = null;
                 throw error;
@@ -290,7 +345,7 @@
     }
 
     async function staticNationCatalog(serverId, nationId) {
-        const [sailorCatalog, gunCatalog, fcsCatalog, shipCatalog] = await loadStaticCatalogs();
+        const [sailorCatalog, gunCatalog, fcsCatalog, shipCatalog, engineCatalog] = await loadStaticCatalogs();
         const numericNationId = Number(nationId);
         const sailorServer = sailorCatalog.servers?.[serverId];
         const sailorNation = sailorServer?.nations?.find((item) => item.id === numericNationId);
@@ -298,7 +353,9 @@
         const fcsServer = fcsCatalog.servers?.[serverId];
         const fcsNation = fcsServer?.nations?.find((item) => item.id === numericNationId);
         const shipServer = shipCatalog.servers?.[serverId];
-        if (!sailorServer || !sailorNation || !gunServer || !fcsNation || !shipServer) {
+        const engineServer = engineCatalog.servers?.[serverId];
+        const engineNation = engineServer?.nations?.find((item) => item.id === numericNationId);
+        if (!sailorServer || !sailorNation || !gunServer || !fcsNation || !shipServer || !engineServer) {
             throw new Error(t().unknownResponse);
         }
         return {
@@ -316,8 +373,13 @@
                     ...fcs,
                     meta: index,
                     name: fcs.fcs,
+                    requiredWeight: Number(fcs.reqWeight) || 0,
                     requiredCapacity: Number(fcs.reqCapacity) || 0,
                     spottingCorrectionLimitRange: Number(fcs.impactRevisionRangeLimit) || 0,
+                })),
+                engines: (engineNation?.engines || []).map((engine, index) => ({
+                    ...engine,
+                    meta: index,
                 })),
                 ships: (shipServer.ships || []).filter((ship) => Number(ship.NationID) === numericNationId),
             },
@@ -457,16 +519,19 @@
         document.documentElement.lang = language();
         el("#active-sailor-layer").setAttribute("aria-label", t().selectSailorLayer);
         const labels = {
-            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
+            "#ship-guideline-length-label": "shipGuidelineLength",
+            "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun", "#ship-t2-performance-title": "shipEquipmentTGun2",
+            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-base-speed-manual-input": "shipBaseSpeedManualInput", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-performance-title": "shipEquipmentRGun", "#ship-t-performance-title": "shipEquipmentTGun", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
             "#class-change-bulk-label": "classChangeBulkLabel", "#class-change-bulk-help": "classChangeBulkHelp",
-            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-seaman-adjustment-help": "performanceSeamanAdjustmentHelp", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-gun-heading": "performanceGun", "#performance-gun-class-heading": "performanceGunClass", "#performance-gun-level-heading": "performanceGunLevel", "#performance-gun-caliber-heading": "performanceGunCaliber", "#performance-gun-barrels-heading": "performanceGunBarrels", "#performance-gun-elevation-heading": "performanceGunElevation", "#performance-gun-reload-heading": "performanceGunReload", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-seaman-adjustment-percent-heading": "performanceSeamanAdjustmentPercent", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
+            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-gun-heading": "performanceGun", "#performance-gun-class-heading": "performanceGunClass", "#performance-gun-level-heading": "performanceGunLevel", "#performance-gun-caliber-heading": "performanceGunCaliber", "#performance-gun-barrels-heading": "performanceGunBarrels", "#performance-gun-elevation-heading": "performanceGunElevation", "#performance-gun-reload-heading": "performanceGunReload", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
             "#tree-required-heading": "required", "#tree-actual-heading": "actual", "#tree-crew-heading": "crewGrowth",
             "#result-ability-heading": "ability", "#result-growth-heading": "currentGrowth", "#result-current-ability-heading": "currentAbility", "#result-seaman-adj-heading": "seamanAdjAbility",
         };
-        for (const [selector, key] of Object.entries(labels)) el(selector).textContent = t()[key];
+        for (const [selector, key] of Object.entries(labels)) el(selector).textContent = key === "shipGuidelineLength"
+            ? (language() === "ko" ? "함선 가이드라인 길이" : "Ship guideline length") : t()[key];
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
         el("#class-change-bulk-apply").textContent = t().classChangeBulkApply;
-        el("#performance-calculate-button").textContent = t().performanceCalculate;
+        renderShipSailorPresetButtons();
         el("#server-help").hidden = server.value === "global";
         for (const ability of ABILITIES.slice(0, -1)) {
             el(`#tree-${ability[0]}-heading`).textContent = abilityLabel(ability);
@@ -485,7 +550,9 @@
         el("#sailor-layer-add").innerHTML = `<i class="fa-solid fa-plus"></i> ${t().addSailor}`;
         el("#sailor-layer-remove").textContent = t().removeSailor;
         populateShipOptions(true);
+        updateShipEquipmentCapacityLabels(selectedShip());
         renderShipLayerTabs();
+        renderShipPerformance();
     }
     function setResultView(view) {
         resultView = view;
@@ -546,6 +613,8 @@
     }
     function selectServer() {
         catalogRequestSequence += 1;
+        shipClassFilter = "BB";
+        globalShipSpecialtyMode = "repair";
         level.max = server.value === "korea" ? "120" : "125";
         level.value = server.value === "korea" ? "120" : "125";
         applyLanguage();
@@ -556,6 +625,7 @@
         preset.disabled = true;
         nation.replaceChildren(option("", t().nationPlaceholder));
         preset.replaceChildren(option("", t().presetPlaceholder));
+        renderPresetCustomDropdown();
         for (const [id, name] of NATIONS[server.value]) nation.append(option(String(id), name));
         nation.disabled = false;
         actualClassChangeLevels = [];
@@ -572,12 +642,15 @@
         const selectedServer = server.value;
         const selectedNation = nation.value;
         const requestSequence = ++catalogRequestSequence;
+        shipClassFilter = "BB";
+        globalShipSpecialtyMode = "repair";
         catalog = null;
         nationCatalog = null;
         resetShipSelection();
         paths = [];
         preset.disabled = true;
         preset.replaceChildren(option("", t().presetPlaceholder));
+        renderPresetCustomDropdown();
         actualClassChangeLevels = [];
         bulkClassChangeLevel = "";
         el("#performance-fcs-target-gun").checked = false;
@@ -597,10 +670,7 @@
             if (!catalog?.sailors || !catalog?.nations) throw new Error(t().unknownResponse);
             populateShipOptions();
             paths = buildPaths(catalog.sailors.filter((item) => item.requiredLevel > 0));
-            paths.forEach((path, index) => {
-                const last = path.at(-1);
-                preset.append(option(String(index), `${last.name} (Lv.${last.requiredLevel}) · ${path.map((item) => item.name).join(" → ")}`));
-            });
+            renderPresetPathOptions(false);
             preset.disabled = false;
             setStatus(t().paths(paths.length), "success");
         } catch (error) {
@@ -629,6 +699,108 @@
         // 최종 병종명/레벨로 다시 전역 정렬하면 같은 계열이 흩어지므로
         // DFS에서 만들어진 계통 순서를 그대로 프리셋에 사용한다.
         return output;
+    }
+    function isFinalClassChangePath(path) {
+        return !paths.some((candidate) => candidate.length === path.length + 1
+            && path.every((stage, index) => candidate[index]?.name === stage.name));
+    }
+    function filteredPathEntries() {
+        return paths.map((path, index) => ({ path, index }))
+            .filter(({ path }) => pathFilterMode === "all" || isFinalClassChangePath(path));
+    }
+    function appendPresetPathContent(container, path) {
+        const last = path.at(-1);
+        const className = document.createElement("span");
+        className.className = "preset-path-class";
+        className.textContent = last?.name || "-";
+        const route = document.createElement("span");
+        route.className = "preset-path-route";
+        route.textContent = path.map((item) => `Lv${item.requiredLevel} ${item.name}`).join(" > ");
+        container.append(className, route);
+    }
+    function updatePresetCustomSelection() {
+        const toggle = el("#sailor-preset-dropdown-toggle");
+        const menu = el("#sailor-preset-dropdown-menu");
+        if (!toggle || !menu) return;
+        toggle.replaceChildren();
+        const selectedPath = preset.value === "" ? null : paths[Number(preset.value)];
+        if (selectedPath) {
+            appendPresetPathContent(toggle, selectedPath);
+        } else {
+            const placeholder = document.createElement("span");
+            placeholder.className = "preset-custom-placeholder";
+            placeholder.textContent = t().presetPlaceholder;
+            toggle.append(placeholder);
+        }
+        toggle.disabled = preset.disabled;
+        menu.querySelectorAll(".preset-path-option").forEach((button) => {
+            button.classList.toggle("active", button.dataset.presetValue === preset.value);
+        });
+    }
+    function renderPresetCustomDropdown() {
+        const menu = el("#sailor-preset-dropdown-menu");
+        if (!menu) return;
+        menu.replaceChildren();
+        for (const { path, index } of filteredPathEntries()) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "dropdown-item preset-path-option";
+            button.dataset.presetValue = String(index);
+            appendPresetPathContent(button, path);
+            menu.append(button);
+        }
+        updatePresetCustomSelection();
+    }
+    function renderPresetPathOptions(preserveSelection = true) {
+        const selectedValue = preserveSelection ? preset.value : "";
+        preset.replaceChildren(option("", t().presetPlaceholder));
+        for (const { path, index } of filteredPathEntries()) {
+            const last = path.at(-1);
+            preset.append(option(
+                String(index),
+                `${last.name} · ${path.map((item) => `Lv${item.requiredLevel} ${item.name}`).join(" > ")}`,
+            ));
+        }
+        if ([...preset.options].some((item) => item.value === selectedValue)) {
+            preset.value = selectedValue;
+        }
+        preset.disabled = paths.length === 0;
+        renderPresetCustomDropdown();
+    }
+    function updatePathFilterButtons() {
+        document.querySelectorAll(".path-filter-button").forEach((button) => {
+            const active = button.dataset.pathFilter === pathFilterMode;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+        });
+    }
+    function createPathFilterButtons() {
+        const group = document.createElement("div");
+        group.className = "btn-group path-filter-buttons";
+        group.setAttribute("role", "group");
+        group.setAttribute("aria-label", "Class change path filter");
+        for (const [value, label] of [["all", "All"], ["final", "Final"]]) {
+            const button = document.createElement("button");
+            const active = pathFilterMode === value;
+            button.type = "button";
+            button.className = `btn btn-outline-secondary path-filter-button${active ? " active" : ""}`;
+            button.dataset.pathFilter = value;
+            button.setAttribute("aria-pressed", String(active));
+            button.textContent = label;
+            group.append(button);
+        }
+        return group;
+    }
+    function setPathFilterMode(mode) {
+        if (mode !== "all" && mode !== "final") return;
+        const previousPreset = preset.value;
+        pathFilterMode = mode;
+        renderPresetPathOptions(true);
+        updatePathFilterButtons();
+        renderShipLayerTabs();
+        if (previousPreset && preset.value !== previousPreset) {
+            preset.dispatchEvent(new Event("change", { bubbles: true }));
+        }
     }
     function readStartingValues() {
         const initialGrowth = {};
@@ -715,6 +887,9 @@
             return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, seamanAdjustmentPercent: 0 };
         });
     }
+    function defaultPerformanceConditionIndex() {
+        return server.value === "korea" ? 4 : 1;
+    }
     function maximumPerformanceOfficers(crewCount) {
         return Math.floor(crewCount * (server.value === "korea" ? 0.45 : 0.5));
     }
@@ -722,7 +897,6 @@
         return performanceCompositions.map((composition, index) => {
             const currentCrew = performanceCurrentCrew(composition);
             const crewRate = performanceCrewCount > 0 ? currentCrew / performanceCrewCount * 100 : 0;
-            const seamanAdjustmentPercent = Number(composition.seamanAdjustmentPercent) || 0;
             const percentageOfficerRate = [40, 45, 50].find((rate) =>
                 composition.officers === Math.floor(performanceCrewCount * rate / 100)
             );
@@ -734,7 +908,7 @@
                 : null;
             const hasRookies = Number(composition.rookies) > 0;
             const hasReducedCrew = currentCrew !== performanceCrewCount;
-            const showDetails = hasRookies || hasReducedCrew || seamanAdjustmentPercent > 0;
+            const showDetails = hasRookies || hasReducedCrew;
             if (!showDetails) {
                 return officerRateLabel ? [officerLabel, officerRateLabel] : [officerLabel];
             }
@@ -742,34 +916,28 @@
                 ? [officerLabel, `숙련 ${composition.veterans} · 신병 ${composition.rookies}`, `총원 ${crewRate.toFixed(1)}%`]
                 : [officerLabel, `Veterans ${composition.veterans} · Rookies ${composition.rookies}`, `Total ${crewRate.toFixed(1)}%`];
             if (officerRateLabel) labels.splice(1, 0, officerRateLabel);
-            if (seamanAdjustmentPercent > 0) {
-                labels.splice(2, 0, language() === "ko"
-                    ? `갑판병 보정률 ${displayGunNumber(seamanAdjustmentPercent)}%`
-                    : `Seaman adjustment ${displayGunNumber(seamanAdjustmentPercent)}%`);
-            }
             return labels;
         });
     }
     function renderSeamanAdjAbilities() {
+        const adjustment = seamanAdjustmentContext();
         const headRow = document.createElement("tr");
-        const inputRow = document.createElement("tr");
+        const rateRow = document.createElement("tr");
         for (const ability of SEAMAN_ADJ_ABILITIES) {
             const [key] = ability;
             const heading = document.createElement("th");
             heading.textContent = abilityLabel(ability);
             headRow.append(heading);
             const cell = document.createElement("td");
-            const checkbox = document.createElement("input");
-            checkbox.className = "form-check-input performance-seaman-adj-ability-checkbox";
-            checkbox.type = "checkbox";
-            checkbox.checked = seamanAdjustmentEnabled[key];
-            checkbox.dataset.ability = key;
-            checkbox.setAttribute("aria-label", abilityLabel(ability));
-            cell.append(checkbox);
-            inputRow.append(cell);
+            cell.textContent = `${adjustment.rateByAbility[key]}%`;
+            rateRow.append(cell);
         }
         el("#performance-seaman-adj-ability-head").replaceChildren(headRow);
-        el("#performance-seaman-adj-ability-body").replaceChildren(inputRow);
+        el("#performance-seaman-adj-ability-body").replaceChildren(rateRow);
+        el("#performance-seaman-adj-seats").textContent = t().performanceSeamanSeats(adjustment.labels, simulatorMode);
+        const warning = el("#performance-seaman-adjustment-warning");
+        warning.textContent = t().performanceSeamanGlobalWarning;
+        warning.hidden = server.value !== "global" || adjustment.count === 0;
     }
     function performanceCurrentCrew(composition) {
         return composition.officers + composition.veterans + composition.rookies;
@@ -789,7 +957,7 @@
             performanceServer = server.value;
             performanceCompositions = defaultPerformanceCompositions(crewCount);
             performanceDetailedHeaders = Array(5).fill(false);
-            performanceSelectedConditionIndex = 0;
+            performanceSelectedConditionIndex = defaultPerformanceConditionIndex();
         }
         const body = el("#performance-input-body");
         body.replaceChildren();
@@ -828,23 +996,6 @@
             const rateCell = document.createElement("td");
             rateCell.dataset.crewRate = String(index);
             row.append(countCell, rateCell);
-            const seamanAdjustmentCell = document.createElement("td");
-            const seamanAdjustmentGroup = document.createElement("div");
-            seamanAdjustmentGroup.className = "input-group input-group-sm";
-            const seamanAdjustmentInput = document.createElement("input");
-            seamanAdjustmentInput.className = "form-control text-end performance-seaman-adjustment-input";
-            seamanAdjustmentInput.type = "number";
-            seamanAdjustmentInput.min = "0";
-            seamanAdjustmentInput.max = "12";
-            seamanAdjustmentInput.step = "1";
-            seamanAdjustmentInput.value = String(composition.seamanAdjustmentPercent);
-            seamanAdjustmentInput.dataset.index = String(index);
-            const seamanAdjustmentSuffix = document.createElement("span");
-            seamanAdjustmentSuffix.className = "input-group-text";
-            seamanAdjustmentSuffix.textContent = "%";
-            seamanAdjustmentGroup.append(seamanAdjustmentInput, seamanAdjustmentSuffix);
-            seamanAdjustmentCell.append(seamanAdjustmentGroup);
-            row.append(seamanAdjustmentCell);
             body.append(row);
             updatePerformanceCrewDisplay(index);
         });
@@ -1018,7 +1169,8 @@
         };
         let overflow = composition.officers + composition.veterans + composition.rookies - performanceCrewCount;
         if (overflow <= 0) {
-            if (changedField !== "rookies") composition.rookies += -overflow;
+            const keepZeroRookies = changedField === "veterans" && composition.rookies === 0;
+            if (changedField !== "rookies" && !keepZeroRookies) composition.rookies += -overflow;
             return;
         }
         for (const field of reductionOrder[changedField]) {
@@ -1073,6 +1225,55 @@
             color: "#111",
         };
     }
+    function appendImplementedReloadVisualization(cell, sequence, {
+        maximumSeconds,
+        minimumInterval,
+        maximumInterval,
+    }) {
+        const track = document.createElement("div");
+        track.className = "implemented-reload-track";
+        const fill = document.createElement("div");
+        fill.className = "implemented-reload-fill";
+        fill.style.width = `${sequence.totalSeconds / maximumSeconds * 100}%`;
+        const cumulativeTimeline = document.createElement("div");
+        cumulativeTimeline.className = "implemented-reload-cumulative";
+        cumulativeTimeline.style.width = fill.style.width;
+        let cumulativeSeconds = 0;
+        sequence.values.forEach((value, shotIndex) => {
+            cumulativeSeconds += value;
+            const segment = document.createElement("div");
+            segment.className = "implemented-reload-segment";
+            segment.style.flexGrow = String(value);
+            segment.textContent = displayGunNumber(value);
+            segment.title = t().performanceIntervalDetail(
+                shotIndex + 1,
+                displayGunNumber(value),
+                displayGunNumber(cumulativeSeconds),
+            );
+            const colors = reloadIntervalColors(value, minimumInterval, maximumInterval);
+            segment.style.backgroundColor = colors.backgroundColor;
+            segment.style.color = colors.color;
+            fill.append(segment);
+            const cumulativeValue = document.createElement("span");
+            cumulativeValue.className = "implemented-reload-cumulative-value";
+            cumulativeValue.style.flexGrow = String(value);
+            cumulativeValue.textContent = displayGunNumber(cumulativeSeconds);
+            cumulativeValue.title = t().performanceIntervalDetail(
+                shotIndex + 1,
+                displayGunNumber(value),
+                displayGunNumber(cumulativeSeconds),
+            );
+            cumulativeTimeline.append(cumulativeValue);
+        });
+        track.append(fill);
+        const summary = document.createElement("div");
+        summary.className = "implemented-reload-summary";
+        summary.textContent = t().performanceTimelineSummary(
+            displayGunNumber(sequence.totalSeconds),
+            displayGunNumber(sequence.averageSeconds),
+        );
+        cell.append(track, cumulativeTimeline, summary);
+    }
     function renderImplementedReloadVisualization(results, caseLabels) {
         const section = el("#performance-implemented-reload-section");
         const sequences = results.map((result) => {
@@ -1108,49 +1309,11 @@
             appendPerformanceCaseHeading(row, caseLabels[caseIndex]);
             const cell = document.createElement("td");
             if (sequence) {
-                const track = document.createElement("div");
-                track.className = "implemented-reload-track";
-                const fill = document.createElement("div");
-                fill.className = "implemented-reload-fill";
-                fill.style.width = `${sequence.totalSeconds / maximumSeconds * 100}%`;
-                const cumulativeTimeline = document.createElement("div");
-                cumulativeTimeline.className = "implemented-reload-cumulative";
-                cumulativeTimeline.style.width = fill.style.width;
-                let cumulativeSeconds = 0;
-                sequence.values.forEach((value, shotIndex) => {
-                    cumulativeSeconds += value;
-                    const segment = document.createElement("div");
-                    segment.className = "implemented-reload-segment";
-                    segment.style.flexGrow = String(value);
-                    segment.textContent = displayGunNumber(value);
-                    segment.title = t().performanceIntervalDetail(
-                        shotIndex + 1,
-                        displayGunNumber(value),
-                        displayGunNumber(cumulativeSeconds),
-                    );
-                    const colors = reloadIntervalColors(value, minimumInterval, maximumInterval);
-                    segment.style.backgroundColor = colors.backgroundColor;
-                    segment.style.color = colors.color;
-                    fill.append(segment);
-                    const cumulativeValue = document.createElement("span");
-                    cumulativeValue.className = "implemented-reload-cumulative-value";
-                    cumulativeValue.style.flexGrow = String(value);
-                    cumulativeValue.textContent = displayGunNumber(cumulativeSeconds);
-                    cumulativeValue.title = t().performanceIntervalDetail(
-                        shotIndex + 1,
-                        displayGunNumber(value),
-                        displayGunNumber(cumulativeSeconds),
-                    );
-                    cumulativeTimeline.append(cumulativeValue);
+                appendImplementedReloadVisualization(cell, sequence, {
+                    maximumSeconds,
+                    minimumInterval,
+                    maximumInterval,
                 });
-                track.append(fill);
-                const summary = document.createElement("div");
-                summary.className = "implemented-reload-summary";
-                summary.textContent = t().performanceTimelineSummary(
-                    displayGunNumber(sequence.totalSeconds),
-                    displayGunNumber(sequence.averageSeconds),
-                );
-                cell.append(track, cumulativeTimeline, summary);
             }
             row.append(cell);
             tableBody.append(row);
@@ -1220,10 +1383,10 @@
     function appendCapLabel(cell) {
         const capLabel = document.createElement("small");
         capLabel.className = "d-block fw-normal text-muted";
-        capLabel.textContent = server.value === "global" ? "Reach the cap" : "상한도달";
+        capLabel.textContent = server.value === "global" ? "Maxed" : "상한도달";
         cell.append(capLabel);
     }
-    function clearPerformanceApiResult() {
+    function clearPerformanceResult() {
         el("#performance-result-section").hidden = true;
         el("#performance-result-head").replaceChildren();
         el("#performance-result-body").replaceChildren();
@@ -1239,87 +1402,83 @@
     }
     function setPerformanceStatus(message, kind = "secondary") {
         const performanceStatus = el("#performance-status");
+        if (!performanceStatus) return;
         performanceStatus.textContent = message;
         performanceStatus.className = `alert alert-${kind} py-2 mb-3`;
         performanceStatus.hidden = !message;
     }
-    function updatePerformanceRequestAvailability() {
-        const button = el("#performance-calculate-button");
-        button.disabled = !latestPerformanceContext
-            || (latestPerformanceContext.isCaptainPath
-                && !el("#performance-fcs-select").value);
-    }
-    async function requestPerformanceCalculation() {
-        if (!latestPerformanceContext) return;
-        for (const [key] of ABILITIES.slice(0, -1)) {
-            const input = el(`[data-result-ability="${key}"]`);
-            if (!input || !input.checkValidity()) {
-                input?.reportValidity();
-                return;
-            }
-            latestPerformanceContext.abilityByType[key] = Number(input.value);
-        }
-        const button = el("#performance-calculate-button");
-        button.disabled = true;
-        setPerformanceStatus(t().performanceCalculating, "info");
-        el("#performance-result-section").hidden = true;
-        const parameters = new URLSearchParams({
+    function buildPerformanceCalculationInput() {
+        const seamanAdjustment = seamanAdjustmentContext();
+        const input = {
             server: server.value,
-            nationId: String(latestPerformanceContext.nationId),
+            nationId: latestPerformanceContext.nationId,
             sailorClass: latestPerformanceContext.sailorClass,
-            abilities: JSON.stringify(ABILITIES.slice(0, -1).map(([key]) => ({
+            abilities: ABILITIES.slice(0, -1).map(([key]) => ({
                 key,
                 ability: latestPerformanceContext.abilityByType[key],
-                applySeamanAdjustment: seamanAdjustmentEnabled[key] === true,
-            }))),
-            crewCount: String(latestPerformanceContext.crewCount),
-            conditions: JSON.stringify(performanceCompositions),
-        });
+                applySeamanAdjustment: true,
+                seamanAdjustmentPercent: seamanAdjustment.rateByAbility[key],
+            })),
+            crewCount: latestPerformanceContext.crewCount,
+            conditions: performanceCompositions,
+        };
         if (latestPerformanceContext.isEngineSailor) {
-            parameters.set("engineSailorCount", String(latestPerformanceContext.engineSailorCount));
+            input.engineSailorCount = latestPerformanceContext.engineSailorCount;
         }
         const targetGunSpecified = latestPerformanceContext.isCaptainPath
             && el("#performance-fcs-target-gun").checked
             && latestPerformanceContext.gun;
         if ((latestPerformanceContext.isGunnerPath || targetGunSpecified)
             && latestPerformanceContext.gun) {
-            parameters.set("gun", JSON.stringify({
+            input.gun = {
                 name: latestPerformanceContext.gun.name,
                 reloadSeconds: latestPerformanceContext.gun.reloadSeconds,
                 shipyardRange: latestPerformanceContext.gun.shipyardRange || null,
-            }));
+            };
         }
         if (latestPerformanceContext.isCaptainPath) {
-            parameters.set("performanceRole", "captain");
+            input.performanceRole = "captain";
             const selectedFcsMeta = Number(el("#performance-fcs-select").value);
             const selectedFcs = availablePerformanceFcs.find((fcs) => fcs.meta === selectedFcsMeta);
-            if (!selectedFcs) {
-                setPerformanceStatus(t().performanceFailed(t().unknownResponse), "danger");
-                updatePerformanceRequestAvailability();
-                return;
-            }
-            parameters.set("fcs", JSON.stringify({
+            if (!selectedFcs) throw new Error(t().unknownResponse);
+            input.fcs = {
                 name: selectedFcs.name,
                 spottingCorrectionLimitRange: selectedFcs.spottingCorrectionLimitRange,
-            }));
+            };
             if (!targetGunSpecified) {
                 const targetGuidelineLength = Number(el("#performance-fcs-guide-length").value);
                 if (Number.isInteger(targetGuidelineLength)
                     && targetGuidelineLength >= 100
                     && targetGuidelineLength <= 9999) {
-                    parameters.set("targetGuidelineLength", String(targetGuidelineLength));
+                    input.targetGuidelineLength = targetGuidelineLength;
                 }
             }
         }
-        try {
-            const response = await fetch(
-                `${API_BASE}/api/sailor/performance/calculate?${parameters}`,
-                { cache: "no-store" },
-            );
-            const body = await response.json();
-            if (!response.ok || !body.ok || !Array.isArray(body.result?.results)) {
-                throw new Error(body.error || t().unknownResponse);
+        return input;
+    }
+    function calculatePerformance() {
+        if (!latestPerformanceContext) {
+            clearPerformanceResult();
+            return;
+        }
+        for (const [key] of ABILITIES.slice(0, -1)) {
+            const input = el(`[data-result-ability="${key}"]`);
+            if (!input || !input.checkValidity()) {
+                clearPerformanceResult();
+                return;
             }
+            latestPerformanceContext.abilityByType[key] = Number(input.value);
+        }
+        renderSeamanAdjAbilities();
+        if (latestPerformanceContext.isCaptainPath && !el("#performance-fcs-select").value) {
+            clearPerformanceResult();
+            return;
+        }
+        setPerformanceStatus(t().performanceCalculating, "info");
+        el("#performance-result-section").hidden = true;
+        try {
+            const performanceResult = calculateSailorPerformance(buildPerformanceCalculationInput());
+            if (!Array.isArray(performanceResult.results)) throw new Error(t().unknownResponse);
             const caseLabels = performanceCaseLabels(true);
             const headRow = document.createElement("tr");
             const itemHeading = document.createElement("th");
@@ -1329,13 +1488,13 @@
             el("#performance-result-head").replaceChildren(headRow);
             const resultBody = el("#performance-result-body");
             resultBody.replaceChildren();
-            const hasAppliedSeamanAdjustment = body.result.results.some((result) =>
+            const hasAppliedSeamanAdjustment = performanceResult.results.some((result) =>
                 Number(result.performance?.appliedSeamanAdjustmentPercent) > 0
             );
             const isGlobalReloadCap = (result) => server.value === "global"
                 && Number(result.performance?.gunReloadEfficiencyChangePercent) <= -66;
-            const allGlobalReloadCaps = body.result.results.length > 0
-                && body.result.results.every(isGlobalReloadCap);
+            const allGlobalReloadCaps = performanceResult.results.length > 0
+                && performanceResult.results.every(isGlobalReloadCap);
             const appendReloadCapLabel = (cell) => {
                 appendCapLabel(cell);
             };
@@ -1360,14 +1519,14 @@
                     : []),
                 [t().performanceGuidelineLength, "guidelineLength", (value) => String(value)],
                 ...reloadRows,
-            ].filter(([, valueKey]) => Object.hasOwn(body.result.results[0]?.performance || {}, valueKey));
+            ].filter(([, valueKey]) => Object.hasOwn(performanceResult.results[0]?.performance || {}, valueKey));
             for (const [label, valueKey, formatValue] of performanceRows) {
                 const row = document.createElement("tr");
                 const heading = document.createElement("th");
                 heading.scope = "row";
                 heading.textContent = label;
                 row.append(heading);
-                body.result.results.forEach((result) => {
+                performanceResult.results.forEach((result) => {
                     const cell = document.createElement("td");
                     const isSeamanSuggestionRow = valueKey === "requiredSeamanAdjustmentPercent"
                         || valueKey === "averageGunReloadSecondsWithRequiredSeamanAdjustment";
@@ -1375,12 +1534,10 @@
                     if (showReloadCapOnly) appendReloadCapLabel(cell);
                     else if (valueKey === "gunReloadAbilityCapProgressPercent"
                         && isGlobalReloadCap(result)) {
-                        // 구버전 Worker가 2,070,000 기준 도달률을 반환해도 실제
-                        // -66% 연사캡 상태와 화면 표시가 충돌하지 않게 한다.
+                        // -66% 연사캡 상태와 도달률 화면 표시가 충돌하지 않게 한다.
                         cell.textContent = "100.0%";
                     } else cell.textContent = formatValue(result.performance[valueKey]);
                     if (valueKey === "gunReloadEfficiencyChangePercent"
-                        && Number(result.performance.appliedSeamanAdjustmentPercent) === 0
                         && isGlobalReloadCap(result)) {
                         appendReloadCapLabel(cell);
                     }
@@ -1397,7 +1554,7 @@
                 });
                 resultBody.append(row);
             }
-            const guidelineTargetLength = Number(body.result.guidelineTarget?.length);
+            const guidelineTargetLength = Number(performanceResult.guidelineTarget?.length);
             const hasGuidelineTarget = Number.isFinite(guidelineTargetLength);
             if (hasGuidelineTarget) {
                 const adjustmentRows = [
@@ -1413,16 +1570,16 @@
                     if (valueKey === "personnel") {
                         const targetDetail = document.createElement("small");
                         targetDetail.className = "d-block fw-normal text-muted";
-                        targetDetail.textContent = body.result.guidelineTarget?.source === "gun"
+                        targetDetail.textContent = performanceResult.guidelineTarget?.source === "gun"
                             ? t().performanceGuidelineTargetGun(
                                 guidelineTargetLength,
-                                body.result.guidelineTarget?.gun?.name || "-",
+                                performanceResult.guidelineTarget?.gun?.name || "-",
                             )
                             : t().performanceGuidelineTargetInput(guidelineTargetLength);
                         heading.append(targetDetail);
                     }
                     row.append(heading);
-                    body.result.results.forEach((result) => {
+                    performanceResult.results.forEach((result) => {
                         const cell = document.createElement("td");
                         const performance = result.performance || {};
                         const adjustment = performance.guidelineAdjustment;
@@ -1456,14 +1613,12 @@
                     resultBody.append(row);
                 }
             }
-            renderImplementedReloadVisualization(body.result.results, caseLabels);
-            renderMultipleEnginePerformance(body.result.results, caseLabels);
+            renderImplementedReloadVisualization(performanceResult.results, caseLabels);
+            renderMultipleEnginePerformance(performanceResult.results, caseLabels);
             el("#performance-result-section").hidden = false;
             setPerformanceStatus(t().performanceComplete, "success");
         } catch (error) {
             setPerformanceStatus(t().performanceFailed(error.message), "danger");
-        } finally {
-            updatePerformanceRequestAvailability();
         }
     }
     function calculate() {
@@ -1489,6 +1644,7 @@
         const currentGrowth = { ...initialGrowth };
         const allowLateClassChange = !(server.value === "korea" && selected.event);
         const hasCustomLevels = allowLateClassChange && actualClassChangeLevels.some((value) => value !== "" && value !== undefined);
+        const classChangeStartIndex = classChangeBulkStartIndex(path);
         let pathOpen = true;
         let previousActualLevel = 1;
         const scheduledStages = [];
@@ -1505,7 +1661,7 @@
                 ? 25
                 : Number(level.max);
             const hasValidLateClassChangeRange = minimumActualLevel <= maximumActualLevel;
-            if (hasCustomLevels) {
+            if (hasCustomLevels && index >= classChangeStartIndex) {
                 if (!pathOpen || entered === "") pathOpen = false;
                 else if (!hasValidLateClassChangeRange) pathOpen = false;
                 else {
@@ -1524,7 +1680,9 @@
             actualInput.placeholder = String(stage.requiredLevel);
             actualInput.value = actualClassChangeLevels[index] ?? "";
             actualInput.dataset.index = String(index);
-            actualInput.disabled = !allowLateClassChange || !hasValidLateClassChangeRange;
+            actualInput.disabled = index < classChangeStartIndex
+                || !allowLateClassChange
+                || !hasValidLateClassChangeRange;
             row.innerHTML = `<td>${index + 1}</td><td>${stage.name}${active ? "" : ` (${t().notApplied})`}</td><td>${stage.requiredLevel}</td><td></td><td>${stage.crewGrowth}</td>`;
             row.children[3].append(actualInput);
             for (const [key] of ABILITIES.slice(0, -1)) {
@@ -1579,9 +1737,7 @@
                 abilityByType[key] = Math.floor(abilityByType[key] / 9 * 11);
             }
         }
-        const isSeamanPath = path.some((stage) => server.value === "korea"
-            ? /갑판/.test(stage.name)
-            : ["2nd Seaman", "1st Seaman", "Chief Seaman"].includes(stage.name));
+        const isSeamanPath = isSeamanSailorPath(preset.value);
         const showHidden = !el("#hidden-growth-section").hidden;
         renderResultTableHeader(initialLevel, currentLevel, showHidden, isSeamanPath);
         const resultBody = el("#result-body");
@@ -1680,8 +1836,6 @@
             currentLevel,
             currentClassName,
         );
-        setPerformanceStatus(t().performanceReady, "success");
-        updatePerformanceRequestAvailability();
         const boostText = boost.options[boost.selectedIndex]?.textContent || t().none;
         const sailorPresetText = sailorType.options[sailorType.selectedIndex]?.textContent || "";
         el("#result-summary").textContent = `${nationName(server.value, nation.value)} · ${currentClassName} · Lv.${currentLevel} · ${t().appliedSailorPreset}: ${sailorPresetText} · ${t().appliedBoost}: ${boostText}`;
@@ -1691,12 +1845,13 @@
         setResultView("all");
         setStatus(t().complete, "success");
         refreshActiveLayerSummary(path.at(-1)?.name || currentClassName);
+        calculatePerformance();
     }
     function hideResults() {
         latestPerformanceContext = null;
         availablePerformanceGuns = [];
         availablePerformanceFcs = [];
-        clearPerformanceApiResult();
+        clearPerformanceResult();
         el("#tree-section").hidden = true;
         el("#result-section").hidden = true;
         el(".settings-result-layout")?.classList.remove("has-result");
@@ -1724,9 +1879,23 @@
     }
     function shipLayerLabel(layer, index) {
         if (simulatorMode === "single") return `${t().sailorLayer} ${index + 1}`;
-        if (layer.role === "captain") return t().captain;
-        if (layer.role === "gunner") return `${t().gunner} ${layer.roleIndex}`;
-        if (layer.role === "support") return `${t().support} ${layer.roleIndex}`;
+        if (layer.role === "captain") return language() === "ko" ? "함장석" : "Bridge";
+        if (layer.role === "gunner") {
+            if (layer.roleIndex <= 2) {
+                return language() === "ko"
+                    ? `주포석 R${layer.roleIndex}`
+                    : `R mount ${layer.roleIndex}`;
+            }
+            if (layer.roleIndex <= 4) {
+                return language() === "ko"
+                    ? `부포석 T${layer.roleIndex - 2}`
+                    : `T mount ${layer.roleIndex - 2}`;
+            }
+            return language() === "ko" ? `포병석 ${layer.roleIndex}` : `Gunner ${layer.roleIndex}`;
+        }
+        if (layer.role === "support") return language() === "ko"
+            ? `보조석 ${layer.roleIndex}`
+            : `${t().support} ${layer.roleIndex}`;
         return `${t().sailorLayer} ${index + 1}`;
     }
     function compactSailorPreset(typeId) {
@@ -1745,6 +1914,180 @@
         const specialty = { Potential: "Pot", Accuracy: "Acc", Reload: "Rel", Torpedo: "Torp", Repair: "Rep", Restore: "Rest", Engine: "Eng", Fighter: "Ftr", Bomber: "Bmb" }[match[2]];
         return `${grade} ${specialty}`;
     }
+    function shipSailorPresetOptions() {
+        if (server.value === "korea") {
+            return [["attendanceLegend", "개근전설"], ["premium", "플미"]];
+        }
+        return [
+            ["nfX", "X"], ["advancedHero", "AE Hero"], ["hero", "Hero"],
+            ["advancedElite", "AE"], ["superElite", "SE"], ["elite", "E"],
+        ];
+    }
+    function renderShipSailorPresetButtons() {
+        const container = el("#ship-sailor-preset-buttons");
+        if (!container) return;
+        container.replaceChildren();
+        shipSailorPresetOptions().forEach(([group, label]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-secondary btn-sm ship-sailor-preset-button";
+            button.textContent = label;
+            button.disabled = simulatorMode !== "ship" || !selectedShip();
+            button.addEventListener("click", () => applyShipSailorPresetToRoster(group));
+            container.append(button);
+        });
+        const specialtyContainer = el("#global-ship-specialty-buttons");
+        if (!specialtyContainer) return;
+        specialtyContainer.hidden = server.value !== "global";
+        specialtyContainer.replaceChildren();
+        for (const [mode, label] of [["repair", "Repair"], ["reload", "Reload"]]) {
+            const button = document.createElement("button");
+            const active = globalShipSpecialtyMode === mode;
+            button.type = "button";
+            button.className = `btn btn-outline-secondary btn-sm global-ship-specialty-button${active ? " active" : ""}`;
+            button.textContent = label;
+            button.disabled = simulatorMode !== "ship" || !selectedShip();
+            button.setAttribute("aria-pressed", String(active));
+            button.addEventListener("click", () => applyGlobalShipSpecialtyMode(mode));
+            specialtyContainer.append(button);
+        }
+        renderShipOfficerBulkControls();
+    }
+    function renderShipOfficerBulkControls() {
+        const container = el("#ship-officer-bulk-controls");
+        const label = el("#ship-officer-bulk-label");
+        const buttons = el("#ship-officer-bulk-buttons");
+        const input = el("#ship-officer-bulk-input");
+        if (!container || !label || !buttons || !input) return;
+        const presetRates = server.value === "korea" ? [45, 40] : [50, 45, 40];
+        const disabled = simulatorMode !== "ship" || !selectedShip();
+        label.textContent = t().shipOfficerBulk;
+        buttons.replaceChildren();
+        presetRates.forEach((rate) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-secondary btn-sm ship-officer-bulk-button";
+            button.textContent = `${rate}%`;
+            button.disabled = disabled;
+            button.addEventListener("click", () => applyOfficerRateToShipRoster(rate));
+            buttons.append(button);
+        });
+        input.removeAttribute("max");
+        input.placeholder = t().shipOfficerRatePlaceholder;
+        input.setAttribute("aria-label", t().shipOfficerBulk);
+        input.disabled = disabled;
+    }
+    function specializedAbilityForPath(pathIndex) {
+        const path = paths[Number(pathIndex)] || [];
+        const finalName = path.at(-1)?.name || "";
+        if (SPECIAL_LANDING_CLASS_NAMES.has(finalName)) return "potential";
+        if (/음파 탐지관|잠수 항해관|Chief Sonarman|Chief Planesman/i.test(finalName)) return "potential";
+        if (/명중 거포병|Accu Huge Gunner/i.test(finalName)) return "reload";
+        if (/양용포 병장|Chief DP Gunner/i.test(finalName)) return "reload";
+        if (/정찰|\bRecon\b/i.test(finalName)) return "fighter";
+        if (/급폭|폭격|Dive Bomber|Torpedo Bomber/i.test(finalName)) return "bomber";
+        if (/전투기|Fighter/i.test(finalName)) return "fighter";
+        if (/기관|Engineer/i.test(finalName)) return "engine";
+        if (/보수|Restor/i.test(finalName)) return "restore";
+        if (/수리|Repair/i.test(finalName)) return "repair";
+        if (/어뢰|Torpedo/i.test(finalName)) return "torpedo";
+        if (/명중|Accu(?:racy)?/i.test(finalName)) return "accuracy";
+        if (/연사|포술|Gunner|Gunnery|대공|AA Gunner/i.test(finalName)) return "reload";
+        if (/관제|Operator/i.test(finalName)) return "potential";
+        const scores = Object.fromEntries(ABILITIES.slice(0, -1).map(([key]) => [key, 0]));
+        path.forEach((stage) => {
+            for (const [key] of ABILITIES.slice(0, -1)) {
+                scores[key] += Math.max(0, Number(stage.abilities?.[key]) || 0);
+            }
+        });
+        return ["potential", "reload", "accuracy", "torpedo", "repair", "restore", "engine", "fighter", "bomber", "aircraft"]
+            .reduce((best, key) => scores[key] > scores[best] ? key : best, "potential");
+    }
+    function isSeamanSailorPath(pathIndex) {
+        const path = paths[Number(pathIndex)] || [];
+        return path.some((stage) => server.value === "korea"
+            ? /갑판/.test(stage.name || "")
+            : ["2nd Seaman", "1st Seaman", "Chief Seaman"].includes(stage.name));
+    }
+    function seamanAdjustmentSeatLabel(layer, index) {
+        const sailorTypeId = shipLayerFieldValue(layer, index, "sailor-type", "normal");
+        const boostId = shipLayerFieldValue(layer, index, "sailor-boost", "");
+        return `${shipLayerLabel(layer, index)} · ${compactSailorPreset(sailorTypeId)} · ${compactBoost(boostId)}`;
+    }
+    function seamanAdjustmentContext() {
+        const seamen = shipLayers.map((layer, index) => {
+            const pathIndex = shipLayerFieldValue(layer, index, "sailor-preset");
+            const isEligibleSeat = simulatorMode !== "ship" || layer.role === "support";
+            if (!isEligibleSeat || pathIndex === "" || !isSeamanSailorPath(pathIndex)) return null;
+            const context = index === activeShipLayer
+                ? latestPerformanceContext
+                : shipLayerSummary(layer).performanceContext;
+            if (!context?.abilityByType) return null;
+            return {
+                layer,
+                index,
+                abilityByType: context.abilityByType,
+            };
+        }).filter(Boolean)
+            .sort((left, right) => simulatorMode === "ship"
+                ? Number(left.layer.roleIndex) - Number(right.layer.roleIndex)
+                : left.index - right.index)
+            .slice(0, 3);
+        const rateByAbility = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => {
+            if (seamen.length === 0) return [key, 0];
+            const contribution = seamen.reduce((sum, sailor) => {
+                // Seaman 보정 원천은 사관·숙련병 가중치와 충원율을 적용하지 않은 누적 어빌이다.
+                const accumulatedAbility = Math.max(0, Number(sailor.abilityByType[key]) || 0);
+                const serverAdjustedAbility = server.value === "global"
+                    ? accumulatedAbility * 0.9
+                    : accumulatedAbility;
+                return sum + Math.floor(serverAdjustedAbility / 300);
+            }, 0);
+            return [key, Math.floor(contribution / Math.sqrt(seamen.length))];
+        }));
+        return {
+            rateByAbility,
+            labels: seamen.map(({ layer, index }) => seamanAdjustmentSeatLabel(layer, index)),
+            count: seamen.length,
+        };
+    }
+    function sailorTypeForShipPreset(group, pathIndex, seat = null, globalSpecialtyOverride = null) {
+        if (!group) return "normal";
+        const path = paths[Number(pathIndex)] || [];
+        const finalName = path.at(-1)?.name || "";
+        if (server.value === "korea"
+            && group === "premium"
+            && Number(nation.value) === 2
+            && seat?.role === "gunner"
+            && seat.roleIndex <= 2
+            && finalName === "연사 거포병") {
+            return "premiumAccuracy";
+        }
+        const specialty = globalSpecialtyOverride || (/관제병|Bridge Operator/i.test(finalName)
+            ? "repair"
+            : specializedAbilityForPath(pathIndex));
+        if (server.value === "korea") {
+            if (group === "attendanceLegend") {
+                if (finalName === "관제병") return "legendSupport";
+                if (["aircraft", "fighter", "bomber"].includes(specialty)) return "legendSpecial";
+                if (["repair", "restore", "engine"].includes(specialty)) return "legendSupport";
+                return "attendance";
+            }
+            const premiumSpecialty = specialty === "aircraft"
+                ? "Repair"
+                : (specialty === "antiAir" ? "Reload" : `${specialty[0].toUpperCase()}${specialty.slice(1)}`);
+            return `premium${premiumSpecialty}`;
+        }
+        const fixedTypes = { nfX: "nfXSailor", advancedHero: "advancedHero", hero: "heroSailor" };
+        if (fixedTypes[group]) return fixedTypes[group];
+        if (group === "advancedElite" && specialty === "potential") return "advancedHero";
+        const gradePrefix = { advancedElite: "advancedElite", superElite: "superElite", elite: "elite" }[group];
+        const gradeSpecialty = specialty === "aircraft"
+            ? "Repair"
+            : (specialty === "antiAir" ? "Reload" : `${specialty[0].toUpperCase()}${specialty.slice(1)}`);
+        const typeId = `${gradePrefix}${gradeSpecialty}`;
+        return availableSailorTypes().some((type) => type.id === typeId) ? typeId : "normal";
+    }
     function compactBoost(boostId) {
         if (!boostId) return language() === "ko" ? "없음" : "None";
         if (boostId === "all:20") return "+20%";
@@ -1756,29 +2099,38 @@
         const enteredLevels = actualClassChangeLevels.filter((value) => value !== "" && value !== undefined);
         return enteredLevels.length > 0 ? `Lv.${enteredLevels.at(-1)}` : t().onTime;
     }
-    function currentPersonnelSummary() {
-        const composition = performanceCompositions[performanceSelectedConditionIndex];
-        if (!composition || !Number.isFinite(performanceCrewCount)) return "-";
-        const currentCrew = performanceCurrentCrew(composition);
-        const allNonOfficersAreVeterans = Number(composition.rookies) === 0
-            && currentCrew === performanceCrewCount
-            && Number(composition.veterans) === performanceCrewCount - Number(composition.officers);
-        return allNonOfficersAreVeterans
-            ? String(composition.officers)
-            : `${composition.officers}/${composition.veterans}/${composition.rookies}`;
-    }
     function refreshActiveLayerSummary(finalClassName) {
         const layer = shipLayers[activeShipLayer];
         if (!layer) return;
+        const accumulatedAbilityByType = latestPerformanceContext?.abilityByType;
+        const useDisplayedAbility = preset.value !== "" && isSeamanSailorPath(preset.value);
+        const abilityByType = accumulatedAbilityByType
+            ? Object.fromEntries(Object.entries(accumulatedAbilityByType).map(([key, value]) => [
+                key,
+                useDisplayedAbility ? Math.floor(Number(value) * 0.07) : value,
+            ]))
+            : null;
         layer.summary = {
             className: finalClassName ?? layer.summary?.className ?? "-",
             level: level.value || "-",
             sailor: compactSailorPreset(sailorType.value || "normal"),
             boost: compactBoost(boost.value),
             classChange: currentClassChangeSummary(),
-            personnel: currentPersonnelSummary(),
+            totalCrew: Number.isFinite(latestPerformanceContext?.crewCount)
+                ? latestPerformanceContext.crewCount
+                : null,
+            abilityByType,
+            performanceContext: latestPerformanceContext
+                ? structuredClone(latestPerformanceContext)
+                : null,
+            performanceCondition: performanceCompositions[performanceSelectedConditionIndex]
+                ? structuredClone(performanceCompositions[performanceSelectedConditionIndex])
+                : null,
         };
-        if (simulatorMode === "ship") renderShipLayerTabs();
+        if (simulatorMode === "ship") {
+            renderShipLayerTabs();
+            renderShipPerformance();
+        }
     }
     function shipLayerSummary(layer) {
         const fields = layer.state?.fields || {};
@@ -1788,7 +2140,10 @@
             sailor: layer.summary?.sailor || compactSailorPreset(fields["sailor-type"] || "normal"),
             boost: layer.summary?.boost || compactBoost(fields["sailor-boost"] || ""),
             classChange: layer.summary?.classChange || t().onTime,
-            personnel: layer.summary?.personnel || "-",
+            totalCrew: layer.summary?.totalCrew ?? null,
+            abilityByType: layer.summary?.abilityByType || null,
+            performanceContext: layer.summary?.performanceContext || null,
+            performanceCondition: layer.summary?.performanceCondition || null,
         };
     }
     function shipLayerFieldValue(layer, index, fieldId, fallback = "") {
@@ -1798,37 +2153,210 @@
         }
         return layer.state?.fields?.[fieldId] ?? fallback;
     }
+    function gunnerPathCode(path) {
+        return path.map(({ name: stageName }) => {
+            if (server.value === "korea") {
+                if (/^명중\s/.test(stageName)) return "명";
+                if (/^연사\s/.test(stageName)) return "연";
+            } else {
+                if (/^(?:Accuracy|Accu)\s/i.test(stageName)) return "A";
+                if (/^Reload\s/i.test(stageName)) return "R";
+            }
+            return "";
+        }).join("");
+    }
     function rosterPresetOptions() {
+        const entries = filteredPathEntries();
         const duplicateCounts = new Map();
-        for (const path of paths) {
+        for (const { path } of entries) {
             const name = path.at(-1)?.name || "-";
             duplicateCounts.set(name, (duplicateCounts.get(name) || 0) + 1);
         }
         const occurrences = new Map();
-        return paths.map((path, index) => {
+        return entries.map(({ path, index }) => {
             const name = path.at(-1)?.name || "-";
             const occurrence = (occurrences.get(name) || 0) + 1;
             occurrences.set(name, occurrence);
             const displayName = language() === "ko" && /^(명중|연사)\s/.test(name)
                 ? name.replace(/\s+/g, "")
                 : name;
-            const gunnerPathCode = Number(nation.value) === 1
-                ? path.map(({ name: stageName }) => {
-                    if (language() === "ko") {
-                        if (/^명중\s/.test(stageName)) return "명";
-                        if (/^연사\s/.test(stageName)) return "연";
-                    } else {
-                        if (/^(?:Accuracy|Accu)\s/i.test(stageName)) return "A";
-                        if (/^Reload\s/i.test(stageName)) return "R";
-                    }
-                    return "";
-                }).join("")
+            const pathCode = Number(nation.value) === 1
+                ? gunnerPathCode(path)
                 : "";
             if (duplicateCounts.get(name) <= 1) return [String(index), displayName];
-            return [String(index), gunnerPathCode
-                ? `${displayName} ${gunnerPathCode}`
+            return [String(index), pathCode
+                ? `${displayName} ${pathCode}`
                 : `${displayName} (${occurrence})`];
         });
+    }
+    function pathIndexByFinalName(...names) {
+        for (const name of names) {
+            const index = paths.findIndex((path) => path.at(-1)?.name === name);
+            if (index >= 0) return index;
+        }
+        return -1;
+    }
+    function deepestPathIndex(matchesFinalName) {
+        let selectedIndex = -1;
+        let selectedLength = -1;
+        paths.forEach((path, index) => {
+            if (matchesFinalName(path.at(-1)?.name || "") && path.length > selectedLength) {
+                selectedIndex = index;
+                selectedLength = path.length;
+            }
+        });
+        return selectedIndex;
+    }
+    function defaultShipPresetIndex(seat, ship) {
+        if (seat.role === "captain") {
+            return pathIndexByFinalName(server.value === "korea" ? "관제병" : "Bridge Operator");
+        }
+        if (seat.role === "gunner" && seat.roleIndex <= 2) {
+            const reloadClassName = server.value === "korea" ? "연사 거포병" : "Reload Huge Gunner";
+            const reloadPathCode = server.value === "korea" ? "연연연" : "RRR";
+            const preferredReloadPath = paths.findIndex((path) =>
+                path.at(-1)?.name === reloadClassName && gunnerPathCode(path) === reloadPathCode
+            );
+            if (preferredReloadPath >= 0) return preferredReloadPath;
+            return pathIndexByFinalName(
+                reloadClassName,
+                server.value === "korea" ? "포술장" : "Chief Gunner",
+            );
+        }
+        if (seat.role === "gunner" && seat.roleIndex <= 4) {
+            const nationId = Number(nation.value);
+            if (nationId === 1) {
+                const reloadClassName = server.value === "korea" ? "연사 거포병" : "Reload Huge Gunner";
+                const reloadPathCode = server.value === "korea" ? "연연연" : "RRR";
+                const preferredReloadPath = paths.findIndex((path) =>
+                    path.at(-1)?.name === reloadClassName && gunnerPathCode(path) === reloadPathCode
+                );
+                return preferredReloadPath >= 0 ? preferredReloadPath : pathIndexByFinalName(reloadClassName);
+            }
+            if (nationId === 2) {
+                return pathIndexByFinalName(server.value === "korea" ? "연사 거포병" : "Reload Huge Gunner");
+            }
+            if (nationId === 3) {
+                return pathIndexByFinalName(server.value === "korea" ? "양용포 병장" : "Chief DP Gunner");
+            }
+            if (nationId === 4) {
+                return pathIndexByFinalName(server.value === "korea" ? "대공속사병장" : "Chief Rapid Fire Gunner");
+            }
+            if ([5, 6, 7].includes(nationId)) {
+                return pathIndexByFinalName(server.value === "korea" ? "포술장" : "Chief Gunner");
+            }
+        }
+        if (seat.role === "support") {
+            const isBattleship = String(ship?.ShipType || "").trim().toUpperCase() === "BB";
+            if (isBattleship && seat.roleIndex === 1) {
+                return deepestPathIndex((finalName) => server.value === "korea"
+                    ? /정찰기/.test(finalName)
+                    : /\bRecon\b/i.test(finalName));
+            }
+            return deepestPathIndex((finalName) => server.value === "korea"
+                ? /기관병/.test(finalName)
+                : /\bEngineer\b/i.test(finalName));
+        }
+        return -1;
+    }
+    function initializeShipLayerSailorType(state, typeId) {
+        const selected = availableSailorTypes().find((type) => type.id === typeId)
+            || availableSailorTypes()[0];
+        state.fields["sailor-type"] = selected.id;
+        const initialLevel = selectedInitialLevel(selected);
+        if ((Number(state.fields["sailor-level"]) || 1) < initialLevel) {
+            state.fields["sailor-level"] = String(initialLevel);
+        }
+        for (const [key] of ABILITIES.slice(0, -1)) {
+            const initialGrowth = selected.initialGrowth?.[key] ?? 9;
+            state.fields[`initial-growth-${key}`] = String(initialGrowth);
+            state.fields[`initial-ability-${key}`] = String(selected.ability?.[key] ?? 27);
+            state.fields[`hidden-growth-${key}`] = String(initialGrowth);
+        }
+    }
+    function defaultShipLayerBoost(seat, presetIndex) {
+        if (server.value === "global") return "all:20";
+        if (seat.role === "captain") return "repair:1";
+        const finalClassName = paths[Number(presetIndex)]?.at(-1)?.name || "";
+        if (seat.role === "gunner"
+            && Number(nation.value) === 2
+            && finalClassName === "연사 거포병") {
+            return seat.roleIndex <= 2 ? "accuracy:1" : "reload:1";
+        }
+        return `${specializedAbilityForPath(presetIndex)}:1`;
+    }
+    function globalShipPresetGroupForType(typeId) {
+        if (/^advancedElite/.test(typeId)) return "advancedElite";
+        if (/^superElite/.test(typeId)) return "superElite";
+        if (/^elite/.test(typeId)) return "elite";
+        return null;
+    }
+    function isGunnerShipPreset(pathIndex) {
+        const numericPathIndex = Number(pathIndex);
+        if (pathIndex === "" || !Number.isInteger(numericPathIndex) || numericPathIndex < 0) return false;
+        return isGunnerPath((paths[numericPathIndex] || []).map((stage) => stage.name || ""));
+    }
+    function globalShipClassChangeSettings(pathIndex, mode) {
+        if (mode !== "repair") return { levels: [], bulkLevel: "" };
+        const numericPathIndex = Number(pathIndex);
+        const path = pathIndex !== "" && Number.isInteger(numericPathIndex) && numericPathIndex >= 0
+            ? (paths[numericPathIndex] || [])
+            : [];
+        const startIndex = classChangeBulkStartIndex(path);
+        return {
+            levels: path.map((stage, index) => index < startIndex
+                ? ""
+                : String(Math.max(125, Number(stage.requiredLevel) || 1))),
+            bulkLevel: path.length > startIndex ? "125" : "",
+        };
+    }
+    function applyGlobalShipClassChangeMode(pathIndex, mode) {
+        const settings = globalShipClassChangeSettings(pathIndex, mode);
+        actualClassChangeLevels = settings.levels;
+        bulkClassChangeLevel = settings.bulkLevel;
+    }
+    function defaultShipLayerState(sourceState, seat, ship) {
+        const state = structuredClone(sourceState);
+        const defaultPresetIndex = defaultShipPresetIndex(seat, ship);
+        state.fields ||= {};
+        state.fields["sailor-preset"] = defaultPresetIndex >= 0 ? String(defaultPresetIndex) : "";
+        const defaultSailorGroup = server.value === "korea" ? "premium" : "superElite";
+        const useGlobalGunnerMode = server.value === "global" && isGunnerShipPreset(defaultPresetIndex);
+        initializeShipLayerSailorType(
+            state,
+            sailorTypeForShipPreset(
+                defaultSailorGroup,
+                defaultPresetIndex,
+                seat,
+                useGlobalGunnerMode ? globalShipSpecialtyMode : null,
+            ),
+        );
+        state.fields["sailor-boost"] = defaultShipLayerBoost(seat, defaultPresetIndex);
+        state.actualClassChangeLevels = [];
+        const lateJapaneseDpGunner = seat.role === "gunner"
+            && seat.roleIndex >= 3
+            && seat.roleIndex <= 4
+            && Number(nation.value) === 3
+            && defaultPresetIndex >= 0;
+        if (server.value === "global") {
+            const settings = globalShipClassChangeSettings(
+                defaultPresetIndex,
+                useGlobalGunnerMode ? globalShipSpecialtyMode : null,
+            );
+            state.actualClassChangeLevels = settings.levels;
+            state.bulkClassChangeLevel = settings.bulkLevel;
+        } else if (lateJapaneseDpGunner) {
+            state.actualClassChangeLevels = paths[defaultPresetIndex].map((stage) => String(stage.requiredLevel));
+            state.actualClassChangeLevels[state.actualClassChangeLevels.length - 1] = "120";
+            state.bulkClassChangeLevel = "";
+        } else {
+            state.bulkClassChangeLevel = "";
+        }
+        state.performanceCompositions = [];
+        state.performanceDetailedHeaders = [];
+        state.performanceSelectedConditionIndex = defaultPerformanceConditionIndex();
+        state.performanceCrewCount = null;
+        return state;
     }
     function rosterBoostOptions(typeId) {
         const output = [["", compactBoost("")]];
@@ -1851,28 +2379,150 @@
     function activateLayerForRosterEdit(index) {
         if (index !== activeShipLayer) activateShipLayer(index);
     }
-    function applyRosterPersonnelInput(index, value) {
-        activateLayerForRosterEdit(index);
-        const totalCrew = Math.max(0, Number(performanceCrewCount) || 0);
-        const composition = performanceCompositions[performanceSelectedConditionIndex];
-        if (!composition || totalCrew <= 0) return;
-        const values = String(value).split("/").map((item) => Math.max(0, Math.floor(Number(item.trim()) || 0)));
-        const officers = Math.min(values[0] || 0, maximumPerformanceOfficers(totalCrew));
-        if (values.length >= 3) {
-            const veterans = Math.min(values[1], Math.max(0, totalCrew - officers));
-            const rookies = Math.min(values[2], Math.max(0, totalCrew - officers - veterans));
-            Object.assign(composition, { officers, veterans, rookies });
+    function applyGlobalShipSpecialtyMode(mode) {
+        if (server.value !== "global" || !["repair", "reload"].includes(mode)) return;
+        globalShipSpecialtyMode = mode;
+        renderShipSailorPresetButtons();
+        if (simulatorMode !== "ship" || !selectedShip()) return;
+        const originalActiveLayer = activeShipLayer;
+        shipLayers.forEach((layer, index) => {
+            activateLayerForRosterEdit(index);
+            const group = globalShipPresetGroupForType(sailorType.value);
+            if (!group || preset.value === "" || !isGunnerShipPreset(preset.value)) return;
+            sailorType.value = sailorTypeForShipPreset(group, preset.value, layer, mode);
+            applyGlobalShipClassChangeMode(preset.value, mode);
+            sailorType.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+        activateLayerForRosterEdit(originalActiveLayer);
+        renderShipLayerTabs();
+    }
+    function applyShipSailorPresetToRoster(group) {
+        if (simulatorMode !== "ship" || !selectedShip()) return;
+        const fixedGlobalGroup = ["nfX", "advancedHero", "hero"].includes(group);
+        const useGlobalSpecialtyMode = server.value === "global"
+            && ["advancedElite", "superElite", "elite"].includes(group);
+        const originalActiveLayer = activeShipLayer;
+        shipLayers.forEach((layer, index) => {
+            activateLayerForRosterEdit(index);
+            if (group && !fixedGlobalGroup && preset.value === "") return;
+            const applyGlobalGunnerMode = useGlobalSpecialtyMode && isGunnerShipPreset(preset.value);
+            sailorType.value = sailorTypeForShipPreset(
+                group,
+                preset.value,
+                layer,
+                applyGlobalGunnerMode ? globalShipSpecialtyMode : null,
+            );
+            if (useGlobalSpecialtyMode) {
+                applyGlobalShipClassChangeMode(
+                    preset.value,
+                    applyGlobalGunnerMode ? globalShipSpecialtyMode : null,
+                );
+            }
+            sailorType.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+        activateLayerForRosterEdit(originalActiveLayer);
+        renderShipLayerTabs();
+    }
+    function applyOfficerSettingToShipRoster(resolveOfficerCount) {
+        if (simulatorMode !== "ship" || !selectedShip()) return;
+        disableCaptainAutoAdjustment(shipLayers.find((layer) => layer.role === "captain"));
+        let activeCompositionChanged = false;
+        shipLayers.forEach((layer, index) => {
+            const isActiveLayer = index === activeShipLayer;
+            const conditionIndex = isActiveLayer
+                ? performanceSelectedConditionIndex
+                : Number(layer.state?.performanceSelectedConditionIndex);
+            const crewCount = Number(isActiveLayer
+                ? performanceCrewCount
+                : layer.state?.performanceCrewCount);
+            const compositions = isActiveLayer
+                ? performanceCompositions
+                : layer.state?.performanceCompositions;
+            if (!Number.isInteger(conditionIndex) || conditionIndex < 0 || conditionIndex >= 5
+                || !Number.isFinite(crewCount) || crewCount < 0 || !Array.isArray(compositions)
+                || !compositions[conditionIndex]) return;
+            const requestedOfficers = Number(resolveOfficerCount(crewCount));
+            if (!Number.isFinite(requestedOfficers)) return;
+            const officers = Math.min(
+                Math.max(0, Math.floor(requestedOfficers)),
+                maximumPerformanceOfficers(crewCount),
+            );
+            const currentComposition = compositions[conditionIndex];
+            const appliedComposition = {
+                officers,
+                veterans: Math.max(0, crewCount - officers),
+                rookies: 0,
+                seamanAdjustmentPercent: Number(currentComposition.seamanAdjustmentPercent) || 0,
+            };
+            compositions[conditionIndex] = appliedComposition;
+            layer.summary ||= {};
+            layer.summary.performanceCondition = structuredClone(appliedComposition);
+            if (isActiveLayer) {
+                performanceDetailedHeaders[conditionIndex] = true;
+                activeCompositionChanged = true;
+            } else if (layer.state) {
+                layer.state.performanceDetailedHeaders ||= Array(5).fill(false);
+                layer.state.performanceDetailedHeaders[conditionIndex] = true;
+            }
+        });
+        if (activeCompositionChanged) {
+            const composition = performanceCompositions[performanceSelectedConditionIndex];
+            for (const field of ["officers", "veterans", "rookies"]) {
+                const personnelInput = el(`#performance-input-body [data-index="${performanceSelectedConditionIndex}"][data-field="${field}"]`);
+                if (personnelInput) personnelInput.value = String(composition[field]);
+            }
+            updatePerformanceCrewDisplay(performanceSelectedConditionIndex);
+            calculatePerformance();
+            refreshActiveLayerSummary();
+            shipLayers[activeShipLayer].state = captureShipLayerState();
         } else {
-            Object.assign(composition, { officers, veterans: totalCrew - officers, rookies: 0 });
+            renderShipLayerTabs();
+            renderShipPerformance();
         }
-        performanceDetailedHeaders[performanceSelectedConditionIndex] = values.length >= 3;
+    }
+    function applyOfficerRateToShipRoster(value) {
+        if (String(value).trim() === "") return;
+        const numericRate = Number(value);
+        if (!Number.isFinite(numericRate)) return;
+        const maximumRate = server.value === "korea" ? 45 : 50;
+        const officerRate = Math.min(maximumRate, Math.max(0, Math.floor(numericRate)));
+        applyOfficerSettingToShipRoster((crewCount) => Math.floor(crewCount * officerRate / 100));
+    }
+    function applyOfficerCountToShipRoster(value) {
+        if (String(value).trim() === "") return;
+        const officerCount = Number(value);
+        if (!Number.isFinite(officerCount)) return;
+        applyOfficerSettingToShipRoster(() => officerCount);
+    }
+    function setPerformancePersonnelValue(index, field, value) {
+        if (!["officers", "veterans", "rookies"].includes(field)) return false;
+        const composition = performanceCompositions[index];
+        if (!composition || !Number.isFinite(performanceCrewCount)) return false;
+        const inputValue = Math.max(0, Math.floor(Number(value) || 0));
+        if (field === "veterans" || field === "rookies") performanceDetailedHeaders[index] = true;
+        composition[field] = field === "officers"
+            ? Math.min(inputValue, maximumPerformanceOfficers(performanceCrewCount))
+            : inputValue;
+        fitPerformanceComposition(composition, field);
         for (const field of ["officers", "veterans", "rookies"]) {
-            const input = el(`#performance-input-body [data-index="${performanceSelectedConditionIndex}"][data-field="${field}"]`);
+            const input = el(`#performance-input-body [data-index="${index}"][data-field="${field}"]`);
             if (input) input.value = String(composition[field]);
         }
-        updatePerformanceCrewDisplay(performanceSelectedConditionIndex);
-        clearPerformanceApiResult();
+        updatePerformanceCrewDisplay(index);
+        return true;
+    }
+    function disableCaptainAutoAdjustment(layer) {
+        if (simulatorMode !== "ship" || layer?.role !== "captain") return;
+        // Do not dispatch change: manual edits must not trigger the full-veteran reset.
+        el("#ship-guideline-adjust-captain").checked = false;
+        el("#ship-guideline-adjustment-result").hidden = true;
+    }
+    function applyRosterPersonnelField(index, field, value) {
+        disableCaptainAutoAdjustment(shipLayers[index]);
+        activateLayerForRosterEdit(index);
+        if (!setPerformancePersonnelValue(performanceSelectedConditionIndex, field, value)) return;
         refreshActiveLayerSummary();
+        calculatePerformance();
     }
     function renderShipLayerTabs() {
         const tabs = el("#ship-layer-tabs");
@@ -1896,12 +2546,45 @@
             table.className = "table table-bordered table-striped table-sm ship-layer-roster-table";
             const head = document.createElement("thead");
             const headRow = document.createElement("tr");
-            for (const heading of [t().rosterSeat, t().rosterClass, t().rosterLevel, t().rosterSailor, t().rosterBoost, t().rosterClassChange, t().rosterOfficer]) {
+            const fixedAbilityKeys = new Set(["potential", "repair", "engine"]);
+            const embarkedSpecialtyKeys = new Set(shipLayers.map((layer, index) => {
+                const pathIndex = shipLayerFieldValue(layer, index, "sailor-preset");
+                return pathIndex === "" ? null : specializedAbilityForPath(pathIndex);
+            }).filter(Boolean));
+            if (shipLayers.some((layer) => layer.role === "gunner")) {
+                embarkedSpecialtyKeys.add("accuracy");
+                embarkedSpecialtyKeys.add("reload");
+            }
+            const rosterAbilityOrder = [
+                "potential", "accuracy", "reload", "torpedo",
+                "repair", "engine", "fighter", "bomber",
+            ];
+            const rosterAbilityColumns = rosterAbilityOrder
+                .filter((key) => fixedAbilityKeys.has(key) || embarkedSpecialtyKeys.has(key))
+                .map((key) => {
+                    const ability = ABILITIES.find(([abilityKey]) => abilityKey === key);
+                    return [key, abilityLabel(ability)];
+                });
+            const rosterHeadings = [
+                t().rosterSeat, t().rosterClass, t().rosterLevel, t().rosterSailor, t().rosterBoost,
+                t().rosterClassChange, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
+                t().rosterTotalCrew, ...rosterAbilityColumns.map(([, label]) => label),
+            ];
+            rosterHeadings.forEach((heading, headingIndex) => {
                 const cell = document.createElement("th");
                 cell.scope = "col";
-                cell.textContent = heading;
+                if (headingIndex === 1) {
+                    const wrap = document.createElement("div");
+                    wrap.className = "d-flex align-items-center justify-content-center gap-1";
+                    const label = document.createElement("span");
+                    label.textContent = heading;
+                    wrap.append(label, createPathFilterButtons());
+                    cell.append(wrap);
+                } else {
+                    cell.textContent = heading;
+                }
                 headRow.append(cell);
-            }
+            });
             head.append(headRow);
             const body = document.createElement("tbody");
             shipLayers.forEach((layer, index) => {
@@ -1909,12 +2592,14 @@
                 const presetValue = shipLayerFieldValue(layer, index, "sailor-preset");
                 const levelValue = shipLayerFieldValue(layer, index, "sailor-level", summary.level);
                 const sailorTypeValue = shipLayerFieldValue(layer, index, "sailor-type", "normal");
+                const layerSailorType = availableSailorTypes().find((type) => type.id === sailorTypeValue);
+                const fixedClassChangeTiming = server.value === "korea" && Boolean(layerSailorType?.event);
                 const boostValue = shipLayerFieldValue(layer, index, "sailor-boost");
                 const layerClassChangeLevels = index === activeShipLayer
                     ? actualClassChangeLevels
                     : (layer.state?.actualClassChangeLevels || []);
                 const enteredClassChangeLevels = layerClassChangeLevels.filter((value) => value !== "" && value !== undefined);
-                const classChangeValue = enteredClassChangeLevels.at(-1) || "";
+                const classChangeValue = fixedClassChangeTiming ? "" : (enteredClassChangeLevels.at(-1) || "");
                 const layerCompositions = index === activeShipLayer
                     ? performanceCompositions
                     : (layer.state?.performanceCompositions || []);
@@ -1991,7 +2676,7 @@
                 classChangeInput.max = level.max;
                 classChangeInput.value = classChangeValue;
                 classChangeInput.placeholder = t().onTime;
-                classChangeInput.disabled = !presetValue;
+                classChangeInput.disabled = !presetValue || fixedClassChangeTiming;
                 classChangeInput.setAttribute("aria-label", t().rosterClassChange);
                 classChangeInput.addEventListener("change", () => {
                     const value = classChangeInput.value;
@@ -2001,19 +2686,60 @@
                 });
                 classChangeCell.append(classChangeInput);
 
-                const personnelCell = document.createElement("td");
-                const personnelInput = document.createElement("input");
-                personnelInput.className = "form-control form-control-sm ship-roster-control ship-roster-personnel";
-                personnelInput.type = "text";
-                personnelInput.inputMode = "numeric";
-                personnelInput.value = summary.personnel === "-" ? "" : summary.personnel;
-                personnelInput.placeholder = language() === "ko" ? "사관 또는 사관/숙련/신병" : "O or O/V/R";
-                personnelInput.disabled = !layerComposition || !Number.isFinite(layerCrewCount);
-                personnelInput.setAttribute("aria-label", t().rosterOfficer);
-                personnelInput.addEventListener("change", () => applyRosterPersonnelInput(index, personnelInput.value));
-                personnelCell.append(personnelInput);
+                const personnelCells = [
+                    ["officers", t().rosterOfficer],
+                    ["veterans", t().rosterVeteran],
+                    ["rookies", t().rosterRookie],
+                ].map(([field, label]) => {
+                    const cell = document.createElement("td");
+                    const input = document.createElement("input");
+                    input.className = "form-control form-control-sm ship-roster-control ship-roster-personnel";
+                    input.type = "number";
+                    input.min = "0";
+                    input.step = "1";
+                    if (field === "officers" && Number.isFinite(layerCrewCount)) {
+                        input.max = String(maximumPerformanceOfficers(layerCrewCount));
+                    }
+                    input.value = layerComposition ? String(layerComposition[field]) : "";
+                    input.disabled = !layerComposition || !Number.isFinite(layerCrewCount);
+                    input.setAttribute("aria-label", label);
+                    input.addEventListener("change", () => applyRosterPersonnelField(index, field, input.value));
+                    cell.append(input);
+                    return cell;
+                });
+                const resultCell = (value, visible = true) => {
+                    const cell = document.createElement("td");
+                    cell.className = "ship-roster-result";
+                    if (!visible) {
+                        cell.classList.add("ship-roster-result-hidden");
+                        return cell;
+                    }
+                    cell.textContent = Number.isFinite(Number(value)) && value !== null
+                        ? displayGunNumber(value)
+                        : "-";
+                    return cell;
+                };
+                const totalCrewCell = resultCell(summary.totalCrew);
+                const layerSpecialtyAbility = presetValue === ""
+                    ? null
+                    : specializedAbilityForPath(presetValue);
+                const layerIsSeaman = presetValue !== "" && isSeamanSailorPath(presetValue);
+                const showRosterAbility = (key) => {
+                    if (layerIsSeaman) return true;
+                    if (layer.role === "captain") return key === "potential" || key === "repair";
+                    if (layer.role === "gunner") return key === "accuracy" || key === "reload" || key === "repair";
+                    if (layer.role !== "support") return true;
+                    return key === "repair" || key === layerSpecialtyAbility;
+                };
+                const abilityCells = rosterAbilityColumns.map(([key]) => resultCell(
+                    summary.abilityByType?.[key],
+                    showRosterAbility(key),
+                ));
 
-                row.append(classCell, levelCell, sailorCell, boostCell, classChangeCell, personnelCell);
+                row.append(
+                    classCell, levelCell, sailorCell, boostCell, classChangeCell,
+                    ...personnelCells, totalCrewCell, ...abilityCells,
+                );
                 body.append(row);
             });
             table.append(head, body);
@@ -2047,9 +2773,15 @@
             bulkClassChangeLevel = saved.bulkClassChangeLevel;
             performanceCompositions = structuredClone(saved.performanceCompositions);
             performanceDetailedHeaders = [...saved.performanceDetailedHeaders];
-            performanceSelectedConditionIndex = Number(saved.performanceSelectedConditionIndex) || 0;
+            const savedConditionIndex = Number(saved.performanceSelectedConditionIndex);
+            performanceSelectedConditionIndex = Number.isInteger(savedConditionIndex)
+                && savedConditionIndex >= 0
+                && savedConditionIndex < 5
+                ? savedConditionIndex
+                : defaultPerformanceConditionIndex();
             performanceCrewCount = Number.isFinite(saved.performanceCrewCount) ? saved.performanceCrewCount : null;
             performanceEngineCrewCount = saved.performanceEngineCrewCount;
+            updatePresetCustomSelection();
             calculate();
         } finally {
             changingShipLayer = false;
@@ -2063,6 +2795,15 @@
         renderShipLayerTabs();
         restoreShipLayerState(saved);
     }
+    function calculateAllShipLayerSummaries() {
+        if (simulatorMode !== "ship" || shipLayers.length === 0) return;
+        const originalActiveLayer = activeShipLayer;
+        shipLayers.forEach((_, index) => {
+            if (index !== activeShipLayer) activateShipLayer(index);
+        });
+        if (activeShipLayer !== originalActiveLayer) activateShipLayer(originalActiveLayer);
+        else renderShipLayerTabs();
+    }
     function selectedShip() {
         const selectedValue = el("#ship-select")?.value;
         if (!selectedValue) return null;
@@ -2070,15 +2811,902 @@
         if (!Number.isInteger(shipId)) return null;
         return (nationCatalog?.equipment?.ships || []).find((ship) => Number(ship.ShipID) === shipId) || null;
     }
+    function shipMountCapacity(ship, mountType) {
+        const capacities = (ship?.mountGroups || [])
+            .filter((group) => group.type === mountType)
+            .map((group) => Number(group.capacity))
+            .filter((capacity) => Number.isFinite(capacity) && capacity > 0);
+        return capacities.length > 0 ? Math.min(...capacities) : 0;
+    }
+    function compatibleFcsClassCodes(shipType) {
+        const codesByShipType = {
+            FF: ["DD"],
+            DD: ["DD"],
+            CL: ["CL", "DD"],
+            CA: ["CA", "CL", "DD"],
+            PS: ["CA", "CL", "DD"],
+            BB: ["BB", "FN", "CA", "CL", "DD"],
+            BC: ["BB", "FN", "CA", "CL", "DD"],
+            CV: ["DD"],
+            SS: ["SS"],
+        };
+        return new Set(codesByShipType[String(shipType || "").toUpperCase()] || []);
+    }
+    function fcsClassCode(fcs) {
+        return String(fcs?.name || "").match(/^(BB|CA|CL|DD|SS|FN)\s*FCS/i)?.[1]?.toUpperCase() || "";
+    }
+    function shipEquipmentFcsLabel(fcs) {
+        return language() === "ko"
+            ? `${fcs.name} · 용적 ${fcs.requiredCapacity} · 명중 ${fcs.accuracyBonus}`
+            : `${fcs.name} · Capacity ${fcs.requiredCapacity} · Accuracy ${fcs.accuracyBonus}`;
+    }
+    function shipEquipmentEngineLabel(engine) {
+        return language() === "ko"
+            ? `${engine.name} · 출력 ${engine.output} · 용적 ${engine.requiredCapacity} · 오버힛 ${engine.overheatPercentage}%`
+            : `${engine.name} · Output ${engine.output} · Capacity ${engine.requiredCapacity} · Overheat ${engine.overheatPercentage}%`;
+    }
+    function compareDefaultShipFcsPriority(left, right) {
+        return Number(right.accuracyBonus) - Number(left.accuracyBonus)
+            || Number(left.requiredWeight) - Number(right.requiredWeight)
+            || Number(left.requiredCapacity) - Number(right.requiredCapacity)
+            || String(left.name).localeCompare(String(right.name));
+    }
+    function shipEquipmentGunLabel(gun, showRange = false) {
+        const prefix = `Lv ${gun.requiredLevel} · ${performanceGunBarrels(gun.barrelCount)} · ${gun.name}`;
+        const label = language() === "ko"
+            ? `${prefix} · 용적 ${gun.capacity} · 연사 ${displayGunNumber(gun.reloadSeconds)}s`
+            : `${prefix} · Capacity ${gun.capacity} · Reload ${displayGunNumber(gun.reloadSeconds)}s`;
+        return showRange && Number.isFinite(Number(gun.shipyardRange)) && Number(gun.shipyardRange) > 0
+            ? `${label} · ${language() === "ko" ? "쉽야드사거리" : "Shipyard range"} ${displayGunNumber(gun.shipyardRange)}`
+            : label;
+    }
+    function shipEquipmentCustomClass(select) {
+        if (select.id.endsWith("-fcs")) return "equipment-custom-fcs";
+        if (select.id.endsWith("-engine")) return "equipment-custom-engine";
+        return "equipment-custom-gun";
+    }
+    function shipEquipmentCatalogItem(select, value) {
+        const equipmentKey = select.id.endsWith("-fcs")
+            ? "fcs"
+            : select.id.endsWith("-engine") ? "engines" : "guns";
+        return (nationCatalog?.equipment?.[equipmentKey] || [])
+            .find((item) => String(item.meta) === String(value)) || null;
+    }
+    function appendShipEquipmentDetail(container, text) {
+        const span = document.createElement("span");
+        span.className = "equipment-custom-detail";
+        span.textContent = text;
+        container.append(span);
+    }
+    function appendShipEquipmentContent(container, select, item) {
+        const isKorean = language() === "ko";
+        if (select.id.endsWith("-fcs")) {
+            const name = document.createElement("span");
+            name.className = "equipment-custom-main";
+            name.textContent = item.name;
+            container.append(name);
+            appendShipEquipmentDetail(container, `${isKorean ? "용적" : "Capacity"} ${item.requiredCapacity}`);
+            appendShipEquipmentDetail(container, `${isKorean ? "명중" : "Accuracy"} ${item.accuracyBonus}`);
+            return;
+        }
+        if (select.id.endsWith("-engine")) {
+            const name = document.createElement("span");
+            name.className = "equipment-custom-main";
+            name.textContent = item.name;
+            container.append(name);
+            appendShipEquipmentDetail(container, `${isKorean ? "출력" : "Output"} ${item.output}`);
+            appendShipEquipmentDetail(container, `${isKorean ? "용적" : "Capacity"} ${item.requiredCapacity}`);
+            appendShipEquipmentDetail(container, `${isKorean ? "오버힛" : "Overheat"} ${item.overheatPercentage}%`);
+            return;
+        }
+        const name = document.createElement("span");
+        name.className = "equipment-custom-main";
+        name.textContent = item.name;
+        container.append(name);
+        appendShipEquipmentDetail(container, `Lv ${item.requiredLevel}`);
+        appendShipEquipmentDetail(container, performanceGunBarrels(item.barrelCount));
+        appendShipEquipmentDetail(container, `${isKorean ? "용적" : "Capacity"} ${item.capacity}`);
+        appendShipEquipmentDetail(container, `${isKorean ? "연사" : "Reload"} ${displayGunNumber(item.reloadSeconds)}s`);
+        const showRange = select.id.endsWith("-r-gun") && Number(item.shipyardRange) > 0;
+        appendShipEquipmentDetail(container, showRange
+            ? `${isKorean ? "쉽야드사거리" : "Shipyard range"} ${displayGunNumber(item.shipyardRange)}`
+            : "");
+    }
+    function updateShipEquipmentCustomSelection(select) {
+        const toggle = el(`#${select.id}-toggle`);
+        const menu = el(`#${select.id}-menu`);
+        if (!toggle || !menu) return;
+        toggle.replaceChildren();
+        const selectedItem = select.value ? shipEquipmentCatalogItem(select, select.value) : null;
+        if (selectedItem) {
+            appendShipEquipmentContent(toggle, select, selectedItem);
+        } else {
+            const placeholder = document.createElement("span");
+            placeholder.className = "equipment-custom-placeholder";
+            placeholder.textContent = select.options[0]?.textContent || "-";
+            toggle.append(placeholder);
+        }
+        toggle.disabled = select.disabled;
+        menu.querySelectorAll(".equipment-custom-option").forEach((button) => {
+            const active = button.dataset.equipmentValue === select.value;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-selected", String(active));
+        });
+    }
+    function renderShipEquipmentCustomDropdown(select) {
+        const menu = el(`#${select.id}-menu`);
+        if (!menu) return;
+        menu.replaceChildren();
+        for (const nativeOption of [...select.options]) {
+            if (!nativeOption.value) continue;
+            const item = shipEquipmentCatalogItem(select, nativeOption.value);
+            if (!item) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = `dropdown-item equipment-custom-option ${shipEquipmentCustomClass(select)}`;
+            button.dataset.equipmentSelect = select.id;
+            button.dataset.equipmentValue = nativeOption.value;
+            appendShipEquipmentContent(button, select, item);
+            menu.append(button);
+        }
+        updateShipEquipmentCustomSelection(select);
+    }
+    function populateShipEquipmentSelect(select, items, placeholder, labelForItem) {
+        select.replaceChildren(option("", items.length > 0 ? placeholder : t().shipEquipmentUnavailable));
+        items.forEach((item) => select.append(option(String(item.meta), labelForItem(item))));
+        select.disabled = items.length === 0;
+        renderShipEquipmentCustomDropdown(select);
+    }
+    function selectedShipEquipment(selectId, equipmentKey) {
+        const selectedMeta = Number(el(selectId)?.value);
+        if (!Number.isFinite(selectedMeta)) return null;
+        return (nationCatalog?.equipment?.[equipmentKey] || [])
+            .find((item) => Number(item.meta) === selectedMeta) || null;
+    }
+    function resetShipPerformance() {
+        el("#ship-guideline-length").textContent = "-";
+        el("#ship-repair-speed").textContent = "-";
+        el("#ship-overheat-speed").textContent = "-";
+        el("#ship-overheat-time").textContent = "-";
+        for (const id of [
+            "#ship-guideline-length-detail",
+            "#ship-repair-speed-detail",
+            "#ship-overheat-speed-base-detail",
+            "#ship-overheat-speed-rate-detail",
+            "#ship-overheat-speed-rate-source-detail",
+            "#ship-overheat-time-detail",
+        ]) {
+            el(id).textContent = "";
+            el(id).hidden = true;
+        }
+        el("#ship-guideline-adjustment-result").hidden = true;
+        for (const mount of ["r", "t"]) {
+            el(`#ship-${mount}-performance-section`).hidden = true;
+            el(`#ship-${mount}-performance-body`).replaceChildren();
+        }
+        el("#ship-t2-performance-title").hidden = true;
+    }
+    function defaultShipTargetGuideline() {
+        return server.value === "global" ? 3100 : 3000;
+    }
+    function updateShipGuidelineControls() {
+        const shipIsReady = simulatorMode === "ship" && Boolean(selectedShip());
+        const rGun = selectedShipEquipment("#ship-equipment-r-gun", "guns");
+        const rangeTarget = el("#ship-r-gun-range-target");
+        const targetGuideline = el("#ship-target-guideline");
+        const adjustCaptain = el("#ship-guideline-adjust-captain");
+        const canUseGunRange = shipIsReady && Number(rGun?.shipyardRange) > 0;
+        const wasUsingGunRange = targetGuideline.dataset.rGunRangeTarget === "true";
+        rangeTarget.disabled = !canUseGunRange;
+        if (!canUseGunRange) rangeTarget.checked = false;
+        if (rangeTarget.checked && canUseGunRange) {
+            if (!wasUsingGunRange) targetGuideline.dataset.manualValue = targetGuideline.value;
+            targetGuideline.value = String(rGun.shipyardRange);
+            targetGuideline.dataset.rGunRangeTarget = "true";
+        } else if (wasUsingGunRange) {
+            targetGuideline.value = targetGuideline.dataset.manualValue || String(defaultShipTargetGuideline());
+            delete targetGuideline.dataset.manualValue;
+            delete targetGuideline.dataset.rGunRangeTarget;
+        }
+        targetGuideline.disabled = !shipIsReady || rangeTarget.checked;
+        adjustCaptain.disabled = !shipIsReady;
+        if (adjustCaptain.disabled) adjustCaptain.checked = false;
+    }
+    function shipLayerPerformanceSignature(layer) {
+        const summary = shipLayerSummary(layer);
+        return JSON.stringify({
+            className: summary.className,
+            level: summary.level,
+            sailor: summary.sailor,
+            boost: summary.boost,
+            classChange: summary.classChange,
+            sailorClass: summary.performanceContext?.sailorClass || "",
+            abilityByType: summary.performanceContext?.abilityByType || null,
+            crewCount: summary.performanceContext?.crewCount ?? null,
+            condition: summary.performanceCondition,
+        });
+    }
+    function calculateShipLayerPerformance(layer, fcs, rGun, tGun) {
+        const summary = shipLayerSummary(layer);
+        const context = summary.performanceContext;
+        const condition = summary.performanceCondition;
+        if (!context?.abilityByType || !condition) return null;
+        const seamanAdjustment = seamanAdjustmentContext();
+        const input = {
+            server: server.value,
+            nationId: context.nationId,
+            sailorClass: context.sailorClass,
+            abilities: ABILITIES.slice(0, -1).map(([key]) => ({
+                key,
+                ability: Number(context.abilityByType[key]) || 0,
+                applySeamanAdjustment: true,
+                seamanAdjustmentPercent: seamanAdjustment.rateByAbility[key],
+            })),
+            crewCount: context.crewCount,
+            conditions: Array.from({ length: 5 }, () => structuredClone(condition)),
+        };
+        if (layer.role === "captain" && fcs) {
+            input.performanceRole = "captain";
+            input.fcs = {
+                name: fcs.name,
+                spottingCorrectionLimitRange: fcs.spottingCorrectionLimitRange,
+            };
+            if (el("#ship-guideline-adjust-captain").checked) {
+                if (el("#ship-r-gun-range-target").checked && rGun) {
+                    input.gun = {
+                        name: rGun.name,
+                        reloadSeconds: rGun.reloadSeconds,
+                        shipyardRange: rGun.shipyardRange || null,
+                    };
+                } else {
+                    const targetLength = Number(el("#ship-target-guideline").value);
+                    if (Number.isInteger(targetLength) && targetLength >= 100 && targetLength <= 9999) {
+                        input.targetGuidelineLength = targetLength;
+                    }
+                }
+            }
+        } else if (layer.role === "gunner") {
+            const gun = layer.roleIndex <= 2 ? rGun : layer.roleIndex <= 4 ? tGun : null;
+            if (gun && Number(gun.reloadSeconds) > 0) {
+                input.gun = {
+                    name: gun.name,
+                    reloadSeconds: gun.reloadSeconds,
+                    shipyardRange: gun.shipyardRange || null,
+                };
+            }
+        }
+        return calculateSailorPerformance(input).results[0] || null;
+    }
+    function shipGunShellDetails(mount, gun) {
+        const shells = Array.isArray(gun.projectiles) ? gun.projectiles : [];
+        const isCategory = (shell, category) => shell.shellCategory === category
+            || new RegExp(`\\b${category}(?:C|CBC)?\\b`, "i").test(shell.shellType || "");
+        const damage = (shell, field) => shell?.[field] != null && Number.isFinite(Number(shell[field]))
+            ? displayGunNumber(shell[field]) : "-";
+        const ko = language() === "ko";
+        if (mount === "R") {
+            const matching = shells.filter((shell) => Number(gun.shipyardRange) > 0
+                && Number(shell.shipyardRange) === Number(gun.shipyardRange));
+            const he = matching.filter((shell) => isCategory(shell, "HE"));
+            const ap = matching.filter((shell) => isCategory(shell, "AP"));
+            const values = (items, field) => [...new Set(items.map((shell) => damage(shell, field)))].join(" / ") || "-";
+            return ko
+                ? `HE탄 HE 데미지 ${values(he, "heDamage")} AP 보너스 ${values(he, "apBonus")} · AP탄 AP 보너스 ${values(ap, "apBonus")}`
+                : `HE shell HE damage ${values(he, "heDamage")} AP bonus ${values(he, "apBonus")} · AP shell AP bonus ${values(ap, "apBonus")}`;
+        }
+        const aa = shells.filter((shell) => isCategory(shell, "AA"));
+        const he = shells.filter((shell) => isCategory(shell, "HE"));
+        const selectedHe = he.length > 1
+            ? he.find((shell) => /\bLight\b/i.test(shell.shellType || "")) : he[0];
+        const aaDamage = [...new Set(aa.map((shell) => damage(shell, "heDamage")))].join(" / ") || "-";
+        return ko
+            ? `AA탄 HE 데미지 ${aaDamage} · HE탄 HE 데미지 ${damage(selectedHe, "heDamage")}`
+            : `AA shell HE damage ${aaDamage} · HE shell HE damage ${damage(selectedHe, "heDamage")}`;
+    }
+    function shipGunPerformanceEntries(mount, gun, layerResults) {
+        if (!gun) return [];
+        const roleIndexes = mount === "R" ? [1, 2] : [3, 4];
+        const entries = roleIndexes.map((roleIndex) => {
+            const layer = shipLayers.find((candidate) => candidate.role === "gunner" && candidate.roleIndex === roleIndex);
+            return layer ? { layer, result: layerResults.get(layer) } : null;
+        }).filter(Boolean);
+        const visibleEntries = entries.filter(({ layer }, index) => !(index === 1
+            && shipLayerPerformanceSignature(layer) === shipLayerPerformanceSignature(entries[0].layer)));
+        return visibleEntries.map(({ layer, result }) => {
+            const averageReload = Number(result?.performance?.averageGunReloadSeconds);
+            return {
+                layer,
+                result,
+                sequence: Number.isFinite(averageReload) ? implementedReloadSequence(averageReload) : null,
+            };
+        });
+    }
+    function shipGunPerformanceScale(renderedEntries) {
+        const sequences = renderedEntries.map(({ sequence }) => sequence).filter(Boolean);
+        const intervalValues = sequences.flatMap(({ values }) => values);
+        return {
+            maximumSeconds: sequences.length > 0
+                ? Math.max(...sequences.map(({ totalSeconds }) => totalSeconds))
+                : 1,
+            minimumInterval: intervalValues.length > 0 ? Math.min(...intervalValues) : 0,
+            maximumInterval: intervalValues.length > 0 ? Math.max(...intervalValues) : 0,
+        };
+    }
+    function displayedShipMountCount(mount, outputSuffix = "") {
+        const totalMountCount = (selectedShip()?.mountGroups || [])
+            .filter((group) => group.type === mount)
+            .reduce((total, group) => total + (Number(group.count) || 0), 0);
+        if (mount !== "T" || !el("#ship-add-t-gun").checked) return totalMountCount;
+        return outputSuffix === "2"
+            ? Math.floor(totalMountCount / 2)
+            : Math.ceil(totalMountCount / 2);
+    }
+    function renderShipGunPerformanceTitle(mount, gun, outputSuffix = "") {
+        const outputKey = `${mount.toLowerCase()}${outputSuffix}`;
+        const title = el(`#ship-${outputKey}-performance-title`);
+        title.textContent = mount === "R"
+            ? t().shipEquipmentRGun
+            : outputSuffix === "2" ? t().shipEquipmentTGun2 : t().shipEquipmentTGun;
+        title.hidden = !gun;
+        if (gun) {
+            const details = document.createElement("span");
+            details.className = "fw-normal text-muted ms-2";
+            const mountCount = displayedShipMountCount(mount, outputSuffix);
+            details.textContent = `${mountCount} ${language() === "ko" ? "마운트" : "mounts"} × ${performanceGunBarrels(gun.barrelCount)} · ${language() === "ko" ? "함포 연사속도" : "Reload"} ${displayGunNumber(gun.reloadSeconds)}s`
+                + (mount === "R" ? ` · ${language() === "ko" ? "쉽야드 사거리" : "Shipyard range"} ${displayGunNumber(gun.shipyardRange)}` : "")
+                + ` · ${shipGunShellDetails(mount, gun)}`;
+            title.append(details);
+        }
+    }
+    function appendShipGunPerformanceRows(body, renderedEntries, scale, gunNumber = null) {
+        const { maximumSeconds, minimumInterval, maximumInterval } = scale;
+        renderedEntries.forEach(({ layer, result, sequence }, entryIndex) => {
+            const row = document.createElement("tr");
+            if (gunNumber === 2 && entryIndex === 0) row.className = "ship-performance-secondary-gun-row";
+            const seat = document.createElement("th");
+            seat.scope = "row";
+            const seatLabel = shipLayerLabel(layer, shipLayers.indexOf(layer));
+            seat.textContent = gunNumber
+                ? `${language() === "ko" ? `함포 ${gunNumber}` : `Gun ${gunNumber}`} · ${seatLabel}`
+                : seatLabel;
+            const efficiency = document.createElement("td");
+            const reload = document.createElement("td");
+            const efficiencyValue = result?.performance?.gunReloadEfficiencyChangePercent;
+            efficiency.textContent = Number.isFinite(Number(efficiencyValue)) ? `${efficiencyValue}%` : "-";
+            if (server.value === "global" && Number(efficiencyValue) === -66) {
+                appendCapLabel(efficiency);
+            }
+            if (sequence) {
+                reload.className = "ship-performance-reload-cell";
+                appendImplementedReloadVisualization(reload, sequence, {
+                    maximumSeconds,
+                    minimumInterval,
+                    maximumInterval,
+                });
+            } else {
+                reload.textContent = "-";
+            }
+            row.append(seat, efficiency, reload);
+            body.append(row);
+        });
+    }
+    function renderShipGunPerformance(mount, gun, layerResults) {
+        const outputKey = mount.toLowerCase();
+        renderShipGunPerformanceTitle(mount, gun);
+        const section = el(`#ship-${outputKey}-performance-section`);
+        const body = el(`#ship-${outputKey}-performance-body`);
+        body.replaceChildren();
+        const renderedEntries = shipGunPerformanceEntries(mount, gun, layerResults);
+        if (renderedEntries.length === 0) {
+            section.hidden = true;
+            return;
+        }
+        appendShipGunPerformanceRows(body, renderedEntries, shipGunPerformanceScale(renderedEntries));
+        section.hidden = body.children.length === 0;
+    }
+    function renderShipTGunPerformance(primaryGun, primaryResults, secondaryGun, secondaryResults) {
+        const section = el("#ship-t-performance-section");
+        const body = el("#ship-t-performance-body");
+        renderShipGunPerformanceTitle("T", primaryGun);
+        renderShipGunPerformanceTitle("T", secondaryGun, "2");
+        body.replaceChildren();
+        const primaryEntries = shipGunPerformanceEntries("T", primaryGun, primaryResults);
+        const secondaryEntries = shipGunPerformanceEntries("T", secondaryGun, secondaryResults);
+        const allEntries = [...primaryEntries, ...secondaryEntries];
+        if (allEntries.length === 0) {
+            section.hidden = true;
+            return;
+        }
+        const sharedScale = shipGunPerformanceScale(allEntries);
+        const showGunNumbers = primaryEntries.length > 0 && secondaryEntries.length > 0;
+        appendShipGunPerformanceRows(body, primaryEntries, sharedScale, showGunNumbers ? 1 : null);
+        appendShipGunPerformanceRows(body, secondaryEntries, sharedScale, showGunNumbers ? 2 : null);
+        section.hidden = false;
+    }
+    function applyCaptainGuidelineAdjustment(captainLayer, captainResult) {
+        const adjustment = captainResult?.performance?.guidelineAdjustment;
+        if (!captainLayer || !adjustment?.possible) return null;
+        return applyCaptainComposition(captainLayer, adjustment);
+    }
+    function resetCaptainCompositionToFullVeterans() {
+        const captain = shipLayers.find((layer) => layer.role === "captain");
+        if (!captain) return;
+        const summary = shipLayerSummary(captain);
+        const totalCrew = Number(summary.performanceContext?.crewCount);
+        const officers = Number(summary.performanceCondition?.officers);
+        if (!Number.isFinite(totalCrew) || !Number.isFinite(officers)) return;
+        applyCaptainComposition(captain, {
+            officers,
+            veterans: Math.max(0, totalCrew - officers),
+            rookies: 0,
+        });
+    }
+    function applyCaptainComposition(captainLayer, adjustment) {
+        const isActiveCaptain = shipLayers[activeShipLayer] === captainLayer;
+        const conditionIndex = isActiveCaptain
+            ? performanceSelectedConditionIndex
+            : Number(captainLayer.state?.performanceSelectedConditionIndex);
+        if (!Number.isInteger(conditionIndex) || conditionIndex < 0 || conditionIndex >= 5) return null;
+        const currentCondition = shipLayerSummary(captainLayer).performanceCondition;
+        if (!currentCondition) return null;
+        const appliedCondition = {
+            officers: adjustment.officers,
+            veterans: adjustment.veterans,
+            rookies: adjustment.rookies,
+            seamanAdjustmentPercent: Number(currentCondition.seamanAdjustmentPercent) || 0,
+        };
+        if (["officers", "veterans", "rookies", "seamanAdjustmentPercent"]
+            .every((key) => Number(currentCondition[key]) === Number(appliedCondition[key]))) return null;
+        captainLayer.summary.performanceCondition = structuredClone(appliedCondition);
+        if (isActiveCaptain) {
+            performanceCompositions[conditionIndex] = structuredClone(appliedCondition);
+            performanceDetailedHeaders[conditionIndex] = true;
+            for (const field of ["officers", "veterans", "rookies"]) {
+                const input = el(`#performance-input-body [data-index="${conditionIndex}"][data-field="${field}"]`);
+                if (input) input.value = String(appliedCondition[field]);
+            }
+            updatePerformanceCrewDisplay(conditionIndex);
+            calculatePerformance();
+            captainLayer.state = captureShipLayerState();
+        } else if (captainLayer.state) {
+            if (!Array.isArray(captainLayer.state.performanceCompositions)) {
+                captainLayer.state.performanceCompositions = [];
+            }
+            if (!Array.isArray(captainLayer.state.performanceDetailedHeaders)) {
+                captainLayer.state.performanceDetailedHeaders = Array(5).fill(false);
+            }
+            captainLayer.state.performanceCompositions[conditionIndex] = structuredClone(appliedCondition);
+            captainLayer.state.performanceDetailedHeaders[conditionIndex] = true;
+        }
+        renderShipLayerTabs();
+        return appliedCondition;
+    }
+    function renderShipGuidelineAdjustment() {
+        const output = el("#ship-guideline-adjustment-result");
+        if (!el("#ship-guideline-adjust-captain").checked) {
+            output.hidden = true;
+            return;
+        }
+        const captain = shipLayers.find((layer) => layer.role === "captain");
+        const condition = captain ? shipLayerSummary(captain).performanceCondition : null;
+        let value = t().shipGuidelineAdjustmentDisabled;
+        if (condition) {
+            value = language() === "ko"
+                ? `사관 ${condition.officers} / 숙련병 ${condition.veterans} / 신병 ${condition.rookies}`
+                : `Officers ${condition.officers} / Veterans ${condition.veterans} / Rookies ${condition.rookies}`;
+        }
+        output.textContent = value;
+        output.hidden = false;
+    }
+    function renderShipPerformance() {
+        const ship = selectedShip();
+        if (simulatorMode !== "ship" || !ship) {
+            resetShipPerformance();
+            return;
+        }
+        updateShipGuidelineControls();
+        const fcs = selectedShipEquipment("#ship-equipment-fcs", "fcs");
+        const engine = selectedShipEquipment("#ship-equipment-engine", "engines");
+        const rGun = selectedShipEquipment("#ship-equipment-r-gun", "guns");
+        const tGun = selectedShipEquipment("#ship-equipment-t-gun", "guns");
+        const tGun2 = el("#ship-add-t-gun").checked
+            ? selectedShipEquipment("#ship-equipment-t-gun-2", "guns")
+            : null;
+        const layerResults = new Map();
+        try {
+            shipLayers.forEach((layer) => {
+                const result = calculateShipLayerPerformance(layer, fcs, rGun, tGun);
+                if (result) layerResults.set(layer, result);
+            });
+        } catch (error) {
+            console.error("Could not calculate ship performance", error);
+        }
+        const tGun2LayerResults = new Map();
+        if (tGun2) {
+            try {
+                shipLayers
+                    .filter((layer) => layer.role === "gunner" && layer.roleIndex >= 3 && layer.roleIndex <= 4)
+                    .forEach((layer) => {
+                        const result = calculateShipLayerPerformance(layer, fcs, rGun, tGun2);
+                        if (result) tGun2LayerResults.set(layer, result);
+                    });
+            } catch (error) {
+                console.error("Could not calculate secondary T mount gun performance", error);
+            }
+        }
+        const captain = shipLayers.find((layer) => layer.role === "captain");
+        let captainResult = captain ? layerResults.get(captain) : null;
+        const appliedCaptainCondition = el("#ship-guideline-adjust-captain").checked
+            ? applyCaptainGuidelineAdjustment(captain, captainResult)
+            : null;
+        if (appliedCaptainCondition && captain) {
+            try {
+                captainResult = calculateShipLayerPerformance(captain, fcs, rGun, tGun);
+                if (captainResult) layerResults.set(captain, captainResult);
+            } catch (error) {
+                console.error("Could not recalculate adjusted captain performance", error);
+            }
+        }
+        const guidelineLength = captainResult?.performance?.guidelineLength;
+        el("#ship-guideline-length").textContent = Number.isFinite(guidelineLength)
+            ? displayGunNumber(guidelineLength) : "-";
+        const guidelineDetail = el("#ship-guideline-length-detail");
+        const fcsGuidelineLength = Number(captainResult?.performance?.fcsGuidelineLength);
+        const sailorGuidelineIncrease = Number(captainResult?.performance?.sailorGuidelineIncrease);
+        const hasGuidelineBreakdown = Number.isFinite(fcsGuidelineLength)
+            && Number.isFinite(sailorGuidelineIncrease);
+        guidelineDetail.textContent = hasGuidelineBreakdown
+            ? t().shipGuidelineBreakdown(
+                displayGunNumber(fcsGuidelineLength),
+                displayGunNumber(sailorGuidelineIncrease),
+            )
+            : "";
+        guidelineDetail.hidden = !hasGuidelineBreakdown;
+        const completeResults = layerResults.size === shipLayers.length;
+        const totalRepairAbility = [...layerResults.values()].reduce(
+            (sum, result) => sum + (Number(result.seamanAdjAbilities?.repair) || 0),
+            0,
+        );
+        const repairSpeed = calculateShipRepairSpeedDetails(server.value, totalRepairAbility);
+        el("#ship-repair-speed").textContent = !completeResults
+            ? "-"
+            : repairSpeed.isMaxed
+                ? `Maxed ${displayGunNumber(repairSpeed.repairSpeed)} (${displayGunNumber(repairSpeed.uncappedRepairSpeed)})`
+                : displayGunNumber(repairSpeed.repairSpeed);
+        const repairDetail = el("#ship-repair-speed-detail");
+        repairDetail.textContent = completeResults
+            ? t().shipRepairBreakdown(
+                displayGunNumber(SHIP_BASE_REPAIR_SPEED),
+                displayGunNumber(repairSpeed.sailorRepairSpeed),
+            )
+            : "";
+        repairDetail.hidden = !completeResults;
+        const engineAbilities = shipLayers.flatMap((layer) => {
+            const summary = shipLayerSummary(layer);
+            if (!summary.performanceContext?.isEngineSailor) return [];
+            const result = layerResults.get(layer);
+            const ability = Number(result?.seamanAdjAbilities?.engine);
+            return Number.isFinite(ability) ? [ability] : [];
+        });
+        const overheat = calculateShipEngineOverheat(server.value, engineAbilities, engine?.overheatTime);
+        const overheatTime = Number(overheat.engineOverheatTimeSeconds);
+        const hasOverheatResult = Boolean(engine) && completeResults && Number.isFinite(overheatTime);
+        el("#ship-overheat-time").textContent = hasOverheatResult
+            ? `${Math.floor(overheatTime)} (${displayGunNumber(overheatTime)})`
+            : "-";
+        const overheatTimeDetail = el("#ship-overheat-time-detail");
+        overheatTimeDetail.textContent = hasOverheatResult
+            ? t().shipOverheatTimeBreakdown(
+                displayGunNumber(overheat.shipOverheatTimeSeconds),
+                displayGunNumber(overheat.sailorOverheatTimeSeconds),
+            )
+            : "";
+        overheatTimeDetail.hidden = !hasOverheatResult;
+        const baseSpeed = Number(el("#ship-base-speed").value);
+        const overheatSpeed = engine && completeResults && Number.isFinite(baseSpeed) && baseSpeed > 0
+            ? calculateShipOverheatSpeed(
+                baseSpeed,
+                overheat.engineOverheatRateIncreasePercent,
+                Number(ship.OverheatRatio),
+                Number(engine.overheatPercentage),
+                ship.ShipType,
+                server.value,
+            )
+            : {
+                calculatorSpeed: null,
+                uncappedCalculatorSpeed: null,
+                actualSpeed: null,
+                isMaxed: false,
+            };
+        el("#ship-overheat-speed").textContent = Number.isFinite(overheatSpeed.actualSpeed)
+            ? overheatSpeed.isMaxed
+                ? `${overheatSpeed.actualSpeed} Maxed (${displayGunNumber(overheatSpeed.uncappedCalculatorSpeed)})`
+                : `${overheatSpeed.actualSpeed} (${displayGunNumber(overheatSpeed.calculatorSpeed)})`
+            : "-";
+        const hasOverheatSpeed = Number.isFinite(overheatSpeed.actualSpeed);
+        const speedBaseDetail = el("#ship-overheat-speed-base-detail");
+        speedBaseDetail.textContent = hasOverheatSpeed
+            ? t().shipOverheatSpeedBaseBreakdown(displayGunNumber(overheatSpeed.baseSpeed))
+            : "";
+        speedBaseDetail.hidden = !hasOverheatSpeed;
+        const speedRateDetail = el("#ship-overheat-speed-rate-detail");
+        speedRateDetail.textContent = hasOverheatSpeed
+            ? overheatSpeed.isCombinedRateMaxed
+                ? t().shipOverheatSpeedRateMaxed(
+                    displayGunNumber(overheatSpeed.appliedCombinedOverheatContributionPercent),
+                )
+                : t().shipOverheatSpeedRateBreakdown(
+                    `+${displayGunNumber(overheatSpeed.shipOverheatContributionPercent)}%`,
+                    `+${displayGunNumber(overheatSpeed.sailorOverheatContributionPercent)}%`,
+                )
+            : "";
+        speedRateDetail.hidden = !hasOverheatSpeed;
+        const speedRateSourceDetail = el("#ship-overheat-speed-rate-source-detail");
+        speedRateSourceDetail.textContent = hasOverheatSpeed && overheatSpeed.isCombinedRateMaxed
+            ? t().shipOverheatSpeedRateUncappedBreakdown(
+                `+${displayGunNumber(overheatSpeed.shipOverheatContributionPercent)}%`,
+                `+${displayGunNumber(overheatSpeed.sailorOverheatContributionPercent)}%`,
+            )
+            : "";
+        speedRateSourceDetail.hidden = !hasOverheatSpeed || !overheatSpeed.isCombinedRateMaxed;
+        renderShipGuidelineAdjustment();
+        renderShipGunPerformance("R", rGun, layerResults);
+        renderShipTGunPerformance(tGun, layerResults, tGun2, tGun2LayerResults);
+    }
+    function updateShipEquipmentCapacityLabels(ship) {
+        const capacityLabel = language() === "ko" ? "용적" : "Capacity";
+        for (const [id, label, capacity] of [
+            ["fcs", t().shipEquipmentFcs, ship?.FCSCapacity],
+            ["engine", t().shipEquipmentEngine, ship?.EngineCapacity],
+        ]) {
+            el(`#ship-equipment-${id}-label`).textContent = ship
+                ? `${label} (${capacityLabel} ${Number(capacity) || 0})` : label;
+        }
+        for (const [mount, label] of [["R", t().shipEquipmentRGun], ["T", t().shipEquipmentTGun]]) {
+            const mountGroups = (ship?.mountGroups || [])
+                .filter((group) => group.type === mount && Number(group.capacity) > 0 && Number(group.count) > 0);
+            const splitTMounts = mount === "T" && el("#ship-add-t-gun").checked;
+            let remainingPrimaryMounts = Math.ceil(mountGroups.reduce(
+                (total, group) => total + (Number(group.count) || 0),
+                0,
+            ) / 2);
+            const splitMountCounts = mountGroups.map((group) => {
+                const fullCount = Number(group.count) || 0;
+                const primaryCount = Math.min(fullCount, remainingPrimaryMounts);
+                remainingPrimaryMounts -= primaryCount;
+                return { primary: primaryCount, secondary: fullCount - primaryCount };
+            });
+            const capacityText = (secondary = false) => mountGroups
+                .map((group, index) => {
+                    const count = splitTMounts
+                        ? splitMountCounts[index][secondary ? "secondary" : "primary"]
+                        : Number(group.count) || 0;
+                    return count > 0 ? `${group.capacity} × ${count}` : null;
+                })
+                .filter(Boolean)
+                .join(" / ") || "0 × 0";
+            const capacities = capacityText();
+            el(`#ship-equipment-${mount.toLowerCase()}-gun-label`).textContent = ship
+                ? `${label} (${capacityLabel} ${capacities})` : label;
+            if (mount === "T") {
+                el("#ship-equipment-t-gun-2-label").textContent = ship
+                    ? `${t().shipEquipmentTGun2} (${capacityLabel} ${capacityText(true)})`
+                    : t().shipEquipmentTGun2;
+            }
+        }
+    }
+    function updateAdditionalTGunControl() {
+        const checkbox = el("#ship-add-t-gun");
+        const container = el("#ship-equipment-t-gun-2-container");
+        const select = el("#ship-equipment-t-gun-2");
+        checkbox.disabled = !selectedShip() || select.disabled;
+        if (checkbox.disabled) checkbox.checked = false;
+        container.hidden = !checkbox.checked;
+    }
+    function populateShipEquipmentSettings(ship) {
+        updateShipEquipmentCapacityLabels(ship);
+        const fcsSelect = el("#ship-equipment-fcs");
+        const engineSelect = el("#ship-equipment-engine");
+        const rGunSelect = el("#ship-equipment-r-gun");
+        const tGunSelect = el("#ship-equipment-t-gun");
+        const tGun2Select = el("#ship-equipment-t-gun-2");
+        const addTGunCheckbox = el("#ship-add-t-gun");
+        const baseSpeedInput = el("#ship-base-speed");
+        const targetGuidelineInput = el("#ship-target-guideline");
+        const rangeTargetCheckbox = el("#ship-r-gun-range-target");
+        const adjustCaptainCheckbox = el("#ship-guideline-adjust-captain");
+        if (!fcsSelect || !engineSelect || !rGunSelect || !tGunSelect || !tGun2Select || !addTGunCheckbox || !baseSpeedInput
+            || !targetGuidelineInput || !rangeTargetCheckbox || !adjustCaptainCheckbox) return;
+        if (!ship) {
+            populateShipEquipmentSelect(fcsSelect, [], t().shipEquipmentFcsPlaceholder, shipEquipmentFcsLabel);
+            populateShipEquipmentSelect(engineSelect, [], t().shipEquipmentEnginePlaceholder, shipEquipmentEngineLabel);
+            populateShipEquipmentSelect(rGunSelect, [], t().shipEquipmentGunPlaceholder, shipEquipmentGunLabel);
+            populateShipEquipmentSelect(tGunSelect, [], t().shipEquipmentGunPlaceholder, shipEquipmentGunLabel);
+            populateShipEquipmentSelect(tGun2Select, [], t().shipEquipmentGunPlaceholder, shipEquipmentGunLabel);
+            addTGunCheckbox.checked = false;
+            updateAdditionalTGunControl();
+            baseSpeedInput.value = "";
+            baseSpeedInput.disabled = true;
+            targetGuidelineInput.value = "";
+            targetGuidelineInput.disabled = true;
+            delete targetGuidelineInput.dataset.manualValue;
+            delete targetGuidelineInput.dataset.rGunRangeTarget;
+            rangeTargetCheckbox.checked = false;
+            rangeTargetCheckbox.disabled = true;
+            adjustCaptainCheckbox.checked = false;
+            adjustCaptainCheckbox.disabled = true;
+            resetShipPerformance();
+            return;
+        }
+        const fcsCapacity = Math.max(0, Number(ship.FCSCapacity) || 0);
+        const engineCapacity = Math.max(0, Number(ship.EngineCapacity) || 0);
+        const rCapacity = shipMountCapacity(ship, "R");
+        const tCapacity = shipMountCapacity(ship, "T");
+        const compatibleFcsCodes = compatibleFcsClassCodes(ship.ShipType);
+        const fcsOptions = [...(nationCatalog?.equipment?.fcs || [])]
+            .filter((fcs) => /\((?:Aiming|Power Auto|Auto(?: FCS)? X)\)$/i.test(String(fcs.name || ""))
+                && compatibleFcsCodes.has(fcsClassCode(fcs))
+                && Number(fcs.requiredCapacity) <= fcsCapacity)
+            .sort(compareDefaultShipFcsPriority);
+        const engineOptions = [...(nationCatalog?.equipment?.engines || [])]
+            .filter((engine) => String(engine.shipType || "").toUpperCase() === String(ship.ShipType || "").toUpperCase()
+                && Number(engine.requiredCapacity) > 0
+                && Number(engine.requiredCapacity) <= engineCapacity)
+            .sort((left, right) =>
+                Number(right.output) - Number(left.output)
+                || Number(left.requiredWeight) - Number(right.requiredWeight)
+                || Number(left.requiredCapacity) - Number(right.requiredCapacity)
+                || String(left.name).localeCompare(String(right.name)));
+        const gunOptionsForCapacity = (capacity) => capacity <= 0
+            ? []
+            : [...(nationCatalog?.equipment?.guns || [])]
+                .filter((gun) => Number(gun.capacity) > 0
+                    && (gun.projectiles || []).some((shell) => {
+                        const capacityPerBind = Number(shell.capacityPerBind);
+                        return Number.isFinite(capacityPerBind) && capacityPerBind > 0
+                            && Number(gun.capacity) + 2 * capacityPerBind <= capacity;
+                    }))
+                .sort((left, right) =>
+                    Number(right.capacity) - Number(left.capacity)
+                    || Number(right.caliberInches) - Number(left.caliberInches)
+                    || String(left.name).localeCompare(String(right.name)));
+        populateShipEquipmentSelect(fcsSelect, fcsOptions, t().shipEquipmentFcsPlaceholder, shipEquipmentFcsLabel);
+        if (fcsOptions.length > 0) fcsSelect.value = String(fcsOptions[0].meta);
+        populateShipEquipmentSelect(engineSelect, engineOptions, t().shipEquipmentEnginePlaceholder, shipEquipmentEngineLabel);
+        if (engineOptions.length > 0) engineSelect.value = String(engineOptions[0].meta);
+        const rGunOptions = gunOptionsForCapacity(rCapacity)
+            .filter((gun) => String(ship.ShipType || "").toUpperCase() !== "BB"
+                || Number(gun.shipyardRange) > 0);
+        const tGunOptions = gunOptionsForCapacity(tCapacity);
+        populateShipEquipmentSelect(rGunSelect, rGunOptions, t().shipEquipmentGunPlaceholder, (gun) => shipEquipmentGunLabel(gun, true));
+        populateShipEquipmentSelect(tGunSelect, tGunOptions, t().shipEquipmentGunPlaceholder, shipEquipmentGunLabel);
+        populateShipEquipmentSelect(tGun2Select, tGunOptions, t().shipEquipmentGunPlaceholder, shipEquipmentGunLabel);
+        addTGunCheckbox.checked = false;
+        updateAdditionalTGunControl();
+        updateShipEquipmentCapacityLabels(ship);
+        [fcsSelect, engineSelect, rGunSelect, tGunSelect, tGun2Select].forEach(updateShipEquipmentCustomSelection);
+        baseSpeedInput.value = "22";
+        baseSpeedInput.disabled = false;
+        targetGuidelineInput.value = String(defaultShipTargetGuideline());
+        delete targetGuidelineInput.dataset.manualValue;
+        delete targetGuidelineInput.dataset.rGunRangeTarget;
+        rangeTargetCheckbox.checked = false;
+        adjustCaptainCheckbox.checked = ["BB", "BC"].includes(String(ship.ShipType || "").toUpperCase());
+        updateShipGuidelineControls();
+        renderShipPerformance();
+    }
+    function shipCatalogItem(value) {
+        return (nationCatalog?.equipment?.ships || [])
+            .find((ship) => String(ship.ShipID) === String(value)) || null;
+    }
+    function appendShipOptionDetail(container, text) {
+        const span = document.createElement("span");
+        span.className = "ship-custom-detail";
+        span.textContent = text;
+        container.append(span);
+    }
+    function appendShipOptionContent(container, ship) {
+        const name = document.createElement("span");
+        name.className = "ship-custom-main";
+        name.textContent = ship.ShipName || `Ship ${ship.ShipID}`;
+        name.title = name.textContent;
+        container.append(name);
+        appendShipOptionDetail(container, ship.ShipType || "-");
+        appendShipOptionDetail(container, `Lv.${Number(ship.RequiredLevel) || 0}`);
+        appendShipOptionDetail(
+            container,
+            `${language() === "ko" ? "포병석" : "Gunner"} ${Math.max(0, Number(ship.GunnerSailorSlot) || 0)}`,
+        );
+        appendShipOptionDetail(
+            container,
+            `${language() === "ko" ? "보조석" : "Support"} ${Math.max(0, Number(ship.SupportSailorSlot) || 0)}`,
+        );
+    }
+    function updateShipCustomSelection() {
+        const select = el("#ship-select");
+        const toggle = el("#ship-select-toggle");
+        const menu = el("#ship-select-menu");
+        if (!select || !toggle || !menu) return;
+        toggle.replaceChildren();
+        const ship = select.value ? shipCatalogItem(select.value) : null;
+        if (ship) {
+            appendShipOptionContent(toggle, ship);
+        } else {
+            const placeholder = document.createElement("span");
+            placeholder.className = "ship-custom-placeholder";
+            placeholder.textContent = select.options[0]?.textContent || t().shipPlaceholder;
+            toggle.append(placeholder);
+        }
+        toggle.disabled = select.disabled;
+        menu.querySelectorAll(".ship-custom-option").forEach((button) => {
+            const active = button.dataset.shipValue === select.value;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-selected", String(active));
+        });
+    }
+    function renderShipCustomDropdown() {
+        const select = el("#ship-select");
+        const menu = el("#ship-select-menu");
+        if (!select || !menu) return;
+        menu.replaceChildren();
+        for (const nativeOption of [...select.options]) {
+            if (!nativeOption.value) continue;
+            const ship = shipCatalogItem(nativeOption.value);
+            if (!ship) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "dropdown-item ship-custom-option";
+            button.dataset.shipValue = nativeOption.value;
+            appendShipOptionContent(button, ship);
+            menu.append(button);
+        }
+        updateShipCustomSelection();
+    }
+    function renderShipClassFilterButtons(ships) {
+        const container = el("#ship-class-filter-buttons");
+        if (!container) return;
+        const availableTypes = new Set(ships.map((ship) => String(ship.ShipType || "").toUpperCase()).filter(Boolean));
+        const preferredOrder = ["BB", "BC", "CA", "CL", "DD", "FF", "CV", "SS", "PS"];
+        const types = [
+            ...preferredOrder.filter((type) => availableTypes.has(type)),
+            ...[...availableTypes].filter((type) => !preferredOrder.includes(type)).sort(),
+        ];
+        if (!availableTypes.has(shipClassFilter)) {
+            shipClassFilter = availableTypes.has("BB") ? "BB" : (types[0] || "BB");
+        }
+        container.replaceChildren();
+        for (const type of types) {
+            const button = document.createElement("button");
+            const active = type === shipClassFilter;
+            button.type = "button";
+            button.className = `btn btn-outline-secondary${active ? " active" : ""}`;
+            button.dataset.shipClass = type;
+            button.setAttribute("aria-pressed", String(active));
+            button.textContent = type;
+            button.addEventListener("click", () => {
+                if (shipClassFilter === type) return;
+                const select = el("#ship-select");
+                const previousValue = select.value;
+                shipClassFilter = type;
+                populateShipOptions(true);
+                if (previousValue && select.value !== previousValue) {
+                    select.dispatchEvent(new Event("change", { bubbles: true }));
+                }
+            });
+            container.append(button);
+        }
+    }
     function populateShipOptions(preserveSelection = false) {
         const select = el("#ship-select");
         if (!select) return;
         const previousValue = preserveSelection ? select.value : "";
         select.replaceChildren(option("", t().shipPlaceholder));
-        const ships = [...(nationCatalog?.equipment?.ships || [])].sort((left, right) =>
+        const allShips = [...(nationCatalog?.equipment?.ships || [])].sort((left, right) =>
             (Number(right.RequiredLevel) || 0) - (Number(left.RequiredLevel) || 0)
             || String(left.ShipName || "").localeCompare(String(right.ShipName || ""), language())
             || (Number(left.ShipID) || 0) - (Number(right.ShipID) || 0));
+        renderShipClassFilterButtons(allShips);
+        const ships = allShips.filter((ship) => String(ship.ShipType || "").toUpperCase() === shipClassFilter);
         for (const ship of ships) {
             select.append(option(
                 String(ship.ShipID),
@@ -2095,13 +3723,16 @@
         if (previousValue && [...select.options].some((item) => item.value === previousValue)) {
             select.value = previousValue;
         }
+        renderShipCustomDropdown();
     }
     function resetShipSelection() {
         const select = el("#ship-select");
         if (select) {
             select.replaceChildren(option("", t().shipPlaceholder));
             select.disabled = true;
+            renderShipCustomDropdown();
         }
+        renderShipClassFilterButtons([]);
         layerSets.single = [{ role: "sailor", roleIndex: 1, state: null }];
         layerSets.ship = [{ role: "captain", roleIndex: 1, state: null }];
         activeLayerIndexes.single = 0;
@@ -2110,10 +3741,12 @@
         activeShipLayer = 0;
         const capacity = el("#ship-capacity-help");
         if (capacity) capacity.textContent = "";
+        populateShipEquipmentSettings(null);
         renderShipLayerTabs();
         updateSimulatorModeUi();
     }
     function resizeShipLayersForShip(ship) {
+        populateShipEquipmentSettings(ship);
         if (!ship) {
             const previousActiveLayer = activeShipLayer;
             if (shipLayers[activeShipLayer]) shipLayers[activeShipLayer].state = captureShipLayerState();
@@ -2129,7 +3762,6 @@
         const currentState = captureShipLayerState();
         if (shipLayers[activeShipLayer]) shipLayers[activeShipLayer].state = currentState;
         const previousLayers = shipLayers;
-        const currentSummary = previousLayers[activeShipLayer]?.summary;
         const seats = [{ role: "captain", roleIndex: 1 }];
         const gunnerSlots = Math.max(0, Math.floor(Number(ship.GunnerSailorSlot) || 0));
         const supportSlots = Math.max(0, Math.floor(Number(ship.SupportSailorSlot) || 0));
@@ -2137,43 +3769,52 @@
         for (let index = 1; index <= supportSlots; index += 1) seats.push({ role: "support", roleIndex: index });
         shipLayers = seats.map((seat, index) => ({
             ...seat,
-            state: previousLayers[index]?.state || structuredClone(currentState),
-            summary: previousLayers[index]?.summary
-                ? structuredClone(previousLayers[index].summary)
-                : (currentSummary ? structuredClone(currentSummary) : undefined),
+            state: defaultShipLayerState(previousLayers[index]?.state || currentState, seat, ship),
         }));
         layerSets.ship = shipLayers;
-        const previousActiveLayer = activeShipLayer;
         activeShipLayer = Math.min(activeShipLayer, shipLayers.length - 1);
         renderShipLayerTabs();
-        if (activeShipLayer !== previousActiveLayer) restoreShipLayerState(shipLayers[activeShipLayer].state);
+        restoreShipLayerState(shipLayers[activeShipLayer].state);
+        calculateAllShipLayerSummaries();
         el("#ship-capacity-help").textContent = t().shipCapacity(shipLayers.length, gunnerSlots, supportSlots);
     }
     function updateSimulatorModeUi() {
         const shipMode = simulatorMode === "ship";
         const shipSection = el("#ship-selection-section");
+        const shipEquipmentSection = el("#ship-equipment-section");
         const rosterSection = el("#ship-roster-section");
         const rosterTitle = el("#ship-roster-title");
         const rosterBody = el("#ship-roster-card-body");
+        const shipSailorPresetControls = el("#ship-sailor-preset-controls");
         const layerControls = el("#ship-layer-controls");
         const modeHelp = el("#calculator-mode-help");
         const addButton = el("#sailor-layer-add");
         const removeButton = el("#sailor-layer-remove");
         const showLayerControls = !shipMode || Boolean(selectedShip());
         if (shipSection) shipSection.hidden = !shipMode;
+        if (shipEquipmentSection) shipEquipmentSection.hidden = !shipMode || !selectedShip();
         if (rosterSection) {
             rosterSection.hidden = !showLayerControls;
             rosterSection.className = shipMode ? "card sailor-card mb-3" : "mb-3";
         }
         if (rosterTitle) rosterTitle.hidden = !shipMode;
         if (rosterBody) rosterBody.className = shipMode ? "card-body compact-card-body" : "";
+        if (shipSailorPresetControls) shipSailorPresetControls.hidden = !shipMode;
         if (layerControls) layerControls.hidden = !showLayerControls;
         if (modeHelp) modeHelp.hidden = !shipMode;
+        document.querySelectorAll(".ship-sailor-preset-button").forEach((button) => {
+            button.disabled = !shipMode || !selectedShip();
+        });
+        document.querySelectorAll(".global-ship-specialty-button").forEach((button) => {
+            button.disabled = !shipMode || !selectedShip();
+        });
+        renderShipOfficerBulkControls();
         if (addButton) addButton.hidden = shipMode;
         if (removeButton) {
             removeButton.hidden = shipMode;
             removeButton.disabled = shipLayers.length <= 1;
         }
+        if (shipMode) renderShipPerformance();
     }
     function setSimulatorMode(mode) {
         if (mode === simulatorMode) return;
@@ -2222,17 +3863,44 @@
         shipSection.hidden = true;
         const shipLabel = document.createElement("label");
         shipLabel.id = "ship-label";
-        shipLabel.className = "form-label fw-bold";
-        shipLabel.htmlFor = "ship-select";
+        shipLabel.className = "form-label fw-bold mb-1";
+        shipLabel.htmlFor = "ship-select-toggle";
+        const shipLabelRow = document.createElement("div");
+        shipLabelRow.className = "d-flex flex-wrap align-items-center gap-2";
+        const shipClassFilterButtons = document.createElement("div");
+        shipClassFilterButtons.id = "ship-class-filter-buttons";
+        shipClassFilterButtons.className = "btn-group ship-class-filter-buttons mb-1 flex-wrap";
+        shipClassFilterButtons.setAttribute("role", "group");
+        shipClassFilterButtons.setAttribute("aria-label", "Ship class filter");
+        shipLabelRow.append(shipLabel, shipClassFilterButtons);
         const shipSelect = document.createElement("select");
         shipSelect.id = "ship-select";
-        shipSelect.className = "form-select";
+        shipSelect.className = "visually-hidden";
+        shipSelect.tabIndex = -1;
+        shipSelect.setAttribute("aria-hidden", "true");
         shipSelect.disabled = true;
         shipSelect.append(option("", "함선을 선택하세요"));
+        const shipDropdown = document.createElement("div");
+        shipDropdown.className = "dropdown";
+        const shipDropdownToggle = document.createElement("button");
+        shipDropdownToggle.id = "ship-select-toggle";
+        shipDropdownToggle.className = "form-select ship-custom-toggle";
+        shipDropdownToggle.type = "button";
+        shipDropdownToggle.dataset.bsToggle = "dropdown";
+        shipDropdownToggle.setAttribute("aria-expanded", "false");
+        shipDropdownToggle.disabled = true;
+        const shipPlaceholder = document.createElement("span");
+        shipPlaceholder.className = "ship-custom-placeholder";
+        shipPlaceholder.textContent = "함선을 선택하세요";
+        shipDropdownToggle.append(shipPlaceholder);
+        const shipDropdownMenu = document.createElement("div");
+        shipDropdownMenu.id = "ship-select-menu";
+        shipDropdownMenu.className = "dropdown-menu ship-custom-menu";
+        shipDropdown.append(shipDropdownToggle, shipDropdownMenu);
         const shipCapacityHelp = document.createElement("div");
         shipCapacityHelp.id = "ship-capacity-help";
         shipCapacityHelp.className = "form-text";
-        shipSection.append(shipLabel, shipSelect, shipCapacityHelp);
+        shipSection.append(shipLabelRow, shipSelect, shipDropdown, shipCapacityHelp);
         modeHelp.id = "calculator-mode-help";
         modeHelp.className = "d-block small text-muted mt-2";
         serverSection.className = "col-12 col-md-4 col-lg-3";
@@ -2255,9 +3923,53 @@
         rosterTitle.hidden = true;
         const rosterBody = document.createElement("div");
         rosterBody.id = "ship-roster-card-body";
-        rosterBody.append(layerControls);
+        const shipSailorPresetControls = document.createElement("div");
+        shipSailorPresetControls.id = "ship-sailor-preset-controls";
+        shipSailorPresetControls.className = "d-flex flex-wrap gap-2 mb-2";
+        const shipSailorPresetButtons = document.createElement("div");
+        shipSailorPresetButtons.id = "ship-sailor-preset-buttons";
+        shipSailorPresetButtons.className = "btn-group flex-wrap";
+        shipSailorPresetButtons.setAttribute("role", "group");
+        const globalShipSpecialtyButtons = document.createElement("div");
+        globalShipSpecialtyButtons.id = "global-ship-specialty-buttons";
+        globalShipSpecialtyButtons.className = "btn-group flex-wrap";
+        globalShipSpecialtyButtons.setAttribute("role", "group");
+        globalShipSpecialtyButtons.setAttribute("aria-label", "Global sailor specialty");
+        globalShipSpecialtyButtons.hidden = true;
+        const shipOfficerBulkControls = document.createElement("div");
+        shipOfficerBulkControls.id = "ship-officer-bulk-controls";
+        shipOfficerBulkControls.className = "d-flex flex-wrap align-items-center gap-1 ms-lg-auto";
+        const shipOfficerBulkLabel = document.createElement("span");
+        shipOfficerBulkLabel.id = "ship-officer-bulk-label";
+        shipOfficerBulkLabel.className = "small text-muted me-1";
+        const shipOfficerBulkButtons = document.createElement("div");
+        shipOfficerBulkButtons.id = "ship-officer-bulk-buttons";
+        shipOfficerBulkButtons.className = "btn-group flex-wrap";
+        shipOfficerBulkButtons.setAttribute("role", "group");
+        const shipOfficerBulkInputGroup = document.createElement("div");
+        shipOfficerBulkInputGroup.className = "input-group input-group-sm";
+        shipOfficerBulkInputGroup.style.width = "7.5rem";
+        const shipOfficerBulkInput = document.createElement("input");
+        shipOfficerBulkInput.id = "ship-officer-bulk-input";
+        shipOfficerBulkInput.className = "form-control";
+        shipOfficerBulkInput.type = "number";
+        shipOfficerBulkInput.inputMode = "numeric";
+        shipOfficerBulkInput.min = "0";
+        shipOfficerBulkInput.step = "1";
+        shipOfficerBulkInputGroup.append(shipOfficerBulkInput);
+        shipOfficerBulkControls.append(
+            shipOfficerBulkLabel,
+            shipOfficerBulkButtons,
+            shipOfficerBulkInputGroup,
+        );
+        shipSailorPresetControls.append(
+            shipSailorPresetButtons,
+            globalShipSpecialtyButtons,
+            shipOfficerBulkControls,
+        );
+        rosterBody.append(shipSailorPresetControls, layerControls);
         rosterSection.append(rosterTitle, rosterBody);
-        modeSection.after(rosterSection);
+        el("#ship-equipment-section").after(rosterSection);
         el("#preset-label").closest(".col-12").className = "col-12";
         el("#level-label").closest(".col-12").className = "col-12 col-md-3 col-lg-2";
         el("#sailor-type-label").closest(".col-12").className = "col-12 col-md-9 col-lg-5";
@@ -2268,11 +3980,15 @@
         [initialGrowthSection, initialAbilitySection, hiddenGrowthSection].forEach((section) => { section.classList.add("initial-source-section"); });
         el("#officer-title").parentElement.hidden = true;
         const settings = el("#sailor-settings-section");
+        const tree = el("#tree-section");
         const result = el("#result-section");
         const layout = document.createElement("div");
+        const settingsTreeColumn = document.createElement("div");
         layout.className = "settings-result-layout";
+        settingsTreeColumn.className = "settings-tree-column";
         settings.before(layout);
-        layout.append(settings, result);
+        settingsTreeColumn.append(settings, tree);
+        layout.append(settingsTreeColumn, result);
         updateIntroNoticeVisibility();
         updateSimulatorModeUi();
     }
@@ -2287,9 +4003,58 @@
         const index = Number(event.target.value);
         if (Number.isInteger(index)) activateShipLayer(index);
     });
+    el("#ship-officer-bulk-input").addEventListener("input", (event) => {
+        if (event.target.value !== "") applyOfficerCountToShipRoster(event.target.value);
+    });
     el("#ship-select").addEventListener("change", () => {
+        updateShipCustomSelection();
         resizeShipLayersForShip(selectedShip());
         updateSimulatorModeUi();
+    });
+    el("#ship-base-speed").addEventListener("change", (event) => {
+        if (event.target.value !== "") {
+            const speed = Math.floor(Number(event.target.value) || 10);
+            event.target.value = String(Math.max(10, Math.min(99, speed)));
+        }
+        renderShipPerformance();
+    });
+    el("#ship-equipment-fcs").addEventListener("change", () => {
+        updateShipGuidelineControls();
+        renderShipPerformance();
+    });
+    el("#ship-equipment-engine").addEventListener("change", renderShipPerformance);
+    el("#ship-equipment-r-gun").addEventListener("change", () => {
+        updateShipGuidelineControls();
+        renderShipPerformance();
+    });
+    el("#ship-equipment-t-gun").addEventListener("change", renderShipPerformance);
+    el("#ship-equipment-t-gun-2").addEventListener("change", renderShipPerformance);
+    el("#ship-add-t-gun").addEventListener("change", () => {
+        updateAdditionalTGunControl();
+        updateShipEquipmentCapacityLabels(selectedShip());
+        renderShipPerformance();
+    });
+    document.querySelectorAll("#ship-equipment-fcs, #ship-equipment-engine, #ship-equipment-r-gun, #ship-equipment-t-gun, #ship-equipment-t-gun-2")
+        .forEach((select) => select.addEventListener("change", () => updateShipEquipmentCustomSelection(select)));
+    el("#ship-target-guideline").addEventListener("change", (event) => {
+        if (event.target.value !== "") {
+            const target = Math.floor(Number(event.target.value) || 100);
+            event.target.value = String(Math.max(100, Math.min(9999, target)));
+        }
+        renderShipPerformance();
+    });
+    el("#ship-r-gun-range-target").addEventListener("change", (event) => {
+        updateShipGuidelineControls();
+        if (!event.target.checked && el("#ship-guideline-adjust-captain").checked) {
+            resetCaptainCompositionToFullVeterans();
+        }
+        renderShipPerformance();
+    });
+    el("#ship-guideline-adjust-captain").addEventListener("change", (event) => {
+        if (!event.target.checked) {
+            resetCaptainCompositionToFullVeterans();
+        }
+        renderShipPerformance();
     });
     el("#sailor-layer-add").addEventListener("click", () => {
         if (simulatorMode !== "single") return;
@@ -2324,6 +4089,7 @@
         bulkClassChangeLevel = "";
         el("#performance-fcs-target-gun").checked = false;
         setClassChangeBulkFeedback();
+        updatePresetCustomSelection();
         calculate();
     });
     level.addEventListener("input", calculate);
@@ -2334,6 +4100,10 @@
     });
     el("#result-body").addEventListener("input", (event) => {
         if (event.target.matches("[data-initial-growth], [data-initial-ability], [data-hidden-growth]")) calculate();
+        else if (event.target.matches("[data-result-ability]")) {
+            calculatePerformance();
+            refreshActiveLayerSummary();
+        }
     });
     el("#tree-body").addEventListener("change", (event) => {
         if (!event.target.matches(".class-change-level-input")) return;
@@ -2349,13 +4119,11 @@
         applyBulkClassChangeLevels();
     });
     el("#performance-fcs-guide-length").addEventListener("change", (event) => {
-        if (event.target.value === "") {
-            clearPerformanceApiResult();
-            return;
+        if (event.target.value !== "") {
+            const guideLength = Math.floor(Number(event.target.value) || 100);
+            event.target.value = String(Math.max(100, Math.min(9999, guideLength)));
         }
-        const guideLength = Math.floor(Number(event.target.value) || 100);
-        event.target.value = String(Math.max(100, Math.min(9999, guideLength)));
-        clearPerformanceApiResult();
+        calculatePerformance();
     });
     el("#performance-fcs-target-gun").addEventListener("change", calculate);
     el("#performance-input-body").addEventListener("change", (event) => {
@@ -2368,48 +4136,51 @@
     });
     el("#performance-input-body").addEventListener("input", (event) => {
         if (!event.target.matches(".performance-personnel-input")) return;
+        disableCaptainAutoAdjustment(shipLayers[activeShipLayer]);
         const index = Number(event.target.dataset.index);
         const field = event.target.dataset.field;
-        const composition = performanceCompositions[index];
-        if (!composition) return;
-        const inputValue = Math.max(0, Math.floor(Number(event.target.value) || 0));
-        if (field === "veterans" || field === "rookies") performanceDetailedHeaders[index] = true;
-        composition[field] = field === "officers" ? Math.min(inputValue, maximumPerformanceOfficers(performanceCrewCount)) : inputValue;
-        fitPerformanceComposition(composition, field);
-        for (const personnelField of ["officers", "veterans", "rookies"]) {
-            const input = el(`#performance-input-body [data-index="${index}"][data-field="${personnelField}"]`);
-            if (input) input.value = String(composition[personnelField]);
-        }
-        updatePerformanceCrewDisplay(index);
-        clearPerformanceApiResult();
+        if (!setPerformancePersonnelValue(index, field, event.target.value)) return;
         refreshActiveLayerSummary();
+        calculatePerformance();
     });
-    el("#performance-input-body").addEventListener("input", (event) => {
-        if (!event.target.matches(".performance-seaman-adjustment-input")) return;
-        const composition = performanceCompositions[Number(event.target.dataset.index)];
-        if (!composition) return;
-        composition.seamanAdjustmentPercent = Math.min(12, Math.max(0, Number(event.target.value) || 0));
-        event.target.value = String(composition.seamanAdjustmentPercent);
-        clearPerformanceApiResult();
-    });
-    el("#performance-calculate-button").addEventListener("click", requestPerformanceCalculation);
     el("#performance-engine-crew-count").addEventListener("input", (event) => {
         performanceEngineCrewCount = Math.min(10, Math.max(1, Math.floor(Number(event.target.value) || 1)));
         event.target.value = String(performanceEngineCrewCount);
         calculate();
     });
     el("#performance-fcs-select").addEventListener("change", () => {
-        clearPerformanceApiResult();
-        updatePerformanceRequestAvailability();
+        calculatePerformance();
     });
     el("#performance-gun-select").addEventListener("change", () => {
         updatePerformanceGunDetails();
-        clearPerformanceApiResult();
+        calculatePerformance();
     });
-    el("#performance-seaman-adj-ability-body").addEventListener("change", (event) => {
-        if (!event.target.matches(".performance-seaman-adj-ability-checkbox")) return;
-        seamanAdjustmentEnabled[event.target.dataset.ability] = event.target.checked;
-        clearPerformanceApiResult();
+    document.addEventListener("click", (event) => {
+        const shipOption = event.target.closest(".ship-custom-option");
+        if (shipOption instanceof HTMLButtonElement) {
+            const select = el("#ship-select");
+            select.value = shipOption.dataset.shipValue || "";
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+            return;
+        }
+        const equipmentOption = event.target.closest(".equipment-custom-option");
+        if (equipmentOption instanceof HTMLButtonElement) {
+            const select = document.getElementById(equipmentOption.dataset.equipmentSelect);
+            if (select instanceof HTMLSelectElement) {
+                select.value = equipmentOption.dataset.equipmentValue || "";
+                select.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+            return;
+        }
+        const presetOption = event.target.closest(".preset-path-option");
+        if (presetOption instanceof HTMLButtonElement) {
+            preset.value = presetOption.dataset.presetValue || "";
+            preset.dispatchEvent(new Event("change", { bubbles: true }));
+            return;
+        }
+        const button = event.target.closest(".path-filter-button");
+        if (!(button instanceof HTMLButtonElement)) return;
+        setPathFilterMode(button.dataset.pathFilter);
     });
     selectServer();
 })();
