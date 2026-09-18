@@ -553,9 +553,7 @@ import {
         for (const [selector, key] of Object.entries(labels)) el(selector).textContent = key === "shipGuidelineLength"
             ? (language() === "ko" ? "함선 가이드라인 길이" : "Ship guideline length") : t()[key];
         const overheatSpeedLabel = el("#ship-overheat-speed-label");
-        const overheatSpeedUnit = document.createElement("strong");
-        overheatSpeedUnit.textContent = "[knot]";
-        overheatSpeedLabel.replaceChildren(t().shipOverheatSpeed, " ", overheatSpeedUnit);
+        overheatSpeedLabel.textContent = `${t().shipOverheatSpeed} [knot]`;
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
         el("#class-change-bulk-apply").textContent = t().classChangeBulkApply;
         renderShipSailorPresetButtons();
