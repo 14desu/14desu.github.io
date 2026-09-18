@@ -212,6 +212,28 @@ import {
     const sailorType = el("#sailor-type");
     const boost = el("#sailor-boost");
     const status = el("#sailor-status");
+    const SERVER_PREFERENCE_STORAGE_KEY = "navyfield-simulator-server";
+    function storedServerPreference() {
+        try {
+            const savedServer = window.localStorage.getItem(SERVER_PREFERENCE_STORAGE_KEY);
+            return ["korea", "global"].includes(savedServer) ? savedServer : null;
+        } catch {
+            return null;
+        }
+    }
+    function browserLanguageServer() {
+        const preferredLanguage = navigator.languages?.[0] || navigator.language || "";
+        return /^ko(?:-|$)/i.test(String(preferredLanguage).trim()) ? "korea" : "global";
+    }
+    function saveServerPreference(serverId) {
+        if (!["korea", "global"].includes(serverId)) return;
+        try {
+            window.localStorage.setItem(SERVER_PREFERENCE_STORAGE_KEY, serverId);
+        } catch {
+            // The selection still works when storage is unavailable or blocked.
+        }
+    }
+    server.value = storedServerPreference() || browserLanguageServer();
     let catalog = null;
     let nationCatalog = null;
     let paths = [];
@@ -4106,7 +4128,10 @@ import {
         restoreShipLayerState(shipLayers[activeShipLayer].state);
         updateSimulatorModeUi();
     });
-    server.addEventListener("change", selectServer);
+    server.addEventListener("change", () => {
+        saveServerPreference(server.value);
+        selectServer();
+    });
     nation.addEventListener("change", loadNationCatalogs);
     preset.addEventListener("change", () => {
         actualClassChangeLevels = [];
