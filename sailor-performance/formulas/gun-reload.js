@@ -3,7 +3,7 @@ const RELOAD_DENOMINATOR_BASE = 100;
 const RELOAD_EFFICIENCY_NUMERATOR = 10_000;
 const MAX_SUGGESTED_SEAMAN_ADJUSTMENT_PERCENT = 12;
 const GLOBAL_CAPPED_RELOAD_EFFICIENCY_PERCENT = 34.6;
-// 10,000 단위로 반올림된 SeamanAdjAbility의 글로벌 연사캡 경계다.
+// 갑판병 보정과 글로벌 서버 계수 0.9가 모두 반영된 최종 어빌의 연사캡 경계다.
 const GLOBAL_RELOAD_ABILITY_CAP = 1_860_000;
 
 function calculateSeamanAdjAbility(serverAdjAbility, seamanAdjustmentPercent = 0) {
@@ -29,10 +29,13 @@ export function globalRoundedReloadAbility(seamanAdjAbility) {
 }
 
 export function globalGunReloadEfficiencyPercent(seamanAdjAbility) {
-    const roundedSeamanAdjAbility = globalRoundedReloadAbility(seamanAdjAbility);
-    if (roundedSeamanAdjAbility >= GLOBAL_RELOAD_ABILITY_CAP) {
+    const normalizedSeamanAdjAbility = Math.max(0, seamanAdjAbility);
+    if (normalizedSeamanAdjAbility >= GLOBAL_RELOAD_ABILITY_CAP) {
         return GLOBAL_CAPPED_RELOAD_EFFICIENCY_PERCENT;
     }
+    const roundedSeamanAdjAbility = globalRoundedReloadAbility(normalizedSeamanAdjAbility);
+    // 1만 단위 반올림으로 186만이 되더라도 원 어빌이 컷 미만이면 35%를 유지한다.
+    if (roundedSeamanAdjAbility >= GLOBAL_RELOAD_ABILITY_CAP) return 35;
     return Math.floor(RELOAD_EFFICIENCY_NUMERATOR / (
         roundedSeamanAdjAbility / RELOAD_ABILITY_UNIT
         + RELOAD_DENOMINATOR_BASE
@@ -84,10 +87,12 @@ export function calculateGlobalGunReload(
     const roundedSeamanAdjAbility = globalRoundedReloadAbility(seamanAdjAbility);
     const uncappedEfficiencyPercent = koreaGunReloadEfficiencyPercent(roundedSeamanAdjAbility);
     const efficiencyPercent = globalGunReloadEfficiencyPercent(seamanAdjAbility);
-    const capProgressPercent = Math.min(
-        100,
-        Math.round(roundedSeamanAdjAbility / GLOBAL_RELOAD_ABILITY_CAP * 1_000) / 10,
-    );
+    const capProgressPercent = seamanAdjAbility >= GLOBAL_RELOAD_ABILITY_CAP
+        ? 100
+        : Math.min(
+            99.9,
+            Math.round(seamanAdjAbility / GLOBAL_RELOAD_ABILITY_CAP * 1_000) / 10,
+        );
     const suggestion = applySeamanAdjustment && appliedSeamanAdjustmentPercent === 0
         ? nextGlobalSeamanAdjustment(serverAdjAbility, baseReloadSeconds)
         : {
@@ -96,7 +101,7 @@ export function calculateGlobalGunReload(
         };
 
     return {
-        reloadFormulaVersion: "global-server-adj-seaman-adj-round10000-efficiency34.6-v12",
+        reloadFormulaVersion: "global-final-ability-cap1860000-efficiency34.6-v13",
         serverAdjReloadAbility: serverAdjAbility,
         seamanAdjReloadAbility: seamanAdjAbility,
         roundedSeamanAdjReloadAbility: roundedSeamanAdjAbility,
