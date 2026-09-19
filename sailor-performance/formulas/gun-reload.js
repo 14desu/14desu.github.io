@@ -2,7 +2,7 @@ const RELOAD_ABILITY_UNIT = 10_000;
 const RELOAD_DENOMINATOR_BASE = 100;
 const RELOAD_EFFICIENCY_NUMERATOR = 10_000;
 const MAX_SUGGESTED_SEAMAN_ADJUSTMENT_PERCENT = 12;
-const GLOBAL_MIN_RELOAD_EFFICIENCY_PERCENT = 34;
+const GLOBAL_CAPPED_RELOAD_EFFICIENCY_PERCENT = 34.6;
 // 10,000 단위로 반올림된 SeamanAdjAbility의 글로벌 연사캡 경계다.
 const GLOBAL_RELOAD_ABILITY_CAP = 1_860_000;
 
@@ -30,13 +30,13 @@ export function globalRoundedReloadAbility(seamanAdjAbility) {
 
 export function globalGunReloadEfficiencyPercent(seamanAdjAbility) {
     const roundedSeamanAdjAbility = globalRoundedReloadAbility(seamanAdjAbility);
-    return Math.max(
-        GLOBAL_MIN_RELOAD_EFFICIENCY_PERCENT,
-        Math.floor(RELOAD_EFFICIENCY_NUMERATOR / (
-            roundedSeamanAdjAbility / RELOAD_ABILITY_UNIT
-            + RELOAD_DENOMINATOR_BASE
-        )),
-    );
+    if (roundedSeamanAdjAbility >= GLOBAL_RELOAD_ABILITY_CAP) {
+        return GLOBAL_CAPPED_RELOAD_EFFICIENCY_PERCENT;
+    }
+    return Math.floor(RELOAD_EFFICIENCY_NUMERATOR / (
+        roundedSeamanAdjAbility / RELOAD_ABILITY_UNIT
+        + RELOAD_DENOMINATOR_BASE
+    ));
 }
 
 function nextGlobalSeamanAdjustment(serverAdjAbility, baseReloadSeconds) {
@@ -84,7 +84,7 @@ export function calculateGlobalGunReload(
         };
 
     return {
-        reloadFormulaVersion: "global-server-adj-seaman-adj-round10000-efficiency34-v6",
+        reloadFormulaVersion: "global-server-adj-seaman-adj-round10000-efficiency34.6-v7",
         serverAdjReloadAbility: serverAdjAbility,
         seamanAdjReloadAbility: seamanAdjAbility,
         roundedSeamanAdjReloadAbility: roundedSeamanAdjAbility,
