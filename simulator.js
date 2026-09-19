@@ -1528,7 +1528,7 @@ import {
                 Number(result.performance?.appliedSeamanAdjustmentPercent) > 0
             );
             const isGlobalReloadCap = (result) => server.value === "global"
-                && Number(result.performance?.gunReloadEfficiencyChangePercent) <= -66;
+                && Number(result.performance?.gunReloadAbilityCapProgressPercent) >= 100;
             const allGlobalReloadCaps = performanceResult.results.length > 0
                 && performanceResult.results.every(isGlobalReloadCap);
             const appendReloadCapLabel = (cell) => {
@@ -1570,7 +1570,7 @@ import {
                     if (showReloadCapOnly) appendReloadCapLabel(cell);
                     else if (valueKey === "gunReloadAbilityCapProgressPercent"
                         && isGlobalReloadCap(result)) {
-                        // -66% 연사캡 상태와 도달률 화면 표시가 충돌하지 않게 한다.
+                        // 글로벌 연사캡 상태와 도달률 화면 표시가 충돌하지 않게 한다.
                         cell.textContent = "100.0%";
                     } else cell.textContent = formatValue(result.performance[valueKey]);
                     if (valueKey === "gunReloadEfficiencyChangePercent"
@@ -3217,7 +3217,8 @@ import {
             const reload = document.createElement("td");
             const efficiencyValue = result?.performance?.gunReloadEfficiencyChangePercent;
             efficiency.textContent = Number.isFinite(Number(efficiencyValue)) ? `${efficiencyValue}%` : "-";
-            if (server.value === "global" && Number(efficiencyValue) === -66) {
+            if (server.value === "global"
+                && Number(result?.performance?.gunReloadAbilityCapProgressPercent) >= 100) {
                 appendCapLabel(efficiency);
             }
             if (sequence) {
