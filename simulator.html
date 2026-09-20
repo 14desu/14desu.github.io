@@ -192,7 +192,12 @@
         #performance-input-section .form-select,
         #performance-input-section .input-group-text { min-height:1.65rem; padding-top:.08rem; padding-bottom:.08rem; font-size:.8rem; line-height:1.2; }
         #performance-input-section .form-control, #performance-input-section .form-select { height:1.65rem; }
-        @media (min-width: 992px) { #performance-result-section { width:50%; max-width:none; } }
+        .performance-layout { display:flex; width:100%; flex-direction:column; gap:.5rem; margin-bottom:1rem; }
+        .performance-layout > .sailor-card { width:100%; min-width:0; max-width:none; margin:0!important; }
+        @media (min-width: 992px) {
+            .performance-layout { flex-direction:row; align-items:flex-start; }
+            .performance-layout > .sailor-card { flex:1 1 0; }
+        }
         .performance-case-detail { font-size:.72rem; }
         #performance-implemented-reload-section .table-responsive { overflow-x:hidden; }
         .implemented-reload-table { width:100%; min-width:0; table-layout:fixed; }
@@ -222,8 +227,6 @@
         #sailor-status { min-height:1.5rem; white-space:pre-line; }
         @media (min-width: 992px) {
             #result-section { width:100%; max-width:none; margin:0; }
-            #performance-input-section { max-width:860px; margin-left:0; margin-right:auto; }
-            #performance-result-section { max-width:1040px; margin-left:0; margin-right:auto; }
         }
         [hidden] { display:none!important; }
     </style>
@@ -437,6 +440,7 @@
                 <div class="card-body"><p id="result-summary" class="text-muted"></p><div class="table-responsive"><table class="table table-bordered table-striped result-table mb-0"><thead><tr><th id="result-ability-heading">어빌리티</th><th id="result-growth-heading">성장</th><th id="result-current-ability-heading">누적</th><th id="result-seaman-adj-heading" hidden>표시</th></tr></thead><tbody id="result-body"></tbody></table></div><p id="result-ability-help" class="form-text mb-0">누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.</p><div class="mt-3"><h2 id="officer-title" class="h6">사관수</h2><div class="table-responsive"><table class="table table-bordered table-sm result-table mb-0"><thead id="officer-head"></thead><tbody id="officer-body"></tbody></table></div></div></div>
             </section>
 
+            <div class="performance-layout">
             <section id="performance-input-section" class="card sailor-card mb-3" hidden>
                 <div id="performance-input-title" class="card-header">수병 성능 설정</div>
                 <div class="card-body">
@@ -513,12 +517,13 @@
                     </div>
                 </div>
             </section>
+            </div>
         </div></main>
         <footer class="py-4 bg-light mt-auto"><div class="container-fluid px-4"><div class="text-muted small">Copyright &copy; g_dori</div></div></footer>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./simulator.js?v=20260920-carrier-button-order-v191"></script>
+<script type="module" src="./simulator.js?v=20260920-performance-layout-v192"></script>
 </body>
 </html>
