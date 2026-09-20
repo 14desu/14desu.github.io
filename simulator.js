@@ -109,7 +109,7 @@ import {
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
             shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도", shipBaseSpeedManualInput: "유저수동입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
             shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
-            shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "사관수",
+            shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
             shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "수병 연사효율 구간", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
             shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
@@ -151,7 +151,7 @@ import {
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
             shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed", shipBaseSpeedManualInput: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
-            shipOfficerBulk: "Bulk officers", shipOfficerRatePlaceholder: "Officer count",
+            shipOfficerBulk: "Officer batch input", shipOfficerRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
             shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
@@ -254,6 +254,8 @@ import {
     let simulatorMode = "ship";
     let shipClassFilter = "BB";
     let globalShipSpecialtyMode = "repair";
+    let carrierAircraftMode = server.value === "korea" ? "B" : "F";
+    let shipOfficerBulkScope = "all";
     let resultView = "all";
     let activeShipLayer = 0;
     const layerSets = {
@@ -640,6 +642,7 @@ import {
         catalogRequestSequence += 1;
         shipClassFilter = "BB";
         globalShipSpecialtyMode = "repair";
+        carrierAircraftMode = server.value === "korea" ? "B" : "F";
         level.max = server.value === "korea" ? "120" : "125";
         level.value = server.value === "korea" ? "120" : "125";
         applyLanguage();
@@ -669,6 +672,7 @@ import {
         const requestSequence = ++catalogRequestSequence;
         shipClassFilter = "BB";
         globalShipSpecialtyMode = "repair";
+        carrierAircraftMode = server.value === "korea" ? "B" : "F";
         catalog = null;
         nationCatalog = null;
         resetShipSelection();
@@ -1485,7 +1489,8 @@ import {
                 const targetGuidelineLength = Number(el("#performance-fcs-guide-length").value);
                 if (Number.isInteger(targetGuidelineLength)
                     && targetGuidelineLength >= 100
-                    && targetGuidelineLength <= 9999) {
+                    && targetGuidelineLength <= 9998
+                    && targetGuidelineLength % 2 === 0) {
                     input.targetGuidelineLength = targetGuidelineLength;
                 }
             }
@@ -1988,17 +1993,54 @@ import {
             button.addEventListener("click", () => applyGlobalShipSpecialtyMode(mode));
             specialtyContainer.append(button);
         }
+        renderCarrierAircraftModeButtons();
         renderShipOfficerBulkControls();
+    }
+    function renderCarrierAircraftModeButtons() {
+        const container = el("#carrier-aircraft-mode-buttons");
+        if (!container) return;
+        const carrierSelected = simulatorMode === "ship" && String(selectedShip()?.ShipType || "").toUpperCase() === "CV";
+        container.hidden = !carrierSelected;
+        container.replaceChildren();
+        for (const [mode, labelKey] of [["F", "carrierAircraftModeF"], ["A", "carrierAircraftModeA"], ["B", "carrierAircraftModeB"]]) {
+            const button = document.createElement("button");
+            const active = carrierAircraftMode === mode;
+            button.type = "button";
+            button.className = `btn btn-outline-secondary btn-sm carrier-aircraft-mode-button${active ? " active" : ""}`;
+            button.textContent = mode;
+            button.title = t()[labelKey];
+            button.disabled = !carrierSelected;
+            button.setAttribute("aria-label", t()[labelKey]);
+            button.setAttribute("aria-pressed", String(active));
+            button.addEventListener("click", () => applyCarrierAircraftMode(mode));
+            container.append(button);
+        }
     }
     function renderShipOfficerBulkControls() {
         const container = el("#ship-officer-bulk-controls");
         const label = el("#ship-officer-bulk-label");
+        const scopeButtons = el("#ship-officer-bulk-scope-buttons");
         const buttons = el("#ship-officer-bulk-buttons");
         const input = el("#ship-officer-bulk-input");
-        if (!container || !label || !buttons || !input) return;
+        if (!container || !label || !scopeButtons || !buttons || !input) return;
         const presetRates = server.value === "korea" ? [45, 40] : [50, 45, 40];
         const disabled = simulatorMode !== "ship" || !selectedShip();
         label.textContent = t().shipOfficerBulk;
+        scopeButtons.replaceChildren();
+        for (const [scope, scopeLabel] of [["all", "All"], ["captain", "Bridge"], ["gunner", "Mount"], ["support", "Support"]]) {
+            const button = document.createElement("button");
+            const active = shipOfficerBulkScope === scope;
+            button.type = "button";
+            button.className = `btn btn-outline-secondary btn-sm ship-officer-bulk-scope-button${active ? " active" : ""}`;
+            button.textContent = scopeLabel;
+            button.disabled = disabled;
+            button.setAttribute("aria-pressed", String(active));
+            button.addEventListener("click", () => {
+                shipOfficerBulkScope = scope;
+                renderShipOfficerBulkControls();
+            });
+            scopeButtons.append(button);
+        }
         buttons.replaceChildren();
         presetRates.forEach((rate) => {
             const button = document.createElement("button");
@@ -2244,6 +2286,23 @@ import {
         });
         return selectedIndex;
     }
+    function carrierAircraftPathIndex(mode) {
+        const matchesFinalName = server.value === "korea"
+            ? {
+                F: (finalName) => /전투기(?:파일럿|편대장)$/.test(finalName),
+                A: (finalName) => /뇌격(?:기파일럿|편대장)$/.test(finalName),
+                B: (finalName) => /급폭|급강하폭격기/.test(finalName),
+            }[mode]
+            : {
+                F: (finalName) => /\bFighter (?:Pilot|SQ\.Ldr)$/i.test(finalName),
+                A: (finalName) => /\bTorpedo Bomber (?:Pilot|SQ\.Ldr)$/i.test(finalName),
+                B: (finalName) => /\bDive Bomber (?:Pilot|SQ\.Ldr)$/i.test(finalName),
+            }[mode];
+        return matchesFinalName ? deepestPathIndex(matchesFinalName) : -1;
+    }
+    function isCarrierShip(ship) {
+        return String(ship?.ShipType || "").trim().toUpperCase() === "CV";
+    }
     function defaultShipPresetIndex(seat, ship) {
         if (seat.role === "captain") {
             return pathIndexByFinalName(server.value === "korea" ? "관제병" : "Bridge Operator");
@@ -2284,6 +2343,9 @@ import {
             }
         }
         if (seat.role === "support") {
+            if (isCarrierShip(ship) && seat.roleIndex <= 8) {
+                return carrierAircraftPathIndex(carrierAircraftMode);
+            }
             const isBattleship = String(ship?.ShipType || "").trim().toUpperCase() === "BB";
             if (isBattleship && seat.roleIndex === 1) {
                 return deepestPathIndex((finalName) => server.value === "korea"
@@ -2328,6 +2390,15 @@ import {
         if (/^elite/.test(typeId)) return "elite";
         return null;
     }
+    function shipPresetGroupForType(typeId) {
+        if (server.value === "korea") {
+            if (/^premium/.test(typeId)) return "premium";
+            if (typeId === "attendance" || /^legend/.test(typeId)) return "attendanceLegend";
+            return null;
+        }
+        const fixedGroups = { nfXSailor: "nfX", advancedHero: "advancedHero", heroSailor: "hero" };
+        return fixedGroups[typeId] || globalShipPresetGroupForType(typeId);
+    }
     function isGunnerShipPreset(pathIndex) {
         const numericPathIndex = Number(pathIndex);
         if (pathIndex === "" || !Number.isInteger(numericPathIndex) || numericPathIndex < 0) return false;
@@ -2345,6 +2416,25 @@ import {
                 ? ""
                 : String(Math.max(125, Number(stage.requiredLevel) || 1))),
             bulkLevel: path.length > startIndex ? "125" : "",
+        };
+    }
+    function lateClassChangeSettings(pathIndex, lateLevel) {
+        const path = paths[Number(pathIndex)] || [];
+        const startIndex = classChangeBulkStartIndex(path);
+        const levels = Array(path.length).fill("");
+        for (let index = 0; index < startIndex; index += 1) {
+            levels[index] = String(path[index].requiredLevel);
+        }
+        for (let index = startIndex; index < path.length; index += 1) {
+            const requiredLevel = Number(path[index].requiredLevel) || 1;
+            const appliedLateLevel = server.value === "korea" && index === startIndex
+                ? Math.min(lateLevel, 25)
+                : lateLevel;
+            levels[index] = String(Math.max(requiredLevel, appliedLateLevel));
+        }
+        return {
+            levels,
+            bulkLevel: path.length > startIndex ? String(lateLevel) : "",
         };
     }
     function applyGlobalShipClassChangeMode(pathIndex, mode) {
@@ -2375,7 +2465,16 @@ import {
             && seat.roleIndex <= 4
             && Number(nation.value) === 3
             && defaultPresetIndex >= 0;
-        if (server.value === "global") {
+        const lateCarrierAircraft = isCarrierShip(ship)
+            && seat.role === "support"
+            && seat.roleIndex <= 8
+            && ["A", "B"].includes(carrierAircraftMode)
+            && defaultPresetIndex >= 0;
+        if (lateCarrierAircraft) {
+            const settings = lateClassChangeSettings(defaultPresetIndex, 90);
+            state.actualClassChangeLevels = settings.levels;
+            state.bulkClassChangeLevel = settings.bulkLevel;
+        } else if (server.value === "global") {
             const settings = globalShipClassChangeSettings(
                 defaultPresetIndex,
                 useGlobalGunnerMode ? globalShipSpecialtyMode : null,
@@ -2415,6 +2514,41 @@ import {
     }
     function activateLayerForRosterEdit(index) {
         if (index !== activeShipLayer) activateShipLayer(index);
+    }
+    function applyCarrierAircraftMode(mode) {
+        if (!["F", "A", "B"].includes(mode)) return;
+        carrierAircraftMode = mode;
+        renderCarrierAircraftModeButtons();
+        const ship = selectedShip();
+        if (simulatorMode !== "ship" || !isCarrierShip(ship)) return;
+        const aircraftPresetIndex = carrierAircraftPathIndex(mode);
+        const enginePresetIndex = deepestPathIndex((finalName) => server.value === "korea"
+            ? /기관병/.test(finalName)
+            : /\bEngineer\b/i.test(finalName));
+        const originalActiveLayer = activeShipLayer;
+        shipLayers.forEach((layer, index) => {
+            if (layer.role !== "support") return;
+            const targetPresetIndex = layer.roleIndex <= 8 ? aircraftPresetIndex : enginePresetIndex;
+            if (targetPresetIndex < 0) return;
+            activateLayerForRosterEdit(index);
+            const sailorGroup = shipPresetGroupForType(sailorType.value);
+            preset.value = String(targetPresetIndex);
+            updatePresetCustomSelection();
+            sailorType.value = sailorTypeForShipPreset(sailorGroup, targetPresetIndex, layer);
+            applySailorType(false);
+            boost.value = defaultShipLayerBoost(layer, targetPresetIndex);
+            if (layer.roleIndex <= 8 && ["A", "B"].includes(mode)) {
+                const settings = lateClassChangeSettings(targetPresetIndex, 90);
+                actualClassChangeLevels = settings.levels;
+                bulkClassChangeLevel = settings.bulkLevel;
+            } else {
+                actualClassChangeLevels = [];
+                bulkClassChangeLevel = "";
+            }
+            calculate();
+        });
+        activateLayerForRosterEdit(originalActiveLayer);
+        renderShipLayerTabs();
     }
     function applyGlobalShipSpecialtyMode(mode) {
         if (server.value !== "global" || !["repair", "reload"].includes(mode)) return;
@@ -2462,9 +2596,13 @@ import {
     }
     function applyOfficerSettingToShipRoster(resolveOfficerCount) {
         if (simulatorMode !== "ship" || !selectedShip()) return;
-        disableCaptainAutoAdjustment(shipLayers.find((layer) => layer.role === "captain"));
+        const appliesToLayer = (layer) => shipOfficerBulkScope === "all" || layer.role === shipOfficerBulkScope;
+        if (shipOfficerBulkScope === "all" || shipOfficerBulkScope === "captain") {
+            disableCaptainAutoAdjustment(shipLayers.find((layer) => layer.role === "captain"));
+        }
         let activeCompositionChanged = false;
         shipLayers.forEach((layer, index) => {
+            if (!appliesToLayer(layer)) return;
             const isActiveLayer = index === activeShipLayer;
             const conditionIndex = isActiveLayer
                 ? performanceSelectedConditionIndex
@@ -3028,7 +3166,12 @@ import {
         el("#ship-t2-performance-title").hidden = true;
     }
     function defaultShipTargetGuideline() {
-        return server.value === "global" ? 3100 : 3000;
+        return server.value === "global" ? 3120 : 3000;
+    }
+    function normalizeTargetGuideline(value) {
+        const target = Math.floor(Number(value) || 100);
+        const clamped = Math.max(100, Math.min(9998, target));
+        return clamped - (clamped % 2);
     }
     function updateShipGuidelineControls() {
         const shipIsReady = simulatorMode === "ship" && Boolean(selectedShip());
@@ -3101,7 +3244,8 @@ import {
                     };
                 } else {
                     const targetLength = Number(el("#ship-target-guideline").value);
-                    if (Number.isInteger(targetLength) && targetLength >= 100 && targetLength <= 9999) {
+                    if (Number.isInteger(targetLength) && targetLength >= 100
+                        && targetLength <= 9998 && targetLength % 2 === 0) {
                         input.targetGuidelineLength = targetLength;
                     }
                 }
@@ -3853,6 +3997,7 @@ import {
         document.querySelectorAll(".global-ship-specialty-button").forEach((button) => {
             button.disabled = !shipMode || !selectedShip();
         });
+        renderCarrierAircraftModeButtons();
         renderShipOfficerBulkControls();
         if (addButton) addButton.hidden = shipMode;
         if (removeButton) {
@@ -3975,6 +4120,12 @@ import {
         shipSailorPresetButtons.id = "ship-sailor-preset-buttons";
         shipSailorPresetButtons.className = "btn-group flex-wrap";
         shipSailorPresetButtons.setAttribute("role", "group");
+        const carrierAircraftModeButtons = document.createElement("div");
+        carrierAircraftModeButtons.id = "carrier-aircraft-mode-buttons";
+        carrierAircraftModeButtons.className = "btn-group flex-wrap";
+        carrierAircraftModeButtons.setAttribute("role", "group");
+        carrierAircraftModeButtons.setAttribute("aria-label", "Carrier aircraft class");
+        carrierAircraftModeButtons.hidden = true;
         const globalShipSpecialtyButtons = document.createElement("div");
         globalShipSpecialtyButtons.id = "global-ship-specialty-buttons";
         globalShipSpecialtyButtons.className = "btn-group flex-wrap";
@@ -3991,6 +4142,12 @@ import {
         shipOfficerBulkButtons.id = "ship-officer-bulk-buttons";
         shipOfficerBulkButtons.className = "btn-group flex-wrap";
         shipOfficerBulkButtons.setAttribute("role", "group");
+        shipOfficerBulkButtons.setAttribute("aria-label", "Officer percentage");
+        const shipOfficerBulkScopeButtons = document.createElement("div");
+        shipOfficerBulkScopeButtons.id = "ship-officer-bulk-scope-buttons";
+        shipOfficerBulkScopeButtons.className = "btn-group flex-wrap";
+        shipOfficerBulkScopeButtons.setAttribute("role", "group");
+        shipOfficerBulkScopeButtons.setAttribute("aria-label", "Officer batch input scope");
         const shipOfficerBulkInputGroup = document.createElement("div");
         shipOfficerBulkInputGroup.className = "input-group input-group-sm";
         shipOfficerBulkInputGroup.style.width = "7.5rem";
@@ -4004,12 +4161,14 @@ import {
         shipOfficerBulkInputGroup.append(shipOfficerBulkInput);
         shipOfficerBulkControls.append(
             shipOfficerBulkLabel,
+            shipOfficerBulkScopeButtons,
             shipOfficerBulkButtons,
             shipOfficerBulkInputGroup,
         );
         shipSailorPresetControls.append(
             shipSailorPresetButtons,
             globalShipSpecialtyButtons,
+            carrierAircraftModeButtons,
             shipOfficerBulkControls,
         );
         rosterBody.append(shipSailorPresetControls, layerControls);
@@ -4083,8 +4242,7 @@ import {
         .forEach((select) => select.addEventListener("change", () => updateShipEquipmentCustomSelection(select)));
     el("#ship-target-guideline").addEventListener("change", (event) => {
         if (event.target.value !== "") {
-            const target = Math.floor(Number(event.target.value) || 100);
-            event.target.value = String(Math.max(100, Math.min(9999, target)));
+            event.target.value = String(normalizeTargetGuideline(event.target.value));
         }
         renderShipPerformance();
     });
@@ -4168,8 +4326,7 @@ import {
     });
     el("#performance-fcs-guide-length").addEventListener("change", (event) => {
         if (event.target.value !== "") {
-            const guideLength = Math.floor(Number(event.target.value) || 100);
-            event.target.value = String(Math.max(100, Math.min(9999, guideLength)));
+            event.target.value = String(normalizeTargetGuideline(event.target.value));
         }
         calculatePerformance();
     });
