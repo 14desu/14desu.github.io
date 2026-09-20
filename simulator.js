@@ -107,13 +107,14 @@ import {
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} 포병석 ${gunnerSlots} 보조석 ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `탑승가능 수병수 ${total}명 (함장석1 + 포병석${gunnerSlots} + 보조석${supportSlots})`,
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
-            shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도", shipBaseSpeedManualInput: "유저수동입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
+            shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도 [knot]", shipBaseSpeedPlaceholder: "유저 수동 입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
             shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
             shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
             shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "수병 연사효율 구간", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
             shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `함선 기본속도 ${value} · 유저수동입력`,
+            shipOverheatSpeedBaseRequired: "함선 기본속도 입력 필요",
             shipOverheatSpeedRateBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} 수병 ${sailorValue}`,
             shipOverheatSpeedRateMaxed: (value) => `함선+수병 Maxed +${value}%`,
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(함선 ${shipValue} 수병 ${sailorValue})`,
@@ -149,13 +150,14 @@ import {
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} Gunner ${gunnerSlots} Support ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `${total} Sailor Slot (1 B.O. + ${gunnerSlots} Gunner + ${supportSlots} Support)`,
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
-            shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed", shipBaseSpeedManualInput: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
+            shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed [knot]", shipBaseSpeedPlaceholder: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
             shipOfficerBulk: "Officer batch input", shipOfficerRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
             shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `Base ship speed ${value} · User manual input`,
+            shipOverheatSpeedBaseRequired: "Base ship speed required",
             shipOverheatSpeedRateBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} Sailor ${sailorValue}`,
             shipOverheatSpeedRateMaxed: (value) => `Ship+Sailor Maxed +${value}%`,
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(Ship ${shipValue} Sailor ${sailorValue})`,
@@ -546,7 +548,7 @@ import {
         const labels = {
             "#ship-guideline-length-label": "shipGuidelineLength",
             "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun", "#ship-t2-performance-title": "shipEquipmentTGun2",
-            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-base-speed-manual-input": "shipBaseSpeedManualInput", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-performance-title": "shipEquipmentRGun", "#ship-t-performance-title": "shipEquipmentTGun", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
+            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-performance-title": "shipEquipmentRGun", "#ship-t-performance-title": "shipEquipmentTGun", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
             "#class-change-bulk-label": "classChangeBulkLabel", "#class-change-bulk-help": "classChangeBulkHelp",
             "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-gun-heading": "performanceGun", "#performance-gun-class-heading": "performanceGunClass", "#performance-gun-level-heading": "performanceGunLevel", "#performance-gun-caliber-heading": "performanceGunCaliber", "#performance-gun-barrels-heading": "performanceGunBarrels", "#performance-gun-elevation-heading": "performanceGunElevation", "#performance-gun-reload-heading": "performanceGunReload", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
             "#tree-required-heading": "required", "#tree-actual-heading": "actual", "#tree-crew-heading": "crewGrowth",
@@ -556,6 +558,7 @@ import {
             ? (language() === "ko" ? "함선 가이드라인 길이" : "Ship guideline length") : t()[key];
         const overheatSpeedLabel = el("#ship-overheat-speed-label");
         overheatSpeedLabel.textContent = `${t().shipOverheatSpeed} [knot]`;
+        el("#ship-base-speed").placeholder = t().shipBaseSpeedPlaceholder;
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
         el("#class-change-bulk-apply").textContent = t().classChangeBulkApply;
         renderShipSailorPresetButtons();
@@ -3142,10 +3145,19 @@ import {
         return (nationCatalog?.equipment?.[equipmentKey] || [])
             .find((item) => Number(item.meta) === selectedMeta) || null;
     }
+    function updateShipBaseSpeedInputState() {
+        const input = el("#ship-base-speed");
+        if (!input) return;
+        const isMissing = !input.disabled && input.value.trim() === "";
+        input.classList.toggle("ship-base-speed-required", isMissing);
+        if (isMissing) input.setAttribute("aria-invalid", "true");
+        else input.removeAttribute("aria-invalid");
+    }
     function resetShipPerformance() {
         el("#ship-guideline-length").textContent = "-";
         el("#ship-repair-speed").textContent = "-";
         el("#ship-overheat-speed").textContent = "-";
+        el("#ship-overheat-speed").classList.remove("ship-overheat-speed-required");
         el("#ship-overheat-time").textContent = "-";
         for (const id of [
             "#ship-guideline-length-detail",
@@ -3591,10 +3603,14 @@ import {
             )
             : "";
         overheatTimeDetail.hidden = !hasOverheatResult;
-        const baseSpeed = Number(el("#ship-base-speed").value);
-        const overheatSpeed = engine && completeResults && Number.isFinite(baseSpeed) && baseSpeed > 0
+        const baseSpeedInput = el("#ship-base-speed");
+        const baseSpeedValue = baseSpeedInput.value.trim();
+        const baseSpeed = Number(baseSpeedValue);
+        const hasBaseSpeed = baseSpeedValue !== "" && Number.isFinite(baseSpeed) && baseSpeed > 0;
+        updateShipBaseSpeedInputState();
+        const overheatSpeedDetails = engine && completeResults
             ? calculateShipOverheatSpeed(
-                baseSpeed,
+                hasBaseSpeed ? baseSpeed : 1,
                 overheat.engineOverheatRateIncreasePercent,
                 Number(ship.OverheatRatio),
                 Number(engine.overheatPercentage),
@@ -3607,37 +3623,47 @@ import {
                 actualSpeed: null,
                 isMaxed: false,
             };
-        el("#ship-overheat-speed").textContent = Number.isFinite(overheatSpeed.actualSpeed)
-            ? overheatSpeed.isMaxed
-                ? `${overheatSpeed.actualSpeed} Maxed (${displayGunNumber(overheatSpeed.uncappedCalculatorSpeed)})`
-                : `${overheatSpeed.actualSpeed} (${displayGunNumber(overheatSpeed.calculatorSpeed)})`
-            : "-";
-        const hasOverheatSpeed = Number.isFinite(overheatSpeed.actualSpeed);
+        const hasOverheatRate = Number.isFinite(overheatSpeedDetails.shipOverheatContributionPercent)
+            && Number.isFinite(overheatSpeedDetails.sailorOverheatContributionPercent);
+        const hasOverheatSpeed = hasBaseSpeed && Number.isFinite(overheatSpeedDetails.actualSpeed);
+        const overheatSpeedOutput = el("#ship-overheat-speed");
+        const needsBaseSpeed = Boolean(engine) && completeResults && !hasBaseSpeed;
+        overheatSpeedOutput.textContent = hasOverheatSpeed
+            ? overheatSpeedDetails.isMaxed
+                ? `${overheatSpeedDetails.actualSpeed} Maxed (${displayGunNumber(overheatSpeedDetails.uncappedCalculatorSpeed)})`
+                : `${overheatSpeedDetails.actualSpeed} (${displayGunNumber(overheatSpeedDetails.calculatorSpeed)})`
+            : needsBaseSpeed
+                ? t().shipOverheatSpeedBaseRequired
+                : "-";
+        overheatSpeedOutput.classList.toggle(
+            "ship-overheat-speed-required",
+            needsBaseSpeed && server.value === "korea",
+        );
         const speedBaseDetail = el("#ship-overheat-speed-base-detail");
         speedBaseDetail.textContent = hasOverheatSpeed
-            ? t().shipOverheatSpeedBaseBreakdown(displayGunNumber(overheatSpeed.baseSpeed))
+            ? t().shipOverheatSpeedBaseBreakdown(displayGunNumber(overheatSpeedDetails.baseSpeed))
             : "";
         speedBaseDetail.hidden = !hasOverheatSpeed;
         const speedRateDetail = el("#ship-overheat-speed-rate-detail");
-        speedRateDetail.textContent = hasOverheatSpeed
-            ? overheatSpeed.isCombinedRateMaxed
+        speedRateDetail.textContent = hasOverheatRate
+            ? overheatSpeedDetails.isCombinedRateMaxed
                 ? t().shipOverheatSpeedRateMaxed(
-                    displayGunNumber(overheatSpeed.appliedCombinedOverheatContributionPercent),
+                    displayGunNumber(overheatSpeedDetails.appliedCombinedOverheatContributionPercent),
                 )
                 : t().shipOverheatSpeedRateBreakdown(
-                    `+${displayGunNumber(overheatSpeed.shipOverheatContributionPercent)}%`,
-                    `+${displayGunNumber(overheatSpeed.sailorOverheatContributionPercent)}%`,
+                    `+${displayGunNumber(overheatSpeedDetails.shipOverheatContributionPercent)}%`,
+                    `+${displayGunNumber(overheatSpeedDetails.sailorOverheatContributionPercent)}%`,
                 )
             : "";
-        speedRateDetail.hidden = !hasOverheatSpeed;
+        speedRateDetail.hidden = !hasOverheatRate;
         const speedRateSourceDetail = el("#ship-overheat-speed-rate-source-detail");
-        speedRateSourceDetail.textContent = hasOverheatSpeed && overheatSpeed.isCombinedRateMaxed
+        speedRateSourceDetail.textContent = hasOverheatRate && overheatSpeedDetails.isCombinedRateMaxed
             ? t().shipOverheatSpeedRateUncappedBreakdown(
-                `+${displayGunNumber(overheatSpeed.shipOverheatContributionPercent)}%`,
-                `+${displayGunNumber(overheatSpeed.sailorOverheatContributionPercent)}%`,
+                `+${displayGunNumber(overheatSpeedDetails.shipOverheatContributionPercent)}%`,
+                `+${displayGunNumber(overheatSpeedDetails.sailorOverheatContributionPercent)}%`,
             )
             : "";
-        speedRateSourceDetail.hidden = !hasOverheatSpeed || !overheatSpeed.isCombinedRateMaxed;
+        speedRateSourceDetail.hidden = !hasOverheatRate || !overheatSpeedDetails.isCombinedRateMaxed;
         renderShipGuidelineAdjustment();
         renderShipGunPerformance("R", rGun, layerResults);
         renderShipTGunPerformance(tGun, layerResults, tGun2, tGun2LayerResults);
@@ -3716,6 +3742,7 @@ import {
             updateAdditionalTGunControl();
             baseSpeedInput.value = "";
             baseSpeedInput.disabled = true;
+            updateShipBaseSpeedInputState();
             targetGuidelineInput.value = "";
             targetGuidelineInput.disabled = true;
             delete targetGuidelineInput.dataset.manualValue;
@@ -3774,8 +3801,9 @@ import {
         updateAdditionalTGunControl();
         updateShipEquipmentCapacityLabels(ship);
         [fcsSelect, engineSelect, rGunSelect, tGunSelect, tGun2Select].forEach(updateShipEquipmentCustomSelection);
-        baseSpeedInput.value = "22";
+        baseSpeedInput.value = "";
         baseSpeedInput.disabled = false;
+        updateShipBaseSpeedInputState();
         targetGuidelineInput.value = String(defaultShipTargetGuideline());
         delete targetGuidelineInput.dataset.manualValue;
         delete targetGuidelineInput.dataset.rGunRangeTarget;
@@ -4220,6 +4248,11 @@ import {
             const speed = Math.floor(Number(event.target.value) || 10);
             event.target.value = String(Math.max(10, Math.min(99, speed)));
         }
+        updateShipBaseSpeedInputState();
+        renderShipPerformance();
+    });
+    el("#ship-base-speed").addEventListener("input", () => {
+        updateShipBaseSpeedInputState();
         renderShipPerformance();
     });
     el("#ship-equipment-fcs").addEventListener("change", () => {

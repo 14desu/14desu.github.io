@@ -116,6 +116,7 @@
         .compact-card-body { padding:.75rem; }
         #ship-equipment-section .form-label { margin-bottom:.2rem; font-size:.85rem; }
         #ship-equipment-section .form-select, #ship-equipment-section .form-control { font-size:.85rem; }
+        #ship-base-speed.ship-base-speed-required { border-color:#e5a5b5; background-color:#fce4ec; }
         .ship-equipment-setting-heading { display:flex; min-height:1.5rem; align-items:center; gap:.5rem; margin-bottom:.2rem; }
         .ship-equipment-setting-heading .form-label, .ship-equipment-setting-heading .form-check { margin-bottom:0; }
         .ship-setting-checks { min-height:2rem; }
@@ -125,6 +126,7 @@
         .ship-performance-metric { padding:.5rem .65rem; border:1px solid #d8dee5; border-radius:.35rem; background:#f8f9fa; }
         .ship-performance-metric-label { display:block; color:#5f6b76; font-size:.76rem; }
         .ship-performance-metric-value { display:block; margin-top:.1rem; font-weight:700; font-variant-numeric:tabular-nums; }
+        #ship-overheat-speed.ship-overheat-speed-required { font-weight:400; }
         .ship-performance-metric-detail { display:block; margin-top:.12rem; color:#6c757d; font-size:.7rem; font-weight:400; line-height:1.3; font-variant-numeric:tabular-nums; }
         .ship-performance-metric-detail[hidden] { display:none!important; }
         #ship-r-performance-title, #ship-t-performance-title, #ship-t2-performance-title { font-size:.85rem; }
@@ -331,8 +333,8 @@
                             <select id="ship-equipment-engine" class="visually-hidden" tabindex="-1" aria-hidden="true" disabled><option value="">엔진 선택</option></select><div class="dropdown"><button id="ship-equipment-engine-toggle" class="form-select form-select-sm equipment-custom-toggle equipment-custom-engine" type="button" data-bs-toggle="dropdown" aria-expanded="false" disabled><span class="equipment-custom-placeholder">엔진 선택</span></button><div id="ship-equipment-engine-menu" class="dropdown-menu equipment-custom-menu"></div></div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <div class="ship-equipment-setting-heading gap-1"><label id="ship-base-speed-label" class="form-label fw-bold" for="ship-base-speed">함선 기본속도</label><small id="ship-base-speed-manual-input" class="text-muted">유저수동입력</small></div>
-                            <input id="ship-base-speed" class="form-control form-control-sm" type="number" inputmode="numeric" min="10" max="99" step="1" value="22" placeholder="10-99" disabled>
+                            <div class="ship-equipment-setting-heading gap-1"><label id="ship-base-speed-label" class="form-label fw-bold" for="ship-base-speed">함선 기본속도 [knot]</label></div>
+                            <input id="ship-base-speed" class="form-control form-control-sm" type="number" inputmode="numeric" min="10" max="99" step="1" placeholder="유저 수동 입력" disabled>
                         </div>
                     </div>
                     <div class="row g-2 mt-1">
@@ -524,6 +526,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./simulator.js?v=20260920-performance-layout-v192"></script>
+<script type="module" src="./simulator.js?v=20260920-base-speed-label-v195"></script>
 </body>
 </html>
