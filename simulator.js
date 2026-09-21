@@ -110,7 +110,7 @@ import {
             shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도 [knot]", shipBaseSpeedPlaceholder: "유저 수동 입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
             shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
             shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
-            shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "수병 연사효율 구간", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
+            shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "연사 성능", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
             shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `함선 기본속도 ${value} · 유저수동입력`,
@@ -153,7 +153,7 @@ import {
             shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed [knot]", shipBaseSpeedPlaceholder: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
             shipOfficerBulk: "Officer batch input", shipOfficerRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
-            shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Sailor reload efficiency tier", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
+            shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Reload performance", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `Base ship speed ${value} · User manual input`,
@@ -253,7 +253,7 @@ import {
     let availablePerformanceFcs = [];
     let catalogRequestSequence = 0;
     let staticCatalogPromise = null;
-    let simulatorMode = "single";
+    let simulatorMode = "ship";
     let shipClassFilter = "BB";
     let globalShipSpecialtyMode = "repair";
     let carrierAircraftMode = server.value === "korea" ? "B" : "F";
@@ -547,8 +547,8 @@ import {
         el("#active-sailor-layer").setAttribute("aria-label", t().selectSailorLayer);
         const labels = {
             "#ship-guideline-length-label": "shipGuidelineLength",
-            "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun", "#ship-t2-performance-title": "shipEquipmentTGun2",
-            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-performance-title": "shipEquipmentRGun", "#ship-t-performance-title": "shipEquipmentTGun", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
+            "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun",
+            "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
             "#class-change-bulk-label": "classChangeBulkLabel", "#class-change-bulk-help": "classChangeBulkHelp",
             "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
             "#tree-required-heading": "required", "#tree-actual-heading": "actual", "#tree-crew-heading": "crewGrowth",
@@ -915,10 +915,9 @@ import {
         if (server.value !== "global" || simulatorMode !== "ship") return 250;
         const activeLayer = shipLayers[activeShipLayer];
         const nationId = Number(nation.value);
-        const usesGunnerOfficerDefault = activeLayer?.role === "gunner"
-            && nationId !== 4
-            && nationId !== 7;
-        return usesGunnerOfficerDefault ? 220 : 200;
+        if (activeLayer?.role !== "gunner") return 200;
+        if (new Set([1, 2, 3, 5, 6]).has(nationId)) return 230;
+        return 200;
     }
     function defaultPerformanceCompositions(crewCount) {
         const fixedOfficers = server.value === "korea"
@@ -1299,8 +1298,15 @@ import {
         }
         composition[changedField] = Math.max(0, composition[changedField] - overflow);
     }
-    function appendPerformanceCaseHeading(row, lines) {
+    function appendPerformanceCaseHeading(row, lines, conditionIndex = null) {
         const heading = document.createElement("th");
+        if (Number.isInteger(conditionIndex)) {
+            heading.dataset.performanceConditionIndex = String(conditionIndex);
+            heading.classList.toggle(
+                "performance-selected-condition-heading",
+                simulatorMode === "ship" && conditionIndex === performanceSelectedConditionIndex,
+            );
+        }
         lines.forEach((line, index) => {
             const label = document.createElement(index === 0 ? "div" : "small");
             label.textContent = line;
@@ -1308,6 +1314,15 @@ import {
             heading.append(label);
         });
         row.append(heading);
+    }
+    function updatePerformanceConditionHighlights() {
+        document.querySelectorAll("[data-performance-condition-index]").forEach((heading) => {
+            heading.classList.toggle(
+                "performance-selected-condition-heading",
+                simulatorMode === "ship"
+                    && Number(heading.dataset.performanceConditionIndex) === performanceSelectedConditionIndex,
+            );
+        });
     }
     function implementedReloadSequence(averageSeconds) {
         const sampleCount = 12;
@@ -1467,7 +1482,7 @@ import {
         const itemHeading = document.createElement("th");
         itemHeading.textContent = t().performanceItem;
         headRow.append(itemHeading);
-        caseLabels.forEach((lines) => appendPerformanceCaseHeading(headRow, lines));
+        caseLabels.forEach((lines, index) => appendPerformanceCaseHeading(headRow, lines, index));
         head.append(headRow);
         el("#performance-engine-multiple-result-title").textContent = server.value === "global"
             ? `Engine performance simulation results · ${latestPerformanceContext.engineSailorCount} sailors`
@@ -1609,7 +1624,7 @@ import {
             const itemHeading = document.createElement("th");
             itemHeading.textContent = t().performanceItem;
             headRow.append(itemHeading);
-            caseLabels.forEach((lines) => appendPerformanceCaseHeading(headRow, lines));
+            caseLabels.forEach((lines, index) => appendPerformanceCaseHeading(headRow, lines, index));
             el("#performance-result-head").replaceChildren(headRow);
             const resultBody = el("#performance-result-body");
             resultBody.replaceChildren();
@@ -2428,7 +2443,8 @@ import {
             if (nationId === 4) {
                 return pathIndexByFinalName(server.value === "korea" ? "대공속사병장" : "Chief Rapid Fire Gunner");
             }
-            if ([5, 6, 7].includes(nationId)) {
+            if ([5, 6, 7].includes(nationId)
+                || (server.value === "global" && nationId === 8)) {
                 return pathIndexByFinalName(server.value === "korea" ? "포술장" : "Chief Gunner");
             }
         }
@@ -2833,7 +2849,7 @@ import {
                 });
             const rosterHeadings = [
                 t().rosterSeat, t().rosterClass, t().rosterLevel, t().rosterSailor, t().rosterBoost,
-                t().rosterClassChange, t().rosterRepairSpeed, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
+                t().rosterClassChange, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
                 t().rosterTotalCrew, ...rosterAbilityColumns.map(([, label]) => label),
             ];
             rosterHeadings.forEach((heading, headingIndex) => {
@@ -2853,6 +2869,9 @@ import {
             });
             head.append(headRow);
             const body = document.createElement("tbody");
+            const rosterFcs = selectedShipEquipment("#ship-equipment-fcs", "fcs");
+            const rosterRGun = selectedShipEquipment("#ship-equipment-r-gun", "guns");
+            const rosterTGun = selectedShipEquipment("#ship-equipment-t-gun", "guns");
             shipLayers.forEach((layer, index) => {
                 const summary = shipLayerSummary(layer);
                 const presetValue = shipLayerFieldValue(layer, index, "sailor-preset");
@@ -2985,15 +3004,31 @@ import {
                         : "-";
                     return cell;
                 };
-                let layerRepairSpeed = null;
+                const appendResultDetail = (cell, value, { prefix = "", suffix = "" } = {}) => {
+                    if (!Number.isFinite(Number(value)) || value === null) return;
+                    const detail = document.createElement("small");
+                    detail.className = "ship-roster-result-detail";
+                    detail.textContent = `${prefix}${displayGunNumber(value)}${suffix}`;
+                    cell.append(detail);
+                };
+                let layerPerformance = null;
                 try {
-                    layerRepairSpeed = calculateShipLayerPerformance(layer, null, null, null)
-                        ?.performance?.repairSpeedPerSecond;
+                    layerPerformance = calculateShipLayerPerformance(
+                        layer,
+                        rosterFcs,
+                        rosterRGun,
+                        rosterTGun,
+                    )?.performance || null;
                 } catch (error) {
-                    console.error("Could not calculate sailor repair speed", error);
+                    console.error("Could not calculate sailor roster performance", error);
                 }
-                const repairSpeedCell = resultCell(layerRepairSpeed, true, "/s");
                 const totalCrewCell = resultCell(summary.totalCrew);
+                const totalCrew = Number(summary.totalCrew);
+                if (layerComposition && Number.isFinite(totalCrew) && totalCrew > 0) {
+                    const currentCrew = performanceCurrentCrew(layerComposition);
+                    const crewRate = Number((currentCrew / totalCrew * 100).toFixed(1));
+                    appendResultDetail(totalCrewCell, crewRate, { suffix: "%" });
+                }
                 const layerSpecialtyAbility = presetValue === ""
                     ? null
                     : specializedAbilityForPath(presetValue);
@@ -3005,14 +3040,35 @@ import {
                     if (layer.role !== "support") return true;
                     return key === "repair" || key === layerSpecialtyAbility;
                 };
-                const abilityCells = rosterAbilityColumns.map(([key]) => resultCell(
-                    summary.abilityByType?.[key],
-                    showRosterAbility(key),
-                ));
+                const abilityCells = rosterAbilityColumns.map(([key]) => {
+                    const cell = resultCell(summary.abilityByType?.[key], showRosterAbility(key));
+                    if (!showRosterAbility(key)) return cell;
+                    if (key === "potential") {
+                        appendResultDetail(cell, layerPerformance?.guidelineLength);
+                    } else if (key === "repair") {
+                        appendResultDetail(cell, layerPerformance?.repairSpeedPerSecond, { suffix: "/s" });
+                    } else if (key === "reload") {
+                        if (server.value === "global") {
+                            const capProgress = layerPerformance?.gunReloadAbilityCapProgressPercent;
+                            appendResultDetail(cell, capProgress, {
+                                prefix: Number(capProgress) >= 100 ? "Maxed " : "",
+                                suffix: "%",
+                            });
+                        } else {
+                            appendResultDetail(cell, layerPerformance?.gunReloadEfficiencyChangePercent, {
+                                suffix: "%",
+                            });
+                        }
+                        appendResultDetail(cell, layerPerformance?.averageGunReloadSeconds, {
+                            prefix: language() === "ko" ? "평균 " : "Average ", suffix: "s",
+                        });
+                    }
+                    return cell;
+                });
 
                 row.append(
                     classCell, levelCell, sailorCell, boostCell, classChangeCell,
-                    repairSpeedCell, ...personnelCells, totalCrewCell, ...abilityCells,
+                    ...personnelCells, totalCrewCell, ...abilityCells,
                 );
                 body.append(row);
             });
@@ -3275,7 +3331,6 @@ import {
             el(`#ship-${mount}-performance-section`).hidden = true;
             el(`#ship-${mount}-performance-body`).replaceChildren();
         }
-        el("#ship-t2-performance-title").hidden = true;
     }
     function defaultShipTargetGuideline() {
         return server.value === "global" ? 3120 : 3000;
@@ -3374,32 +3429,6 @@ import {
         }
         return calculateSailorPerformance(input).results[0] || null;
     }
-    function shipGunShellDetails(mount, gun) {
-        const shells = Array.isArray(gun.projectiles) ? gun.projectiles : [];
-        const isCategory = (shell, category) => shell.shellCategory === category
-            || new RegExp(`\\b${category}(?:C|CBC)?\\b`, "i").test(shell.shellType || "");
-        const damage = (shell, field) => shell?.[field] != null && Number.isFinite(Number(shell[field]))
-            ? displayGunNumber(shell[field]) : "-";
-        const ko = language() === "ko";
-        if (mount === "R") {
-            const matching = shells.filter((shell) => Number(gun.shipyardRange) > 0
-                && Number(shell.shipyardRange) === Number(gun.shipyardRange));
-            const he = matching.filter((shell) => isCategory(shell, "HE"));
-            const ap = matching.filter((shell) => isCategory(shell, "AP"));
-            const values = (items, field) => [...new Set(items.map((shell) => damage(shell, field)))].join(" / ") || "-";
-            return ko
-                ? `HE탄 HE 데미지 ${values(he, "heDamage")} AP 보너스 ${values(he, "apBonus")} · AP탄 AP 보너스 ${values(ap, "apBonus")}`
-                : `HE shell HE damage ${values(he, "heDamage")} AP bonus ${values(he, "apBonus")} · AP shell AP bonus ${values(ap, "apBonus")}`;
-        }
-        const aa = shells.filter((shell) => isCategory(shell, "AA"));
-        const he = shells.filter((shell) => isCategory(shell, "HE"));
-        const selectedHe = he.length > 1
-            ? he.find((shell) => /\bLight\b/i.test(shell.shellType || "")) : he[0];
-        const aaDamage = [...new Set(aa.map((shell) => damage(shell, "heDamage")))].join(" / ") || "-";
-        return ko
-            ? `AA탄 HE 데미지 ${aaDamage} · HE탄 HE 데미지 ${damage(selectedHe, "heDamage")}`
-            : `AA shell HE damage ${aaDamage} · HE shell HE damage ${damage(selectedHe, "heDamage")}`;
-    }
     function shipGunPerformanceEntries(mount, gun, layerResults, includeWithoutGun = false) {
         if (!gun && !includeWithoutGun) return [];
         const roleIndexes = mount === "R" ? [1, 2] : [3, 4];
@@ -3407,12 +3436,17 @@ import {
             const layer = shipLayers.find((candidate) => candidate.role === "gunner" && candidate.roleIndex === roleIndex);
             return layer ? { layer, result: layerResults.get(layer) } : null;
         }).filter(Boolean);
-        const visibleEntries = entries.filter(({ layer }, index) => !(index === 1
-            && shipLayerPerformanceSignature(layer) === shipLayerPerformanceSignature(entries[0].layer)));
-        return visibleEntries.map(({ layer, result }) => {
+        const hasMatchingPair = entries.length === 2
+            && shipLayerPerformanceSignature(entries[0].layer)
+                === shipLayerPerformanceSignature(entries[1].layer);
+        const visibleEntries = hasMatchingPair
+            ? [{ ...entries[0], seatLayers: entries.map(({ layer }) => layer) }]
+            : entries.map((entry) => ({ ...entry, seatLayers: [entry.layer] }));
+        return visibleEntries.map(({ layer, seatLayers, result }) => {
             const averageReload = Number(result?.performance?.averageGunReloadSeconds);
             return {
                 layer,
+                seatLayers,
                 result,
                 sequence: Number.isFinite(averageReload) ? implementedReloadSequence(averageReload) : null,
             };
@@ -3429,54 +3463,47 @@ import {
             maximumInterval: intervalValues.length > 0 ? Math.max(...intervalValues) : 0,
         };
     }
-    function displayedShipMountCount(mount, outputSuffix = "") {
-        const totalMountCount = (selectedShip()?.mountGroups || [])
-            .filter((group) => group.type === mount)
-            .reduce((total, group) => total + (Number(group.count) || 0), 0);
-        if (mount !== "T" || !el("#ship-add-t-gun").checked) return totalMountCount;
-        return outputSuffix === "2"
-            ? Math.floor(totalMountCount / 2)
-            : Math.ceil(totalMountCount / 2);
-    }
-    function renderShipGunPerformanceTitle(mount, gun, outputSuffix = "") {
-        const outputKey = `${mount.toLowerCase()}${outputSuffix}`;
-        const title = el(`#ship-${outputKey}-performance-title`);
-        title.textContent = mount === "R"
-            ? t().shipEquipmentRGun
-            : outputSuffix === "2" ? t().shipEquipmentTGun2 : t().shipEquipmentTGun;
-        title.hidden = Boolean(outputSuffix) && !gun;
-        if (gun) {
-            const details = document.createElement("span");
-            details.className = "fw-normal text-muted ms-2";
-            const mountCount = displayedShipMountCount(mount, outputSuffix);
-            details.textContent = `${mountCount} ${language() === "ko" ? "마운트" : "mounts"} × ${performanceGunBarrels(gun.barrelCount)} · ${language() === "ko" ? "함포 연사속도" : "Reload"} ${displayGunNumber(gun.reloadSeconds)}s`
-                + (mount === "R" ? ` · ${language() === "ko" ? "쉽야드 사거리" : "Shipyard range"} ${displayGunNumber(gun.shipyardRange)}` : "")
-                + (mount === "T" && Number(gun.maxElevation) > 0
-                    ? ` · ${language() === "ko" ? "최대고각" : "MaxAngle"} ${displayGunNumber(gun.maxElevation)}`
-                    : "")
-                + ` · ${shipGunShellDetails(mount, gun)}`;
-            title.append(details);
-        }
-    }
     function appendShipGunPerformanceRows(body, renderedEntries, scale, gunNumber = null) {
         const { maximumSeconds, minimumInterval, maximumInterval } = scale;
-        renderedEntries.forEach(({ layer, result, sequence }, entryIndex) => {
+        renderedEntries.forEach(({ layer, seatLayers, result, sequence }, entryIndex) => {
             const row = document.createElement("tr");
             if (gunNumber === 2 && entryIndex === 0) row.className = "ship-performance-secondary-gun-row";
             const seat = document.createElement("th");
             seat.scope = "row";
-            const seatLabel = shipLayerLabel(layer, shipLayers.indexOf(layer));
-            seat.textContent = gunNumber
-                ? `${language() === "ko" ? `함포 ${gunNumber}` : `Gun ${gunNumber}`} · ${seatLabel}`
-                : seatLabel;
+            seatLayers.forEach((seatLayer) => {
+                const line = document.createElement("span");
+                line.className = "d-block";
+                const seatLabel = shipLayerLabel(seatLayer, shipLayers.indexOf(seatLayer));
+                line.textContent = gunNumber
+                    ? `${language() === "ko" ? `함포 ${gunNumber}` : `Gun ${gunNumber}`} · ${seatLabel}`
+                    : seatLabel;
+                seat.append(line);
+            });
             const efficiency = document.createElement("td");
             const reload = document.createElement("td");
+            const capProgress = result?.performance?.gunReloadAbilityCapProgressPercent;
             const efficiencyValue = result?.performance?.gunReloadEfficiencyChangePercent;
-            efficiency.textContent = Number.isFinite(Number(efficiencyValue)) ? `${efficiencyValue}%` : "-";
-            if (server.value === "global"
-                && Number(result?.performance?.gunReloadAbilityCapProgressPercent) >= 100) {
-                appendCapLabel(efficiency);
+            const capMaxed = server.value === "global" && Number(capProgress) >= 100;
+            let hasReloadPerformance = false;
+            const appendReloadPerformanceLine = (label, value, maxed = false) => {
+                if (!Number.isFinite(Number(value))) return;
+                const line = document.createElement("div");
+                line.append(`${label} `);
+                if (maxed) {
+                    const maxedLabel = document.createElement("small");
+                    maxedLabel.className = "text-muted";
+                    maxedLabel.textContent = "Maxed";
+                    line.append(maxedLabel, " ");
+                }
+                line.append(`${displayGunNumber(value)}%`);
+                efficiency.append(line);
+                hasReloadPerformance = true;
+            };
+            if (server.value === "global" && Number.isFinite(Number(capProgress))) {
+                appendReloadPerformanceLine("Cap", capProgress, capMaxed);
             }
+            appendReloadPerformanceLine("Efficiency", efficiencyValue, capMaxed);
+            if (!hasReloadPerformance) efficiency.textContent = "-";
             if (sequence) {
                 reload.className = "ship-performance-reload-cell";
                 appendImplementedReloadVisualization(reload, sequence, {
@@ -3493,7 +3520,6 @@ import {
     }
     function renderShipGunPerformance(mount, gun, layerResults) {
         const outputKey = mount.toLowerCase();
-        renderShipGunPerformanceTitle(mount, gun);
         const section = el(`#ship-${outputKey}-performance-section`);
         const body = el(`#ship-${outputKey}-performance-body`);
         body.replaceChildren();
@@ -3508,8 +3534,6 @@ import {
     function renderShipTGunPerformance(primaryGun, primaryResults, secondaryGun, secondaryResults) {
         const section = el("#ship-t-performance-section");
         const body = el("#ship-t-performance-body");
-        renderShipGunPerformanceTitle("T", primaryGun);
-        renderShipGunPerformanceTitle("T", secondaryGun, "2");
         body.replaceChildren();
         const primaryEntries = shipGunPerformanceEntries("T", primaryGun, primaryResults, true);
         const secondaryEntries = shipGunPerformanceEntries("T", secondaryGun, secondaryResults);
@@ -4360,11 +4384,13 @@ import {
     });
     el("#ship-equipment-fcs").addEventListener("change", () => {
         updateShipGuidelineControls();
+        renderShipLayerTabs();
         renderShipPerformance();
     });
     el("#ship-equipment-engine").addEventListener("change", renderShipPerformance);
     el("#ship-equipment-r-gun").addEventListener("change", () => {
         updateShipGuidelineControls();
+        renderShipLayerTabs();
         const activeLayer = shipLayers[activeShipLayer];
         if (simulatorMode === "ship" && activeLayer?.role === "gunner" && activeLayer.roleIndex <= 2) {
             calculate();
@@ -4373,6 +4399,7 @@ import {
         }
     });
     el("#ship-equipment-t-gun").addEventListener("change", () => {
+        renderShipLayerTabs();
         const activeLayer = shipLayers[activeShipLayer];
         if (simulatorMode === "ship" && activeLayer?.role === "gunner"
             && activeLayer.roleIndex >= 3 && activeLayer.roleIndex <= 4) {
@@ -4486,6 +4513,7 @@ import {
         document.querySelectorAll(".performance-condition-output").forEach((checkbox) => {
             checkbox.checked = Number(checkbox.dataset.index) === performanceSelectedConditionIndex;
         });
+        updatePerformanceConditionHighlights();
         refreshActiveLayerSummary();
     });
     el("#performance-input-body").addEventListener("input", (event) => {

@@ -109,13 +109,15 @@
         .ship-custom-option { grid-column:1 / -1; grid-template-columns:subgrid; }
         .preset-path-option, .equipment-custom-option, .ship-custom-option { padding-left:.55rem; padding-right:.2rem; }
         #performance-seaman-adj-seats { font-size:.72rem; }
-        .ship-layer-roster-table .ship-layer-tab { width:100%; padding:.14rem .35rem; font-size:.76rem; line-height:1.2; }
+        .ship-layer-roster-table .ship-layer-tab { width:100%; min-height:2rem; padding:.22rem .35rem; font-size:.76rem; line-height:1.2; }
         .ship-layer-roster-table .ship-roster-control { min-height:1.7rem; padding:.08rem 1.7rem .08rem .3rem; font-size:.76rem; line-height:1.2; }
         .ship-layer-roster-table input.ship-roster-control { padding-right:.3rem; text-align:center; }
-        .ship-layer-roster-table .ship-roster-level { width:4.5rem; }
+        .ship-layer-roster-table input.ship-roster-level, .ship-layer-roster-table input.ship-roster-personnel { min-height:1.5rem; padding:.04rem .12rem; }
+        .ship-layer-roster-table .ship-roster-level { width:3.75rem; }
         .ship-layer-roster-table .ship-roster-class-change { width:5.5rem; }
-        .ship-layer-roster-table .ship-roster-personnel { width:4.25rem; }
+        .ship-layer-roster-table .ship-roster-personnel { width:3.65rem; }
         .ship-layer-roster-table .ship-roster-result { min-width:5.25rem; font-variant-numeric:tabular-nums; }
+        .ship-layer-roster-table .ship-roster-result-detail { display:block; margin-top:.08rem; color:#6c757d; font-size:.68rem; font-weight:400; line-height:1.2; }
         .ship-layer-roster-table tr.table-active > * { background-color:#e3edf6; }
         .compact-card-body { padding:.75rem; }
         #ship-equipment-section .form-label { margin-bottom:.2rem; font-size:.85rem; }
@@ -133,7 +135,6 @@
         #ship-overheat-speed.ship-overheat-speed-required { font-weight:400; }
         .ship-performance-metric-detail { display:block; margin-top:.12rem; color:#6c757d; font-size:.7rem; font-weight:400; line-height:1.3; font-variant-numeric:tabular-nums; }
         .ship-performance-metric-detail[hidden] { display:none!important; }
-        #ship-r-performance-title, #ship-t-performance-title, #ship-t2-performance-title { font-size:.85rem; }
         .ship-performance-table { font-size:.85rem; }
         .ship-performance-table th, .ship-performance-table td { padding:.3rem .45rem; vertical-align:middle; }
         .ship-performance-table tbody th { white-space:nowrap; }
@@ -205,6 +206,7 @@
             .performance-layout > .sailor-card { flex:1 1 0; }
         }
         .performance-case-detail { font-size:.72rem; }
+        .result-table > thead .performance-selected-condition-heading { --bs-table-accent-bg:#e3f3e7; background-color:#e3f3e7; color:#1f5130; }
         #performance-implemented-reload-section .table-responsive { overflow-x:hidden; }
         .implemented-reload-table { width:100%; min-width:0; table-layout:fixed; }
         .implemented-reload-condition-column { width:105px; }
@@ -288,9 +290,9 @@
                 <div class="card-body compact-card-body">
                     <div class="d-flex flex-wrap align-items-center gap-2">
                         <div class="btn-group simulator-mode-switch" role="group" aria-label="Simulator mode">
-                            <input class="btn-check" type="radio" name="simulator-mode" id="single-sailor-mode" value="single" checked>
+                            <input class="btn-check" type="radio" name="simulator-mode" id="single-sailor-mode" value="single">
                             <label class="btn btn-outline-secondary" for="single-sailor-mode">수병모드</label>
-                            <input class="btn-check" type="radio" name="simulator-mode" id="ship-mode" value="ship">
+                            <input class="btn-check" type="radio" name="simulator-mode" id="ship-mode" value="ship" checked>
                             <label class="btn btn-outline-secondary" for="ship-mode">함선모드</label>
                         </div>
                         <span class="small text-muted">함선 계산은 지정한 함선에 탑승한 여러 수병의 성능을 합산해 출력합니다.</span>
@@ -390,7 +392,6 @@
                         </div>
                     </div>
                     <section id="ship-r-performance-section" class="mb-3" hidden>
-                        <h3 id="ship-r-performance-title" class="h6">R mount 함포</h3>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm ship-performance-table mb-0">
                                 <thead><tr><th id="ship-r-seat-heading">좌석</th><th id="ship-r-efficiency-heading">수병 연사효율 구간</th><th id="ship-r-reload-heading">12회 구현 연사시간</th></tr></thead>
@@ -399,8 +400,6 @@
                         </div>
                     </section>
                     <section id="ship-t-performance-section" hidden>
-                        <h3 id="ship-t-performance-title" class="h6 mb-1">T mount 함포</h3>
-                        <h3 id="ship-t2-performance-title" class="h6 mb-2" hidden>T mount 함포 2</h3>
                         <div class="table-responsive">
                             <table class="table table-bordered table-sm ship-performance-table mb-0">
                                 <thead><tr><th id="ship-t-seat-heading">좌석</th><th id="ship-t-efficiency-heading">수병 연사효율 구간</th><th id="ship-t-reload-heading">12회 구현 연사시간</th></tr></thead>
@@ -529,6 +528,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./simulator.js?v=20260922-gunner-performance-v201"></script>
+<script type="module" src="./simulator.js?v=20260922-china-gunner-officers-v208"></script>
 </body>
 </html>
