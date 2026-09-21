@@ -4,6 +4,6 @@ export {
     MAX_SHIP_SAILORS,
     PERFORMANCE_ABILITY_KEYS,
     PERFORMANCE_SCHEMA_VERSION,
-} from "./calculate.js";
+} from "./calculate.js?v=20260922-gunner-performance-v10";
 
 export * from "./formulas/index.js";

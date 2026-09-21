@@ -9,7 +9,7 @@ import {
     PERFORMANCE_FORMULAS,
 } from "./formulas/index.js";
 
-export const PERFORMANCE_SCHEMA_VERSION = 9;
+export const PERFORMANCE_SCHEMA_VERSION = 10;
 export const PERFORMANCE_ABILITY_KEYS = Object.freeze([
     "potential", "accuracy", "reload", "torpedo", "antiAir", "repair",
     "restore", "engine", "aircraft", "fighter", "bomber",
@@ -258,17 +258,22 @@ export function calculateSailorPerformance(input) {
                     selectedFcs,
                     guidelineTarget,
                 });
-            } else if (selectedGun) {
-                if (selectedGun.reloadSeconds <= 0) throw new Error("selected gun has no reload time");
+            } else if (!isTorpedoSailorClass(server, sailorClass)) {
+                if (selectedGun && selectedGun.reloadSeconds <= 0) throw new Error("selected gun has no reload time");
                 const calculateGunReload = server === "global"
                     ? calculateGlobalGunReload
                     : calculateKoreaGunReload;
-                Object.assign(performance, calculateGunReload(
+                const reloadPerformance = calculateGunReload(
                     abilityStages.reload.serverAdjAbility,
-                    selectedGun.reloadSeconds,
+                    selectedGun?.reloadSeconds ?? 1,
                     abilities.reload.seamanAdjustmentPercent,
                     abilities.reload.applySeamanAdjustment,
-                ));
+                );
+                if (!selectedGun) {
+                    delete reloadPerformance.averageGunReloadSeconds;
+                    delete reloadPerformance.averageGunReloadSecondsWithRequiredSeamanAdjustment;
+                }
+                Object.assign(performance, reloadPerformance);
             }
 
             return {
