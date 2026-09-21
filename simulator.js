@@ -120,7 +120,7 @@ import {
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(함선 ${shipValue} 수병 ${sailorValue})`,
             shipGuidelineBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS 용적 ${fcsCapacity} · 엔진 용적 ${engineCapacity} · R mount 용적 ${rCapacity} · T mount 용적 ${tCapacity}`,
-            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterOfficer: "사관", rosterVeteran: "숙련병", rosterRookie: "신병", rosterTotalCrew: "총수병수", performanceOutput: "출력", onTime: "칼직",
+            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterRepairSpeed: "수병의 수리속도 [/s]", rosterOfficer: "사관", rosterVeteran: "숙련병", rosterRookie: "신병", rosterTotalCrew: "총수병수", performanceOutput: "출력", onTime: "칼직",
             server: "서버", nation: "국가", preset: "전직 트리 프리셋", level: "현재 레벨", sailorType: "수병 프리셋", boost: "수병 강화 아이템",
             initialGrowthInput: "초기 성장 어빌리티", initialAbilityInput: "초기 누적 어빌리티", hiddenGrowthInput: (level) => `히든 어빌리티 (Lv1 ~ Lv${level})`, abilityHelp: "수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.",
             hiddenHelp: "히든 어빌리티는 수병명 끝에 표시된 레벨까지 실제로 적용된 성장값입니다. 누적 보정값은 (히든 어빌리티 - 초기 성장 어빌리티) × (표시 레벨 - 1)이며, 현재 레벨이 표시 레벨보다 낮으면 반영하지 않습니다.",
@@ -163,7 +163,7 @@ import {
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(Ship ${shipValue} Sailor ${sailorValue})`,
             shipGuidelineBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS capacity ${fcsCapacity} · Engine capacity ${engineCapacity} · R mount capacity ${rCapacity} · T mount capacity ${tCapacity}`,
-            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterOfficer: "Officers", rosterVeteran: "Veterans", rosterRookie: "Rookies", rosterTotalCrew: "Total Sailors", performanceOutput: "Output", onTime: "OnTime",
+            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterRepairSpeed: "Repair speed", rosterOfficer: "Officers", rosterVeteran: "Veterans", rosterRookie: "Rookies", rosterTotalCrew: "Total Sailors", performanceOutput: "Output", onTime: "OnTime",
             server: "Server", nation: "Nation", preset: "Class change path preset", level: "Current level", sailorType: "Sailor preset", boost: "Sailor enhancement item",
             initialGrowthInput: "Initial growth abilities", initialAbilityInput: "Initial accumulated abilities", hiddenGrowthInput: (level) => `Hidden abilities (Lv1 ~ Lv${level})`, abilityHelp: "Selecting a sailor type fills the initial values automatically. Crew values are read-only.",
             hiddenHelp: "Hidden abilities are the growth values actually applied through the level shown at the end of the sailor name. The accumulated correction is (hidden ability - initial growth ability) × (displayed level - 1), and is not applied when the current level is below the displayed level.",
@@ -2745,7 +2745,7 @@ import {
                 });
             const rosterHeadings = [
                 t().rosterSeat, t().rosterClass, t().rosterLevel, t().rosterSailor, t().rosterBoost,
-                t().rosterClassChange, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
+                t().rosterClassChange, t().rosterRepairSpeed, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
                 t().rosterTotalCrew, ...rosterAbilityColumns.map(([, label]) => label),
             ];
             rosterHeadings.forEach((heading, headingIndex) => {
@@ -2885,7 +2885,7 @@ import {
                     cell.append(input);
                     return cell;
                 });
-                const resultCell = (value, visible = true) => {
+                const resultCell = (value, visible = true, suffix = "") => {
                     const cell = document.createElement("td");
                     cell.className = "ship-roster-result";
                     if (!visible) {
@@ -2893,10 +2893,18 @@ import {
                         return cell;
                     }
                     cell.textContent = Number.isFinite(Number(value)) && value !== null
-                        ? displayGunNumber(value)
+                        ? `${displayGunNumber(value)}${suffix}`
                         : "-";
                     return cell;
                 };
+                let layerRepairSpeed = null;
+                try {
+                    layerRepairSpeed = calculateShipLayerPerformance(layer, null, null, null)
+                        ?.performance?.repairSpeedPerSecond;
+                } catch (error) {
+                    console.error("Could not calculate sailor repair speed", error);
+                }
+                const repairSpeedCell = resultCell(layerRepairSpeed, true, "/s");
                 const totalCrewCell = resultCell(summary.totalCrew);
                 const layerSpecialtyAbility = presetValue === ""
                     ? null
@@ -2916,7 +2924,7 @@ import {
 
                 row.append(
                     classCell, levelCell, sailorCell, boostCell, classChangeCell,
-                    ...personnelCells, totalCrewCell, ...abilityCells,
+                    repairSpeedCell, ...personnelCells, totalCrewCell, ...abilityCells,
                 );
                 body.append(row);
             });
