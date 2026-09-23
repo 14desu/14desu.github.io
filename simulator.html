@@ -85,6 +85,8 @@
         .equipment-custom-placeholder { grid-column:1 / -1; overflow:hidden; text-overflow:ellipsis; }
         .equipment-custom-option.active .equipment-custom-detail { color:rgba(255,255,255,.8); }
         .equipment-custom-toggle.equipment-selection-required { background-color:#fff8d6; }
+        #sailor-nation.selection-required,
+        #ship-select-toggle.selection-required { border-color:#e5a5b5; background-color:#fce4ec; }
         .ship-custom-menu { width:max-content; min-width:100%; max-width:min(70rem, calc(100vw - 2rem)); max-height:22rem; overflow:auto; }
         .ship-custom-toggle, .ship-custom-option { display:grid; grid-template-columns:13rem 3rem 3.25rem 4.75rem 5rem; align-items:center; column-gap:.05rem; min-width:100%; text-align:left; white-space:nowrap; }
         .ship-custom-toggle { width:100%; overflow:hidden; }
@@ -528,6 +530,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./simulator.js?v=20260923-rank-terms-v209"></script>
+<script type="module" src="./simulator.js?v=20260923-selection-required-v210"></script>
 </body>
 </html>

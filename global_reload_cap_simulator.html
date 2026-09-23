@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start': new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Navyfield Global server gunner reload cap estimator">
+    <meta name="sailor-api-base" content="https://navyfield-simulator-api.14desu.workers.dev">
+    <title>Global Reload Cap Simulator</title>
+    <link href="./common/styles.css?v=20260918-mobile-sidebar-toggle-v2" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
+        crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $("#navbar").load("./common/navbar.html");
+            $("#sidenavAccordion").load("./common/sidebar.html");
+        });
+    </script>
+    <style>
+        :root {
+            --cap-navy:#142b3d;
+            --cap-blue:#1d587d;
+            --cap-border:#c8d1d9;
+            --cap-muted:#64717d;
+        }
+        .cap-page { max-width:1540px; margin:0 auto; }
+        .cap-hero { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:.75rem; margin:1rem 0 .75rem; }
+        .cap-hero h1 { margin:0; color:var(--cap-navy); font-size:clamp(1.45rem,2.5vw,2rem); }
+        .cap-hero p { max-width:760px; margin:.3rem 0 0; color:var(--cap-muted); }
+        .cap-server-badge { padding:.4rem .7rem; border:1px solid #9eb7c8; border-radius:999px; background:#eaf3f8; color:#194d6e; font-size:.82rem; font-weight:700; }
+        .cap-card { border:1px solid #aeb8c2; box-shadow:0 .25rem .75rem rgba(0,0,0,.07); }
+        .cap-card > .card-header { background:linear-gradient(180deg,#203a53,#101d29); color:#fff; font-weight:700; }
+        .cap-config-grid { display:grid; grid-template-columns:minmax(130px,.55fr) minmax(165px,.75fr) minmax(300px,1.8fr) minmax(230px,1.2fr) minmax(210px,1fr); gap:.65rem; align-items:end; }
+        .cap-field label { display:block; margin-bottom:.25rem; color:#43515d; font-size:.79rem; font-weight:700; }
+        .cap-field .form-text { margin-top:.2rem; font-size:.72rem; }
+        .cap-field > .form-select,
+        .preset-custom-toggle { min-height:2.125rem; padding-top:.25rem; padding-bottom:.25rem; font-size:.875rem; line-height:1.4; }
+        #nation.selection-required { border-color:#e5a5b5; background-color:#fce4ec; }
+        .path-preset-heading { display:flex; min-height:1.25rem; align-items:center; justify-content:space-between; gap:.35rem; margin-bottom:.25rem; }
+        .path-preset-heading label { margin:0; }
+        .path-filter-buttons .btn { padding:.08rem .35rem; font-size:.68rem; line-height:1.2; }
+        .preset-custom-toggle { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.65fr); align-items:center; gap:.35rem; width:100%; overflow:hidden; text-align:left; }
+        .preset-custom-menu { width:max-content; min-width:100%; max-width:min(72rem,calc(100vw - 2rem)); max-height:24rem; overflow:auto; }
+        .preset-custom-menu.show { display:grid; grid-template-columns:max-content max-content; column-gap:.35rem; }
+        .preset-path-option { display:grid; grid-column:1 / -1; grid-template-columns:subgrid; align-items:center; min-width:100%; padding-right:.55rem; padding-left:.55rem; text-align:left; white-space:nowrap; }
+        .preset-path-class { overflow:hidden; text-overflow:ellipsis; font-size:.875rem; font-weight:400; }
+        .preset-path-route { overflow:hidden; color:#6c757d; font-size:.72rem; font-weight:400; text-overflow:ellipsis; white-space:nowrap; }
+        .preset-custom-placeholder { grid-column:1 / -1; color:#6c757d; }
+        .preset-path-option.active .preset-path-route { color:rgba(255,255,255,.82); }
+        .cap-status { margin:.65rem 0 0; padding:.42rem .65rem; font-size:.8rem; }
+        .class-change-flow { display:flex; align-items:stretch; gap:1.55rem; overflow-x:auto; margin-bottom:.7rem; padding:.15rem .05rem .45rem; }
+        .class-change-node { position:relative; display:flex; flex:0 0 172px; min-height:72px; flex-direction:column; justify-content:center; padding:.55rem .65rem; border:1px solid #aebbc6; border-radius:.45rem; background:#f7fafc; box-shadow:0 .15rem .35rem rgba(20,43,61,.08); }
+        .class-change-node:not(:last-child)::after { position:absolute; top:50%; left:calc(100% + .3rem); width:.95rem; height:2px; background:#8799a7; content:""; }
+        .class-change-node:not(:last-child)::before { position:absolute; z-index:1; top:calc(50% - 4px); left:calc(100% + 1.13rem); border-width:5px 0 5px 7px; border-style:solid; border-color:transparent transparent transparent #8799a7; content:""; }
+        .class-change-node.is-late { border-color:#d5b45c; background:#fff8d6; }
+        .class-change-name { color:#20394c; font-size:.8rem; font-weight:700; line-height:1.25; }
+        .class-change-level { margin-top:.28rem; color:#64717d; font-size:.7rem; line-height:1.2; }
+        .path-table-wrap { overflow:auto; border:1px solid var(--cap-border); border-radius:.35rem; }
+        .path-table { min-width:1470px; margin:0; font-size:.76rem; }
+        .path-table th,.path-table td { padding:.3rem .4rem!important; text-align:center; vertical-align:middle; white-space:nowrap; }
+        .path-table th:nth-child(2),.path-table td:nth-child(2) { min-width:160px; text-align:left; }
+        .path-table .form-check-input { width:1.05rem; height:1.05rem; margin:0; }
+        .path-stage-late > * { --bs-table-accent-bg:#fff8d6; background-color:#fff8d6!important; }
+        .matrix-wrap { overflow:auto; border:1px solid var(--cap-border); border-radius:.35rem; }
+        .cap-matrix { min-width:1180px; margin:0; table-layout:fixed; }
+        .cap-matrix th,.cap-matrix td { border-color:#bcc6ce; vertical-align:middle; }
+        .cap-matrix thead th { padding:.3rem; background:#eef3f6; text-align:center; }
+        .cap-matrix thead th:first-child { width:190px; }
+        .cap-matrix tbody th { position:sticky; left:0; z-index:1; width:190px; padding:.35rem; background:#f5f7f8; text-align:left; }
+        .axis-title { display:block; color:#21394a; font-size:.74rem; font-weight:700; }
+        .axis-control { display:flex; align-items:center; justify-content:center; gap:.25rem; margin-top:.25rem; }
+        .axis-control .form-control { width:72px; min-height:1.8rem; padding:.1rem .3rem; text-align:center; font-size:.8rem; }
+        .axis-control .form-select { width:58px; min-height:1.8rem; padding:.1rem 1.35rem .1rem .3rem; font-size:.76rem; }
+        .matrix-corner-title { display:block; color:#21394a; font-size:.8rem; font-weight:800; line-height:1.3; }
+        .cap-cell { height:120px; padding:.3rem!important; text-align:center; transition:background-color .18s ease; }
+        .cap-progress { display:block; color:#142f40; font-size:.95rem; font-weight:800; font-variant-numeric:tabular-nums; }
+        .cap-progress.cap-reached { color:#156235; }
+        .cap-detail { display:block; margin-top:.15rem; color:#3f4d57; font-size:.72rem; line-height:1.3; font-variant-numeric:tabular-nums; }
+        .cap-repair-speed { margin-top:.35rem; color:#3f4d57; font-size:.82rem; font-weight:800; }
+        .cap-unavailable { background:#e3e6e8!important; color:#69737b; }
+        .cap-unavailable .cap-progress { color:#69737b; }
+        .color-legend { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-top:.6rem; color:#66727d; font-size:.74rem; }
+        .legend-bar { width:180px; height:.7rem; border:1px solid #b9c1c8; border-radius:999px; background:linear-gradient(90deg,#f8d4d4 0%,#fff0b8 50%,#d4f2d9 100%); }
+        .matrix-summary { display:grid; grid-template-columns:repeat(4,minmax(105px,1fr)); gap:.4rem; margin-bottom:.65rem; }
+        .matrix-summary-item { min-width:0; padding:.45rem .55rem; border:1px solid #d2dae1; border-radius:.4rem; background:#f8fafb; }
+        .matrix-summary-label { display:block; margin-bottom:.12rem; color:#71808b; font-size:.63rem; font-weight:700; letter-spacing:.035em; line-height:1.15; text-transform:uppercase; }
+        .matrix-summary-value { display:block; overflow:hidden; color:#263f51; font-size:.78rem; font-weight:700; line-height:1.25; text-overflow:ellipsis; white-space:nowrap; }
+        .matrix-controls { display:flex; flex-wrap:wrap; align-items:end; gap:.55rem 1rem; margin-bottom:.65rem; padding:.55rem .65rem; border:1px solid #d5dce2; border-radius:.35rem; background:#f7f9fa; }
+        .matrix-controls label { display:block; margin-bottom:.2rem; color:#43515d; font-size:.76rem; font-weight:700; }
+        .matrix-controls .form-control { width:110px; }
+        .matrix-controls .form-text { margin:0 0 .25rem; font-size:.72rem; }
+        .veteran-preset-heading { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.2rem; }
+        .veteran-preset-heading label { margin:0; }
+        @media (max-width:991.98px) {
+            .cap-config-grid { grid-template-columns:1fr 1fr; }
+            .matrix-summary { grid-template-columns:repeat(2,minmax(105px,1fr)); }
+        }
+        @media (max-width:575.98px) {
+            .cap-config-grid { grid-template-columns:1fr; }
+            .cap-page { padding-right:.35rem!important; padding-left:.35rem!important; }
+            .matrix-summary { grid-template-columns:repeat(2,minmax(105px,1fr)); }
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
+    style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3 brand-bilingual" href="https://14desu.github.io/">
+        <span>네이비필드 수병계산기</span>
+        <span class="brand-en">Navyfield Simulator</span>
+    </a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="사이드바 열기/닫기">
+        <svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/>
+        </svg>
+    </button>
+    <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav"><nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion"></nav></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-3 cap-page">
+                <header class="cap-hero">
+                    <div>
+                        <h1><i class="fa-solid fa-gauge-high"></i> Global Reload Cap Simulator</h1>
+                        <p>Compare reload-cap progress across combinations of current level and delayed class-change level for Global server gunners.</p>
+                    </div>
+                    <span class="cap-server-badge"><i class="fa-solid fa-globe"></i> Global server fixed</span>
+                </header>
+
+                <section class="card cap-card mb-3">
+                    <div class="card-header">Sailor setup</div>
+                    <div class="card-body">
+                        <div class="cap-config-grid">
+                            <div class="cap-field">
+                                <label for="server">Server</label>
+                                <select id="server" class="form-select" disabled><option value="global">Global server</option></select>
+                            </div>
+                            <div class="cap-field">
+                                <label for="nation">Nation</label>
+                                <select id="nation" class="form-select" disabled><option value="">Loading nations…</option></select>
+                            </div>
+                            <div class="cap-field">
+                                <div class="path-preset-heading">
+                                    <label for="class-change-preset-toggle">Class change path preset</label>
+                                    <div class="btn-group path-filter-buttons" role="group" aria-label="Class change path filter">
+                                        <button class="btn btn-outline-secondary" type="button" data-path-filter="all" aria-pressed="false">All</button>
+                                        <button class="btn btn-outline-secondary active" type="button" data-path-filter="final" aria-pressed="true">Final</button>
+                                    </div>
+                                </div>
+                                <select id="class-change-preset" class="visually-hidden" tabindex="-1" aria-hidden="true" disabled><option value="">Select a gunner path</option></select>
+                                <div class="dropdown">
+                                    <button id="class-change-preset-toggle" class="form-select preset-custom-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" disabled><span class="preset-custom-placeholder">Select a gunner path</span></button>
+                                    <div id="class-change-preset-menu" class="dropdown-menu preset-custom-menu"></div>
+                                </div>
+                            </div>
+                            <div class="cap-field">
+                                <label for="sailor-type">Sailor preset</label>
+                                <select id="sailor-type" class="form-select"></select>
+                            </div>
+                            <div class="cap-field">
+                                <label for="enhancement">Sailor enhancement item</label>
+                                <select id="enhancement" class="form-select">
+                                    <option value="none">None</option>
+                                    <option value="all:20" selected>Premium Sailors / increase +20%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="status" class="alert alert-secondary cap-status" role="status" aria-live="polite">Loading sailor catalog…</div>
+                    </div>
+                </section>
+
+                <section id="path-section" class="card cap-card mb-3" hidden>
+                    <div class="card-header">Applied class change path</div>
+                    <div class="card-body">
+                        <div class="path-table-wrap">
+                            <table class="table table-bordered table-striped table-sm path-table">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th><th>Class</th><th>Required Lv.</th><th>Actual class change Lv.</th><th>Late apply</th><th>Crew growth</th>
+                                        <th>Potential</th><th>Accuracy</th><th>Reload</th><th>Torpedo</th><th>Anti-air</th>
+                                        <th>Repair</th><th>Restore</th><th>Engine</th><th>Aircraft</th><th>Fighter</th><th>Bomber</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="path-table-body"></tbody>
+                            </table>
+                        </div>
+                        <p class="form-text mb-0 mt-2">By default, delayed class change applies to every stage after Lv.12 Sailor. Checked classes use the matrix row's delayed level; unchecked classes use their required level. A class can never change earlier than its preceding stage.</p>
+                    </div>
+                </section>
+
+                <section id="matrix-section" class="card cap-card mb-3" hidden>
+                    <div class="card-header">Estimation Reload cap rate &amp; Repair speed</div>
+                    <div class="card-body">
+                        <div id="matrix-summary" class="matrix-summary" aria-live="polite"></div>
+                        <div id="class-change-flow" class="class-change-flow" aria-label="Applied class change flow"></div>
+                        <div class="matrix-controls">
+                            <div>
+                                <div class="veteran-preset-heading">
+                                    <label for="veteran-count">Veterans</label>
+                                    <div class="btn-group path-filter-buttons" role="group" aria-label="Veteran count presets">
+                                        <button class="btn btn-outline-secondary" type="button" data-veteran-preset="100" aria-pressed="false">100</button>
+                                        <button class="btn btn-outline-secondary active" type="button" data-veteran-preset="150" aria-pressed="true">150</button>
+                                        <button class="btn btn-outline-secondary" type="button" data-veteran-preset="200" aria-pressed="false">200</button>
+                                        <button class="btn btn-outline-secondary" type="button" data-veteran-preset="250" aria-pressed="false">250</button>
+                                        <button class="btn btn-outline-secondary" type="button" data-veteran-preset="300" aria-pressed="false">300</button>
+                                    </div>
+                                </div>
+                                <input id="veteran-count" class="form-control form-control-sm" type="number" inputmode="numeric" min="0" max="9999" step="1" value="150">
+                            </div>
+                            <p class="form-text">The shared Veteran count applies to every cell, and all remaining crew are treated as Experts. The Global server Veteran limit is 50% of total crew.</p>
+                        </div>
+                        <div class="matrix-wrap">
+                            <table class="table table-bordered cap-matrix" aria-describedby="matrix-help">
+                                <thead id="matrix-head"></thead>
+                                <tbody id="matrix-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="matrix-help" class="color-legend">
+                            <span>Low</span><span class="legend-bar" aria-hidden="true"></span><span>100% reload cap</span><span>·</span><span>Gray cells are unavailable because the delayed class-change level exceeds the current level.</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto"><div class="container-fluid px-4"><div class="text-muted small">Copyright &copy; g_dori</div></div></footer>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="./common/scripts.js"></script>
+<script type="module" src="./global_reload_cap_simulator.js?v=20260923-veteran-presets-v13"></script>
+</body>
+</html>

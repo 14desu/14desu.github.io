@@ -302,6 +302,9 @@ import {
             if (block.previousElementSibling?.matches("h4")) block.previousElementSibling.hidden = hide;
         }
     }
+    function updateNationSelectionRequired() {
+        nation.classList.toggle("selection-required", !nation.disabled && !nation.value);
+    }
     function option(value, text) {
         const item = document.createElement("option");
         item.value = value;
@@ -659,6 +662,7 @@ import {
         renderPresetCustomDropdown();
         for (const [id, name] of NATIONS[server.value]) nation.append(option(String(id), name));
         nation.disabled = false;
+        updateNationSelectionRequired();
         actualClassChangeLevels = [];
         bulkClassChangeLevel = "";
         el("#performance-fcs-target-gun").checked = false;
@@ -689,6 +693,7 @@ import {
         setClassChangeBulkFeedback();
         hideResults();
         updateIntroNoticeVisibility();
+        updateNationSelectionRequired();
         if (!selectedNation) {
             setStatus(t().nationPlaceholder);
             return;
@@ -3982,6 +3987,10 @@ import {
             toggle.append(placeholder);
         }
         toggle.disabled = select.disabled;
+        toggle.classList.toggle(
+            "selection-required",
+            simulatorMode === "ship" && !select.disabled && !ship,
+        );
         menu.querySelectorAll(".ship-custom-option").forEach((button) => {
             const active = button.dataset.shipValue === select.value;
             button.classList.toggle("active", active);
@@ -4159,6 +4168,7 @@ import {
             removeButton.hidden = shipMode;
             removeButton.disabled = shipLayers.length <= 1;
         }
+        updateShipCustomSelection();
         if (shipMode) renderShipPerformance();
     }
     function setSimulatorMode(mode) {
