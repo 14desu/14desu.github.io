@@ -103,7 +103,7 @@ import {
     ];
     const TEXT = {
         ko: {
-            subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병모드", shipCalculation: "함선모드", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "Global server users: select “Global server”.",
+            subtitle: "", settingsTitle: "수병 설정", calculatorSettings: "계산기 설정", sailorCalculation: "수병모드", shipCalculation: "함선모드", sailorLayer: "수병", addSailor: "수병 추가", removeSailor: "수병 삭제", captain: "함장", gunner: "포병", support: "보조", ship: "함선목록", shipPlaceholder: "함선을 선택하세요", modeHelp: "함선을 선택하면 함장 1명과 포병석·보조석 수에 맞춰 수병 탭이 자동으로 구성됩니다.", serverHelp: "글로벌 서버 사용자는 ‘Global server’를 선택하세요.",
             shipOption: (name, level, type, gunnerSlots, supportSlots) => `${type} Lv.${level} ${name} 포병석 ${gunnerSlots} 보조석 ${supportSlots}`,
             shipCapacity: (total, gunnerSlots, supportSlots) => `탑승가능 수병수 ${total}명 (함장석1 + 포병석${gunnerSlots} + 보조석${supportSlots})`,
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
@@ -236,6 +236,7 @@ import {
         }
     }
     server.value = storedServerPreference() || browserLanguageServer();
+    let selectedLanguage = server.value === "global" ? "en" : "ko";
     let catalog = null;
     let nationCatalog = null;
     let paths = [];
@@ -267,11 +268,20 @@ import {
     const activeLayerIndexes = { single: 0, ship: 0 };
     let shipLayers = layerSets[simulatorMode];
     let changingShipLayer = false;
-    const language = () => server.value === "global" ? "en" : "ko";
+    const language = () => selectedLanguage;
     const t = () => TEXT[language()];
     const abilityLabel = (ability) => ability[language() === "ko" ? 1 : 2];
-    const nationName = (serverId, nationId) => NATIONS[serverId]
-        ?.find(([id]) => id === Number(nationId))?.[1] || `Nation ${nationId}`;
+    const localizedNationName = (serverId, nationId, fallback = "") => {
+        const names = {
+            ko: { 1: "미국", 2: "영국", 3: "일본", 4: "독일", 5: "프랑스", 6: "소련", 7: "이탈리아", 8: "중국" },
+            en: { 1: "United States", 2: "United Kingdom", 3: "Japan", 4: "Germany", 5: "France", 6: "Soviet Union", 7: "Italy", 8: "China" },
+        };
+        return names[language()]?.[Number(nationId)] || fallback || `${t().nation} ${nationId}`;
+    };
+    const nationName = (serverId, nationId) => {
+        const fallback = NATIONS[serverId]?.find(([id]) => id === Number(nationId))?.[1];
+        return localizedNationName(serverId, nationId, fallback);
+    };
     const availableSailorTypes = () => server.value === "global" ? GLOBAL_SAILOR_TYPES : KOREA_SAILOR_TYPES;
     const selectedSailorType = () => {
         const types = availableSailorTypes();
@@ -279,7 +289,7 @@ import {
     };
     const selectedSailorLevel = (selected) => {
         if (selected?.initialLevel) return selected.initialLevel;
-        const label = selected?.[language()] || "";
+        const label = selected?.[language()] || selected?.en || selected?.ko || "";
         const match = label.match(/Lv(\d+)$/i);
         return match ? Number(match[1]) : null;
     };
@@ -480,8 +490,18 @@ import {
         const selected = sailorType.value || "normal";
         const types = availableSailorTypes();
         sailorType.replaceChildren();
-        for (const type of types) sailorType.append(option(type.id, type[language()]));
+        for (const type of types) sailorType.append(option(type.id, sailorTypeDisplayName(type)));
         sailorType.value = types.some((type) => type.id === selected) ? selected : "normal";
+    }
+    function sailorTypeDisplayName(type) {
+        if (language() !== "ko" || type.ko) return type[language()] || type.en || type.ko || type.id;
+        const koreanGlobalNames = {
+            normal: "일반 수병", nfXSailor: "NF X 수병 Lv12", advancedHero: "어드밴스드 히어로 수병 Lv12", heroSailor: "히어로 수병 Lv12",
+            elitePotential: "엘리트 잠재 수병", eliteAccuracy: "엘리트 명중 수병", eliteReload: "엘리트 연사 수병", eliteTorpedo: "엘리트 어뢰 수병", eliteRepair: "엘리트 수리 수병", eliteRestore: "엘리트 보수 수병", eliteEngine: "엘리트 기관 수병", eliteFighter: "엘리트 전투기 조종사", eliteBomber: "엘리트 폭격기 조종사",
+            superElitePotential: "슈퍼 엘리트 잠재 수병", superEliteAccuracy: "슈퍼 엘리트 명중 수병", superEliteReload: "슈퍼 엘리트 연사 수병", superEliteTorpedo: "슈퍼 엘리트 어뢰 수병", superEliteRepair: "슈퍼 엘리트 수리 수병", superEliteRestore: "슈퍼 엘리트 보수 수병", superEliteEngine: "슈퍼 엘리트 기관 수병", superEliteFighter: "슈퍼 엘리트 전투기 조종사", superEliteBomber: "슈퍼 엘리트 폭격기 조종사",
+            advancedEliteAccuracy: "어드밴스드 엘리트 명중 수병 Lv12", advancedEliteReload: "어드밴스드 엘리트 연사 수병 Lv12", advancedEliteTorpedo: "어드밴스드 엘리트 어뢰 수병 Lv12", advancedEliteRepair: "어드밴스드 엘리트 수리 수병 Lv12", advancedEliteRestore: "어드밴스드 엘리트 보수 수병 Lv12", advancedEliteEngine: "어드밴스드 엘리트 기관 수병 Lv12", advancedEliteFighter: "어드밴스드 엘리트 전투기 조종사 Lv12", advancedEliteBomber: "어드밴스드 엘리트 폭격기 조종사 Lv12",
+        };
+        return koreanGlobalNames[type.id] || type.en || type.id;
     }
     function updateHiddenGrowthTitle(selected) {
         const sailorLevel = selectedSailorLevel(selected);
@@ -547,6 +567,7 @@ import {
     }
     function applyLanguage() {
         document.documentElement.lang = language();
+        updateLanguageSwitch();
         el("#active-sailor-layer").setAttribute("aria-label", t().selectSailorLayer);
         const labels = {
             "#ship-guideline-length-label": "shipGuidelineLength",
@@ -564,8 +585,25 @@ import {
         el("#ship-base-speed").placeholder = t().shipBaseSpeedPlaceholder;
         el("#class-change-bulk-input").placeholder = t().classChangeBulkPlaceholder;
         el("#class-change-bulk-apply").textContent = t().classChangeBulkApply;
+        const selectedNationValue = nation.value;
+        [...nation.options].forEach((item) => {
+            item.textContent = item.value
+                ? localizedNationName(server.value, item.value, item.textContent)
+                : t().nationPlaceholder;
+        });
+        nation.value = selectedNationValue;
+        document.querySelectorAll(".path-filter-button").forEach((button) => {
+            button.textContent = button.dataset.pathFilter === "all"
+                ? "All"
+                : "Final";
+        });
         renderShipSailorPresetButtons();
         el("#server-help").hidden = server.value === "global";
+        if (!nation.value) {
+            setStatus(server.value === "korea"
+                ? `${t().serverHelp}\n${t().nationPlaceholder}`
+                : t().nationPlaceholder);
+        }
         for (const ability of ABILITIES.slice(0, -1)) {
             el(`#tree-${ability[0]}-heading`).textContent = abilityLabel(ability);
         }
@@ -586,6 +624,21 @@ import {
         updateShipEquipmentCapacityLabels(selectedShip());
         renderShipLayerTabs();
         renderShipPerformance();
+    }
+    function updateLanguageSwitch() {
+        document.querySelectorAll("#simulator-language-switch [data-language]").forEach((button) => {
+            const active = button.dataset.language === language();
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+        });
+        el("#simulator-language-switch")?.setAttribute("aria-label", language() === "ko" ? "표시 언어" : "Display language");
+    }
+    function setLanguage(nextLanguage) {
+        if (!["ko", "en"].includes(nextLanguage) || nextLanguage === selectedLanguage) return;
+        const savedState = captureShipLayerState();
+        selectedLanguage = nextLanguage;
+        applyLanguage();
+        restoreShipLayerState(savedState);
     }
     function setResultView(view) {
         resultView = view;
@@ -660,7 +713,7 @@ import {
         nation.replaceChildren(option("", t().nationPlaceholder));
         preset.replaceChildren(option("", t().presetPlaceholder));
         renderPresetCustomDropdown();
-        for (const [id, name] of NATIONS[server.value]) nation.append(option(String(id), name));
+        for (const [id, name] of NATIONS[server.value]) nation.append(option(String(id), localizedNationName(server.value, id, name)));
         nation.disabled = false;
         updateNationSelectionRequired();
         actualClassChangeLevels = [];
@@ -815,7 +868,7 @@ import {
         const group = document.createElement("div");
         group.className = "btn-group path-filter-buttons";
         group.setAttribute("role", "group");
-        group.setAttribute("aria-label", "Class change path filter");
+        group.setAttribute("aria-label", language() === "ko" ? "전직 트리 필터" : "Class change path filter");
         for (const [value, label] of [["all", "All"], ["final", "Final"]]) {
             const button = document.createElement("button");
             const active = pathFilterMode === value;
@@ -1272,7 +1325,7 @@ import {
         const input = el("#performance-engine-crew-count");
         section.hidden = !isEngineSailor;
         input.value = String(performanceEngineCrewCount);
-        el("#performance-engine-crew-label").textContent = server.value === "global"
+        el("#performance-engine-crew-label").textContent = language() === "en"
             ? "Embarked engine sailors"
             : "\uD0D1\uC2B9 \uAE30\uAD00\uBCD1 \uC218";
     }
@@ -1469,7 +1522,7 @@ import {
         const head = el("#performance-engine-multiple-result-head");
         const body = el("#performance-engine-multiple-result-body");
         const capNote = el("#performance-engine-cap-note");
-        capNote.textContent = server.value === "global"
+        capNote.textContent = language() === "en"
             ? "Because this cap excludes the ship and engine overheat margins, the ability cap may be reached slightly sooner in practice."
             : "함선 오버힛여유율과 엔진오버힛여유율을 제외한 캡이므로 실제로는 약간 더 빨리 어빌캡에 도달합니다.";
         head.replaceChildren();
@@ -1480,7 +1533,7 @@ import {
             section.hidden = true;
             return;
         }
-        el("#performance-engine-multiple-result-title").textContent = server.value === "global"
+        el("#performance-engine-multiple-result-title").textContent = language() === "en"
             ? `Engine performance · ${latestPerformanceContext.engineSailorCount} sailors`
             : `기관병 ${latestPerformanceContext.engineSailorCount}명 성능`;
         const headRow = document.createElement("tr");
@@ -1489,14 +1542,14 @@ import {
         headRow.append(itemHeading);
         caseLabels.forEach((lines, index) => appendPerformanceCaseHeading(headRow, lines, index));
         head.append(headRow);
-        el("#performance-engine-multiple-result-title").textContent = server.value === "global"
+        el("#performance-engine-multiple-result-title").textContent = language() === "en"
             ? `Engine performance simulation results · ${latestPerformanceContext.engineSailorCount} sailors`
             : `\uAE30\uAD00\uBCD1 ${latestPerformanceContext.engineSailorCount}\uBA85 \uC131\uB2A5 \uC2DC\uBBAC\uB808\uC774\uC158 \uACB0\uACFC`;
         const rows = [
-            [server.value === "global" ? "Repair speed [/s]" : "\uC218\uB9AC\uC18D\uB3C4 [/s]", "repairSpeedMultipleEngineSailorsPerSecond", (value) => String(value)],
-            [server.value === "global" ? "Structural defense" : "\uAD6C\uC870\uBC29\uC5B4", "structuralDefenseMultipleEngineSailors", (value) => String(value)],
-            [server.value === "global" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeMultipleSailorsSeconds", (value) => String(value)],
-            [server.value === "global" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateMultipleSailorsPercent", (value) => `${value}%`],
+            [language() === "en" ? "Repair speed [/s]" : "\uC218\uB9AC\uC18D\uB3C4 [/s]", "repairSpeedMultipleEngineSailorsPerSecond", (value) => String(value)],
+            [language() === "en" ? "Structural defense" : "\uAD6C\uC870\uBC29\uC5B4", "structuralDefenseMultipleEngineSailors", (value) => String(value)],
+            [language() === "en" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeMultipleSailorsSeconds", (value) => String(value)],
+            [language() === "en" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateMultipleSailorsPercent", (value) => `${value}%`],
         ];
         for (const [label, key, format] of rows) {
             const row = document.createElement("tr");
@@ -1527,7 +1580,7 @@ import {
     function appendCapLabel(cell) {
         const capLabel = document.createElement("small");
         capLabel.className = "d-block fw-normal text-muted";
-        capLabel.textContent = server.value === "global" ? "Maxed" : "상한도달";
+        capLabel.textContent = language() === "en" ? "Maxed" : "상한도달";
         cell.append(capLabel);
     }
     function clearPerformanceResult() {
@@ -1661,8 +1714,8 @@ import {
                 [t().performanceRepair, "repairSpeedPerSecond", (value) => String(value)],
                 [t().performanceStructural, "structuralDefense", (value) => String(value)],
                 ...(latestPerformanceContext.isEngineSailor ? [
-                    [server.value === "global" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeOneSailorSeconds", (value) => String(value)],
-                    [server.value === "global" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateOneSailorPercent", (value) => `${value}%`],
+                    [language() === "en" ? "Engine overheat time [s]" : "기관 오버힛 시간 [s]", "engineOverheatTimeOneSailorSeconds", (value) => String(value)],
+                    [language() === "en" ? "Engine overheat rate increase [%]" : "기관 오버힛 증가율 [%]", "engineOverheatRateOneSailorPercent", (value) => `${value}%`],
                 ] : []),
                 ...(hasAppliedSeamanAdjustment
                     ? [[t().performanceAppliedSeamanAdjustment, "appliedSeamanAdjustmentPercent", (value) => `${value}%`]]
@@ -2056,6 +2109,10 @@ import {
             premiumPotential: "잠재플미", premiumAccuracy: "명중플미", premiumReload: "연사플미",
             premiumTorpedo: "어뢰플미", premiumRepair: "수리플미", premiumRestore: "보수플미",
             premiumEngine: "기관플미", premiumFighter: "전투플미", premiumBomber: "폭격플미",
+            nfXSailor: "X 수병", advancedHero: "어드밴스드 히어로", heroSailor: "히어로",
+            elitePotential: "엘리트 잠재", eliteAccuracy: "엘리트 명중", eliteReload: "엘리트 연사", eliteTorpedo: "엘리트 어뢰", eliteRepair: "엘리트 수리", eliteRestore: "엘리트 보수", eliteEngine: "엘리트 기관", eliteFighter: "엘리트 전투", eliteBomber: "엘리트 폭격",
+            superElitePotential: "슈퍼 엘리트 잠재", superEliteAccuracy: "슈퍼 엘리트 명중", superEliteReload: "슈퍼 엘리트 연사", superEliteTorpedo: "슈퍼 엘리트 어뢰", superEliteRepair: "슈퍼 엘리트 수리", superEliteRestore: "슈퍼 엘리트 보수", superEliteEngine: "슈퍼 엘리트 기관", superEliteFighter: "슈퍼 엘리트 전투", superEliteBomber: "슈퍼 엘리트 폭격",
+            advancedEliteAccuracy: "어드밴스드 엘리트 명중", advancedEliteReload: "어드밴스드 엘리트 연사", advancedEliteTorpedo: "어드밴스드 엘리트 어뢰", advancedEliteRepair: "어드밴스드 엘리트 수리", advancedEliteRestore: "어드밴스드 엘리트 보수", advancedEliteEngine: "어드밴스드 엘리트 기관", advancedEliteFighter: "어드밴스드 엘리트 전투", advancedEliteBomber: "어드밴스드 엘리트 폭격",
         };
         if (language() === "ko") return koreanNames[typeId] || typeId || "-";
         const globalNames = { normal: "Normal", nfXSailor: "X Sailor", advancedHero: "Advanced Hero", heroSailor: "Hero Sailor" };
@@ -2092,7 +2149,7 @@ import {
         if (!specialtyContainer) return;
         specialtyContainer.hidden = server.value !== "global";
         specialtyContainer.replaceChildren();
-        for (const [mode, label] of [["repair", "Repair"], ["reload", "Reload"]]) {
+        for (const [mode, label] of [["repair", language() === "ko" ? "수리" : "Repair"], ["reload", language() === "ko" ? "연사" : "Reload"]]) {
             const button = document.createElement("button");
             const active = globalShipSpecialtyMode === mode;
             button.type = "button";
@@ -2137,7 +2194,10 @@ import {
         const disabled = simulatorMode !== "ship" || !selectedShip();
         label.textContent = t().shipVeteranBulk;
         scopeButtons.replaceChildren();
-        for (const [scope, scopeLabel] of [["all", "All"], ["captain", "Bridge"], ["gunner", "Mount"], ["support", "Support"]]) {
+        const scopeLabels = language() === "ko"
+            ? [["all", "전체"], ["captain", "함장"], ["gunner", "포병"], ["support", "보조"]]
+            : [["all", "All"], ["captain", "Bridge"], ["gunner", "Mount"], ["support", "Support"]];
+        for (const [scope, scopeLabel] of scopeLabels) {
             const button = document.createElement("button");
             const active = shipVeteranBulkScope === scope;
             button.type = "button";
@@ -4202,13 +4262,27 @@ import {
         const modeTitle = document.createElement("span");
         modeTitle.id = "calculator-settings-title";
         modeTitle.textContent = "계산기 설정";
+        const languageSwitch = document.createElement("div");
+        languageSwitch.id = "simulator-language-switch";
+        languageSwitch.className = "btn-group language-switch";
+        languageSwitch.setAttribute("role", "group");
+        languageSwitch.setAttribute("aria-label", "표시 언어");
+        [["ko", "한국어"], ["en", "English"]].forEach(([languageId, label]) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-light";
+            button.dataset.language = languageId;
+            button.textContent = label;
+            button.addEventListener("click", () => setLanguage(languageId));
+            languageSwitch.append(button);
+        });
         modeBody.querySelector('label[for="single-sailor-mode"]').id = "single-sailor-mode-label";
         modeBody.querySelector('label[for="ship-mode"]').id = "ship-mode-label";
         for (const label of modeButtons.querySelectorAll("label")) {
             label.classList.remove("btn-outline-secondary");
             label.classList.add("btn-outline-light");
         }
-        modeHeader.append(modeTitle, modeButtons);
+        modeHeader.append(modeTitle, modeButtons, languageSwitch);
         modeBody.before(modeHeader);
         const inputs = document.createElement("div");
         inputs.className = "row g-2 align-items-start calculator-mode-inputs";
@@ -4473,6 +4547,7 @@ import {
     });
     server.addEventListener("change", () => {
         saveServerPreference(server.value);
+        selectedLanguage = server.value === "global" ? "en" : "ko";
         selectServer();
     });
     nation.addEventListener("change", loadNationCatalogs);

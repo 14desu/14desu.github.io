@@ -45,6 +45,9 @@
         .cap-server-badge { padding:.4rem .7rem; border:1px solid #9eb7c8; border-radius:999px; background:#eaf3f8; color:#194d6e; font-size:.82rem; font-weight:700; }
         .cap-card { border:1px solid #aeb8c2; box-shadow:0 .25rem .75rem rgba(0,0,0,.07); }
         .cap-card > .card-header { background:linear-gradient(180deg,#203a53,#101d29); color:#fff; font-weight:700; }
+        .cap-setup-header { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+        .cap-language-switch { display:flex; margin-left:auto; }
+        .cap-language-switch .btn { padding:.18rem .5rem; font-size:.75rem; line-height:1.2; }
         .cap-config-grid { display:grid; grid-template-columns:minmax(130px,.55fr) minmax(165px,.75fr) minmax(300px,1.8fr) minmax(230px,1.2fr) minmax(210px,1fr); gap:.65rem; align-items:end; }
         .cap-field label { display:block; margin-bottom:.25rem; color:#43515d; font-size:.79rem; font-weight:700; }
         .cap-field .form-text { margin-top:.2rem; font-size:.72rem; }
@@ -146,30 +149,36 @@
             <div class="container-fluid px-3 cap-page">
                 <header class="cap-hero">
                     <div>
-                        <h1><i class="fa-solid fa-gauge-high"></i> Global Reload Cap Simulator</h1>
-                        <p>Compare reload-cap progress across combinations of current level and delayed class-change level for Global server gunners.</p>
+                        <h1><i class="fa-solid fa-gauge-high"></i> <span data-i18n="pageTitle">Global Reload Cap Simulator</span></h1>
+                        <p data-i18n="pageDescription">Compare reload-cap progress across combinations of current level and delayed class-change level for Global server gunners.</p>
                     </div>
-                    <span class="cap-server-badge"><i class="fa-solid fa-globe"></i> Global server fixed</span>
+                    <span class="cap-server-badge"><i class="fa-solid fa-globe"></i> <span data-i18n="serverFixed">Global server fixed</span></span>
                 </header>
 
                 <section class="card cap-card mb-3">
-                    <div class="card-header">Sailor setup</div>
+                    <div class="card-header cap-setup-header">
+                        <span data-i18n="setupTitle">Sailor setup</span>
+                        <div id="cap-language-switch" class="btn-group cap-language-switch" role="group" aria-label="Display language">
+                            <button class="btn btn-outline-light" type="button" data-language="ko" aria-pressed="false">한국어</button>
+                            <button class="btn btn-outline-light active" type="button" data-language="en" aria-pressed="true">English</button>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="cap-config-grid">
                             <div class="cap-field">
-                                <label for="server">Server</label>
+                                <label for="server" data-i18n="server">Server</label>
                                 <select id="server" class="form-select" disabled><option value="global">Global server</option></select>
                             </div>
                             <div class="cap-field">
-                                <label for="nation">Nation</label>
+                                <label for="nation" data-i18n="nation">Nation</label>
                                 <select id="nation" class="form-select" disabled><option value="">Loading nations…</option></select>
                             </div>
                             <div class="cap-field">
                                 <div class="path-preset-heading">
-                                    <label for="class-change-preset-toggle">Class change path preset</label>
+                                    <label for="class-change-preset-toggle" data-i18n="pathPreset">Class change path preset</label>
                                     <div class="btn-group path-filter-buttons" role="group" aria-label="Class change path filter">
-                                        <button class="btn btn-outline-secondary" type="button" data-path-filter="all" aria-pressed="false">All</button>
-                                        <button class="btn btn-outline-secondary active" type="button" data-path-filter="final" aria-pressed="true">Final</button>
+                                        <button class="btn btn-outline-secondary" type="button" data-path-filter="all" data-i18n="all" aria-pressed="false">All</button>
+                                        <button class="btn btn-outline-secondary active" type="button" data-path-filter="final" data-i18n="final" aria-pressed="true">Final</button>
                                     </div>
                                 </div>
                                 <select id="class-change-preset" class="visually-hidden" tabindex="-1" aria-hidden="true" disabled><option value="">Select a gunner path</option></select>
@@ -179,11 +188,11 @@
                                 </div>
                             </div>
                             <div class="cap-field">
-                                <label for="sailor-type">Sailor preset</label>
+                                <label for="sailor-type" data-i18n="sailorPreset">Sailor preset</label>
                                 <select id="sailor-type" class="form-select"></select>
                             </div>
                             <div class="cap-field">
-                                <label for="enhancement">Sailor enhancement item</label>
+                                <label for="enhancement" data-i18n="enhancementItem">Sailor enhancement item</label>
                                 <select id="enhancement" class="form-select">
                                     <option value="none">None</option>
                                     <option value="all:20" selected>Premium Sailors / increase +20%</option>
@@ -195,33 +204,33 @@
                 </section>
 
                 <section id="path-section" class="card cap-card mb-3" hidden>
-                    <div class="card-header">Applied class change path</div>
+                    <div class="card-header" data-i18n="appliedPath">Applied class change path</div>
                     <div class="card-body">
                         <div class="path-table-wrap">
                             <table class="table table-bordered table-striped table-sm path-table">
                                 <thead>
                                     <tr>
-                                        <th>Step</th><th>Class</th><th>Required Lv.</th><th>Actual class change Lv.</th><th>Late apply</th><th>Crew growth</th>
-                                        <th>Potential</th><th>Accuracy</th><th>Reload</th><th>Torpedo</th><th>Anti-air</th>
-                                        <th>Repair</th><th>Restore</th><th>Engine</th><th>Aircraft</th><th>Fighter</th><th>Bomber</th>
+                                        <th data-i18n="step">Step</th><th data-i18n="className">Class</th><th data-i18n="requiredLevel">Required Lv.</th><th data-i18n="actualLevel">Actual class change Lv.</th><th data-i18n="lateApply">Late apply</th><th data-i18n="crewGrowth">Crew growth</th>
+                                        <th data-i18n="potential">Potential</th><th data-i18n="accuracy">Accuracy</th><th data-i18n="reload">Reload</th><th data-i18n="torpedo">Torpedo</th><th data-i18n="antiAir">Anti-air</th>
+                                        <th data-i18n="repair">Repair</th><th data-i18n="restore">Restore</th><th data-i18n="engine">Engine</th><th data-i18n="aircraft">Aircraft</th><th data-i18n="fighter">Fighter</th><th data-i18n="bomber">Bomber</th>
                                     </tr>
                                 </thead>
                                 <tbody id="path-table-body"></tbody>
                             </table>
                         </div>
-                        <p class="form-text mb-0 mt-2">By default, delayed class change applies to every stage after Lv.12 Sailor. Checked classes use the matrix row's delayed level; unchecked classes use their required level. A class can never change earlier than its preceding stage.</p>
+                            <p class="form-text mb-0 mt-2" data-i18n="pathHelp">By default, delayed class change applies to every stage after Lv.12 Sailor. Checked classes use the matrix row's delayed level; unchecked classes use their required level. A class can never change earlier than its preceding stage.</p>
                     </div>
                 </section>
 
                 <section id="matrix-section" class="card cap-card mb-3" hidden>
-                    <div class="card-header">Estimation Reload cap rate &amp; Repair speed</div>
+                    <div class="card-header" data-i18n="matrixTitle">Estimation Reload cap rate &amp; Repair speed</div>
                     <div class="card-body">
                         <div id="matrix-summary" class="matrix-summary" aria-live="polite"></div>
                         <div id="class-change-flow" class="class-change-flow" aria-label="Applied class change flow"></div>
                         <div class="matrix-controls">
                             <div>
                                 <div class="veteran-preset-heading">
-                                    <label for="veteran-count">Veterans</label>
+                                    <label for="veteran-count" data-i18n="veterans">Veterans</label>
                                     <div class="btn-group path-filter-buttons" role="group" aria-label="Veteran count presets">
                                         <button class="btn btn-outline-secondary" type="button" data-veteran-preset="100" aria-pressed="false">100</button>
                                         <button class="btn btn-outline-secondary active" type="button" data-veteran-preset="150" aria-pressed="true">150</button>
@@ -232,7 +241,7 @@
                                 </div>
                                 <input id="veteran-count" class="form-control form-control-sm" type="number" inputmode="numeric" min="0" max="9999" step="1" value="150">
                             </div>
-                            <p class="form-text">The shared Veteran count applies to every cell, and all remaining crew are treated as Experts. The Global server Veteran limit is 50% of total crew.</p>
+                            <p class="form-text" data-i18n="veteranHelp">The shared Veteran count applies to every cell, and all remaining crew are treated as Experts. The Global server Veteran limit is 50% of total crew.</p>
                         </div>
                         <div class="matrix-wrap">
                             <table class="table table-bordered cap-matrix" aria-describedby="matrix-help">
@@ -241,7 +250,7 @@
                             </table>
                         </div>
                         <div id="matrix-help" class="color-legend">
-                            <span>Low</span><span class="legend-bar" aria-hidden="true"></span><span>100% reload cap</span><span>·</span><span>Gray cells are unavailable because the delayed class-change level exceeds the current level.</span>
+                            <span data-i18n="low">Low</span><span class="legend-bar" aria-hidden="true"></span><span data-i18n="reloadCap100">100% reload cap</span><span>·</span><span data-i18n="unavailableHelp">Gray cells are unavailable because the delayed class-change level exceeds the current level.</span>
                         </div>
                     </div>
                 </section>
@@ -252,6 +261,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./global_reload_cap_simulator.js?v=20260923-details-default-on-v15"></script>
+<script type="module" src="./global_reload_cap_simulator.js?v=20260924-korean-labels-v17"></script>
 </body>
 </html>
