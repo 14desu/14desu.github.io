@@ -7,9 +7,9 @@ import {
     calculateRepairAndStructuralDefense,
     findGuidelinePersonnelAdjustment,
     PERFORMANCE_FORMULAS,
-} from "./formulas/index.js";
+} from "./formulas/index.js?v=20260923-rank-terms-v11";
 
-export const PERFORMANCE_SCHEMA_VERSION = 10;
+export const PERFORMANCE_SCHEMA_VERSION = 11;
 export const PERFORMANCE_ABILITY_KEYS = Object.freeze([
     "potential", "accuracy", "reload", "torpedo", "antiAir", "repair",
     "restore", "engine", "aircraft", "fighter", "bomber",
@@ -47,21 +47,21 @@ function normalizeConditions(value, crewCount, server) {
     if (!Array.isArray(value) || value.length !== 5) {
         throw new Error("conditions must contain exactly five entries");
     }
-    const maximumOfficers = Math.floor(crewCount * (server === "global" ? 0.5 : 0.45));
+    const maximumVeterans = Math.floor(crewCount * (server === "global" ? 0.5 : 0.45));
     return value.map((condition, index) => {
         object(condition, `conditions[${index}]`);
-        const officers = integer(Number(condition.officers), `conditions[${index}].officers`, { maximum: maximumOfficers });
-        const veterans = integer(Number(condition.veterans), `conditions[${index}].veterans`, { maximum: crewCount });
+        const veterans = integer(Number(condition.veterans), `conditions[${index}].veterans`, { maximum: maximumVeterans });
+        const experts = integer(Number(condition.experts), `conditions[${index}].experts`, { maximum: crewCount });
         const rookies = integer(Number(condition.rookies), `conditions[${index}].rookies`, { maximum: crewCount });
         const seamanAdjustmentPercent = number(
             Number(condition.seamanAdjustmentPercent ?? 0),
             `conditions[${index}].seamanAdjustmentPercent`,
             { maximum: 12 },
         );
-        if (officers + veterans + rookies > crewCount) {
+        if (veterans + experts + rookies > crewCount) {
             throw new Error(`conditions[${index}] exceeds crewCount`);
         }
-        return { officers, veterans, rookies, seamanAdjustmentPercent };
+        return { veterans, experts, rookies, seamanAdjustmentPercent };
     });
 }
 
@@ -279,7 +279,7 @@ export function calculateSailorPerformance(input) {
             return {
                 index,
                 condition,
-                currentCrew: condition.officers + condition.veterans + condition.rookies,
+                currentCrew: condition.veterans + condition.experts + condition.rookies,
                 seamanAdjAbilities: Object.fromEntries(
                     ["potential", "repair", "restore", "engine", "reload"]
                         .map((key) => [key, abilityStages[key].seamanAdjAbility]),
@@ -336,13 +336,13 @@ function applyGuidelineAdjustment({
         repair: adjustedAbility("repair"),
         restore: adjustedAbility("restore"),
     });
-    const currentCrew = adjustment.condition.officers
-        + adjustment.condition.veterans
+    const currentCrew = adjustment.condition.veterans
+        + adjustment.condition.experts
         + adjustment.condition.rookies;
     performance.guidelineAdjustment = {
         possible: true,
-        officers: adjustment.condition.officers,
         veterans: adjustment.condition.veterans,
+        experts: adjustment.condition.experts,
         rookies: adjustment.condition.rookies,
         currentCrew,
         crewRatePercent: Number((currentCrew / crewCount * 100).toFixed(1)),
