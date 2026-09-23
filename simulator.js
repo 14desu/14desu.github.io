@@ -4,7 +4,7 @@ import {
     calculateShipOverheatSpeed,
     calculateShipRepairSpeedDetails,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20260922-gunner-performance-v10";
+} from "./sailor-performance/index.js?v=20260923-rank-terms-v11";
 
 (() => {
     "use strict";
@@ -109,7 +109,7 @@ import {
             shipRosterTitle: "함선 수병 설정", selectSailorLayer: "수병 좌석 선택",
             shipEquipmentTitle: "함선 설정", shipEquipmentFcs: "FCS", shipEquipmentEngine: "엔진", shipEquipmentRGun: "R mount 함포", shipEquipmentTGun: "T mount 함포", shipBaseSpeed: "함선 기본속도 [knot]", shipBaseSpeedPlaceholder: "유저 수동 입력", shipEquipmentFcsPlaceholder: "FCS 선택", shipEquipmentEnginePlaceholder: "엔진 선택", shipEquipmentGunPlaceholder: "함포 선택", shipEquipmentUnavailable: "장착 가능한 장비 없음",
             shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
-            shipOfficerBulk: "사관 일괄 입력", shipOfficerRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
+            shipVeteranBulk: "사관 일괄 입력", shipVeteranRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
             shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "연사 성능", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
             shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
@@ -120,7 +120,7 @@ import {
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(함선 ${shipValue} 수병 ${sailorValue})`,
             shipGuidelineBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS 용적 ${fcsCapacity} · 엔진 용적 ${engineCapacity} · R mount 용적 ${rCapacity} · T mount 용적 ${tCapacity}`,
-            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterRepairSpeed: "수병의 수리속도 [/s]", rosterOfficer: "사관", rosterVeteran: "숙련병", rosterRookie: "신병", rosterTotalCrew: "총수병수", performanceOutput: "출력", onTime: "칼직",
+            rosterSeat: "수병 좌석", rosterClass: "병종", rosterLevel: "Lv", rosterSailor: "수병", rosterBoost: "강화", rosterClassChange: "전직", rosterRepairSpeed: "수병의 수리속도 [/s]", rosterVeteran: "사관", rosterExpert: "숙련병", rosterRookie: "신병", rosterTotalCrew: "총수병수", performanceOutput: "출력", onTime: "칼직",
             server: "서버", nation: "국가", preset: "전직 트리 프리셋", level: "현재 레벨", sailorType: "수병 프리셋", boost: "수병 강화 아이템",
             initialGrowthInput: "초기 성장 어빌리티", initialAbilityInput: "초기 누적 어빌리티", hiddenGrowthInput: (level) => `히든 어빌리티 (Lv1 ~ Lv${level})`, abilityHelp: "수병 종류를 선택하면 초기값이 자동 입력됩니다. 수병수는 기본값을 표시하며 직접 입력할 수 없습니다.",
             hiddenHelp: "히든 어빌리티는 수병명 끝에 표시된 레벨까지 실제로 적용된 성장값입니다. 누적 보정값은 (히든 어빌리티 - 초기 성장 어빌리티) × (표시 레벨 - 1)이며, 현재 레벨이 표시 레벨보다 낮으면 반영하지 않습니다.",
@@ -133,14 +133,14 @@ import {
             classChangeBulkHelp: "입력한 하나의 레벨을 수병 다음인 2단계부터 모두 적용합니다. 각 단계의 전직 요구 레벨보다 낮게 적용되지 않으며, 한국 서버의 2단계는 Lv.25가 상한입니다.",
             classChangeBulkInvalid: (minimum, maximum) => `전직 레벨은 ${minimum}~${maximum} 사이의 정수로 입력하세요.`, classChangeBulkApplied: (level) => `Lv.${level}을 2단계 이후 실제 전직 레벨에 일괄 적용했습니다.`, classChangeBulkCleared: "일괄 입력을 비워 기본 전직 가능 레벨을 적용했습니다.", classChangeBulkKoreaCap: (level) => `Lv.${level}을 일괄 적용하고 한국 서버 2단계만 Lv.25로 조정했습니다.`,
             step: "단계", className: "병종", required: "전직 가능 Lv.", actual: "실제 전직 Lv.", crewGrowth: "수병수 성장",
-            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", currentAbility: "누적", seamanAdjAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", officerTitle: "사관수", officerRate: "사관 비율", officerCount: "사관수", performanceInputTitle: "수병 성능 설정", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceSeamanAdjAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceOfficer: "사관", performanceVeteran: "숙련병", performanceRookie: "신병", performanceSeamanAdjustmentPercent: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티와 성능 설정이 바뀌면 자동으로 계산됩니다.", performanceCalculating: "계산 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedSeamanAdjustment: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredSeamanAdjustment: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithSeamanAdjustment: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
+            resultTitle: "수병 계산 결과", ability: "어빌리티", currentGrowth: "성장", currentAbility: "누적", seamanAdjAbility: "표시", resultAbilityHelp: "누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산에 반영됩니다.", fixedResultAbilityHelp: "수병 프리셋에 누적값이 지정된 어빌리티만 직접 수정할 수 없습니다.", veteranTitle: "사관수", veteranRate: "사관 비율", veteranCount: "사관수", performanceInputTitle: "수병 성능 설정", performancePersonnelTitle: "사관 숙련병 신병 조건", performanceSeamanAdjAbilityTitle: "갑판병 보정 적용 어빌", performanceGunTitle: "시뮬레이트 적용 함포", performanceGun: "함포", performanceGunClass: "필요병종", performanceGunLevel: "필요레벨", performanceGunCaliber: "구경", performanceGunBarrels: "연장", performanceGunElevation: "최대양각", performanceGunReload: "함포 연사속도", performanceSimulationTitle: "수병 성능 시뮬레이션", performanceItem: "성능 항목", performanceCase: "조건", performanceVeteran: "사관", performanceExpert: "숙련병", performanceRookie: "신병", performanceSeamanAdjustmentPercent: "갑판병 보정률", performanceCrewCount: "현재 / 총 수병수", performanceCrewRate: "수병 비율", performanceReady: "누적 어빌리티와 성능 설정이 바뀌면 자동으로 계산됩니다.", performanceCalculating: "계산 중…", performanceComplete: "시뮬레이션이 완료되었습니다.", performanceFailed: (message) => `성능 계산 실패: ${message}`, performanceRepair: "수리속도 [/s]", performanceStructural: "구조방어", performanceAppliedSeamanAdjustment: "연사 적용 갑판병 보정률", performanceReloadEfficiency: "수병 연사효율 구간", performanceReloadCapProgress: "연사 어빌캡 도달율", performanceAbilityCapReached: "연사캡 도달", performanceAverageReload: "선택 함포 평균 연사시간 [s]", performanceRequiredSeamanAdjustment: "다음 연사구간 필요 갑판 보정", performanceAverageReloadWithSeamanAdjustment: "필요 갑판 보정 적용 평균 연사시간 [s]", appliedSailorPreset: "수병 프리셋", appliedBoost: "적용 강화", notApplied: "미적용", noChange: "변화 없음",
             performanceSeamanSeats: (labels, mode) => labels.length > 0
                 ? labels.join(" + ")
                 : mode === "ship"
                     ? "미탑승 *함선내 갑판병 설정시 갑판병보정이 적용됩니다"
                     : "미탑승 *수병추가 갑판병 설정시 갑판병보정이 적용됩니다",
             performanceSeamanGlobalWarning: "글로벌 서버 갑판병 보정은 한국 서버 로직을 임시 적용했으며 확인이 필요합니다.",
-            performanceFcsTitle: "시뮬레이트 적용 FCS", performanceFcsName: "FCS리스트", performanceFcsGuideLength: "목표가이드라인길이", performanceFcsTargetGun: "목표함포지정", performanceFcsAccuracy: "명중 보너스", performanceFcsCapacity: "필요용적", performanceGuidelineLength: "가이드라인 길이", performanceGuidelineAdjustment: "목표가이드라인 수병조절", performanceGuidelineTargetInput: (target) => `${target} : 직접입력`, performanceGuidelineTargetGun: (target, gunName) => `${target} : ${gunName}`, performanceGuidelineRepair: (target) => `가이드라인 (${target}) 수리속도 [/s]`, performanceGuidelineStructural: (target) => `가이드라인 (${target}) 구조방어`, performanceGuidelineNoAdjustment: "조절 불필요", performanceGuidelineUnavailable: "불가능", performanceGuidelineAdjustmentImpossible: "사관수 고정 조건에서 조절 불가", performanceGuidelineCalculated: (length) => `가이드라인 계산 : ${length}`, performanceGuidelineOfficer: (value) => `사관 ${value}`, performanceGuidelineVeteran: (value) => `숙련병 ${value}`, performanceGuidelineRookie: (value) => `신병 ${value}`,
+            performanceFcsTitle: "시뮬레이트 적용 FCS", performanceFcsName: "FCS리스트", performanceFcsGuideLength: "목표가이드라인길이", performanceFcsTargetGun: "목표함포지정", performanceFcsAccuracy: "명중 보너스", performanceFcsCapacity: "필요용적", performanceGuidelineLength: "가이드라인 길이", performanceGuidelineAdjustment: "목표가이드라인 수병조절", performanceGuidelineTargetInput: (target) => `${target} : 직접입력`, performanceGuidelineTargetGun: (target, gunName) => `${target} : ${gunName}`, performanceGuidelineRepair: (target) => `가이드라인 (${target}) 수리속도 [/s]`, performanceGuidelineStructural: (target) => `가이드라인 (${target}) 구조방어`, performanceGuidelineNoAdjustment: "조절 불필요", performanceGuidelineUnavailable: "불가능", performanceGuidelineAdjustmentImpossible: "사관수 고정 조건에서 조절 불가", performanceGuidelineCalculated: (length) => `가이드라인 계산 : ${length}`, performanceGuidelineVeteran: (value) => `사관 ${value}`, performanceGuidelineExpert: (value) => `숙련병 ${value}`, performanceGuidelineRookie: (value) => `신병 ${value}`,
             performanceSeamanAdjustmentHelp: "갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.",
             performanceImplementedReloadTitle: "12회 인게임 연사시간 예측 비교 [s]", performanceImplementedReloadHelp: "각 조건의 12회 인게임 연사시간 예측값을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.", performanceTimeline: "12회 누적시간 [s]", performanceShotNumber: (index) => `${index}회차`, performanceTimelineSummary: (total, average) => `총 ${total}s · 평균 ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `${index}회차: ${interval}s · 누적 ${cumulative}s`,
             performanceResultTableTitle: "수병 성능 시뮬레이션 결과",
@@ -152,7 +152,7 @@ import {
             shipRosterTitle: "Ship Sailor Settings", selectSailorLayer: "Select sailor slot",
             shipEquipmentTitle: "Ship setting", shipEquipmentFcs: "FCS", shipEquipmentEngine: "Engine", shipEquipmentRGun: "R mount gun", shipEquipmentTGun: "T mount gun", shipBaseSpeed: "Base ship speed [knot]", shipBaseSpeedPlaceholder: "User manual input", shipEquipmentFcsPlaceholder: "Select an FCS", shipEquipmentEnginePlaceholder: "Select an engine", shipEquipmentGunPlaceholder: "Select a gun", shipEquipmentUnavailable: "No compatible equipment",
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
-            shipOfficerBulk: "Officer batch input", shipOfficerRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
+            shipVeteranBulk: "Veteran batch input", shipVeteranRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
             shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Reload performance", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
@@ -163,7 +163,7 @@ import {
             shipOverheatSpeedRateUncappedBreakdown: (shipValue, sailorValue) => `(Ship ${shipValue} Sailor ${sailorValue})`,
             shipGuidelineBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipEquipmentContext: (nationLabel, shipType, fcsCapacity, engineCapacity, rCapacity, tCapacity) => `${nationLabel} · ${shipType} · FCS capacity ${fcsCapacity} · Engine capacity ${engineCapacity} · R mount capacity ${rCapacity} · T mount capacity ${tCapacity}`,
-            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterRepairSpeed: "Repair speed", rosterOfficer: "Officers", rosterVeteran: "Veterans", rosterRookie: "Rookies", rosterTotalCrew: "Total Sailors", performanceOutput: "Output", onTime: "OnTime",
+            rosterSeat: "Sailor Slot", rosterClass: "Class", rosterLevel: "Lv", rosterSailor: "Sailor", rosterBoost: "Boost", rosterClassChange: "Class Change", rosterRepairSpeed: "Repair speed", rosterVeteran: "Veterans", rosterExpert: "Experts", rosterRookie: "Rookies", rosterTotalCrew: "Total Sailors", performanceOutput: "Output", onTime: "OnTime",
             server: "Server", nation: "Nation", preset: "Class change path preset", level: "Level", sailorType: "Sailor preset", boost: "Sailor enhancement item",
             initialGrowthInput: "Initial growth abilities", initialAbilityInput: "Initial accumulated abilities", hiddenGrowthInput: (level) => `Hidden abilities (Lv1 ~ Lv${level})`, abilityHelp: "Selecting a sailor type fills the initial values automatically. Crew values are read-only.",
             hiddenHelp: "Hidden abilities are the growth values actually applied through the level shown at the end of the sailor name. The accumulated correction is (hidden ability - initial growth ability) × (displayed level - 1), and is not applied when the current level is below the displayed level.",
@@ -177,14 +177,14 @@ import {
             classChangeBulkHelp: "Applies one level to every stage after Sailor. No stage is set below its required class change level.",
             classChangeBulkInvalid: (minimum, maximum) => `Enter a whole-number class change level from ${minimum} to ${maximum}.`, classChangeBulkApplied: (level) => `Applied Lv.${level} to every actual class change level after Sailor.`, classChangeBulkCleared: "Cleared bulk input and restored the required class change levels.", classChangeBulkKoreaCap: (level) => `Applied Lv.${level} in bulk and adjusted Korea-server stage 2 to Lv.25.`,
             step: "Stage", className: "Class", required: "Required Lv.", actual: "Actual Lv.", crewGrowth: "Crew growth",
-            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", currentAbility: "Ability", seamanAdjAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", officerTitle: "Officers", officerRate: "Officer rate", officerCount: "Officers", performanceInputTitle: "Sailor performance settings", performancePersonnelTitle: "Officer, veteran, and rookie conditions", performanceSeamanAdjAbilityTitle: "Abilities affected by seaman adjustment", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceOfficer: "Officers", performanceVeteran: "Veterans", performanceRookie: "Rookies", performanceSeamanAdjustmentPercent: "Seaman adjustment rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Performance is recalculated automatically when abilities or settings change.", performanceCalculating: "Calculating…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance calculation failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedSeamanAdjustment: "Seaman adjustment applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredSeamanAdjustment: "Seaman adjustment needed for next reload tier", performanceAverageReloadWithSeamanAdjustment: "Average reload with required adjustment [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
+            resultTitle: "Sailor calculation results", ability: "Ability", currentGrowth: "Growth", currentAbility: "Ability", seamanAdjAbility: "Display", resultAbilityHelp: "You can edit accumulated abilities directly. The edited values will be used for the performance calculation.", fixedResultAbilityHelp: "Only abilities with accumulated values supplied by the sailor preset cannot be edited.", veteranTitle: "Veterans", veteranRate: "Veteran rate", veteranCount: "Veterans", performanceInputTitle: "Sailor performance settings", performancePersonnelTitle: "Veteran, expert, and rookie conditions", performanceSeamanAdjAbilityTitle: "Abilities affected by seaman adjustment", performanceGunTitle: "Gun applied to simulation", performanceGun: "Gun", performanceGunClass: "Required class", performanceGunLevel: "Required level", performanceGunCaliber: "Caliber", performanceGunBarrels: "Mount", performanceGunElevation: "Maximum elevation", performanceGunReload: "Gun reload time", performanceSimulationTitle: "Sailor performance simulation", performanceItem: "Performance", performanceCase: "Case", performanceVeteran: "Veterans", performanceExpert: "Experts", performanceRookie: "Rookies", performanceSeamanAdjustmentPercent: "Seaman adjustment rate", performanceCrewCount: "Current / total crew", performanceCrewRate: "Crew rate", performanceReady: "Performance is recalculated automatically when abilities or settings change.", performanceCalculating: "Calculating…", performanceComplete: "Simulation complete.", performanceFailed: (message) => `Performance calculation failed: ${message}`, performanceRepair: "Repair speed [/s]", performanceStructural: "Structural defense", performanceAppliedSeamanAdjustment: "Seaman adjustment applied to reload", performanceReloadEfficiency: "Sailor reload efficiency tier", performanceReloadCapProgress: "Reload ability cap progress", performanceAbilityCapReached: "Reload cap reached", performanceAverageReload: "Selected gun average reload time [s]", performanceRequiredSeamanAdjustment: "Seaman adjustment needed for next reload tier", performanceAverageReloadWithSeamanAdjustment: "Average reload with required adjustment [s]", appliedSailorPreset: "Sailor preset", appliedBoost: "Applied enhancement", notApplied: "not applied", noChange: "No change",
             performanceSeamanSeats: (labels, mode) => labels.length > 0
                 ? labels.join(" + ")
                 : mode === "ship"
                     ? "Seaman bonuses apply only when a Seaman is assigned to a slot."
                     : "Not embarked *Seaman adjustment applies when an added sailor is set as a Seaman.",
             performanceSeamanGlobalWarning: "Global Seaman adjustment temporarily uses the Korea-server formula and still requires verification.",
-            performanceFcsTitle: "FCS applied to simulation", performanceFcsName: "FCS list", performanceFcsGuideLength: "Target guideline length", performanceFcsTargetGun: "Specify target gun", performanceFcsAccuracy: "Accuracy bonus", performanceFcsCapacity: "Required capacity", performanceGuidelineLength: "Guideline length", performanceGuidelineAdjustment: "Target guideline sailor adjustment", performanceGuidelineTargetInput: (target) => `${target}: direct input`, performanceGuidelineTargetGun: (target, gunName) => `${target}: ${gunName}`, performanceGuidelineRepair: (target) => `Guideline (${target}) repair speed [/s]`, performanceGuidelineStructural: (target) => `Guideline (${target}) structural defense`, performanceGuidelineNoAdjustment: "No adjustment needed", performanceGuidelineUnavailable: "Unavailable", performanceGuidelineAdjustmentImpossible: "Cannot adjust while keeping officers fixed", performanceGuidelineCalculated: (length) => `Calculated guideline: ${length}`, performanceGuidelineOfficer: (value) => `Officers ${value}`, performanceGuidelineVeteran: (value) => `Veterans ${value}`, performanceGuidelineRookie: (value) => `Rookies ${value}`,
+            performanceFcsTitle: "FCS applied to simulation", performanceFcsName: "FCS list", performanceFcsGuideLength: "Target guideline length", performanceFcsTargetGun: "Specify target gun", performanceFcsAccuracy: "Accuracy bonus", performanceFcsCapacity: "Required capacity", performanceGuidelineLength: "Guideline length", performanceGuidelineAdjustment: "Target guideline sailor adjustment", performanceGuidelineTargetInput: (target) => `${target}: direct input`, performanceGuidelineTargetGun: (target, gunName) => `${target}: ${gunName}`, performanceGuidelineRepair: (target) => `Guideline (${target}) repair speed [/s]`, performanceGuidelineStructural: (target) => `Guideline (${target}) structural defense`, performanceGuidelineNoAdjustment: "No adjustment needed", performanceGuidelineUnavailable: "Unavailable", performanceGuidelineAdjustmentImpossible: "Cannot adjust while keeping veterans fixed", performanceGuidelineCalculated: (length) => `Calculated guideline: ${length}`, performanceGuidelineVeteran: (value) => `Veterans ${value}`, performanceGuidelineExpert: (value) => `Experts ${value}`, performanceGuidelineRookie: (value) => `Rookies ${value}`,
             performanceSeamanAdjustmentHelp: "Enter a seaman adjustment from 0% to 12%. The entered rate is applied when calculating the related performance values.",
             performanceImplementedReloadTitle: "12-shot in-game reload estimation comparison [s]", performanceImplementedReloadHelp: "Compares the estimated in-game reload intervals for 12 shots in each case. Cumulative time through each shot appears below the bar; slow intervals are soft red, medium intervals yellow, and fast intervals green.", performanceTimeline: "12-shot cumulative time [s]", performanceShotNumber: (index) => `Shot ${index}`, performanceTimelineSummary: (total, average) => `Total ${total}s · average ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `Shot ${index}: ${interval}s · cumulative ${cumulative}s`,
             performanceResultTableTitle: "Performance results",
@@ -257,7 +257,7 @@ import {
     let shipClassFilter = "BB";
     let globalShipSpecialtyMode = "repair";
     let carrierAircraftMode = server.value === "korea" ? "B" : "F";
-    let shipOfficerBulkScope = "all";
+    let shipVeteranBulkScope = "all";
     let resultView = "all";
     let activeShipLayer = 0;
     const layerSets = {
@@ -550,7 +550,7 @@ import {
             "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun",
             "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
             "#class-change-bulk-label": "classChangeBulkLabel", "#class-change-bulk-help": "classChangeBulkHelp",
-            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#officer-title": "officerTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-officer-heading": "performanceOfficer", "#performance-veteran-heading": "performanceVeteran", "#performance-rookie-heading": "performanceRookie", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
+            "#result-title": "resultTitle", "#result-ability-help": "resultAbilityHelp", "#veteran-title": "veteranTitle", "#performance-input-title": "performanceInputTitle", "#performance-personnel-title": "performancePersonnelTitle", "#performance-seaman-adj-ability-title": "performanceSeamanAdjAbilityTitle", "#performance-fcs-title": "performanceFcsTitle", "#performance-fcs-name-heading": "performanceFcsName", "#performance-fcs-guide-length-heading": "performanceFcsGuideLength", "#performance-fcs-target-gun-heading": "performanceFcsTargetGun", "#performance-gun-title": "performanceGunTitle", "#performance-result-title": "performanceSimulationTitle", "#performance-result-table-title": "performanceResultTableTitle", "#performance-implemented-reload-title": "performanceImplementedReloadTitle", "#performance-implemented-reload-help": "performanceImplementedReloadHelp", "#performance-case-heading": "performanceCase", "#performance-condition-select-heading": "performanceOutput", "#performance-veteran-heading": "performanceVeteran", "#performance-expert-heading": "performanceExpert", "#performance-rookie-heading": "performanceRookie", "#performance-crew-count-heading": "performanceCrewCount", "#performance-crew-rate-heading": "performanceCrewRate", "#ability-help": "abilityHelp", "#hidden-growth-help": "hiddenHelp", "#tree-step-heading": "step", "#tree-class-heading": "className",
             "#tree-required-heading": "required", "#tree-actual-heading": "actual", "#tree-crew-heading": "crewGrowth",
             "#result-ability-heading": "ability", "#result-growth-heading": "currentGrowth", "#result-current-ability-heading": "currentAbility", "#result-seaman-adj-heading": "seamanAdjAbility",
         };
@@ -911,7 +911,7 @@ import {
             server.value === "korea" && enteredLevel > 25 ? "warning" : "success",
         );
     }
-    function defaultGlobalShipOfficerCount() {
+    function defaultGlobalShipVeteranCount() {
         if (server.value !== "global" || simulatorMode !== "ship") return 250;
         const activeLayer = shipLayers[activeShipLayer];
         const nationId = Number(nation.value);
@@ -920,44 +920,44 @@ import {
         return 200;
     }
     function defaultPerformanceCompositions(crewCount) {
-        const fixedOfficers = server.value === "korea"
+        const fixedVeterans = server.value === "korea"
             ? [180, 250, 300]
-            : [100, defaultGlobalShipOfficerCount(), 300];
-        const officers = [...fixedOfficers, Math.floor(crewCount * 0.4), Math.floor(crewCount * 0.45)];
-        return officers.map((officerCount) => {
-            const safeOfficers = Math.min(officerCount, maximumPerformanceOfficers(crewCount));
-            return { officers: safeOfficers, veterans: crewCount - safeOfficers, rookies: 0, seamanAdjustmentPercent: 0 };
+            : [100, defaultGlobalShipVeteranCount(), 300];
+        const veterans = [...fixedVeterans, Math.floor(crewCount * 0.4), Math.floor(crewCount * 0.45)];
+        return veterans.map((veteranCount) => {
+            const safeVeterans = Math.min(veteranCount, maximumPerformanceVeterans(crewCount));
+            return { veterans: safeVeterans, experts: crewCount - safeVeterans, rookies: 0, seamanAdjustmentPercent: 0 };
         });
     }
     function defaultPerformanceConditionIndex() {
         return server.value === "korea" ? 4 : 1;
     }
-    function maximumPerformanceOfficers(crewCount) {
+    function maximumPerformanceVeterans(crewCount) {
         return Math.floor(crewCount * (server.value === "korea" ? 0.45 : 0.5));
     }
-    function performanceCaseLabels(showActualOfficerCount = false) {
+    function performanceCaseLabels(showActualVeteranCount = false) {
         return performanceCompositions.map((composition, index) => {
             const currentCrew = performanceCurrentCrew(composition);
             const crewRate = performanceCrewCount > 0 ? currentCrew / performanceCrewCount * 100 : 0;
-            const percentageOfficerRate = [40, 45, 50].find((rate) =>
-                composition.officers === Math.floor(performanceCrewCount * rate / 100)
+            const percentageVeteranRate = [40, 45, 50].find((rate) =>
+                composition.veterans === Math.floor(performanceCrewCount * rate / 100)
             );
-            const officerLabel = language() === "ko"
-                ? `사관 ${showActualOfficerCount ? composition.officers : percentageOfficerRate ?? composition.officers}${!showActualOfficerCount && percentageOfficerRate ? "%" : ""}`
-                : `Officers ${showActualOfficerCount ? composition.officers : percentageOfficerRate ?? composition.officers}${!showActualOfficerCount && percentageOfficerRate ? "%" : ""}`;
-            const officerRateLabel = showActualOfficerCount && percentageOfficerRate
-                ? (language() === "ko" ? `사관 ${percentageOfficerRate}%` : `Officers ${percentageOfficerRate}%`)
+            const veteranLabel = language() === "ko"
+                ? `사관 ${showActualVeteranCount ? composition.veterans : percentageVeteranRate ?? composition.veterans}${!showActualVeteranCount && percentageVeteranRate ? "%" : ""}`
+                : `Veterans ${showActualVeteranCount ? composition.veterans : percentageVeteranRate ?? composition.veterans}${!showActualVeteranCount && percentageVeteranRate ? "%" : ""}`;
+            const veteranRateLabel = showActualVeteranCount && percentageVeteranRate
+                ? (language() === "ko" ? `사관 ${percentageVeteranRate}%` : `Veterans ${percentageVeteranRate}%`)
                 : null;
             const hasRookies = Number(composition.rookies) > 0;
             const hasReducedCrew = currentCrew !== performanceCrewCount;
             const showDetails = hasRookies || hasReducedCrew;
             if (!showDetails) {
-                return officerRateLabel ? [officerLabel, officerRateLabel] : [officerLabel];
+                return veteranRateLabel ? [veteranLabel, veteranRateLabel] : [veteranLabel];
             }
             const labels = language() === "ko"
-                ? [officerLabel, `숙련 ${composition.veterans} · 신병 ${composition.rookies}`, `총원 ${crewRate.toFixed(1)}%`]
-                : [officerLabel, `Veterans ${composition.veterans} · Rookies ${composition.rookies}`, `Total ${crewRate.toFixed(1)}%`];
-            if (officerRateLabel) labels.splice(1, 0, officerRateLabel);
+                ? [veteranLabel, `숙련 ${composition.experts} · 신병 ${composition.rookies}`, `총원 ${crewRate.toFixed(1)}%`]
+                : [veteranLabel, `Experts ${composition.experts} · Rookies ${composition.rookies}`, `Total ${crewRate.toFixed(1)}%`];
+            if (veteranRateLabel) labels.splice(1, 0, veteranRateLabel);
             return labels;
         });
     }
@@ -982,7 +982,7 @@ import {
         warning.hidden = server.value !== "global" || adjustment.count === 0;
     }
     function performanceCurrentCrew(composition) {
-        return composition.officers + composition.veterans + composition.rookies;
+        return composition.veterans + composition.experts + composition.rookies;
     }
     function updatePerformanceCrewDisplay(index) {
         const composition = performanceCompositions[index];
@@ -1019,13 +1019,13 @@ import {
             outputCheckbox.setAttribute("aria-label", `${caseLabels[index][0]} ${t().performanceOutput}`);
             outputCell.append(outputCheckbox);
             row.append(outputCell);
-            for (const field of ["officers", "veterans", "rookies"]) {
+            for (const field of ["veterans", "experts", "rookies"]) {
                 const cell = document.createElement("td");
                 const input = document.createElement("input");
                 input.className = "form-control form-control-sm text-end performance-personnel-input";
                 input.type = "number";
                 input.min = "0";
-                if (field === "officers") input.max = String(maximumPerformanceOfficers(crewCount));
+                if (field === "veterans") input.max = String(maximumPerformanceVeterans(crewCount));
                 input.step = "1";
                 input.value = String(composition[field]);
                 input.dataset.index = String(index);
@@ -1272,21 +1272,21 @@ import {
             : "\uD0D1\uC2B9 \uAE30\uAD00\uBCD1 \uC218";
     }
     function fitPerformanceComposition(composition, changedField, previousComposition = null) {
-        if (changedField === "officers"
+        if (changedField === "veterans"
             && previousComposition
             && performanceCurrentCrew(previousComposition) === performanceCrewCount) {
-            const officerIncrease = composition.officers - previousComposition.officers;
-            composition.veterans = Math.max(0, previousComposition.veterans - officerIncrease);
+            const veteranIncrease = composition.veterans - previousComposition.veterans;
+            composition.experts = Math.max(0, previousComposition.experts - veteranIncrease);
             composition.rookies = previousComposition.rookies;
         }
         const reductionOrder = {
-            officers: ["veterans", "rookies"],
-            veterans: ["rookies", "officers"],
-            rookies: ["veterans", "officers"],
+            veterans: ["experts", "rookies"],
+            experts: ["rookies", "veterans"],
+            rookies: ["experts", "veterans"],
         };
-        let overflow = composition.officers + composition.veterans + composition.rookies - performanceCrewCount;
+        let overflow = composition.veterans + composition.experts + composition.rookies - performanceCrewCount;
         if (overflow <= 0) {
-            const keepZeroRookies = changedField === "veterans" && composition.rookies === 0;
+            const keepZeroRookies = changedField === "experts" && composition.rookies === 0;
             if (changedField !== "rookies" && !keepZeroRookies) composition.rookies += -overflow;
             return;
         }
@@ -1741,8 +1741,8 @@ import {
                                 : "-";
                         } else if (valueKey === "personnel") {
                             for (const personnelText of [
-                                t().performanceGuidelineOfficer(adjustment.officers),
                                 t().performanceGuidelineVeteran(adjustment.veterans),
+                                t().performanceGuidelineExpert(adjustment.experts),
                                 t().performanceGuidelineRookie(adjustment.rookies),
                             ]) {
                                 const personnelLine = document.createElement("small");
@@ -1937,28 +1937,28 @@ import {
             }
             resultBody.append(row);
         }
-        const officerRates = server.value === "korea" ? [0.4, 0.45] : [0.4, 0.45, 0.5];
-        const officerHeadRow = document.createElement("tr");
-        const officerHeadLabel = document.createElement("th");
-        officerHeadLabel.textContent = t().officerRate;
-        officerHeadRow.append(officerHeadLabel);
-        const officerCountRow = document.createElement("tr");
-        const officerCountLabel = document.createElement("th");
-        officerCountLabel.scope = "row";
-        officerCountLabel.textContent = t().officerCount;
-        officerCountRow.append(officerCountLabel);
-        for (const rate of officerRates) {
+        const veteranRates = server.value === "korea" ? [0.4, 0.45] : [0.4, 0.45, 0.5];
+        const veteranHeadRow = document.createElement("tr");
+        const veteranHeadLabel = document.createElement("th");
+        veteranHeadLabel.textContent = t().veteranRate;
+        veteranHeadRow.append(veteranHeadLabel);
+        const veteranCountRow = document.createElement("tr");
+        const veteranCountLabel = document.createElement("th");
+        veteranCountLabel.scope = "row";
+        veteranCountLabel.textContent = t().veteranCount;
+        veteranCountRow.append(veteranCountLabel);
+        for (const rate of veteranRates) {
             const rateCell = document.createElement("th");
             rateCell.textContent = `${Math.round(rate * 100)}%`;
-            officerHeadRow.append(rateCell);
+            veteranHeadRow.append(rateCell);
             const countCell = document.createElement("td");
             countCell.textContent = String(Math.floor(abilityByType.crewGrowth * rate));
-            officerCountRow.append(countCell);
+            veteranCountRow.append(countCell);
         }
-        const officerTable = el("#officer-head").closest("table");
-        officerTable.classList.add("officer-rate-table");
-        el("#officer-head").replaceChildren(officerHeadRow);
-        el("#officer-body").replaceChildren(officerCountRow);
+        const veteranTable = el("#veteran-head").closest("table");
+        veteranTable.classList.add("veteran-rate-table");
+        el("#veteran-head").replaceChildren(veteranHeadRow);
+        el("#veteran-body").replaceChildren(veteranCountRow);
         const currentClassName = scheduledStages.at(-1)?.stage.name || path[0].name;
         const appliedClasses = new Set(scheduledStages.map(({ stage }) => stage.name));
         const isEngineSailor = isEngineSailorClass(currentClassName);
@@ -2099,7 +2099,7 @@ import {
             specialtyContainer.append(button);
         }
         renderCarrierAircraftModeButtons();
-        renderShipOfficerBulkControls();
+        renderShipVeteranBulkControls();
     }
     function renderCarrierAircraftModeButtons() {
         const container = el("#carrier-aircraft-mode-buttons");
@@ -2121,28 +2121,28 @@ import {
             container.append(button);
         }
     }
-    function renderShipOfficerBulkControls() {
-        const container = el("#ship-officer-bulk-controls");
-        const label = el("#ship-officer-bulk-label");
-        const scopeButtons = el("#ship-officer-bulk-scope-buttons");
-        const buttons = el("#ship-officer-bulk-buttons");
-        const input = el("#ship-officer-bulk-input");
+    function renderShipVeteranBulkControls() {
+        const container = el("#ship-veteran-bulk-controls");
+        const label = el("#ship-veteran-bulk-label");
+        const scopeButtons = el("#ship-veteran-bulk-scope-buttons");
+        const buttons = el("#ship-veteran-bulk-buttons");
+        const input = el("#ship-veteran-bulk-input");
         if (!container || !label || !scopeButtons || !buttons || !input) return;
         const presetRates = server.value === "korea" ? [45, 40] : [50, 45, 40];
         const disabled = simulatorMode !== "ship" || !selectedShip();
-        label.textContent = t().shipOfficerBulk;
+        label.textContent = t().shipVeteranBulk;
         scopeButtons.replaceChildren();
         for (const [scope, scopeLabel] of [["all", "All"], ["captain", "Bridge"], ["gunner", "Mount"], ["support", "Support"]]) {
             const button = document.createElement("button");
-            const active = shipOfficerBulkScope === scope;
+            const active = shipVeteranBulkScope === scope;
             button.type = "button";
-            button.className = `btn btn-outline-secondary btn-sm ship-officer-bulk-scope-button${active ? " active" : ""}`;
+            button.className = `btn btn-outline-secondary btn-sm ship-veteran-bulk-scope-button${active ? " active" : ""}`;
             button.textContent = scopeLabel;
             button.disabled = disabled;
             button.setAttribute("aria-pressed", String(active));
             button.addEventListener("click", () => {
-                shipOfficerBulkScope = scope;
-                renderShipOfficerBulkControls();
+                shipVeteranBulkScope = scope;
+                renderShipVeteranBulkControls();
             });
             scopeButtons.append(button);
         }
@@ -2150,15 +2150,15 @@ import {
         presetRates.forEach((rate) => {
             const button = document.createElement("button");
             button.type = "button";
-            button.className = "btn btn-outline-secondary btn-sm ship-officer-bulk-button";
+            button.className = "btn btn-outline-secondary btn-sm ship-veteran-bulk-button";
             button.textContent = `${rate}%`;
             button.disabled = disabled;
-            button.addEventListener("click", () => applyOfficerRateToShipRoster(rate));
+            button.addEventListener("click", () => applyVeteranRateToShipRoster(rate));
             buttons.append(button);
         });
         input.removeAttribute("max");
-        input.placeholder = t().shipOfficerRatePlaceholder;
-        input.setAttribute("aria-label", t().shipOfficerBulk);
+        input.placeholder = t().shipVeteranRatePlaceholder;
+        input.setAttribute("aria-label", t().shipVeteranBulk);
         input.disabled = disabled;
     }
     function specializedAbilityForPath(pathIndex) {
@@ -2700,10 +2700,10 @@ import {
         activateLayerForRosterEdit(originalActiveLayer);
         renderShipLayerTabs();
     }
-    function applyOfficerSettingToShipRoster(resolveOfficerCount) {
+    function applyVeteranSettingToShipRoster(resolveVeteranCount) {
         if (simulatorMode !== "ship" || !selectedShip()) return;
-        const appliesToLayer = (layer) => shipOfficerBulkScope === "all" || layer.role === shipOfficerBulkScope;
-        if (shipOfficerBulkScope === "all" || shipOfficerBulkScope === "captain") {
+        const appliesToLayer = (layer) => shipVeteranBulkScope === "all" || layer.role === shipVeteranBulkScope;
+        if (shipVeteranBulkScope === "all" || shipVeteranBulkScope === "captain") {
             disableCaptainAutoAdjustment(shipLayers.find((layer) => layer.role === "captain"));
         }
         let activeCompositionChanged = false;
@@ -2722,16 +2722,16 @@ import {
             if (!Number.isInteger(conditionIndex) || conditionIndex < 0 || conditionIndex >= 5
                 || !Number.isFinite(crewCount) || crewCount < 0 || !Array.isArray(compositions)
                 || !compositions[conditionIndex]) return;
-            const requestedOfficers = Number(resolveOfficerCount(crewCount));
-            if (!Number.isFinite(requestedOfficers)) return;
-            const officers = Math.min(
-                Math.max(0, Math.floor(requestedOfficers)),
-                maximumPerformanceOfficers(crewCount),
+            const requestedVeterans = Number(resolveVeteranCount(crewCount));
+            if (!Number.isFinite(requestedVeterans)) return;
+            const veterans = Math.min(
+                Math.max(0, Math.floor(requestedVeterans)),
+                maximumPerformanceVeterans(crewCount),
             );
             const currentComposition = compositions[conditionIndex];
             const appliedComposition = {
-                officers,
-                veterans: Math.max(0, crewCount - officers),
+                veterans,
+                experts: Math.max(0, crewCount - veterans),
                 rookies: 0,
                 seamanAdjustmentPercent: Number(currentComposition.seamanAdjustmentPercent) || 0,
             };
@@ -2748,7 +2748,7 @@ import {
         });
         if (activeCompositionChanged) {
             const composition = performanceCompositions[performanceSelectedConditionIndex];
-            for (const field of ["officers", "veterans", "rookies"]) {
+            for (const field of ["veterans", "experts", "rookies"]) {
                 const personnelInput = el(`#performance-input-body [data-index="${performanceSelectedConditionIndex}"][data-field="${field}"]`);
                 if (personnelInput) personnelInput.value = String(composition[field]);
             }
@@ -2761,32 +2761,32 @@ import {
             renderShipPerformance();
         }
     }
-    function applyOfficerRateToShipRoster(value) {
+    function applyVeteranRateToShipRoster(value) {
         if (String(value).trim() === "") return;
         const numericRate = Number(value);
         if (!Number.isFinite(numericRate)) return;
         const maximumRate = server.value === "korea" ? 45 : 50;
-        const officerRate = Math.min(maximumRate, Math.max(0, Math.floor(numericRate)));
-        applyOfficerSettingToShipRoster((crewCount) => Math.floor(crewCount * officerRate / 100));
+        const veteranRate = Math.min(maximumRate, Math.max(0, Math.floor(numericRate)));
+        applyVeteranSettingToShipRoster((crewCount) => Math.floor(crewCount * veteranRate / 100));
     }
-    function applyOfficerCountToShipRoster(value) {
+    function applyVeteranCountToShipRoster(value) {
         if (String(value).trim() === "") return;
-        const officerCount = Number(value);
-        if (!Number.isFinite(officerCount)) return;
-        applyOfficerSettingToShipRoster(() => officerCount);
+        const veteranCount = Number(value);
+        if (!Number.isFinite(veteranCount)) return;
+        applyVeteranSettingToShipRoster(() => veteranCount);
     }
     function setPerformancePersonnelValue(index, field, value) {
-        if (!["officers", "veterans", "rookies"].includes(field)) return false;
+        if (!["veterans", "experts", "rookies"].includes(field)) return false;
         const composition = performanceCompositions[index];
         if (!composition || !Number.isFinite(performanceCrewCount)) return false;
         const previousComposition = structuredClone(composition);
         const inputValue = Math.max(0, Math.floor(Number(value) || 0));
-        if (field === "veterans" || field === "rookies") performanceDetailedHeaders[index] = true;
-        composition[field] = field === "officers"
-            ? Math.min(inputValue, maximumPerformanceOfficers(performanceCrewCount))
+        if (field === "experts" || field === "rookies") performanceDetailedHeaders[index] = true;
+        composition[field] = field === "veterans"
+            ? Math.min(inputValue, maximumPerformanceVeterans(performanceCrewCount))
             : inputValue;
         fitPerformanceComposition(composition, field, previousComposition);
-        for (const field of ["officers", "veterans", "rookies"]) {
+        for (const field of ["veterans", "experts", "rookies"]) {
             const input = el(`#performance-input-body [data-index="${index}"][data-field="${field}"]`);
             if (input) input.value = String(composition[field]);
         }
@@ -2795,7 +2795,7 @@ import {
     }
     function disableCaptainAutoAdjustment(layer) {
         if (simulatorMode !== "ship" || layer?.role !== "captain") return;
-        // Do not dispatch change: manual edits must not trigger the full-veteran reset.
+        // Do not dispatch change: manual edits must not trigger the full-expert reset.
         el("#ship-guideline-adjust-captain").checked = false;
         el("#ship-guideline-adjustment-result").hidden = true;
     }
@@ -2849,7 +2849,7 @@ import {
                 });
             const rosterHeadings = [
                 t().rosterSeat, t().rosterClass, t().rosterLevel, t().rosterSailor, t().rosterBoost,
-                t().rosterClassChange, t().rosterOfficer, t().rosterVeteran, t().rosterRookie,
+                t().rosterClassChange, t().rosterVeteran, t().rosterExpert, t().rosterRookie,
                 t().rosterTotalCrew, ...rosterAbilityColumns.map(([, label]) => label),
             ];
             rosterHeadings.forEach((heading, headingIndex) => {
@@ -2972,8 +2972,8 @@ import {
                 classChangeCell.append(classChangeInput);
 
                 const personnelCells = [
-                    ["officers", t().rosterOfficer],
                     ["veterans", t().rosterVeteran],
+                    ["experts", t().rosterExpert],
                     ["rookies", t().rosterRookie],
                 ].map(([field, label]) => {
                     const cell = document.createElement("td");
@@ -2982,8 +2982,8 @@ import {
                     input.type = "number";
                     input.min = "0";
                     input.step = "1";
-                    if (field === "officers" && Number.isFinite(layerCrewCount)) {
-                        input.max = String(maximumPerformanceOfficers(layerCrewCount));
+                    if (field === "veterans" && Number.isFinite(layerCrewCount)) {
+                        input.max = String(maximumPerformanceVeterans(layerCrewCount));
                     }
                     input.value = layerComposition ? String(layerComposition[field]) : "";
                     input.disabled = !layerComposition || !Number.isFinite(layerCrewCount);
@@ -3553,16 +3553,16 @@ import {
         if (!captainLayer || !adjustment?.possible) return null;
         return applyCaptainComposition(captainLayer, adjustment);
     }
-    function resetCaptainCompositionToFullVeterans() {
+    function resetCaptainCompositionToFullExperts() {
         const captain = shipLayers.find((layer) => layer.role === "captain");
         if (!captain) return;
         const summary = shipLayerSummary(captain);
         const totalCrew = Number(summary.performanceContext?.crewCount);
-        const officers = Number(summary.performanceCondition?.officers);
-        if (!Number.isFinite(totalCrew) || !Number.isFinite(officers)) return;
+        const veterans = Number(summary.performanceCondition?.veterans);
+        if (!Number.isFinite(totalCrew) || !Number.isFinite(veterans)) return;
         applyCaptainComposition(captain, {
-            officers,
-            veterans: Math.max(0, totalCrew - officers),
+            veterans,
+            experts: Math.max(0, totalCrew - veterans),
             rookies: 0,
         });
     }
@@ -3575,18 +3575,18 @@ import {
         const currentCondition = shipLayerSummary(captainLayer).performanceCondition;
         if (!currentCondition) return null;
         const appliedCondition = {
-            officers: adjustment.officers,
             veterans: adjustment.veterans,
+            experts: adjustment.experts,
             rookies: adjustment.rookies,
             seamanAdjustmentPercent: Number(currentCondition.seamanAdjustmentPercent) || 0,
         };
-        if (["officers", "veterans", "rookies", "seamanAdjustmentPercent"]
+        if (["veterans", "experts", "rookies", "seamanAdjustmentPercent"]
             .every((key) => Number(currentCondition[key]) === Number(appliedCondition[key]))) return null;
         captainLayer.summary.performanceCondition = structuredClone(appliedCondition);
         if (isActiveCaptain) {
             performanceCompositions[conditionIndex] = structuredClone(appliedCondition);
             performanceDetailedHeaders[conditionIndex] = true;
-            for (const field of ["officers", "veterans", "rookies"]) {
+            for (const field of ["veterans", "experts", "rookies"]) {
                 const input = el(`#performance-input-body [data-index="${conditionIndex}"][data-field="${field}"]`);
                 if (input) input.value = String(appliedCondition[field]);
             }
@@ -3617,8 +3617,8 @@ import {
         let value = t().shipGuidelineAdjustmentDisabled;
         if (condition) {
             value = language() === "ko"
-                ? `사관 ${condition.officers} / 숙련병 ${condition.veterans} / 신병 ${condition.rookies}`
-                : `Officers ${condition.officers} / Veterans ${condition.veterans} / Rookies ${condition.rookies}`;
+                ? `사관 ${condition.veterans} / 숙련병 ${condition.experts} / 신병 ${condition.rookies}`
+                : `Veterans ${condition.veterans} / Experts ${condition.experts} / Rookies ${condition.rookies}`;
         }
         output.textContent = value;
         output.hidden = false;
@@ -4153,7 +4153,7 @@ import {
             button.disabled = !shipMode || !selectedShip();
         });
         renderCarrierAircraftModeButtons();
-        renderShipOfficerBulkControls();
+        renderShipVeteranBulkControls();
         if (addButton) addButton.hidden = shipMode;
         if (removeButton) {
             removeButton.hidden = shipMode;
@@ -4287,44 +4287,44 @@ import {
         globalShipSpecialtyButtons.setAttribute("role", "group");
         globalShipSpecialtyButtons.setAttribute("aria-label", "Global sailor specialty");
         globalShipSpecialtyButtons.hidden = true;
-        const shipOfficerBulkControls = document.createElement("div");
-        shipOfficerBulkControls.id = "ship-officer-bulk-controls";
-        shipOfficerBulkControls.className = "d-flex flex-wrap align-items-center gap-1 ms-lg-auto";
-        const shipOfficerBulkLabel = document.createElement("span");
-        shipOfficerBulkLabel.id = "ship-officer-bulk-label";
-        shipOfficerBulkLabel.className = "small text-muted me-1";
-        const shipOfficerBulkButtons = document.createElement("div");
-        shipOfficerBulkButtons.id = "ship-officer-bulk-buttons";
-        shipOfficerBulkButtons.className = "btn-group flex-wrap";
-        shipOfficerBulkButtons.setAttribute("role", "group");
-        shipOfficerBulkButtons.setAttribute("aria-label", "Officer percentage");
-        const shipOfficerBulkScopeButtons = document.createElement("div");
-        shipOfficerBulkScopeButtons.id = "ship-officer-bulk-scope-buttons";
-        shipOfficerBulkScopeButtons.className = "btn-group flex-wrap";
-        shipOfficerBulkScopeButtons.setAttribute("role", "group");
-        shipOfficerBulkScopeButtons.setAttribute("aria-label", "Officer batch input scope");
-        const shipOfficerBulkInputGroup = document.createElement("div");
-        shipOfficerBulkInputGroup.className = "input-group input-group-sm";
-        shipOfficerBulkInputGroup.style.width = "7.5rem";
-        const shipOfficerBulkInput = document.createElement("input");
-        shipOfficerBulkInput.id = "ship-officer-bulk-input";
-        shipOfficerBulkInput.className = "form-control";
-        shipOfficerBulkInput.type = "number";
-        shipOfficerBulkInput.inputMode = "numeric";
-        shipOfficerBulkInput.min = "0";
-        shipOfficerBulkInput.step = "1";
-        shipOfficerBulkInputGroup.append(shipOfficerBulkInput);
-        shipOfficerBulkControls.append(
-            shipOfficerBulkLabel,
-            shipOfficerBulkScopeButtons,
-            shipOfficerBulkButtons,
-            shipOfficerBulkInputGroup,
+        const shipVeteranBulkControls = document.createElement("div");
+        shipVeteranBulkControls.id = "ship-veteran-bulk-controls";
+        shipVeteranBulkControls.className = "d-flex flex-wrap align-items-center gap-1 ms-lg-auto";
+        const shipVeteranBulkLabel = document.createElement("span");
+        shipVeteranBulkLabel.id = "ship-veteran-bulk-label";
+        shipVeteranBulkLabel.className = "small text-muted me-1";
+        const shipVeteranBulkButtons = document.createElement("div");
+        shipVeteranBulkButtons.id = "ship-veteran-bulk-buttons";
+        shipVeteranBulkButtons.className = "btn-group flex-wrap";
+        shipVeteranBulkButtons.setAttribute("role", "group");
+        shipVeteranBulkButtons.setAttribute("aria-label", "Veteran percentage");
+        const shipVeteranBulkScopeButtons = document.createElement("div");
+        shipVeteranBulkScopeButtons.id = "ship-veteran-bulk-scope-buttons";
+        shipVeteranBulkScopeButtons.className = "btn-group flex-wrap";
+        shipVeteranBulkScopeButtons.setAttribute("role", "group");
+        shipVeteranBulkScopeButtons.setAttribute("aria-label", "Veteran batch input scope");
+        const shipVeteranBulkInputGroup = document.createElement("div");
+        shipVeteranBulkInputGroup.className = "input-group input-group-sm";
+        shipVeteranBulkInputGroup.style.width = "7.5rem";
+        const shipVeteranBulkInput = document.createElement("input");
+        shipVeteranBulkInput.id = "ship-veteran-bulk-input";
+        shipVeteranBulkInput.className = "form-control";
+        shipVeteranBulkInput.type = "number";
+        shipVeteranBulkInput.inputMode = "numeric";
+        shipVeteranBulkInput.min = "0";
+        shipVeteranBulkInput.step = "1";
+        shipVeteranBulkInputGroup.append(shipVeteranBulkInput);
+        shipVeteranBulkControls.append(
+            shipVeteranBulkLabel,
+            shipVeteranBulkScopeButtons,
+            shipVeteranBulkButtons,
+            shipVeteranBulkInputGroup,
         );
         shipSailorPresetControls.append(
             shipSailorPresetButtons,
             globalShipSpecialtyButtons,
             carrierAircraftModeButtons,
-            shipOfficerBulkControls,
+            shipVeteranBulkControls,
         );
         rosterBody.append(shipSailorPresetControls, layerControls);
         rosterSection.append(rosterTitle, rosterBody);
@@ -4337,7 +4337,7 @@ import {
         const initialAbilitySection = el("#initial-ability-input-title").closest(".col-12");
         const hiddenGrowthSection = el("#hidden-growth-section");
         [initialGrowthSection, initialAbilitySection, hiddenGrowthSection].forEach((section) => { section.classList.add("initial-source-section"); });
-        el("#officer-title").parentElement.hidden = true;
+        el("#veteran-title").parentElement.hidden = true;
         const settings = el("#sailor-settings-section");
         const tree = el("#tree-section");
         const result = el("#result-section");
@@ -4362,8 +4362,8 @@ import {
         const index = Number(event.target.value);
         if (Number.isInteger(index)) activateShipLayer(index);
     });
-    el("#ship-officer-bulk-input").addEventListener("input", (event) => {
-        if (event.target.value !== "") applyOfficerCountToShipRoster(event.target.value);
+    el("#ship-veteran-bulk-input").addEventListener("input", (event) => {
+        if (event.target.value !== "") applyVeteranCountToShipRoster(event.target.value);
     });
     el("#ship-select").addEventListener("change", () => {
         updateShipCustomSelection();
@@ -4425,13 +4425,13 @@ import {
     el("#ship-r-gun-range-target").addEventListener("change", (event) => {
         updateShipGuidelineControls();
         if (!event.target.checked && el("#ship-guideline-adjust-captain").checked) {
-            resetCaptainCompositionToFullVeterans();
+            resetCaptainCompositionToFullExperts();
         }
         renderShipPerformance();
     });
     el("#ship-guideline-adjust-captain").addEventListener("change", (event) => {
         if (!event.target.checked) {
-            resetCaptainCompositionToFullVeterans();
+            resetCaptainCompositionToFullExperts();
         }
         renderShipPerformance();
     });

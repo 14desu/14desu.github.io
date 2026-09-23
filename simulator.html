@@ -148,8 +148,8 @@
         #sailor-form .form-text { margin-top:.2rem; font-size:.75rem; }
         .ability-settings-summary { cursor:pointer; color:#1d4f7a; font-weight:700; }
         .result-table.table > :not(caption) > * > * { padding:.3rem .45rem; }
-        .officer-rate-table { table-layout:fixed; }
-        .officer-rate-table th:first-child { width:50%; text-align:left; }
+        .veteran-rate-table { table-layout:fixed; }
+        .veteran-rate-table th:first-child { width:50%; text-align:left; }
         .result-view-switch .btn { padding:.15rem .5rem; font-size:.78rem; }
         .result-table .initial-ability-cell { min-width:155px; padding:.2rem!important; }
         .initial-ability-cell .ability-input { display:grid; grid-template-columns:2.2rem 4.6rem; align-items:center; gap:.2rem; margin:.1rem 0; }
@@ -442,7 +442,7 @@
 
             <section id="result-section" class="card sailor-card mb-3" hidden>
                 <div id="result-title" class="card-header">수병 계산 결과</div>
-                <div class="card-body"><p id="result-summary" class="text-muted"></p><div class="table-responsive"><table class="table table-bordered table-striped result-table mb-0"><thead><tr><th id="result-ability-heading">어빌리티</th><th id="result-growth-heading">성장</th><th id="result-current-ability-heading">누적</th><th id="result-seaman-adj-heading" hidden>표시</th></tr></thead><tbody id="result-body"></tbody></table></div><p id="result-ability-help" class="form-text mb-0">누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.</p><div class="mt-3"><h2 id="officer-title" class="h6">사관수</h2><div class="table-responsive"><table class="table table-bordered table-sm result-table mb-0"><thead id="officer-head"></thead><tbody id="officer-body"></tbody></table></div></div></div>
+                <div class="card-body"><p id="result-summary" class="text-muted"></p><div class="table-responsive"><table class="table table-bordered table-striped result-table mb-0"><thead><tr><th id="result-ability-heading">어빌리티</th><th id="result-growth-heading">성장</th><th id="result-current-ability-heading">누적</th><th id="result-seaman-adj-heading" hidden>표시</th></tr></thead><tbody id="result-body"></tbody></table></div><p id="result-ability-help" class="form-text mb-0">누적 어빌리티를 직접 수정할 수 있으며, 수정한 값은 성능 계산 요청에 반영됩니다.</p><div class="mt-3"><h2 id="veteran-title" class="h6">사관수</h2><div class="table-responsive"><table class="table table-bordered table-sm result-table mb-0"><thead id="veteran-head"></thead><tbody id="veteran-body"></tbody></table></div></div></div>
             </section>
 
             <div class="performance-layout">
@@ -452,7 +452,7 @@
                     <h2 id="performance-personnel-title" class="h6">사관 숙련병 신병 조건</h2>
                     <div class="table-responsive">
                         <table class="table table-bordered table-sm result-table mb-0">
-                            <thead><tr><th id="performance-case-heading">조건</th><th id="performance-condition-select-heading">출력</th><th id="performance-officer-heading">사관</th><th id="performance-veteran-heading">숙련병</th><th id="performance-rookie-heading">신병</th><th id="performance-crew-count-heading">현재 / 총 수병수</th><th id="performance-crew-rate-heading">수병 비율</th></tr></thead>
+                            <thead><tr><th id="performance-case-heading">조건</th><th id="performance-condition-select-heading">출력</th><th id="performance-veteran-heading">사관</th><th id="performance-expert-heading">숙련병</th><th id="performance-rookie-heading">신병</th><th id="performance-crew-count-heading">현재 / 총 수병수</th><th id="performance-crew-rate-heading">수병 비율</th></tr></thead>
                             <tbody id="performance-input-body"></tbody>
                         </table>
                     </div>
@@ -528,6 +528,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./simulator.js?v=20260922-china-gunner-officers-v208"></script>
+<script type="module" src="./simulator.js?v=20260923-rank-terms-v209"></script>
 </body>
 </html>
