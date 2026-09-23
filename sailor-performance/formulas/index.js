@@ -1,14 +1,14 @@
 import { REPAIR_SPEED_FORMULAS } from "./repair-speed.js";
 import { STRUCTURAL_DEFENSE_FORMULAS } from "./structural-defense.js";
 
-export { calculateAbilityStages } from "./ability-stages.js";
+export { calculateAbilityStages } from "./ability-stages.js?v=20260923-rank-terms-v11";
 export {
     calculateEngineOverheat,
     calculateShipEngineOverheat,
     calculateShipOverheatSpeed,
 } from "./engine-overheat.js";
 export { calculateGlobalGunReload, calculateKoreaGunReload } from "./gun-reload.js";
-export { calculateGuidelineLength, findGuidelinePersonnelAdjustment } from "./guideline.js";
+export { calculateGuidelineLength, findGuidelinePersonnelAdjustment } from "./guideline.js?v=20260923-rank-terms-v11";
 export {
     calculateShipRepairSpeed,
     calculateShipRepairSpeedDetails,

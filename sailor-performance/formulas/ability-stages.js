@@ -12,8 +12,8 @@ export function calculateAbilityStages({
     condition,
     applySeamanAdjustment = true,
 }) {
-    const currentCrew = condition.officers + condition.veterans + condition.rookies;
-    const personnelWeight = condition.officers * 4 + condition.veterans;
+    const currentCrew = condition.veterans + condition.experts + condition.rookies;
+    const personnelWeight = condition.veterans * 4 + condition.experts;
     const weightedAbility = ability * personnelWeight;
     const headWeightRatio = currentCrew / crewCount;
     const headWeightedAbility = weightedAbility * headWeightRatio;

@@ -1,4 +1,4 @@
-import { calculateAbilityStages } from "./ability-stages.js";
+import { calculateAbilityStages } from "./ability-stages.js?v=20260923-rank-terms-v11";
 
 const GUIDELINE_ABILITY_SCALE = 2000;
 const GUIDELINE_LENGTH_STEP = 2;
@@ -37,8 +37,8 @@ function upperBoundRookies({
     server,
     potentialAbility,
     crewCount,
-    officers,
     veterans,
+    experts,
     seamanAdjustmentPercent,
     applySeamanAdjustment,
     maximumRookies,
@@ -50,8 +50,8 @@ function upperBoundRookies({
     while (low <= high) {
         const rookies = Math.floor((low + high) / 2);
         const calculated = potentialForComposition(server, potentialAbility, crewCount, {
-            officers,
             veterans,
+            experts,
             rookies,
             seamanAdjustmentPercent,
         }, applySeamanAdjustment);
@@ -69,8 +69,8 @@ function lowerBoundRookiesForLength({
     server,
     potentialAbility,
     crewCount,
-    officers,
     veterans,
+    experts,
     seamanAdjustmentPercent,
     applySeamanAdjustment,
     maximumRookies,
@@ -82,8 +82,8 @@ function lowerBoundRookiesForLength({
     while (low <= high) {
         const rookies = Math.floor((low + high) / 2);
         const calculated = potentialForComposition(server, potentialAbility, crewCount, {
-            officers,
             veterans,
+            experts,
             rookies,
             seamanAdjustmentPercent,
         }, applySeamanAdjustment);
@@ -110,19 +110,19 @@ export function findGuidelinePersonnelAdjustment({
     const targetSailorLength = targetGuidelineLength - fcsRangeLimit;
     if (targetSailorLength < 0) return null;
 
-    const officers = condition.officers;
-    const maximumVeterans = crewCount - officers;
+    const veterans = condition.veterans;
+    const maximumExperts = crewCount - veterans;
     let bestSailorLength = -1;
     const candidates = [];
 
-    for (let veterans = 0; veterans <= maximumVeterans; veterans += 1) {
-        const maximumRookies = crewCount - officers - veterans;
+    for (let experts = 0; experts <= maximumExperts; experts += 1) {
+        const maximumRookies = crewCount - veterans - experts;
         const rookies = upperBoundRookies({
             server,
             potentialAbility,
             crewCount,
-            officers,
             veterans,
+            experts,
             seamanAdjustmentPercent: condition.seamanAdjustmentPercent,
             applySeamanAdjustment,
             maximumRookies,
@@ -130,8 +130,8 @@ export function findGuidelinePersonnelAdjustment({
         });
         if (rookies < 0) continue;
         const calculated = potentialForComposition(server, potentialAbility, crewCount, {
-            officers,
             veterans,
+            experts,
             rookies,
             seamanAdjustmentPercent: condition.seamanAdjustmentPercent,
         }, applySeamanAdjustment);
@@ -140,7 +140,7 @@ export function findGuidelinePersonnelAdjustment({
             candidates.length = 0;
         }
         if (calculated.guidelineLength === bestSailorLength) {
-            candidates.push({ veterans, maximumRookies });
+            candidates.push({ experts, maximumRookies });
         }
     }
     if (bestSailorLength < 0) return null;
@@ -151,16 +151,16 @@ export function findGuidelinePersonnelAdjustment({
             server,
             potentialAbility,
             crewCount,
-            officers,
-            veterans: candidate.veterans,
+            veterans,
+            experts: candidate.experts,
             seamanAdjustmentPercent: condition.seamanAdjustmentPercent,
             applySeamanAdjustment,
             maximumRookies: candidate.maximumRookies,
             targetLength: bestSailorLength,
         });
         const adjustedCondition = {
-            officers,
-            veterans: candidate.veterans,
+            veterans,
+            experts: candidate.experts,
             rookies,
             seamanAdjustmentPercent: condition.seamanAdjustmentPercent,
         };
