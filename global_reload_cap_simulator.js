@@ -129,6 +129,7 @@ import {
     let gunnerPaths = [];
     let lateStageSelections = [];
     let pathFilterMode = "final";
+    let showCellDetails = true;
     const columnSettings = DEFAULT_LEVELS.map((currentLevel) => ({ currentLevel }));
     const lateLevels = [...DEFAULT_LATE_LEVELS];
 
@@ -565,6 +566,19 @@ import {
         const corner = document.createElement("th");
         corner.scope = "col";
         corner.innerHTML = '<span class="matrix-corner-title">Reload cap rate<br>Repair speed</span>';
+        const detailsToggle = document.createElement("label");
+        detailsToggle.className = "matrix-details-toggle";
+        const detailsCheckbox = document.createElement("input");
+        detailsCheckbox.className = "form-check-input";
+        detailsCheckbox.type = "checkbox";
+        detailsCheckbox.checked = showCellDetails;
+        detailsCheckbox.setAttribute("aria-label", "Show ability and personnel details");
+        detailsCheckbox.addEventListener("change", () => {
+            showCellDetails = detailsCheckbox.checked;
+            updateCellDetailsVisibility();
+        });
+        detailsToggle.append(detailsCheckbox, document.createTextNode("Details"));
+        corner.append(detailsToggle);
         row.append(corner);
 
         columnSettings.forEach((setting, index) => {
@@ -589,6 +603,10 @@ import {
             row.append(heading);
         });
         matrixHead.replaceChildren(row);
+    }
+
+    function updateCellDetailsVisibility() {
+        matrixBody.classList.toggle("show-cell-details", showCellDetails);
     }
 
     function unavailableCell(message) {
@@ -664,17 +682,17 @@ import {
         value.className = `cap-progress${progress >= 100 ? " cap-reached" : ""}`;
         value.textContent = `${progress.toFixed(1)}%`;
         const sailorDetail = document.createElement("span");
-        sailorDetail.className = "cap-detail";
+        sailorDetail.className = "cap-detail cap-extra-detail";
         sailorDetail.textContent = `Reload ${numberFormatter.format(sailor.reloadAbility)}`;
         const repairSpeedDetail = document.createElement("span");
         repairSpeedDetail.className = "cap-detail cap-repair-speed";
         repairSpeedDetail.dataset.repairSpeed = String(repairResult.repairSpeedPerSecond);
         repairSpeedDetail.textContent = `${repairResult.repairSpeedPerSecond.toFixed(1)}/s`;
         const repairAbilityDetail = document.createElement("span");
-        repairAbilityDetail.className = "cap-detail";
+        repairAbilityDetail.className = "cap-detail cap-extra-detail";
         repairAbilityDetail.textContent = `Repair ${numberFormatter.format(sailor.repairAbility)}`;
         const personnelDetail = document.createElement("span");
-        personnelDetail.className = "cap-detail";
+        personnelDetail.className = "cap-detail cap-extra-detail";
         personnelDetail.textContent = `Veterans ${numberFormatter.format(veteranCount)} · Experts ${numberFormatter.format(experts)}`;
         cell.title = `Current Lv.${currentLevel}, Late Lv.${lateLevel}, Reload ${sailor.reloadAbility}, Repair ${sailor.repairAbility}, Crew ${sailor.crewCount}, Veterans ${veteranCount}, Experts ${experts}, Reload cap ability ${Math.floor(abilityStages.serverAdjAbility)} / ${GLOBAL_RELOAD_ABILITY_CAP}`;
         cell.append(value, sailorDetail, repairSpeedDetail, repairAbilityDetail, personnelDetail);
@@ -718,6 +736,7 @@ import {
             });
             matrixBody.append(row);
         });
+        updateCellDetailsVisibility();
         applyRepairSpeedTextColors();
     }
 

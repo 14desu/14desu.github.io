@@ -86,11 +86,16 @@
         .axis-control { display:flex; align-items:center; justify-content:center; gap:.25rem; margin-top:.25rem; }
         .axis-control .form-control { width:72px; min-height:1.8rem; padding:.1rem .3rem; text-align:center; font-size:.8rem; }
         .axis-control .form-select { width:58px; min-height:1.8rem; padding:.1rem 1.35rem .1rem .3rem; font-size:.76rem; }
+        .matrix-details-toggle { display:inline-flex; align-items:center; gap:.25rem; margin-top:.3rem; color:#53636f; font-size:.68rem; font-weight:600; cursor:pointer; }
+        .matrix-details-toggle .form-check-input { width:.9rem; height:.9rem; margin:0; }
         .matrix-corner-title { display:block; color:#21394a; font-size:.8rem; font-weight:800; line-height:1.3; }
-        .cap-cell { height:108px; padding:.15rem .3rem!important; text-align:center; transition:background-color .18s ease; }
+        .cap-cell { height:64px; padding:.15rem .3rem!important; text-align:center; transition:background-color .18s ease,height .18s ease; }
+        .show-cell-details .cap-cell { height:108px; }
         .cap-progress { display:block; color:#142f40; font-size:.95rem; font-weight:800; font-variant-numeric:tabular-nums; }
         .cap-progress.cap-reached { color:#156235; }
         .cap-detail { display:block; margin-top:.15rem; color:#3f4d57; font-size:.72rem; line-height:1.3; font-variant-numeric:tabular-nums; }
+        .cap-extra-detail { display:none; }
+        .show-cell-details .cap-extra-detail { display:block; }
         .cap-repair-speed { margin-top:.35rem; color:#3f4d57; font-size:.82rem; font-weight:800; }
         .cap-unavailable { background:#e3e6e8!important; color:#69737b; }
         .cap-unavailable .cap-progress { color:#69737b; }
@@ -247,6 +252,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./global_reload_cap_simulator.js?v=20260923-veteran-presets-v13"></script>
+<script type="module" src="./global_reload_cap_simulator.js?v=20260923-details-default-on-v15"></script>
 </body>
 </html>
