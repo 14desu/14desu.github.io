@@ -5,11 +5,12 @@ import {
     calculateGuidelineLength,
     calculateKoreaGunReload,
     calculateRepairAndStructuralDefense,
+    calculateSonarPerformance,
     findGuidelinePersonnelAdjustment,
     PERFORMANCE_FORMULAS,
-} from "./formulas/index.js?v=20260923-rank-terms-v11";
+} from "./formulas/index.js?v=20260926-sonar-v12";
 
-export const PERFORMANCE_SCHEMA_VERSION = 11;
+export const PERFORMANCE_SCHEMA_VERSION = 12;
 export const PERFORMANCE_ABILITY_KEYS = Object.freeze([
     "potential", "accuracy", "reload", "torpedo", "antiAir", "repair",
     "restore", "engine", "aircraft", "fighter", "bomber",
@@ -100,6 +101,12 @@ function isTorpedoSailorClass(server, sailorClass) {
         : /\bTorpedo\b.*\bMan$/i.test(sailorClass);
 }
 
+function isSonarSailorClass(server, sailorClass) {
+    return server === "korea"
+        ? /^음파 탐지(?:병|장|관)$/.test(sailorClass)
+        : /^(?:2nd|1st|Chief) Sonarman$/i.test(sailorClass);
+}
+
 function normalizeGun(value) {
     if (value === null || value === undefined) return null;
     const gun = object(value, "gun");
@@ -152,6 +159,7 @@ function normalizeInput(input) {
         throw new Error("unsupported performanceRole");
     }
     const isCaptain = performanceRole === "captain";
+    const isSonarSailor = isSonarSailorClass(server, sailorClass);
     const selectedFcs = isCaptain ? normalizeFcs(input.fcs) : null;
     if (isCaptain && !selectedFcs) throw new Error("fcs is required for captain performance");
     const inputTargetGuidelineLength = isCaptain
@@ -180,6 +188,7 @@ function normalizeInput(input) {
         conditions,
         performanceRole,
         isCaptain,
+        isSonarSailor,
         selectedFcs,
         selectedGun,
         guidelineTarget,
@@ -199,6 +208,7 @@ export function calculateSailorPerformance(input) {
         conditions,
         performanceRole,
         isCaptain,
+        isSonarSailor,
         selectedFcs,
         selectedGun,
         guidelineTarget,
@@ -243,6 +253,12 @@ export function calculateSailorPerformance(input) {
             performance.repairSpeedMultipleEngineSailorsPerSecond = multipleEngineSupportingPerformance.repairSpeedPerSecond;
             performance.structuralDefenseMultipleEngineSailors = multipleEngineSupportingPerformance.structuralDefense;
 
+            if (isSonarSailor) {
+                Object.assign(performance, calculateSonarPerformance(
+                    abilityStages.potential.seamanAdjAbility,
+                ));
+            }
+
             if (isCaptain) {
                 Object.assign(performance, calculateGuidelineLength(
                     server,
@@ -258,7 +274,7 @@ export function calculateSailorPerformance(input) {
                     selectedFcs,
                     guidelineTarget,
                 });
-            } else if (!isTorpedoSailorClass(server, sailorClass)) {
+            } else if (!isSonarSailor && !isTorpedoSailorClass(server, sailorClass)) {
                 if (selectedGun && selectedGun.reloadSeconds <= 0) throw new Error("selected gun has no reload time");
                 const calculateGunReload = server === "global"
                     ? calculateGlobalGunReload

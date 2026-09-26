@@ -10,6 +10,14 @@ export {
 export { calculateGlobalGunReload, calculateKoreaGunReload } from "./gun-reload.js";
 export { calculateGuidelineLength, findGuidelinePersonnelAdjustment } from "./guideline.js?v=20260923-rank-terms-v11";
 export {
+    calculateSonarCapProgressPercent,
+    calculateSonarPerformance,
+    calculateSonarSailorRangePercent,
+    SONAR_ABILITY_CAP,
+    SONAR_RANGE_BASE_PERCENT,
+    SONAR_RANGE_MIN_ABILITY,
+} from "./sonar-performance.js";
+export {
     calculateShipRepairSpeed,
     calculateShipRepairSpeedDetails,
     SHIP_BASE_REPAIR_SPEED,
