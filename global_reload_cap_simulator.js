@@ -26,6 +26,7 @@ import {
             step: "Step", className: "Class", requiredLevel: "Required Lv.", actualLevel: "Actual class change Lv.", lateApply: "Late apply", crewGrowth: "Crew growth", potential: "Potential", accuracy: "Accuracy", reload: "Reload", torpedo: "Torpedo", antiAir: "Anti-air", repair: "Repair", restore: "Restore", engine: "Engine", aircraft: "Aircraft", fighter: "Fighter", bomber: "Bomber",
             pathHelp: "By default, delayed class change applies to every stage after Lv.12 Sailor. Checked classes use the matrix row's delayed level; unchecked classes use their required level. A class can never change earlier than its preceding stage.",
             matrixTitle: "Estimation Reload cap rate & Repair speed", veterans: "Veterans", veteranHelp: "The shared Veteran count applies to every cell, and all remaining crew are treated as Experts. The Global server Veteran limit is 50% of total crew.", low: "Low", reloadCap100: "100% reload cap", unavailableHelp: "Gray cells are unavailable because the delayed class-change level exceeds the current level.",
+            targetMatrixTitle: "Minimum Veterans for 100% reload cap & Repair speed", targetMatrixHelp: "Each cell finds the minimum Veterans needed to reach 100% reload cap within the 50% Veteran limit. All remaining crew are treated as Experts.", targetCornerTitle: "Minimum Veterans<br>Repair speed", minimumVeterans: "Veterans", veteranLimitExceeded: "Requires over 50% Veterans",
             displayLanguage: "Display language", globalServer: "Global server", selectNation: "Select a nation", loadingNations: "Loading nations…", selectGunnerPath: "Select a gunner path", none: "None", boost20: "Premium Sailors / increase +20%", noGunnerPath: "No gunner class change path was found for this nation.", loadingCatalog: "Loading sailor catalog…", catalogUnavailable: "Catalog unavailable", loadFailed: "Failed to load sailor catalog",
             matrixLateLevel: "Matrix Late Lv.", lateClassChangeAria: (name) => `${name} late class change`, lateFlow: (level) => `Late change · matrix row (min Lv.${level})`, classChangeFlow: (level) => `Class change Lv.${level}`,
             cornerTitle: "Reload cap rate<br>Repair speed", details: "Details", detailsAria: "Show ability and personnel details", currentLevel: "Current level", columnAria: (index) => `Column ${index} current level`, lateLevel: "Late class change level", rowAria: (index) => `Row ${index} late class change level`,
@@ -39,6 +40,7 @@ import {
             step: "단계", className: "병종", requiredLevel: "전직 가능 Lv.", actualLevel: "실제 전직 Lv.", lateApply: "늦전직 적용", crewGrowth: "수병수 성장", potential: "잠재", accuracy: "명중", reload: "연사", torpedo: "어뢰", antiAir: "대공", repair: "수리", restore: "보수", engine: "기관", aircraft: "함재", fighter: "전투", bomber: "폭격",
             pathHelp: "기본적으로 Lv.12 수병 이후의 모든 단계에 늦전직을 적용합니다. 체크한 병종은 행렬의 늦전직 레벨을, 체크하지 않은 병종은 전직 가능 레벨을 사용합니다. 앞 단계보다 먼저 전직할 수는 없습니다.",
             matrixTitle: "연사캡 도달률 및 수리속도 예상", veterans: "사관", veteranHelp: "입력한 사관수는 모든 셀에 공통으로 적용되며, 나머지 수병은 모두 숙련병으로 계산합니다. 글로벌 서버의 사관 상한은 총수병수의 50%입니다.", low: "낮음", reloadCap100: "연사캡 100%", unavailableHelp: "회색 셀은 늦전직 레벨이 현재 레벨보다 높아 계산할 수 없습니다.",
+            targetMatrixTitle: "연사캡 100% 최소 사관수 및 수리속도", targetMatrixHelp: "각 셀은 총수병수의 50% 사관 한도 안에서 연사캡 100%를 달성하는 최소 사관수를 찾습니다. 나머지 수병은 모두 숙련병으로 계산합니다.", targetCornerTitle: "최소 사관수<br>수리속도", minimumVeterans: "사관", veteranLimitExceeded: "사관 50% 초과 필요",
             displayLanguage: "표시 언어", globalServer: "Global server", selectNation: "국가를 선택하세요", loadingNations: "국가 목록을 불러오는 중…", selectGunnerPath: "포병 전직 트리를 선택하세요", none: "강화 없음", boost20: "프리미엄 수병 / 전체 20% 강화", noGunnerPath: "이 국가의 포병 전직 트리를 찾지 못했습니다.", loadingCatalog: "수병 카탈로그를 불러오는 중…", catalogUnavailable: "카탈로그를 사용할 수 없습니다", loadFailed: "수병 카탈로그를 불러오지 못했습니다",
             matrixLateLevel: "Table 늦전직 Lv.", lateClassChangeAria: (name) => `${name} 늦전직`, lateFlow: (level) => `늦전직 · 행렬 행 적용 (최소 Lv.${level})`, classChangeFlow: (level) => `전직 Lv.${level}`,
             cornerTitle: "연사캡 도달률<br>수리속도", details: "상세", detailsAria: "어빌리티와 인원 상세 표시", currentLevel: "현재 레벨", columnAria: (index) => `${index}열 현재 레벨`, lateLevel: "늦전직 레벨", rowAria: (index) => `${index}행 늦전직 레벨`,
@@ -158,6 +160,8 @@ import {
     const matrixSection = el("#matrix-section");
     const matrixHead = el("#matrix-head");
     const matrixBody = el("#matrix-body");
+    const targetMatrixHead = el("#target-matrix-head");
+    const targetMatrixBody = el("#target-matrix-body");
     const pathTableBody = el("#path-table-body");
     const classChangeFlow = el("#class-change-flow");
     const numberFormatter = new Intl.NumberFormat("en-US");
@@ -570,8 +574,8 @@ import {
             : mixColor(yellow, green, (safeRatio - 0.5) * 2);
     }
 
-    function applyRepairSpeedTextColors() {
-        const speedElements = [...matrixBody.querySelectorAll(".cap-repair-speed[data-repair-speed]")];
+    function applyRepairSpeedTextColors(root) {
+        const speedElements = [...root.querySelectorAll(".cap-repair-speed[data-repair-speed]")];
         const speeds = speedElements.map((element) => Number(element.dataset.repairSpeed));
         if (speeds.length === 0) return;
         const minimum = Math.min(...speeds);
@@ -665,6 +669,47 @@ import {
         return cell;
     }
 
+    function calculatePersonnelPerformance(sailor, veteranCount) {
+        const experts = sailor.crewCount - veteranCount;
+        const condition = {
+            veterans: veteranCount,
+            experts,
+            rookies: 0,
+            seamanAdjustmentPercent: 0,
+        };
+        const reloadStages = calculateAbilityStages({
+            server: GLOBAL_SERVER,
+            ability: sailor.reloadAbility,
+            crewCount: sailor.crewCount,
+            condition,
+            applySeamanAdjustment: false,
+        });
+        const reloadResult = calculateGlobalGunReload(
+            reloadStages.serverAdjAbility,
+            1,
+            0,
+            false,
+        );
+        const repairStages = calculateAbilityStages({
+            server: GLOBAL_SERVER,
+            ability: sailor.repairAbility,
+            crewCount: sailor.crewCount,
+            condition,
+            applySeamanAdjustment: false,
+        });
+        const repairResult = calculateRepairAndStructuralDefense(GLOBAL_SERVER, {
+            repair: repairStages.seamanAdjAbility,
+            restore: 0,
+        });
+        return {
+            veteranCount,
+            experts,
+            reloadStages,
+            reloadResult,
+            repairResult,
+        };
+    }
+
     function resultCell(path, currentLevel, lateLevel, veteranCount) {
         const sailorType = selectedSailorType();
         if (currentLevel < sailorType.initialLevel) {
@@ -681,42 +726,8 @@ import {
             return unavailableCell(t().veteranMaximum(maximumVeterans, veteranCount));
         }
 
-        const experts = sailor.crewCount - veteranCount;
-        const abilityStages = calculateAbilityStages({
-            server: GLOBAL_SERVER,
-            ability: sailor.reloadAbility,
-            crewCount: sailor.crewCount,
-            condition: {
-                veterans: veteranCount,
-                experts,
-                rookies: 0,
-                seamanAdjustmentPercent: 0,
-            },
-            applySeamanAdjustment: false,
-        });
-        const reloadResult = calculateGlobalGunReload(
-            abilityStages.serverAdjAbility,
-            1,
-            0,
-            false,
-        );
-        const progress = Number(reloadResult.gunReloadAbilityCapProgressPercent) || 0;
-        const repairStages = calculateAbilityStages({
-            server: GLOBAL_SERVER,
-            ability: sailor.repairAbility,
-            crewCount: sailor.crewCount,
-            condition: {
-                veterans: veteranCount,
-                experts,
-                rookies: 0,
-                seamanAdjustmentPercent: 0,
-            },
-            applySeamanAdjustment: false,
-        });
-        const repairResult = calculateRepairAndStructuralDefense(GLOBAL_SERVER, {
-            repair: repairStages.seamanAdjAbility,
-            restore: 0,
-        });
+        const calculated = calculatePersonnelPerformance(sailor, veteranCount);
+        const progress = Number(calculated.reloadResult.gunReloadAbilityCapProgressPercent) || 0;
 
         const cell = document.createElement("td");
         cell.className = "cap-cell";
@@ -729,16 +740,66 @@ import {
         sailorDetail.textContent = `${t().reloadAbility} ${numberFormatter.format(sailor.reloadAbility)}`;
         const repairSpeedDetail = document.createElement("span");
         repairSpeedDetail.className = "cap-detail cap-repair-speed";
-        repairSpeedDetail.dataset.repairSpeed = String(repairResult.repairSpeedPerSecond);
-        repairSpeedDetail.textContent = `${repairResult.repairSpeedPerSecond.toFixed(1)}/s`;
+        repairSpeedDetail.dataset.repairSpeed = String(calculated.repairResult.repairSpeedPerSecond);
+        repairSpeedDetail.textContent = `${calculated.repairResult.repairSpeedPerSecond.toFixed(1)}/s`;
         const repairAbilityDetail = document.createElement("span");
         repairAbilityDetail.className = "cap-detail cap-extra-detail";
         repairAbilityDetail.textContent = `${t().repairAbility} ${numberFormatter.format(sailor.repairAbility)}`;
         const personnelDetail = document.createElement("span");
         personnelDetail.className = "cap-detail cap-extra-detail";
-        personnelDetail.textContent = `${t().veterans} ${numberFormatter.format(veteranCount)} · ${t().experts} ${numberFormatter.format(experts)}`;
-        cell.title = `${t().currentLevel} Lv.${currentLevel}, ${t().lateLevel} Lv.${lateLevel}, ${t().reloadAbility} ${sailor.reloadAbility}, ${t().repairAbility} ${sailor.repairAbility}, ${t().crew} ${sailor.crewCount}, ${t().veterans} ${veteranCount}, ${t().experts} ${experts}, ${t().reloadCapAbility} ${Math.floor(abilityStages.serverAdjAbility)} / ${GLOBAL_RELOAD_ABILITY_CAP}`;
+        personnelDetail.textContent = `${t().veterans} ${numberFormatter.format(veteranCount)} · ${t().experts} ${numberFormatter.format(calculated.experts)}`;
+        cell.title = `${t().currentLevel} Lv.${currentLevel}, ${t().lateLevel} Lv.${lateLevel}, ${t().reloadAbility} ${sailor.reloadAbility}, ${t().repairAbility} ${sailor.repairAbility}, ${t().crew} ${sailor.crewCount}, ${t().veterans} ${veteranCount}, ${t().experts} ${calculated.experts}, ${t().reloadCapAbility} ${Math.floor(calculated.reloadStages.serverAdjAbility)} / ${GLOBAL_RELOAD_ABILITY_CAP}`;
         cell.append(value, sailorDetail, repairSpeedDetail, repairAbilityDetail, personnelDetail);
+        return cell;
+    }
+
+    function findMinimumVeteransForReloadCap(sailor) {
+        const maximumVeterans = Math.floor(sailor.crewCount * 0.5);
+        const maximumResult = calculatePersonnelPerformance(sailor, maximumVeterans);
+        if (Number(maximumResult.reloadResult.gunReloadAbilityCapProgressPercent) < 100) {
+            return { reached: false, maximumVeterans, maximumResult };
+        }
+
+        let minimum = 0;
+        let maximum = maximumVeterans;
+        while (minimum < maximum) {
+            const middle = Math.floor((minimum + maximum) / 2);
+            const result = calculatePersonnelPerformance(sailor, middle);
+            if (Number(result.reloadResult.gunReloadAbilityCapProgressPercent) >= 100) maximum = middle;
+            else minimum = middle + 1;
+        }
+        return {
+            reached: true,
+            result: calculatePersonnelPerformance(sailor, minimum),
+        };
+    }
+
+    function targetResultCell(path, currentLevel, lateLevel) {
+        const sailorType = selectedSailorType();
+        if (currentLevel < sailorType.initialLevel) {
+            return unavailableCell(t().startsAt(sailorTypeName(sailorType), sailorType.initialLevel));
+        }
+        if (lateStageSelections.some(Boolean) && lateLevel > currentLevel) {
+            return unavailableCell(t().lateExceedsCurrent(lateLevel, currentLevel));
+        }
+
+        const enhanced = enhancementSelect.value === "all:20";
+        const sailor = calculateSailor(path, currentLevel, lateLevel, enhanced);
+        const minimum = findMinimumVeteransForReloadCap(sailor);
+        if (!minimum.reached) return unavailableCell(t().veteranLimitExceeded);
+
+        const calculated = minimum.result;
+        const cell = document.createElement("td");
+        cell.className = "cap-cell target-cell";
+        const veteranValue = document.createElement("span");
+        veteranValue.className = "cap-progress cap-reached";
+        veteranValue.textContent = `${t().minimumVeterans} ${numberFormatter.format(calculated.veteranCount)}`;
+        const repairSpeed = document.createElement("span");
+        repairSpeed.className = "cap-detail cap-repair-speed";
+        repairSpeed.dataset.repairSpeed = String(calculated.repairResult.repairSpeedPerSecond);
+        repairSpeed.textContent = `${calculated.repairResult.repairSpeedPerSecond.toFixed(1)}/s`;
+        cell.title = `${t().currentLevel} Lv.${currentLevel}, ${t().lateLevel} Lv.${lateLevel}, ${t().crew} ${sailor.crewCount}, ${t().veterans} ${calculated.veteranCount}, ${t().experts} ${calculated.experts}, ${t().reloadCapAbility} ${Math.floor(calculated.reloadStages.serverAdjAbility)} / ${GLOBAL_RELOAD_ABILITY_CAP}`;
+        cell.append(veteranValue, repairSpeed);
         return cell;
     }
 
@@ -780,7 +841,54 @@ import {
             matrixBody.append(row);
         });
         updateCellDetailsVisibility();
-        applyRepairSpeedTextColors();
+        applyRepairSpeedTextColors(matrixBody);
+    }
+
+    function renderTargetMatrixHead() {
+        const row = document.createElement("tr");
+        const corner = document.createElement("th");
+        corner.scope = "col";
+        corner.innerHTML = `<span class="matrix-corner-title">${t().targetCornerTitle}</span>`;
+        row.append(corner);
+
+        columnSettings.forEach((setting) => {
+            const heading = document.createElement("th");
+            heading.scope = "col";
+            const label = document.createElement("span");
+            label.className = "axis-title";
+            label.textContent = t().currentLevel;
+            const level = document.createElement("span");
+            level.className = "cap-detail";
+            level.textContent = `Lv.${setting.currentLevel}`;
+            heading.append(label, level);
+            row.append(heading);
+        });
+        targetMatrixHead.replaceChildren(row);
+    }
+
+    function renderTargetMatrixBody() {
+        const path = selectedPath();
+        targetMatrixBody.replaceChildren();
+        if (!path) return;
+
+        lateLevels.forEach((lateLevel) => {
+            const row = document.createElement("tr");
+            const heading = document.createElement("th");
+            heading.scope = "row";
+            const label = document.createElement("span");
+            label.className = "axis-title";
+            label.textContent = t().lateLevel;
+            const level = document.createElement("span");
+            level.className = "cap-detail";
+            level.textContent = `Lv.${lateLevel}`;
+            heading.append(label, level);
+            row.append(heading);
+            columnSettings.forEach((setting) => {
+                row.append(targetResultCell(path, setting.currentLevel, lateLevel));
+            });
+            targetMatrixBody.append(row);
+        });
+        applyRepairSpeedTextColors(targetMatrixBody);
     }
 
     function renderMatrix() {
@@ -788,6 +896,8 @@ import {
         if (!path) return;
         renderMatrixHead();
         renderMatrixBody();
+        renderTargetMatrixHead();
+        renderTargetMatrixBody();
         const selectedNationName = nationSelect.options[nationSelect.selectedIndex]?.textContent || "Global";
         const finalClass = path.at(-1)?.name || "Gunner";
         const sailorType = selectedSailorType();

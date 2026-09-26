@@ -100,6 +100,10 @@
         .cap-extra-detail { display:none; }
         .show-cell-details .cap-extra-detail { display:block; }
         .cap-repair-speed { margin-top:.35rem; color:#3f4d57; font-size:.82rem; font-weight:800; }
+        .target-matrix-section { margin-top:1.5rem; padding-top:1.15rem; border-top:1px solid #d5dce2; }
+        .target-matrix-title { margin:0 0 .55rem; color:#20394c; font-size:1rem; font-weight:800; }
+        .target-cell { background:#eef6fb; }
+        .target-cell .cap-progress { color:#156235; }
         .cap-unavailable { background:#e3e6e8!important; color:#69737b; }
         .cap-unavailable .cap-progress { color:#69737b; }
         .color-legend { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin-top:.6rem; color:#66727d; font-size:.74rem; }
@@ -252,6 +256,16 @@
                         <div id="matrix-help" class="color-legend">
                             <span data-i18n="low">Low</span><span class="legend-bar" aria-hidden="true"></span><span data-i18n="reloadCap100">100% reload cap</span><span>·</span><span data-i18n="unavailableHelp">Gray cells are unavailable because the delayed class-change level exceeds the current level.</span>
                         </div>
+                        <div class="target-matrix-section">
+                            <h2 class="target-matrix-title" data-i18n="targetMatrixTitle">Minimum Veterans for 100% reload cap &amp; repair speed</h2>
+                            <div class="matrix-wrap">
+                                <table class="table table-bordered cap-matrix" aria-describedby="target-matrix-help">
+                                    <thead id="target-matrix-head"></thead>
+                                    <tbody id="target-matrix-body"></tbody>
+                                </table>
+                            </div>
+                            <p id="target-matrix-help" class="form-text mb-0 mt-2" data-i18n="targetMatrixHelp">Each cell finds the minimum Veterans needed to reach 100% reload cap within the 50% Veteran limit. All remaining crew are treated as Experts.</p>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -261,6 +275,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="./common/scripts.js"></script>
-<script type="module" src="./global_reload_cap_simulator.js?v=20260924-korean-labels-v17"></script>
+<script type="module" src="./global_reload_cap_simulator.js?v=20260927-min-veterans-v20"></script>
 </body>
 </html>
