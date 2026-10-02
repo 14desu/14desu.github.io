@@ -8,7 +8,7 @@ import {
     "use strict";
 
     const GLOBAL_SERVER = "global";
-    const SAILOR_CATALOG_VERSION = "20260914-2";
+    const SAILOR_CATALOG_VERSION = "20261002-1";
     const SAILOR_CATALOG_SCHEMA = 2;
     const GLOBAL_RELOAD_ABILITY_CAP = 1_860_000;
     const MAXIMUM_LEVEL = 125;

@@ -193,11 +193,11 @@ import {
     const API_BASE = document.querySelector('meta[name="sailor-api-base"]')?.content.replace(/\/$/, "") || "";
     const CATALOG_BASE = `${API_BASE}/catalog`;
     const STATIC_CATALOG_VERSIONS = {
-        "sailor-catalog.json": "20260914-2",
-        "gun-shipyard-catalog.json": "20260906-3",
-        "fcs-catalog.json": "20260912-1",
-        "ship-catalog.json": "20260912-4",
-        "engine-catalog.json": "20260915-1",
+        "sailor-catalog.json": "20261002-1",
+        "gun-shipyard-catalog.json": "20261002-1",
+        "fcs-catalog.json": "20261002-1",
+        "ship-catalog.json": "20261002-1",
+        "engine-catalog.json": "20261002-1",
     };
     const STATIC_CATALOG_SCHEMAS = {
         "sailor-catalog.json": 2,

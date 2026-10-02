@@ -8,7 +8,7 @@ import {
 (() => {
     "use strict";
 
-    const CATALOG_VERSION = "20260914-2";
+    const CATALOG_VERSION = "20261002-1";
     const CATALOG_SCHEMA = 2;
     const PATH_ABILITY_COLUMNS = [
         "potential", "accuracy", "reload", "torpedo", "antiAir", "repair",

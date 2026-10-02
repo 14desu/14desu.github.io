@@ -105,7 +105,7 @@
     const metaApiBase = document.querySelector('meta[name="gun-range-api-base"]')?.content ?? "";
     const queryApiBase = new URLSearchParams(location.search).get("api") ?? "";
     const apiBase = (queryApiBase || metaApiBase).replace(/\/$/, "");
-    const CATALOG_VERSION = "20260906-3";
+    const CATALOG_VERSION = "20261002-1";
     const CATALOG_URL = `${apiBase}/catalog/gun-shipyard-catalog.json?v=${CATALOG_VERSION}`;
     const NATIONS = {
         korea: [[1, "미국"], [2, "영국"], [3, "일본"], [4, "독일"], [5, "프랑스"], [6, "소련"], [7, "이탈리아"]],
