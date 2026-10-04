@@ -21,7 +21,7 @@ import {
     const DEFAULT_SAILOR_TYPE = "superEliteRepair";
     const TEXT = {
         en: {
-            pageTitle: "Global Reload Cap Simulator", pageDescription: "Compare reload-cap progress across combinations of current level and delayed class-change level for Global server gunners.", serverFixed: "Global server fixed", setupTitle: "Sailor setup",
+            pageTitle: "Reload Cap Simulator", pageDescription: "Compare reload-cap progress across combinations of current level and delayed class-change level for Global server gunners.", serverFixed: "Global server fixed", setupTitle: "Sailor setup",
             server: "Server", nation: "Nation", pathPreset: "Class change path preset", all: "All", final: "Final", sailorPreset: "Sailor preset", enhancementItem: "Sailor enhancement item", appliedPath: "Applied class change path",
             step: "Step", className: "Class", requiredLevel: "Required Lv.", actualLevel: "Actual class change Lv.", lateApply: "Late apply", crewGrowth: "Crew growth", potential: "Potential", accuracy: "Accuracy", reload: "Reload", torpedo: "Torpedo", antiAir: "Anti-air", repair: "Repair", restore: "Restore", engine: "Engine", aircraft: "Aircraft", fighter: "Fighter", bomber: "Bomber",
             pathHelp: "By default, delayed class change applies to every stage after Lv.12 Sailor. Checked classes use the matrix row's delayed level; unchecked classes use their required level. A class can never change earlier than its preceding stage.",
@@ -35,7 +35,7 @@ import {
             summaryNation: "Nation", summaryClass: "Class", summarySailor: "Sailor", summaryEnhancement: "Enhancement", enhancement20: "+20% enhancement", noEnhancement: "No enhancement",
         },
         ko: {
-            pageTitle: "글로벌 연사캡 계산기", pageDescription: "글로벌 서버 포병의 현재 레벨과 늦전직 레벨 조합별 연사캡 도달률을 비교합니다.", serverFixed: "글로벌 서버 고정", setupTitle: "수병 설정",
+            pageTitle: "연사상한 계산기", pageDescription: "글로벌 서버 포병의 현재 레벨과 늦전직 레벨 조합별 연사캡 도달률을 비교합니다.", serverFixed: "글로벌 서버 고정", setupTitle: "수병 설정",
             server: "서버", nation: "국가", pathPreset: "전직 트리 프리셋", all: "전체", final: "최종", sailorPreset: "수병 프리셋", enhancementItem: "수병 강화 아이템", appliedPath: "적용 전직 트리",
             step: "단계", className: "병종", requiredLevel: "전직 가능 Lv.", actualLevel: "실제 전직 Lv.", lateApply: "늦전직 적용", crewGrowth: "수병수 성장", potential: "잠재", accuracy: "명중", reload: "연사", torpedo: "어뢰", antiAir: "대공", repair: "수리", restore: "보수", engine: "기관", aircraft: "함재", fighter: "전투", bomber: "폭격",
             pathHelp: "기본적으로 Lv.12 수병 이후의 모든 단계에 늦전직을 적용합니다. 체크한 병종은 행렬의 늦전직 레벨을, 체크하지 않은 병종은 전직 가능 레벨을 사용합니다. 앞 단계보다 먼저 전직할 수는 없습니다.",
