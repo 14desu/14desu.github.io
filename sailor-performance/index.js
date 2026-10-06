@@ -6,4 +6,4 @@ export {
     PERFORMANCE_SCHEMA_VERSION,
 } from "./calculate.js?v=20260926-sonar-v12";
 
-export * from "./formulas/index.js?v=20260926-sonar-v12";
+export * from "./formulas/index.js?v=20261007-seaman-v1";

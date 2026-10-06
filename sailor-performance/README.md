@@ -6,6 +6,7 @@
 
 - `calculate.js`: 입력 검증, 수병 1명 계산, 함선 최대 15명 일괄 계산
 - `formulas/ability-stages.js`: `Ability` 이후 공통 보정 단계
+- `formulas/seaman-adjustment.js`: 갑판병 누적 어빌의 서버별 보정률과 복수탑승 페널티
 - `formulas/gun-reload.js`: 함포 재장전
 - `formulas/repair-speed.js`: 수리속도
 - `formulas/structural-defense.js`: 구조방어
@@ -20,6 +21,20 @@
 `Ability`를 전달합니다. 이후 단계는 다음 순서로 한 번만 적용합니다.
 
 `Ability -> WeightedAbility -> HeadWeightedAbility -> ServerAdjAbility -> SeamanAdjAbility`
+
+## 갑판병 보정률
+
+수병계산기는 한국서버에서 탑승 순서상 첫 갑판병 최대 3명의 누적 어빌을 사용합니다.
+글로벌서버는 갑판병 인원 상한 없이 탑승한 갑판병 전원의 누적 어빌을 사용합니다.
+함선 모드에서는 보조석의 갑판병만 선택하며, 사관·숙련병 가중치와 충원율은 적용하지 않습니다.
+각 어빌 항목에 대해 수병별 보정률을 먼저 계산합니다 (`floor`는 버림).
+
+- 한국: `floor(누적 어빌 / 300)`
+- 글로벌: `floor(floor(누적 어빌 * 0.9 / 300) * 11 / 9)`
+
+최종 보정률은 `floor(수병별 보정률 합계 / sqrt(선택된 갑판병 수))`이며,
+갑판병이 없으면 0%입니다. 글로벌의 `* 11 / 9`와 두 번째 버림은 수병별로 적용한 뒤
+합산합니다. 계산된 보정률은 기존 `ServerAdjAbility -> SeamanAdjAbility` 단계에서 적용합니다.
 
 공식을 변경할 때는 해당 `formulas` 파일만 수정하고, 반환 필드가 바뀌면
 `PERFORMANCE_SCHEMA_VERSION`과 `simulator.html`의 스크립트 캐시 버전을 함께 올립니다.
