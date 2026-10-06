@@ -2,6 +2,7 @@ import { REPAIR_SPEED_FORMULAS } from "./repair-speed.js";
 import { STRUCTURAL_DEFENSE_FORMULAS } from "./structural-defense.js";
 
 export { calculateAbilityStages } from "./ability-stages.js?v=20260923-rank-terms-v11";
+export { calculateSeamanAdjustmentPercent } from "./seaman-adjustment.js?v=20261007-seaman-v1";
 export {
     calculateEngineOverheat,
     calculateShipEngineOverheat,
