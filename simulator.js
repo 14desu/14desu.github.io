@@ -1,10 +1,11 @@
 import {
     calculateSailorPerformance,
+    calculateSeamanAdjustmentPercent,
     calculateShipEngineOverheat,
     calculateShipOverheatSpeed,
     calculateShipRepairSpeedDetails,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20260926-sonar-v12";
+} from "./sailor-performance/index.js?v=20261007-seaman-v1";
 
 (() => {
     "use strict";
@@ -139,7 +140,6 @@ import {
                 : mode === "ship"
                     ? "미탑승 *함선내 갑판병 설정시 갑판병보정이 적용됩니다"
                     : "미탑승 *수병추가 갑판병 설정시 갑판병보정이 적용됩니다",
-            performanceSeamanGlobalWarning: "글로벌 서버 갑판병 보정은 한국 서버 로직을 임시 적용했으며 확인이 필요합니다.",
             performanceFcsTitle: "시뮬레이트 적용 FCS", performanceFcsName: "FCS리스트", performanceFcsGuideLength: "목표가이드라인길이", performanceFcsTargetGun: "목표함포지정", performanceFcsAccuracy: "명중 보너스", performanceFcsCapacity: "필요용적", performanceGuidelineLength: "가이드라인 길이", performanceGuidelineAdjustment: "목표가이드라인 수병조절", performanceGuidelineTargetInput: (target) => `${target} : 직접입력`, performanceGuidelineTargetGun: (target, gunName) => `${target} : ${gunName}`, performanceGuidelineRepair: (target) => `가이드라인 (${target}) 수리속도 [/s]`, performanceGuidelineStructural: (target) => `가이드라인 (${target}) 구조방어`, performanceGuidelineNoAdjustment: "조절 불필요", performanceGuidelineUnavailable: "불가능", performanceGuidelineAdjustmentImpossible: "사관수 고정 조건에서 조절 불가", performanceGuidelineCalculated: (length) => `가이드라인 계산 : ${length}`, performanceGuidelineVeteran: (value) => `사관 ${value}`, performanceGuidelineExpert: (value) => `숙련병 ${value}`, performanceGuidelineRookie: (value) => `신병 ${value}`,
             performanceSeamanAdjustmentHelp: "갑판 보정은 0~12%를 입력합니다. 입력 시 관련 성능에 반영하여 계산합니다.",
             performanceImplementedReloadTitle: "12회 인게임 연사시간 예측 비교 [s]", performanceImplementedReloadHelp: "각 조건의 12회 인게임 연사시간 예측값을 비교합니다. 막대 아래에는 각 발사까지의 누적시간을 표시하며, 느린 구간은 부드러운 빨간색, 중간은 노란색, 빠른 구간은 초록색입니다.", performanceTimeline: "12회 누적시간 [s]", performanceShotNumber: (index) => `${index}회차`, performanceTimelineSummary: (total, average) => `총 ${total}s · 평균 ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `${index}회차: ${interval}s · 누적 ${cumulative}s`,
@@ -183,7 +183,6 @@ import {
                 : mode === "ship"
                     ? "Seaman bonuses apply only when a Seaman is assigned to a slot."
                     : "Not embarked *Seaman adjustment applies when an added sailor is set as a Seaman.",
-            performanceSeamanGlobalWarning: "Global Seaman adjustment temporarily uses the Korea-server formula and still requires verification.",
             performanceFcsTitle: "FCS applied to simulation", performanceFcsName: "FCS list", performanceFcsGuideLength: "Target guideline length", performanceFcsTargetGun: "Specify target gun", performanceFcsAccuracy: "Accuracy bonus", performanceFcsCapacity: "Required capacity", performanceGuidelineLength: "Guideline length", performanceGuidelineAdjustment: "Target guideline sailor adjustment", performanceGuidelineTargetInput: (target) => `${target}: direct input`, performanceGuidelineTargetGun: (target, gunName) => `${target}: ${gunName}`, performanceGuidelineRepair: (target) => `Guideline (${target}) repair speed [/s]`, performanceGuidelineStructural: (target) => `Guideline (${target}) structural defense`, performanceGuidelineNoAdjustment: "No adjustment needed", performanceGuidelineUnavailable: "Unavailable", performanceGuidelineAdjustmentImpossible: "Cannot adjust while keeping veterans fixed", performanceGuidelineCalculated: (length) => `Calculated guideline: ${length}`, performanceGuidelineVeteran: (value) => `Veterans ${value}`, performanceGuidelineExpert: (value) => `Experts ${value}`, performanceGuidelineRookie: (value) => `Rookies ${value}`,
             performanceSeamanAdjustmentHelp: "Enter a seaman adjustment from 0% to 12%. The entered rate is applied when calculating the related performance values.",
             performanceImplementedReloadTitle: "12-shot in-game reload estimation comparison [s]", performanceImplementedReloadHelp: "Compares the estimated in-game reload intervals for 12 shots in each case. Cumulative time through each shot appears below the bar; slow intervals are soft red, medium intervals yellow, and fast intervals green.", performanceTimeline: "12-shot cumulative time [s]", performanceShotNumber: (index) => `Shot ${index}`, performanceTimelineSummary: (total, average) => `Total ${total}s · average ${average}s`, performanceIntervalDetail: (index, interval, cumulative) => `Shot ${index}: ${interval}s · cumulative ${cumulative}s`,
@@ -1035,9 +1034,6 @@ import {
         el("#performance-seaman-adj-ability-head").replaceChildren(headRow);
         el("#performance-seaman-adj-ability-body").replaceChildren(rateRow);
         el("#performance-seaman-adj-seats").textContent = t().performanceSeamanSeats(adjustment.labels, simulatorMode);
-        const warning = el("#performance-seaman-adjustment-warning");
-        warning.textContent = t().performanceSeamanGlobalWarning;
-        warning.hidden = server.value !== "global" || adjustment.count === 0;
     }
     function performanceCurrentCrew(composition) {
         return composition.veterans + composition.experts + composition.rookies;
@@ -2283,19 +2279,11 @@ import {
             .sort((left, right) => simulatorMode === "ship"
                 ? Number(left.layer.roleIndex) - Number(right.layer.roleIndex)
                 : left.index - right.index)
-            .slice(0, 3);
-        const rateByAbility = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => {
-            if (seamen.length === 0) return [key, 0];
-            const contribution = seamen.reduce((sum, sailor) => {
-                // Seaman 보정 원천은 사관·숙련병 가중치와 충원율을 적용하지 않은 누적 어빌이다.
-                const accumulatedAbility = Math.max(0, Number(sailor.abilityByType[key]) || 0);
-                const serverAdjustedAbility = server.value === "global"
-                    ? accumulatedAbility * 0.9
-                    : accumulatedAbility;
-                return sum + Math.floor(serverAdjustedAbility / 300);
-            }, 0);
-            return [key, Math.floor(contribution / Math.sqrt(seamen.length))];
-        }));
+            .slice(0, server.value === "global" ? undefined : 3);
+        const rateByAbility = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => [
+            key,
+            calculateSeamanAdjustmentPercent(server.value, seamen.map((sailor) => sailor.abilityByType[key])),
+        ]));
         return {
             rateByAbility,
             labels: seamen.map(({ layer, index }) => seamanAdjustmentSeatLabel(layer, index)),
