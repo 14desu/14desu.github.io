@@ -1033,7 +1033,8 @@ import {
         }
         el("#performance-seaman-adj-ability-head").replaceChildren(headRow);
         el("#performance-seaman-adj-ability-body").replaceChildren(rateRow);
-        el("#performance-seaman-adj-seats").textContent = t().performanceSeamanSeats(adjustment.labels, simulatorMode);
+        const adjustmentMode = simulatorMode === "ship" && selectedShip() ? "ship" : "single";
+        el("#performance-seaman-adj-seats").textContent = t().performanceSeamanSeats(adjustment.labels, adjustmentMode);
     }
     function performanceCurrentCrew(composition) {
         return composition.veterans + composition.experts + composition.rookies;
@@ -2262,9 +2263,10 @@ import {
         return `${shipLayerLabel(layer, index)} · ${compactSailorPreset(sailorTypeId)} · ${compactBoost(boostId)}`;
     }
     function seamanAdjustmentContext() {
+        const shipSelected = simulatorMode === "ship" && Boolean(selectedShip());
         const seamen = shipLayers.map((layer, index) => {
             const pathIndex = shipLayerFieldValue(layer, index, "sailor-preset");
-            const isEligibleSeat = simulatorMode !== "ship" || layer.role === "support";
+            const isEligibleSeat = !shipSelected || layer.role === "gunner" || layer.role === "support";
             if (!isEligibleSeat || pathIndex === "" || !isSeamanSailorPath(pathIndex)) return null;
             const context = index === activeShipLayer
                 ? latestPerformanceContext
@@ -2276,9 +2278,6 @@ import {
                 abilityByType: context.abilityByType,
             };
         }).filter(Boolean)
-            .sort((left, right) => simulatorMode === "ship"
-                ? Number(left.layer.roleIndex) - Number(right.layer.roleIndex)
-                : left.index - right.index)
             .slice(0, server.value === "global" ? undefined : 3);
         const rateByAbility = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => [
             key,
