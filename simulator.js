@@ -3200,7 +3200,8 @@ import {
             .filter((group) => group.type === mountType)
             .map((group) => Number(group.capacity))
             .filter((capacity) => Number.isFinite(capacity) && capacity > 0);
-        return capacities.length > 0 ? Math.min(...capacities) : 0;
+        if (capacities.length === 0) return 0;
+        return mountType === "R" ? Math.max(...capacities) : Math.min(...capacities);
     }
     function compatibleFcsClassCodes(shipType) {
         const codesByShipType = {
