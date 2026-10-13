@@ -3,7 +3,7 @@ import {
     calculateRepairAndStructuralDefense,
     calculateSonarPerformance,
     SONAR_ABILITY_CAP,
-} from "./sailor-performance/formulas/index.js?v=20260926-sonar-v12";
+} from "./sailor-performance/formulas/index.js?v=20261014-v4";
 
 (() => {
     "use strict";
@@ -631,7 +631,7 @@ import {
     function calculatePersonnelPerformance(sailor, veteranCount) {
         const experts = sailor.crewCount - veteranCount;
         const condition = { veterans: veteranCount, experts, rookies: 0, seamanAdjustmentPercent: 0 };
-        const potentialStages = calculateAbilityStages({ server: server(), ability: sailor.potentialAbility, crewCount: sailor.crewCount, condition, applySeamanAdjustment: false });
+        const potentialStages = calculateAbilityStages({ server: server(), ability: sailor.potentialAbility, crewCount: sailor.crewCount, condition, applySeamanAdjustment: false, isSonarPotential: true });
         const sonarResult = calculateSonarPerformance(potentialStages.seamanAdjAbility);
         const repairStages = calculateAbilityStages({ server: server(), ability: sailor.repairAbility, crewCount: sailor.crewCount, condition, applySeamanAdjustment: false });
         const repairResult = calculateRepairAndStructuralDefense(server(), { repair: repairStages.seamanAdjAbility, restore: 0 });

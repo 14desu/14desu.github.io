@@ -5,7 +5,7 @@ import {
     calculateShipOverheatSpeed,
     calculateShipRepairSpeedDetails,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20261007-seaman-v1";
+} from "./sailor-performance/index.js?v=20261014-v4";
 
 (() => {
     "use strict";
