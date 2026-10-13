@@ -1,4 +1,5 @@
 const GLOBAL_SERVER_ADJ_MULTIPLIER = 0.9;
+const GLOBAL_SONAR_POTENTIAL_MULTIPLIER = 10 / 11;
 
 /**
  * Ability 이후의 공통 성능 계산 단계를 한곳에서 적용한다.
@@ -11,6 +12,7 @@ export function calculateAbilityStages({
     crewCount,
     condition,
     applySeamanAdjustment = true,
+    isSonarPotential = false,
 }) {
     const currentCrew = condition.veterans + condition.experts + condition.rookies;
     const personnelWeight = condition.veterans * 4 + condition.experts;
@@ -19,6 +21,7 @@ export function calculateAbilityStages({
     const headWeightedAbility = weightedAbility * headWeightRatio;
     const serverAdjAbility = server === "global"
         ? headWeightedAbility * GLOBAL_SERVER_ADJ_MULTIPLIER
+            * (isSonarPotential ? GLOBAL_SONAR_POTENTIAL_MULTIPLIER : 1)
         : headWeightedAbility;
     const seamanAdjMultiplier = applySeamanAdjustment
         ? 1 + condition.seamanAdjustmentPercent / 100

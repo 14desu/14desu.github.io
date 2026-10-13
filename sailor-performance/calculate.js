@@ -8,7 +8,7 @@ import {
     calculateSonarPerformance,
     findGuidelinePersonnelAdjustment,
     PERFORMANCE_FORMULAS,
-} from "./formulas/index.js?v=20260926-sonar-v12";
+} from "./formulas/index.js?v=20261014-v4";
 
 export const PERFORMANCE_SCHEMA_VERSION = 12;
 export const PERFORMANCE_ABILITY_KEYS = Object.freeze([
@@ -235,6 +235,7 @@ export function calculateSailorPerformance(input) {
                         seamanAdjustmentPercent: entry.seamanAdjustmentPercent,
                     },
                     applySeamanAdjustment: entry.applySeamanAdjustment,
+                    isSonarPotential: isSonarSailor && key === "potential",
                 })]),
             );
             const performance = calculateRepairAndStructuralDefense(server, {

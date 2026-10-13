@@ -4,6 +4,6 @@ export {
     MAX_SHIP_SAILORS,
     PERFORMANCE_ABILITY_KEYS,
     PERFORMANCE_SCHEMA_VERSION,
-} from "./calculate.js?v=20260926-sonar-v12";
+} from "./calculate.js?v=20261014-v4";
 
-export * from "./formulas/index.js?v=20261007-seaman-v1";
+export * from "./formulas/index.js?v=20261014-v4";
