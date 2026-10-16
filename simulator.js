@@ -2607,7 +2607,9 @@ import {
         const defaultPresetIndex = defaultShipPresetIndex(seat, ship);
         state.fields ||= {};
         state.fields["sailor-preset"] = defaultPresetIndex >= 0 ? String(defaultPresetIndex) : "";
-        const defaultSailorGroup = server.value === "korea" ? "premium" : "superElite";
+        const isGlobalRecon = server.value === "global"
+            && /\bRecon\b/i.test(paths[defaultPresetIndex]?.at(-1)?.name || "");
+        const defaultSailorGroup = server.value === "korea" ? "premium" : (isGlobalRecon ? "hero" : "superElite");
         const useGlobalGunnerMode = server.value === "global" && isGunnerShipPreset(defaultPresetIndex);
         initializeShipLayerSailorType(
             state,
