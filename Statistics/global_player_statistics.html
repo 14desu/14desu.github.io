@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>전적 검색 · NF Player Statistics</title>
+    <meta name="description" content="NavyFIELD Enterprise 계정·함대·전대 전적 검색과 xRating 레이팅">
+    <link rel="stylesheet" href="../common/styles.css?v=20261018-1">
+    <link rel="stylesheet" href="../common/site.css?v=20261018-1">
+    <link rel="stylesheet" href="../common/calculators.css?v=20261018-1">
+    <link rel="stylesheet" href="../common/pages/players_statistics.css?v=20261021-4">
+</head>
+<body class="sb-nav-fixed nf-tool-page nf-player-statistics">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="../index.html">Navyfield Simulator</a>
+        <button id="sidebarToggle" class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" type="button" aria-label="메뉴 열기 또는 닫기" data-aria-ko="메뉴 열기 또는 닫기" data-aria-en="Toggle navigation"><svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/></svg></button>
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"></ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav"><nav id="sidenavAccordion" class="sb-sidenav accordion sb-sidenav-light"></nav></div>
+        <div id="layoutSidenav_content"><main class="container-fluid px-3 py-3 ps-main">
+            <header class="ps-header"><h2 class="mt-2"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> <span data-ko="전적 검색 &amp; 레이팅 / Player Statistics &amp; Rating" data-en="Player Statistics &amp; Rating / 전적 검색 &amp; 레이팅">전적 검색 &amp; 레이팅 / Player Statistics &amp; Rating</span></h2><div class="ps-header-actions"><a class="btn btn-outline-secondary btn-sm" href="#rating-reference" data-ko="레이팅 기준 그래프 ↓" data-en="Rating reference ↓">레이팅 기준 그래프 ↓</a><div class="btn-group btn-group-sm" role="group" aria-label="Language"><button class="btn btn-outline-primary" type="button" data-language="ko" aria-pressed="true">한국어</button><button class="btn btn-outline-primary" type="button" data-language="en" aria-pressed="false">English</button></div></div></header>
+            <section class="card sailor-card ps-panel ps-search-panel" aria-label="전적 검색" data-aria-ko="전적 검색" data-aria-en="Search player statistics">
+                <div class="card-header" data-ko="전적 검색 / Account · Fleet · Squadron" data-en="Search / Account · Fleet · Squadron">전적 검색 / Account · Fleet · Squadron</div><div class="card-body">
+                <form id="search-form" role="search" autocomplete="off">
+                    <label for="player-search">Account · Fleet · Squadron</label>
+                    <div class="ps-search-row"><div class="ps-search-input-wrap"><input class="form-control" id="player-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-suggestions" placeholder="계정명, 함대명 또는 전대명을 입력하세요" data-placeholder-ko="계정명, 함대명 또는 전대명을 입력하세요" data-placeholder-en="Enter an account, fleet or squadron name" disabled><ul id="search-suggestions" class="ps-suggestions" role="listbox" hidden></ul></div><button class="btn btn-primary ps-button" id="search-submit" type="submit" disabled data-ko="검색" data-en="Search">검색</button></div>
+                    <p id="search-help" class="ps-muted" data-ko="자동완성에서 계정·함대·전대를 선택하세요. ↑↓ 이동 · Enter 선택 · Esc 닫기" data-en="Choose an account, fleet or squadron. ↑↓ navigate · Enter select · Esc close">자동완성에서 계정·함대·전대를 선택하세요. ↑↓ 이동 · Enter 선택 · Esc 닫기</p>
+                </form>
+                <div id="data-status" class="ps-status" role="status" aria-live="polite">공식 전적과 레이팅 데이터를 불러오는 중입니다.</div>
+                <button id="retry-data" type="button" class="btn btn-outline-secondary btn-sm" hidden data-ko="다시 불러오기" data-en="Retry">다시 불러오기</button></div>
+            </section>
+            <section id="search-result" aria-live="polite"></section>
+            <section id="rating-reference" class="card sailor-card ps-panel">
+                <h3 class="card-header" data-ko="레이팅 기준 그래프 / Rating Reference" data-en="Rating Reference / 레이팅 기준 그래프">레이팅 기준 그래프 / Rating Reference</h3><div class="card-body">
+                    <p class="ps-muted" data-ko="검색한 계정은 두 그래프에서 검은 테두리와 점선으로 표시합니다. 그래프의 다른 점이나 계정명을 선택해 비교할 수 있습니다." data-en="The selected account is highlighted by a black outline and dashed guides in both charts. Select another point or account to compare.">검색한 계정은 두 그래프에서 검은 테두리와 점선으로 표시합니다. 그래프의 다른 점이나 계정명을 선택해 비교할 수 있습니다.</p>
+                    <div id="reference-status" class="ps-muted" role="status"></div><div id="selected-player" class="ps-selected-player" hidden></div>
+                    <div class="ps-chart-grid">
+                        <section class="ps-chart-panel"><h4>xWin ↔ WinRate</h4><p class="ps-muted" data-ko="가로축 xWin · 세로축 승률(%)" data-en="X: xWin · Y: win rate (%)">가로축 xWin · 세로축 승률(%)</p><div class="ps-chart-wrap"><canvas id="win-chart" tabindex="0" aria-label="xWin과 승률 분포" data-aria-ko="xWin과 승률 분포" data-aria-en="xWin versus win rate distribution"></canvas><div class="ps-chart-tooltip" id="win-tooltip" hidden></div></div><label class="ps-slider-label" for="win-percentile"><span data-ko="백분위 살펴보기" data-en="Inspect percentile">백분위 살펴보기</span><input id="win-percentile" type="range" min="0" max="100" value="50" step="0.1"></label><div class="ps-point-info" id="win-point" aria-live="polite"></div></section>
+                        <section class="ps-chart-panel"><h4>xSunk ↔ CV+BB+SS Sunk</h4><div class="ps-chart-options"><label for="sunk-mode"><span data-ko="세로축" data-en="Y axis">세로축</span> <select id="sunk-mode" class="form-select form-select-sm"><option value="average" data-ko="전투당 평균 격침(격침수/판)" data-en="Average sunk per battle">전투당 평균 격침(격침수/판)</option><option value="total" data-ko="누적 격침(격침수)" data-en="Total ships sunk">누적 격침(격침수)</option></select></label><label><input id="sunk-log" class="form-check-input" type="checkbox" checked> <span data-ko="로그 축" data-en="Log scale">로그 축</span></label></div><div class="ps-chart-wrap"><canvas id="sunk-chart" tabindex="0" aria-label="xSunk와 주요 격침 분포" data-aria-ko="xSunk와 주요 격침 분포" data-aria-en="xSunk versus CV BB SS sunk distribution"></canvas><div class="ps-chart-tooltip" id="sunk-tooltip" hidden></div></div><label class="ps-slider-label" for="sunk-percentile"><span data-ko="백분위 살펴보기" data-en="Inspect percentile">백분위 살펴보기</span><input id="sunk-percentile" type="range" min="0" max="100" value="50" step="0.1"></label><div class="ps-point-info" id="sunk-point" aria-live="polite"></div></section>
+                    </div>
+                    <p class="ps-muted" data-ko="xSunk는 항상 전투당 평균 CV+BB+SS 격침의 백분위입니다. 누적 격침으로 바꿔도 가로축은 유지됩니다. 로그 축은 log(1+y)이며 실제 값은 그대로 표시합니다." data-en="xSunk always ranks average CV+BB+SS sunk per battle. Switching to totals keeps the same X axis. Log scale uses log(1+y); displayed values remain unchanged.">xSunk는 항상 전투당 평균 CV+BB+SS 격침의 백분위입니다. 누적 격침으로 바꿔도 가로축은 유지됩니다. 로그 축은 log(1+y)이며 실제 값은 그대로 표시합니다.</p>
+                    <div class="ps-formula"><span data-ko="승률 → xWin" data-en="Win rate → xWin">승률 → xWin</span><span data-ko="평균 주요함급 격침 → xSunk" data-en="Average major sunk → xSunk">평균 주요함급 격침 → xSunk</span><span>(xWin + xSunk) ÷ 2 → Rating</span><span data-ko="Rating의 백분위 → xRating" data-en="Percentile of Rating → xRating">Rating의 백분위 → xRating</span></div>
+                    <p class="ps-muted" data-ko="같은 평가 집단에서 계정별 동일 가중치와 동률 평균 순위를 적용합니다. 함종별 출전 비중·전투 모드·팀 구성은 보정하지 않습니다." data-en="Accounts receive equal weight within the same cohort; ties use average ranks. Ship usage, game mode and team composition are not adjusted.">같은 평가 집단에서 계정별 동일 가중치와 동률 평균 순위를 적용합니다. 함종별 출전 비중·전투 모드·팀 구성은 보정하지 않습니다.</p>
+                </div>
+            </section>
+            <section class="card sailor-card ps-panel ps-scale-panel"><h3 class="card-header" data-ko="컬러 스케일·티어 / Color Scale & Tiers" data-en="Color Scale & Tiers / 컬러 스케일·티어">컬러 스케일·티어 / Color Scale & Tiers</h3><div class="card-body"><p class="ps-muted" data-ko="레이팅의 색상·티어는 xRating 기준이며, 그래프는 가로축의 xWin 또는 xSunk 기준입니다. 아래 구간은 NF용 제안 구간입니다." data-en="Rating colors and tiers use xRating. Chart colors use xWin or xSunk on the X axis. These are proposed NF tier bands.">레이팅의 색상·티어는 xRating 기준이며, 그래프는 가로축의 xWin 또는 xSunk 기준입니다. 아래 구간은 NF용 제안 구간입니다.</p><div id="rating-legend"></div>
+                <div class="ps-table-wrap"><table class="table table-bordered table-sm ps-table"><caption data-ko="현재 데이터의 관측 범위이며, 등급 상한은 미포함(마지막 구간은 100 포함)입니다." data-en="Observed ranges in this snapshot. Upper boundaries are exclusive, except 100 in the final tier.">현재 데이터의 관측 범위이며, 등급 상한은 미포함(마지막 구간은 100 포함)입니다.</caption><thead><tr><th data-ko="티어" data-en="Tier">티어</th><th data-ko="백분위" data-en="Percentile">백분위</th><th data-ko="xRating 계정 수" data-en="xRating accounts">xRating 계정 수</th><th data-ko="Rating 범위" data-en="Rating range">Rating 범위</th><th data-ko="승률 범위" data-en="Win rate range">승률 범위</th><th data-ko="평균 격침 범위" data-en="Average sunk range">평균 격침 범위</th></tr></thead><tbody id="tier-reference"></tbody></table></div></div></section>
+        </main><footer class="py-4 bg-light mt-auto"><div class="container-fluid px-4 small text-muted">Copyright © g_dori · Navyfield Player Statistics</div></footer></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" defer crossorigin="anonymous"></script>
+    <script src="../common/scripts.js?v=20261018-1" defer></script>
+    <script type="module" src="../data/players_statistics.js?v=20261021-4"></script>
+</body>
+</html>
