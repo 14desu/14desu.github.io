@@ -1,13 +1,13 @@
 import { buildSearchIndex, colorScale, escapeHtml as esc, initializeShell, loadStatistics,
-    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-9";
-import { updateReference } from "./players_statistics_reference.js?v=20261021-9";
+    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-12";
+import { updateReference } from "./players_statistics_reference.js?v=20261021-12";
 
 const input = document.getElementById("player-search");
 const suggestions = document.getElementById("search-suggestions");
 const result = document.getElementById("search-result");
 const status = document.getElementById("data-status");
 let data, entries = [], matches = [], active = -1, currentGroup = null, selection = null;
-let page = 1, pageSize = 25, sortKey = "xRating", sortDirection = -1;
+let sortKey = "xRating", sortDirection = -1;
 const typeLabels = { account: "Account", fleet: "Fleet", squadron: "Squadron" };
 
 translatePage();
@@ -119,26 +119,21 @@ function renderGroup(entry) {
         const order = typeof av === 'string' ? av.localeCompare(bv ?? '') : (av ?? 0) - (bv ?? 0);
         return order * sortDirection || a.account.localeCompare(b.account);
     });
-    const pages = Math.max(1, Math.ceil(members.length / pageSize));
-    page = Math.max(1, Math.min(page, pages));
-    const visible = members.slice((page - 1) * pageSize, page * pageSize);
     const rated = members.filter(player => player.rating).length;
     result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-header">${typeLabels[entry.type]} · ${tr('소속 계정 전적', 'Member statistics')}</div><div class="card-body"><div class="ps-identity"><div><p class="ps-eyebrow">${typeLabels[entry.type].toUpperCase()}</p><h2>${esc(entry.name)}</h2><p class="ps-muted">${entry.type === 'squadron' ? `Fleet ${entityLink('fleet', entry.fleet)} · ` : ''}${tr(`소속 ${n(members.length)}개 Account · 레이팅 산정 ${n(rated)}개`, `${n(members.length)} accounts · ${n(rated)} rated`)}</p></div></div>
-        <div class="ps-table-toolbar"><p class="ps-muted mb-0">${tr('표 제목으로 정렬하고 계정명을 선택해 상세 전적을 확인하세요.', 'Select a column to sort or an account to view details.')}</p><label class="ps-muted">${tr('페이지당', 'Per page')} <select id="member-page-size" class="form-select form-select-sm">${[25,50,100].map(size => `<option${size === pageSize ? ' selected' : ''}>${size}</option>`).join('')}</select></label></div>
-        <div class="ps-table-wrap"><table class="table table-bordered table-sm ps-table"><caption>${esc(entry.name)} · ${tr('소속 계정 주요 전적 · 평균 주요함급 격침은 CV+BB+SS 격침수/판', 'Member statistics · AvgSunk = CV+BB+SS sunk/battle')}</caption><thead><tr>${columns.map(([key,label]) => `<th scope="col" aria-sort="${sortKey === key ? (sortDirection === 1 ? 'ascending' : 'descending') : 'none'}"><button type="button" data-sort="${key}">${key === 'battles' ? tr('전투 수', label) : key === 'winRate' ? tr('승률', label) : key === 'avgSunk' ? tr('평균 주요함급 격침', label) : key === 'lastConnected' ? tr('마지막 접속', label) : label}${sortKey === key ? sortDirection === 1 ? ' ↑' : ' ↓' : ''}</button></th>`).join('')}</tr></thead><tbody>${visible.map(player => `<tr>
+        <div class="ps-table-toolbar"><p class="ps-muted mb-0">${tr('소속 계정을 모두 표시합니다. 표 제목으로 정렬하고 계정명을 선택해 상세 전적을 확인하세요.', 'All members are shown. Select a column to sort or an account to view details.')}</p></div>
+        <div class="ps-table-wrap"><table class="table table-bordered table-sm ps-table"><caption>${esc(entry.name)} · ${tr('소속 계정 주요 전적 · 평균 주요함급 격침은 CV+BB+SS 격침수/판', 'Member statistics · AvgSunk = CV+BB+SS sunk/battle')}</caption><thead><tr>${columns.map(([key,label]) => `<th scope="col" aria-sort="${sortKey === key ? (sortDirection === 1 ? 'ascending' : 'descending') : 'none'}"><button type="button" data-sort="${key}">${key === 'battles' ? tr('전투 수', label) : key === 'winRate' ? tr('승률', label) : key === 'avgSunk' ? tr('평균 주요함급 격침', label) : key === 'lastConnected' ? tr('마지막 접속', label) : label}${sortKey === key ? sortDirection === 1 ? ' ↑' : ' ↓' : ''}</button></th>`).join('')}</tr></thead><tbody>${members.map(player => `<tr>
             <td><a href="${searchHref('account', player.account)}">${esc(player.account)}</a></td><td>${entityLink('fleet', player.fleet)}</td><td>${entityLink('squadron', player.squadron, player.fleet)}</td><td>${n(player.battles)}</td><td>${n(player.winRate, 2)}${player.winRate == null ? '' : '%'}</td><td>${n(player.avgSunk, 3)}</td>
             ${['xRating','xWin','xSunk'].map(key => `<td class="ps-rating-cell">${n(player.rating?.[key], 2)}${key === 'xRating' ? `<br>${tierBadge(player.rating?.xRating, data.tiers)}` : ''}</td>`).join('')}
             <td>${esc(player.lastConnected || '—')}</td></tr>`).join('')}</tbody></table></div>
-        <div class="ps-pagination"><span class="ps-muted">${n((page - 1) * pageSize + 1)}–${n(Math.min(page * pageSize, members.length))} / ${n(members.length)} · ${tr('페이지', 'Page')} ${page} / ${pages}</span><button class="btn btn-outline-secondary btn-sm ps-button" data-page="${page - 1}"${page === 1 ? ' disabled' : ''}>${tr('이전', 'Previous')}</button><button class="btn btn-outline-secondary btn-sm ps-button" data-page="${page + 1}"${page === pages ? ' disabled' : ''}>${tr('다음', 'Next')}</button></div>
         <p class="ps-muted mb-0">${tr('공식 갱신일', 'Issue date')} ${esc(data.issueDate)} · ${tr(`${data.minBattles}전 미만은 레이팅 미산정입니다. 티어는 xRating 기준입니다.`, `Accounts below ${data.minBattles} battles are unrated. Tiers use xRating.`)}</p></div></section>`;
     document.title = `${entry.name} · NF ${typeLabels[entry.type]}`;
 }
 
 function renderSelection(entry) {
     selection = entry;
-    page = 1;
     if (entry.type === 'account') renderPlayer(entry.members[0]); else renderGroup(entry);
-    updateReference(data, entry.type === 'account' ? entry.members[0] : null);
+    updateReference(data, entry.type === 'account' ? entry.members[0] : null, entry.type === 'account' ? null : entry);
 }
 
 input.addEventListener('input', showSuggestions);
@@ -173,13 +168,8 @@ result.addEventListener('click', event => {
     const sort = event.target.closest('[data-sort]');
     if (sort && currentGroup) {
         sortDirection = sortKey === sort.dataset.sort ? -sortDirection : sort.dataset.sort === 'account' ? 1 : -1;
-        sortKey = sort.dataset.sort; page = 1; renderGroup(currentGroup);
+        sortKey = sort.dataset.sort; renderGroup(currentGroup);
     }
-    const pagination = event.target.closest('[data-page]');
-    if (pagination && currentGroup && !pagination.disabled) { page = Number(pagination.dataset.page); renderGroup(currentGroup); }
-});
-result.addEventListener('change', event => {
-    if (event.target.id === 'member-page-size' && currentGroup) { pageSize = Number(event.target.value); page = 1; renderGroup(currentGroup); }
 });
 window.addEventListener('popstate', () => { closeSuggestions(); if (data) renderFromUrl(); });
 
@@ -190,7 +180,7 @@ document.addEventListener('click', event => {
         if (!data) return;
         if (selection) {
             if (selection.type === 'account') renderPlayer(selection.members[0]); else renderGroup(selection);
-            updateReference(data, selection.type === 'account' ? selection.members[0] : null);
+            updateReference(data, selection.type === 'account' ? selection.members[0] : null, selection.type === 'account' ? null : selection);
         } else renderFromUrl();
         return;
     }

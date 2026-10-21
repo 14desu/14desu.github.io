@@ -1,6 +1,6 @@
 import { escapeHtml as esc, legend, tr,
-    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261021-9";
-let data, rated = [], selected = null, charts = [];
+    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261021-12";
+let data, rated = [], allRated = [], selected = null, charts = [];
 
 class ReferenceChart {
     constructor(kind, battleMetric = null) {
@@ -8,21 +8,30 @@ class ReferenceChart {
         this.battleMetric = battleMetric;
         this.canvas = document.getElementById(`${kind}-chart`);
         this.context = this.canvas.getContext('2d');
-        this.tooltip = document.getElementById(`${kind}-tooltip`);
         this.info = document.getElementById(`${kind}-point`);
+        const panel = this.canvas.closest('.ps-chart-panel');
+        let selectionLabel = panel.querySelector('.ps-chart-selection');
+        if (!selectionLabel) {
+            selectionLabel = document.createElement('p');
+            selectionLabel.className = 'ps-chart-selection';
+            panel.querySelector('h4').after(selectionLabel);
+        }
+        selectionLabel.hidden = !selected?.rating;
+        selectionLabel.textContent = selected?.rating ? tr(`선택 계정: ${selected.account}`, `Selected account: ${selected.account}`) : '';
         this.slider = document.getElementById(`${kind}-percentile`);
         this.rows = [...rated].sort((a, b) => this.x(a) - this.x(b));
         this.xMaximum = battleMetric ? Math.ceil(Math.max(1, ...this.rows.map(player => player.battles)) / 10000) * 10000 : 100;
         this.slider.max = String(this.xMaximum);
+        this.slider.disabled = !this.rows.length;
         this.focused = selected?.rating ? selected : this.nearestX(this.xMaximum / 2);
         this.points = [];
         this.onMove = event => this.pointer(event);
-        this.onLeave = () => { this.tooltip.hidden = true; };
+        this.onLeave = () => { this.info.classList.remove('is-hovered'); };
         this.onClick = event => {
             const point = this.nearestPointer(event);
             if (point) window.dispatchEvent(new CustomEvent('nf-select-account', { detail: point.player.account }));
         };
-        this.onSlide = () => { this.focused = this.nearestX(Number(this.slider.value)); this.updateInfo(); this.draw(); };
+        this.onSlide = () => { this.info.classList.remove('is-hovered'); this.focused = this.nearestX(Number(this.slider.value)); this.updateInfo(); this.draw(); };
         this.canvas.addEventListener('pointermove', this.onMove);
         this.canvas.addEventListener('pointerleave', this.onLeave);
         this.canvas.addEventListener('click', this.onClick);
@@ -59,7 +68,10 @@ class ReferenceChart {
     }
     updateInfo() {
         const player = this.focused;
-        if (!player) return;
+        if (!player) {
+            this.info.textContent = tr('레이팅 산정 대상인 소속 계정이 없습니다.', 'No eligible rated members to plot.');
+            return;
+        }
         if (this.battleMetric) {
             this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · Battles <strong>${n(player.battles)}</strong> · ${this.battleMetric} <strong>${n(this.y(player), 2)}</strong><br>${tierBadge(this.y(player), data.tiers)}`;
             this.slider.value = String(player.battles);
@@ -82,7 +94,7 @@ class ReferenceChart {
         const left = 60, right = 17, top = 22, bottom = 46;
         const pw = w - left - right, ph = h - top - bottom;
         this.geometry = { left, top, pw, ph };
-        const rawMax = this.battleMetric || this.kind === 'win' ? 100 : Math.max(...this.rows.map(player => this.y(player))) * 1.04 || 1;
+        const rawMax = this.battleMetric || this.kind === 'win' ? 100 : this.rows.length ? Math.max(...this.rows.map(player => this.y(player))) * 1.04 || 1 : 1;
         const maximum = this.transform(rawMax);
         const px = value => left + value / this.xMaximum * pw;
         const py = value => top + ph - this.transform(value) / maximum * ph;
@@ -122,6 +134,12 @@ class ReferenceChart {
         ctx.fillText(this.yLabel, left, 12);
         ctx.textAlign = 'center'; ctx.fillText(this.xLabel, left + pw / 2, h - 5);
         this.points = this.rows.map(player => ({ player, x: px(this.x(player)), y: py(this.y(player)) }));
+        this.canvas.dataset.plottedCount = String(this.points.length);
+        this.canvas.setAttribute('aria-description', tr(`${n(this.points.length)}개 계정 표시`, `${n(this.points.length)} accounts plotted`));
+        if (!this.points.length) {
+            ctx.fillStyle = '#5c748a'; ctx.textAlign = 'center';
+            ctx.fillText(tr('표시할 레이팅 계정 없음', 'No rated accounts to plot'), left + pw / 2, top + ph / 2);
+        }
         ctx.globalAlpha = .56;
         for (const point of this.points) {
             ctx.fillStyle = tierFor(this.tierValue(point.player), data.tiers).color;
@@ -133,15 +151,13 @@ class ReferenceChart {
             const x = px(this.x(selected)), y = py(this.y(selected));
             ctx.strokeStyle = '#212529'; ctx.lineWidth = 1; ctx.setLineDash([4, 3]);
             ctx.beginPath(); ctx.moveTo(x, top + ph); ctx.lineTo(x, y); ctx.lineTo(left, y); ctx.stroke();
-            ctx.setLineDash([]); ctx.fillStyle = '#111'; ctx.font = 'bold 11px system-ui, sans-serif';
-            ctx.textAlign = this.x(selected) > this.xMaximum / 2 ? 'right' : 'left';
-            ctx.fillText(selected.account, x + (this.x(selected) > this.xMaximum / 2 ? -8 : 8), Math.max(top + 12, y - 12));
+            ctx.setLineDash([]);
         }
         const emphasize = (player, radius, color) => {
             if (!player?.rating) return;
             const x = px(this.x(player)), y = py(this.y(player));
             ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
+            ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.stroke();
         };
         emphasize(this.focused, 4, '#244c70');
         emphasize(selected, 6, '#102435');
@@ -160,17 +176,14 @@ class ReferenceChart {
     }
     pointer(event) {
         const point = this.nearestPointer(event);
-        if (!point) { this.tooltip.hidden = true; return; }
+        if (!point) { this.info.classList.remove('is-hovered'); return; }
         this.focused = point.player;
         this.updateInfo();
-        this.tooltip.textContent = this.battleMetric
-            ? `${point.player.account} · Battles ${n(point.player.battles)} · ${this.battleMetric} ${n(this.y(point.player), 2)}`
-            : `${point.player.account} · ${this.kind === 'win' ? 'xWin' : 'xSunk'} ${n(this.x(point.player), 2)} · ${n(this.y(point.player), this.kind === 'win' ? 2 : document.getElementById('sunk-mode').value === 'average' ? 3 : 0)}${this.kind === 'win' ? '%' : ''}`;
-        this.tooltip.hidden = false;
+        this.info.classList.add('is-hovered');
         this.draw();
     }
     destroy() {
-        this.tooltip.hidden = true;
+        this.info.classList.remove('is-hovered');
         this.resizeObserver.disconnect();
         this.canvas.removeEventListener('pointermove', this.onMove);
         this.canvas.removeEventListener('pointerleave', this.onLeave);
@@ -184,21 +197,22 @@ function renderTierTable() {
         ? `${n(Math.min(...players.map(getter)), digits)}–${n(Math.max(...players.map(getter)), digits)}` : '—';
     document.getElementById('tier-reference').innerHTML = [...data.tiers].reverse().map(tier => {
         const inTier = value => tierFor(value, data.tiers) === tier;
-        const overall = rated.filter(player => inTier(player.rating.xRating));
-        const wins = rated.filter(player => inTier(player.rating.xWin));
-        const sunk = rated.filter(player => inTier(player.rating.xSunk));
+        const overall = allRated.filter(player => inTier(player.rating.xRating));
+        const wins = allRated.filter(player => inTier(player.rating.xWin));
+        const sunk = allRated.filter(player => inTier(player.rating.xSunk));
         return `<tr><td>${tierBadge(tier.min, data.tiers)}</td><td>${tier.min}–${tier.max}</td><td>${n(overall.length)}</td>
             <td>${range(overall, p => p.rating.Rating, 2)}</td><td>${range(wins, p => p.winRate, 2)}%</td><td>${range(sunk, p => p.avgSunk, 3)}</td></tr>`;
     }).join('');
 }
 
-export function updateReference(payload, player = null) {
+export function updateReference(payload, player = null, group = null) {
     data = payload;
-    rated = data.players.filter(player => player.rating);
+    allRated = data.players.filter(player => player.rating);
+    rated = group ? group.members.filter(player => player.rating) : allRated;
     selected = player;
     document.getElementById('reference-status').textContent = tr(
-        `${data.server} · 공식 갱신일 ${data.issueDate} · ${data.minBattles}전 이상 ${n(rated.length)}개 계정`,
-        `${data.server} · Issue date ${data.issueDate} · ${n(rated.length)} accounts with ${data.minBattles}+ battles`);
+        `${data.server} · 공식 갱신일 ${data.issueDate} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · 소속 계정만 표시 · ` : ''}${data.minBattles}전 이상 ${n(rated.length)}개 계정`,
+        `${data.server} · Issue date ${data.issueDate} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · members only · ` : ''}${n(rated.length)} accounts with ${data.minBattles}+ battles`);
     document.getElementById('rating-legend').innerHTML = legend(data.tiers);
     const selectedElement = document.getElementById('selected-player');
     selectedElement.hidden = !selected;

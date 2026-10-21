@@ -82,10 +82,11 @@
 .ps-chart-wrap { position:relative; }
 .ps-chart-wrap canvas { display:block; width:100%; height:340px; cursor:crosshair; touch-action:pan-y; }
 .ps-chart-options { display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:.75rem; min-height:32px; margin-bottom:12px; flex-wrap:wrap; }
-.ps-chart-tooltip { position:absolute; pointer-events:none; top:10px; left:65px; background:#18334bed; color:#fff; padding:9px 12px; border-radius:6px; font-size:.76rem; max-width:calc(100% - 70px); }
+.ps-chart-selection { color:#48647b; font-size:.77rem; margin:-.25rem 0 .75rem; overflow-wrap:anywhere; }
 .ps-slider-label { display:flex; align-items:center; gap:14px; color:#61768b; font-size:.75rem; margin-top:12px; }
 .ps-slider-label input { flex:1; min-width:70px; }
-.ps-point-info { padding:10px 12px; margin:10px 0; border-radius:6px; background:#f1f6fa; min-height:56px; font-size:.77rem; line-height:1.7; }
+.ps-point-info { padding:10px 12px; margin:10px 0; border-radius:6px; border-left:3px solid transparent; background:#f1f6fa; min-height:56px; font-size:.77rem; line-height:1.7; overflow-wrap:anywhere; }
+.ps-point-info.is-hovered { border-left-color:#244c70; background:#e7f0f8; }
 .ps-formula { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
 .ps-formula span { background:#f8f9fa; border:1px solid #dee2e6; padding:.5rem .75rem; border-radius:.25rem; font-size:.82rem; }
 .ps-selected-player { background:#f8f9fa; border-left:3px solid #212529; padding:.5rem .75rem; font-size:.875rem; margin:.75rem 0; }

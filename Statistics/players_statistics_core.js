@@ -96,7 +96,7 @@ export function legend(tiers) {
 }
 
 export async function initializeShell() {
-    const stylesheetUrl = new URL('./players_statistics.css?v=20261021-9', import.meta.url);
+    const stylesheetUrl = new URL('./players_statistics.css?v=20261021-12', import.meta.url);
     let stylesheet = [...document.querySelectorAll('link[rel="stylesheet"]')]
         .find(link => new URL(link.href).pathname === stylesheetUrl.pathname);
     if (!stylesheet) {
@@ -107,7 +107,7 @@ export async function initializeShell() {
     if (stylesheet.href !== stylesheetUrl.href) stylesheet.href = stylesheetUrl.href;
     for (const [id, file] of [["navbar", "navbar.html"], ["sidenavAccordion", "sidebar.html"]]) {
         try {
-            const response = await fetch(`../common/${file}?v=20261021-9`, { cache: 'no-cache' });
+            const response = await fetch(`../common/${file}?v=20261021-12`, { cache: 'no-cache' });
             if (response.ok) document.getElementById(id).innerHTML = await response.text();
         } catch { /* The record page remains usable if shared navigation is unavailable. */ }
     }
