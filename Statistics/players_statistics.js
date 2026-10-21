@@ -1,6 +1,6 @@
 import { buildSearchIndex, colorScale, escapeHtml as esc, initializeShell, loadStatistics,
-    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-5";
-import { updateReference } from "./players_statistics_reference.js?v=20261021-5";
+    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-7";
+import { updateReference } from "./players_statistics_reference.js?v=20261021-7";
 
 const input = document.getElementById("player-search");
 const suggestions = document.getElementById("search-suggestions");
