@@ -1,0 +1,91 @@
+/* 사이트에서 직접 관리하는 스타일입니다. Bootstrap/SB Admin은 styles.css에 둡니다. */
+:root {
+    --nf-card-border: 1px solid #aeb8c2;
+    --nf-card-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+    --nf-card-shadow-soft: 0 .25rem .75rem rgba(0, 0, 0, .07);
+    --nf-card-header-background: linear-gradient(180deg, #203a53, #101d29);
+    --nf-step-color: #0d6efd;
+}
+
+/* 공통 브랜드, 안내문, 모바일 메뉴. */
+.sb-topnav .navbar-brand.brand-bilingual,
+.sb-topnav .navbar-brand:not(.brand-bilingual) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  line-height: 0.9;
+}
+.sb-topnav .navbar-brand.brand-bilingual .brand-en {
+  font-size: 0.94rem;
+}
+.sb-topnav .navbar-brand.brand-bilingual > :not(.brand-en) {
+  font-size: 1rem;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual) {
+  font-size: 0;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::before,
+.sb-topnav .navbar-brand:not(.brand-bilingual)::after {
+  display: block;
+  font-size: 1rem;
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::before {
+  content: "네이비필드 수병계산기";
+}
+.sb-topnav .navbar-brand:not(.brand-bilingual)::after {
+  content: "Navyfield Simulator";
+  font-size: 0.94rem;
+}
+.calculator-notice .notice-item {
+  margin-bottom: 0.2rem;
+}
+.calculator-notice .notice-en {
+  margin-top: -4px;
+  padding-left: 3.3rem;
+}
+.renewal-message .translation {
+  margin-top: -4px;
+  padding-left: 2rem;
+}
+.renewal-message {
+  margin-bottom: 1rem;
+}
+.sb-topnav.navbar-dark #sidebarToggle {
+  color: rgba(255, 255, 255, 0.75);
+}
+.sb-topnav.navbar-light #sidebarToggle {
+  color: #212529;
+}
+.sb-topnav #sidebarToggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+.sb-topnav #sidebarToggle .sidebar-toggle-icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+@media (max-width: 575.98px) {
+  .sb-topnav .navbar-brand {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .sb-topnav #sidebarToggle {
+    order: 0 !important;
+    margin-right: 0.25rem !important;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+  .sb-topnav #navbar {
+    flex: 0 0 auto;
+    margin-right: 0.25rem !important;
+    margin-left: 0 !important;
+  }
+}
