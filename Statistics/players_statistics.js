@@ -1,6 +1,6 @@
 import { buildSearchIndex, colorScale, escapeHtml as esc, initializeShell, loadStatistics,
-    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-7";
-import { updateReference } from "./players_statistics_reference.js?v=20261021-7";
+    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261021-9";
+import { updateReference } from "./players_statistics_reference.js?v=20261021-9";
 
 const input = document.getElementById("player-search");
 const suggestions = document.getElementById("search-suggestions");
@@ -63,7 +63,7 @@ function renderFromUrl() {
         result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-body ps-empty"><h3>${candidates.length > 1 ? tr('같은 이름의 전대가 여러 함대에 있습니다.', 'Several fleets have a squadron with this name.') : tr('검색 결과가 없습니다.', 'No results found.')}</h3><p class="ps-muted">${tr('자동완성에서 원하는 계정·함대·전대를 선택하세요.', 'Choose an account, fleet or squadron from the suggestions.')}</p></div></section>`;
         showSuggestions();
     } else {
-        result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-body ps-empty"><h3>${tr('이름으로 전적을 찾아보세요.', 'Find an account, fleet or squadron.')}</h3><p class="ps-muted">${tr(`${n(data.accountCount)}개 계정의 공식 전적 · ${n(data.ratedAccountCount)}개 계정의 레이팅`, `${n(data.accountCount)} official account records · ${n(data.ratedAccountCount)} rated accounts`)}</p><div class="ps-quick-links">${[["account", "la2gajaltmot"], ["fleet", "TEAM PRO BOTS"]].map(([type, name]) => `<a class="btn btn-outline-secondary btn-sm ps-button" href="${searchHref(type, name)}">${esc(name)}</a>`).join("")}</div></div></section>`;
+        result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-body ps-empty"><h3>${tr('이름으로 전적을 찾아보세요.', 'Find an account, fleet or squadron.')}</h3><p class="ps-muted">${tr(`${n(data.accountCount)}개 계정의 공식 전적 · ${n(data.ratedAccountCount)}개 계정의 레이팅`, `${n(data.accountCount)} official account records · ${n(data.ratedAccountCount)} rated accounts`)}</p><div class="ps-quick-links">${[["account", "fv304"], ["account", "la2gajaltmot"], ["fleet", "TEAM PRO BOTS"]].map(([type, name]) => `<a class="btn btn-outline-secondary btn-sm ps-button" href="${searchHref(type, name)}">${esc(name)}</a>`).join("")}</div></div></section>`;
     }
     document.title = tr('전적 검색 · NF Player Statistics', 'Player Statistics · Navyfield');
 }

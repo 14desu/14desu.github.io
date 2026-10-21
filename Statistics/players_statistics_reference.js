@@ -1,5 +1,5 @@
 import { escapeHtml as esc, legend, tr,
-    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261021-7";
+    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261021-9";
 let data, rated = [], selected = null, charts = [];
 
 class ReferenceChart {
