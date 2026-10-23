@@ -1,5 +1,5 @@
 import { escapeHtml as esc, legend, tr,
-    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261021-12";
+    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261023-1";
 let data, rated = [], allRated = [], selected = null, charts = [];
 
 class ReferenceChart {
@@ -41,18 +41,20 @@ class ReferenceChart {
         this.updateInfo();
         this.draw();
     }
-    x(player) { return this.battleMetric ? player.battles : player.rating[this.kind === 'win' ? 'xWin' : 'xSunk']; }
+    x(player) { return this.battleMetric ? player.battles : player.rating[this.kind === 'win' || this.kind === 'win-sunk' ? 'xWin' : 'xSunk']; }
     y(player) {
         if (this.battleMetric) return player.rating[this.battleMetric];
+        if (this.kind === 'win-sunk') return player.rating.xSunk;
         if (this.kind === 'win') return player.winRate;
         return document.getElementById('sunk-mode').value === 'total' ? player.majorSunk : player.avgSunk;
     }
     get log() { return this.kind === 'sunk' && document.getElementById('sunk-log').checked; }
     transform(value) { return this.log ? Math.log1p(value) : value; }
-    tierValue(player) { return this.battleMetric ? this.y(player) : this.x(player); }
-    get xLabel() { return this.battleMetric ? 'Battles' : this.kind === 'win' ? 'xWin' : 'xSunk'; }
+    tierValue(player) { return this.kind === 'win-sunk' ? player.rating.xRating : this.battleMetric ? this.y(player) : this.x(player); }
+    get xLabel() { return this.battleMetric ? 'Battles' : this.kind === 'win' || this.kind === 'win-sunk' ? 'xWin' : 'xSunk'; }
     get yLabel() {
         if (this.battleMetric) return this.battleMetric;
+        if (this.kind === 'win-sunk') return 'xSunk';
         if (this.kind === 'win') return tr('승률 (%)', 'WinRate (%)');
         return document.getElementById('sunk-mode').value === 'average' ? 'CV+BB+SS / Battles' : 'CV+BB+SS Sunk';
     }
@@ -77,6 +79,11 @@ class ReferenceChart {
             this.slider.value = String(player.battles);
             return;
         }
+        if (this.kind === 'win-sunk') {
+            this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · xWin <strong>${n(player.rating.xWin, 2)}</strong> · xSunk <strong>${n(player.rating.xSunk, 2)}</strong><br>xRating <strong>${n(player.rating.xRating, 2)}</strong> · ${tierBadge(player.rating.xRating, data.tiers)}`;
+            this.slider.value = String(player.rating.xWin);
+            return;
+        }
         const average = this.kind === 'sunk' && document.getElementById('sunk-mode').value === 'average';
         const metric = this.kind === 'win' ? tr('승률', 'WinRate') : average ? tr('평균 CV+BB+SS 격침', 'Average CV+BB+SS Sunk') : 'CV+BB+SS Sunk';
         this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · ${this.kind === 'win' ? 'xWin' : 'xSunk'} <strong>${n(this.x(player), 2)}</strong> · ${metric} <strong>${n(this.y(player), average ? 3 : this.kind === 'win' ? 2 : 0)}${this.kind === 'win' ? '%' : average ? tr(' 격침수/판', ' sunk/battle') : tr(' 격침수', ' sunk')}</strong><br>${tierBadge(this.x(player), data.tiers)} · ${n(player.battles)}${tr('전', ' battles')}`;
@@ -94,12 +101,13 @@ class ReferenceChart {
         const left = 60, right = 17, top = 22, bottom = 46;
         const pw = w - left - right, ph = h - top - bottom;
         this.geometry = { left, top, pw, ph };
-        const rawMax = this.battleMetric || this.kind === 'win' ? 100 : this.rows.length ? Math.max(...this.rows.map(player => this.y(player))) * 1.04 || 1 : 1;
+        const rawMax = this.battleMetric || this.kind === 'win' || this.kind === 'win-sunk' ? 100 : this.rows.length ? Math.max(...this.rows.map(player => this.y(player))) * 1.04 || 1 : 1;
         const maximum = this.transform(rawMax);
         const px = value => left + value / this.xMaximum * pw;
         const py = value => top + ph - this.transform(value) / maximum * ph;
         ctx.clearRect(0, 0, w, h);
-        for (const tier of data.tiers) {
+        ctx.fillStyle = '#f8fafc'; ctx.fillRect(left, top, pw, ph);
+        for (const tier of this.kind === 'win-sunk' ? [] : data.tiers) {
             ctx.fillStyle = tier.color;
             ctx.globalAlpha = .09;
             if (this.battleMetric) ctx.fillRect(left, py(tier.max), pw, (tier.max - tier.min) / 100 * ph);
@@ -114,7 +122,7 @@ class ReferenceChart {
             ctx.strokeStyle = '#dce5ec'; ctx.lineWidth = .7;
             ctx.beginPath(); ctx.moveTo(left, y); ctx.lineTo(left + pw, y); ctx.stroke();
             ctx.fillStyle = '#5c748a'; ctx.textAlign = 'right';
-            const label = original >= 10000 ? `${n(original / 1000, 0)}k` : n(original, this.kind === 'win' || original >= 100 ? 0 : 2);
+            const label = original >= 10000 ? `${n(original / 1000, 0)}k` : n(original, this.kind === 'win' || this.kind === 'win-sunk' || original >= 100 ? 0 : 2);
             ctx.fillText(label, left - 8, y + 4);
             const xValue = this.xMaximum * i / 5;
             const x = px(xValue);
@@ -218,7 +226,7 @@ export function updateReference(payload, player = null, group = null) {
     selectedElement.hidden = !selected;
     selectedElement.innerHTML = selected ? `<strong>${tr('선택 계정', 'Selected account')}: ${esc(selected.account)}</strong> · ${selected.rating ? `xRating ${n(selected.rating.xRating, 2)} · ${tierBadge(selected.rating.xRating, data.tiers)}` : tr(`${data.minBattles}전 미만으로 기준 그래프에 포함되지 않습니다.`, `Not plotted: fewer than ${data.minBattles} battles.`)}` : '';
     charts.forEach(chart => chart.destroy());
-    charts = [new ReferenceChart('win'), new ReferenceChart('sunk'),
+    charts = [new ReferenceChart('win'), new ReferenceChart('sunk'), new ReferenceChart('win-sunk'),
         new ReferenceChart('battles-rating', 'xRating'), new ReferenceChart('battles-win', 'xWin'), new ReferenceChart('battles-sunk', 'xSunk')];
     renderTierTable();
 }
