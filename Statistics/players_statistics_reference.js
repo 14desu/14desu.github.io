@@ -2,6 +2,12 @@ import { escapeHtml as esc, legend, tr,
     number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261023-1";
 let data, rated = [], allRated = [], selected = null, charts = [];
 
+function rawStatistic(metric, player) {
+    if (metric === 'xWin') return `${tr('승률', 'Winrate')} <span data-stat="winRate">${n(player.winRate, 2)}%</span>`;
+    if (metric === 'xSunk') return `${tr('평균 CV+BB+SS', 'Average CV+BB+SS')} <span data-stat="avgSunk">${n(player.avgSunk, 3)}${tr(' 격침', ' Sunk per battle')}</span>`;
+    return '';
+}
+
 class ReferenceChart {
     constructor(kind, battleMetric = null) {
         this.kind = kind;
@@ -75,18 +81,19 @@ class ReferenceChart {
             return;
         }
         if (this.battleMetric) {
-            this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · Battles <strong>${n(player.battles)}</strong> · ${this.battleMetric} <strong>${n(this.y(player), 2)}</strong><br>${tierBadge(this.y(player), data.tiers)}`;
+            const raw = rawStatistic(this.battleMetric, player);
+            this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · Battles <strong>${n(player.battles)}</strong> · ${this.battleMetric} <strong>${n(this.y(player), 2)}</strong>${raw ? ` · ${raw}` : ''}<br>${tierBadge(this.y(player), data.tiers)}`;
             this.slider.value = String(player.battles);
             return;
         }
         if (this.kind === 'win-sunk') {
-            this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · xWin <strong>${n(player.rating.xWin, 2)}</strong> · xSunk <strong>${n(player.rating.xSunk, 2)}</strong><br>xRating <strong>${n(player.rating.xRating, 2)}</strong> · ${tierBadge(player.rating.xRating, data.tiers)}`;
+            this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · xWin <strong>${n(player.rating.xWin, 2)}</strong> (${rawStatistic('xWin', player)}) · xSunk <strong>${n(player.rating.xSunk, 2)}</strong> (${rawStatistic('xSunk', player)})<br>xRating <strong>${n(player.rating.xRating, 2)}</strong> · ${tierBadge(player.rating.xRating, data.tiers)}`;
             this.slider.value = String(player.rating.xWin);
             return;
         }
-        const average = this.kind === 'sunk' && document.getElementById('sunk-mode').value === 'average';
-        const metric = this.kind === 'win' ? tr('승률', 'WinRate') : average ? tr('평균 CV+BB+SS 격침', 'Average CV+BB+SS Sunk') : 'CV+BB+SS Sunk';
-        this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · ${this.kind === 'win' ? 'xWin' : 'xSunk'} <strong>${n(this.x(player), 2)}</strong> · ${metric} <strong>${n(this.y(player), average ? 3 : this.kind === 'win' ? 2 : 0)}${this.kind === 'win' ? '%' : average ? tr(' 격침수/판', ' sunk/battle') : tr(' 격침수', ' sunk')}</strong><br>${tierBadge(this.x(player), data.tiers)} · ${n(player.battles)}${tr('전', ' battles')}`;
+        const metric = this.kind === 'win' ? 'xWin' : 'xSunk';
+        const total = this.kind === 'sunk' && document.getElementById('sunk-mode').value === 'total';
+        this.info.innerHTML = `<a href="${searchHref('account', player.account)}">${esc(player.account)}</a> · ${metric} <strong>${n(this.x(player), 2)}</strong> · ${rawStatistic(metric, player)}${total ? ` · CV+BB+SS Sunk <strong>${n(player.majorSunk)}</strong>${tr(' 격침수', ' sunk')}` : ''}<br>${tierBadge(this.x(player), data.tiers)} · ${n(player.battles)}${tr('전', ' battles')}`;
         this.slider.value = String(this.x(player));
     }
     draw() {
