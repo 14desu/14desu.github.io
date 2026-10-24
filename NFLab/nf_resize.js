@@ -121,8 +121,12 @@
         try { localStorage.setItem('nf-resize-language', language); } catch { /* Language switching also works without storage. */ }
     }
     document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setLanguage(button.dataset.language)));
-    let initialLanguage = 'ko';
-    try { if (localStorage.getItem('nf-resize-language') === 'en') initialLanguage = 'en'; } catch { /* Use Korean by default. */ }
+    const browserLanguage = navigator.languages?.[0] || navigator.language || '';
+    let initialLanguage = /^ko(?:[-_]|$)/i.test(browserLanguage) ? 'ko' : 'en';
+    try {
+        const savedLanguage = localStorage.getItem('nf-resize-language');
+        if (savedLanguage === 'ko' || savedLanguage === 'en') initialLanguage = savedLanguage;
+    } catch { /* Use the browser language when storage is unavailable. */ }
     setLanguage(initialLanguage);
 
     // file://로 열었을 때에는 기본 메뉴를 사용합니다.
