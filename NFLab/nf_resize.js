@@ -22,8 +22,8 @@
         "sidebarDownload": "NF resize",
         "headline": "Your NavyFIELD.<br>Fit to your screen.",
         "lead": "Give your game window more room.<br>Adjust the scale and aspect ratio, or play in full screen.",
-        "heroDownload": "Download NF resize 1.4 <span aria-hidden=\"true\">↓</span>",
-        "platform": "Windows 10 / 11 · 64-bit · ZIP 28.1 KB",
+        "heroDownload": "Download NF resize 1.5 <span aria-hidden=\"true\">↓</span>",
+        "platform": "Windows 10 / 11 · 64-bit · ZIP 28.2 KB",
         "asideScale": "Choose your size",
         "asideScaleValue": "Scale · Fit",
         "asideRatio": "Choose your aspect ratio",
@@ -45,7 +45,7 @@
         "fullscreenDescription": "Press Alt+Enter to switch between window mode and full-screen mode. Alt+Tab releases the pointer when you switch to another app.",
         "fullscreenNote": "Restores the original game window settings and position on exit",
         "toolbarTitle": "The toolbar at a glance",
-        "toolbarNote": "Program toolbar ? App menus are in English.",
+        "toolbarNote": "Program toolbar · App menus are in English.",
         "legendScale": "<b>Scale / Fit</b> Set the scale",
         "legendApply": "<b>Apply</b> Apply your percentage",
         "legendFullscreen": "<b>Full screen</b> Toggle full screen",
@@ -53,9 +53,9 @@
         "howToTitle": "Get started in five steps",
         "manualNote": "The Manual is included in the ZIP.",
         "step1Title": "Start the game in window mode",
-        "step1": "First, launch NAVYFIELD in window mode. The entire original game window must fit on one monitor.",
+        "step1": "First, launch NAVYFIELD in window mode. The entire original game image must fit within one monitor's desktop work area, excluding the taskbar.",
         "step2Title": "Run NF resize",
-        "step2": "Extract the ZIP and run <code>NF resize 1.4.exe</code>. Accept the administrator prompt if shown.",
+        "step2": "Extract the ZIP and run <code>NF resize 1.5.exe</code>. Accept the administrator prompt if shown.",
         "step3Title": "Choose the scale and aspect ratio",
         "step3": "Select a scale button or Fit. To set a custom percentage, enter a number and press Enter or Apply. The default aspect ratio is 4:3.",
         "step4Title": "Click the game image to play",
@@ -69,7 +69,7 @@
         "shortcutResume": "Resume pointer control",
         "returnNote": "Switching apps from full screen restores the previous window size and position. Reactivating the session resumes full screen.",
         "downloadTitle": "Download NF resize",
-        "version": "Latest release · v1.4",
+        "version": "Latest release · v1.5",
         "downloadHeading": "One EXE. No installation.",
         "downloadDescription": "No separate DLL or Python installation is needed.<br>The ZIP includes the EXE and a Manual in Korean, English, and Japanese.",
         "os": "Operating system",
@@ -79,7 +79,7 @@
         "gameSettingValue": "NAVYFIELD in window mode",
         "release": "Release",
         "zipDownload": "Download ZIP <span class=\"resize-recommended\">ZIP</span>",
-        "zipContents": "EXE + Manual · 28.1 KB",
+        "zipContents": "EXE + Manual · 28.2 KB",
         "packageNote": "Includes the EXE and a Manual in Korean, English, and Japanese.",
         "usageTitle": "About this utility",
         "windowsFeatures": "The utility uses only built-in Windows features for functions such as display scaling, window management, and pointer control.",
@@ -90,16 +90,16 @@
         "faq2Title": "How do I move the pointer outside the game?",
         "faq2": "Alt+Tab releases the pointer when you switch to another app. In window mode, the pointer stays unlocked when you return; click the game image to resume play.",
         "faq3Title": "Are there image filters or sharpness settings?",
-        "faq3": "Version 1.4 offers scaling and aspect ratio selection. It does not include image filters or sharpness options.",
+        "faq3": "Version 1.5 offers scaling and aspect ratio selection. It does not include image filters or sharpness options.",
         "faq4Title": "Will the original game window return when I exit?",
         "faq4": "Closing NF resize restores the original game window settings and position.",
         "faq5Title": "What has been tested?",
         "faq5": "Functional checks used test windows on Windows 11 x64. Manual testing with the actual NAVYFIELD client.",
         "footerHome": "Back to NF Laboratory <span aria-hidden=\"true\">↗</span>",
-        "monitorRequirement": "Original window",
-        "monitorRequirementValue": "Must fit entirely on one monitor",
-        "faq6Title": "Is there a size limit for the original game window in 1.4?",
-        "faq6": "The entire original game window must fit on one monitor. If it is too large, the utility shows an error instead of starting input. At scales below 100%, the actual pointer confinement area may be larger than the displayed image."
+        "monitorRequirement": "Original image",
+        "monitorRequirementValue": "Must fit within one monitor's desktop work area (excluding the taskbar)",
+        "faq6Title": "Is there a size limit for the original game image?",
+        "faq6": "The entire original game image must fit within one monitor's desktop work area, excluding the taskbar. If it is too large, the utility shows an error instead of starting input. At scales below 100%, the actual pointer confinement area may be larger than the displayed image."
 };
     const korean = new Map([...document.querySelectorAll('[data-i18n]')].map(element => [element, element.innerHTML]));
     const labels = [...document.querySelectorAll('[data-aria-en], [data-alt-en]')].map(element => ({
@@ -120,7 +120,7 @@
             if (alt !== null) element.setAttribute('alt', en ? element.dataset.altEn : alt);
         });
         document.title = en ? 'NF resize Download & Guide / NF Laboratory' : originalTitle;
-        description.content = en ? 'Download NF resize 1.4 for NAVYFIELD. Learn how to adjust scale and aspect ratios, use full screen, and get started on Windows.' : originalDescription;
+        description.content = en ? 'Download NF resize 1.5 for NAVYFIELD. Learn how to adjust scale and aspect ratios, use full screen, and get started on Windows.' : originalDescription;
         document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
         try { localStorage.setItem('nf-resize-language', language); } catch { /* Language switching also works without storage. */ }
     }
