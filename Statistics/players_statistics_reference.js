@@ -1,5 +1,5 @@
-import { escapeHtml as esc, legend, tr,
-    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261023-1";
+import { escapeHtml as esc, legend, tr, modePlayer, recentReason,
+    number as n, searchHref, tierBadge, tierFor } from "./players_statistics_core.js?v=20261030-2";
 let data, rated = [], allRated = [], selected = null, charts = [];
 
 function rawStatistic(metric, player) {
@@ -220,18 +220,19 @@ function renderTierTable() {
     }).join('');
 }
 
-export function updateReference(payload, player = null, group = null) {
-    data = payload;
+export function updateReference(payload, player = null, group = null, mode = 'overall') {
+    const scope = payload.modes[mode];
+    data = { ...payload, minBattles: scope.minBattles, players: payload.players.map(item => modePlayer(item, mode)) };
     allRated = data.players.filter(player => player.rating);
-    rated = group ? group.members.filter(player => player.rating) : allRated;
-    selected = player;
+    rated = group ? group.members.map(item => modePlayer(item, mode)).filter(player => player.rating) : allRated;
+    selected = player ? modePlayer(player, mode) : null;
     document.getElementById('reference-status').textContent = tr(
-        `${data.server} · 공식 갱신일 ${data.issueDate} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · 소속 계정만 표시 · ` : ''}${data.minBattles}전 이상 ${n(rated.length)}개 계정`,
-        `${data.server} · Issue date ${data.issueDate} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · members only · ` : ''}${n(rated.length)} accounts with ${data.minBattles}+ battles`);
+        `${scope.label} · ${scope.from ? `${scope.from} → ` : ''}${scope.to} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · 소속 계정만 표시 · ` : ''}${data.minBattles}전 이상 ${n(rated.length)}개 계정`,
+        `${scope.label} · ${scope.from ? `${scope.from} → ` : ''}${scope.to} · ${group ? `${group.type === 'fleet' ? 'Fleet' : 'Squadron'} ${group.name} · members only · ` : ''}${n(rated.length)} accounts with ${data.minBattles}+ battles`);
     document.getElementById('rating-legend').innerHTML = legend(data.tiers);
     const selectedElement = document.getElementById('selected-player');
     selectedElement.hidden = !selected;
-    selectedElement.innerHTML = selected ? `<strong>${tr('선택 계정', 'Selected account')}: ${esc(selected.account)}</strong> · ${selected.rating ? `xRating ${n(selected.rating.xRating, 2)} · ${tierBadge(selected.rating.xRating, data.tiers)}` : tr(`${data.minBattles}전 미만으로 기준 그래프에 포함되지 않습니다.`, `Not plotted: fewer than ${data.minBattles} battles.`)}` : '';
+    selectedElement.innerHTML = selected ? `<strong>${tr('선택 계정', 'Selected account')}: ${esc(selected.account)}</strong> · ${selected.rating ? `xRating ${n(selected.rating.xRating, 2)} · ${tierBadge(selected.rating.xRating, data.tiers)}` : mode === 'recent' ? esc(recentReason(selected.recentStatus, data.minBattles)) : tr(`${data.minBattles}전 미만으로 기준 그래프에 포함되지 않습니다.`, `Not plotted: fewer than ${data.minBattles} battles.`)}` : '';
     charts.forEach(chart => chart.destroy());
     charts = [new ReferenceChart('win'), new ReferenceChart('sunk'), new ReferenceChart('win-sunk'),
         new ReferenceChart('battles-rating', 'xRating'), new ReferenceChart('battles-win', 'xWin'), new ReferenceChart('battles-sunk', 'xSunk')];

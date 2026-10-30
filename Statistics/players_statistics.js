@@ -1,6 +1,7 @@
 import { buildSearchIndex, colorScale, escapeHtml as esc, initializeShell, loadStatistics,
-    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage } from "./players_statistics_core.js?v=20261023-1";
-import { updateReference } from "./players_statistics_reference.js?v=20261023-4";
+    normalize, number as n, searchEntries, searchHref, tierBadge, tierFor, tr, setLanguage, translatePage,
+    getRatingMode, setRatingMode, modePlayer, recentReason } from "./players_statistics_core.js?v=20261030-2";
+import { updateReference } from "./players_statistics_reference.js?v=20261030-2";
 
 const input = document.getElementById("player-search");
 const suggestions = document.getElementById("search-suggestions");
@@ -12,6 +13,23 @@ const typeLabels = { account: "Account", fleet: "Fleet", squadron: "Squadron" };
 
 translatePage();
 initializeShell();
+
+function scopeDescription(mode = getRatingMode()) {
+    const scope = data.modes[mode];
+    return `${scope.label} · ${scope.from ? `${scope.from} → ` : ''}${scope.to} · ${tr(`${scope.minBattles}전 이상`, `${scope.minBattles}+ battles`)}`;
+}
+function updateModeControls() {
+    for (const button of document.querySelectorAll('[data-rating-mode]')) {
+        const active = button.dataset.ratingMode === getRatingMode();
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+    }
+    document.getElementById('rating-scope-status').textContent = data ? scopeDescription() : '';
+}
+function refreshReference() {
+    updateReference(data, selection?.type === 'account' ? selection.members[0] : null,
+        selection && selection.type !== 'account' ? selection : null, getRatingMode());
+}
 
 function closeSuggestions() {
     suggestions.hidden = true;
@@ -49,6 +67,8 @@ function navigate(entry) {
 
 function renderFromUrl() {
     const params = new URLSearchParams(location.search);
+    setRatingMode(params.get('mode'));
+    updateModeControls();
     const type = params.get("type") || "account";
     const query = params.get("q") || "";
     const hasFleet = params.has("fleet");
@@ -58,7 +78,7 @@ function renderFromUrl() {
     if (candidates.length === 1) return renderSelection(candidates[0]);
     currentGroup = null;
     selection = null;
-    updateReference(data);
+    refreshReference();
     if (query) {
         result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-body ps-empty"><h3>${candidates.length > 1 ? tr('같은 이름의 전대가 여러 함대에 있습니다.', 'Several fleets have a squadron with this name.') : tr('검색 결과가 없습니다.', 'No results found.')}</h3><p class="ps-muted">${tr('자동완성에서 원하는 계정·함대·전대를 선택하세요.', 'Choose an account, fleet or squadron from the suggestions.')}</p></div></section>`;
         showSuggestions();
@@ -83,7 +103,7 @@ function renderPlayer(player) {
     currentGroup = null;
     const rating = player.rating;
     const officialUrl = player.officialId ? `https://www.navyfield.com/Community/Ranking/View.aspx?category=1&server=1&num=${player.officialId}` : data.sources.official;
-    result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-header">${tr('계정 전적 / Account Statistics', 'Account Statistics')}</div><div class="card-body">
+    result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-header">Overall · ${tr('계정 전적 / Account Statistics', 'Account Statistics')}</div><div class="card-body">
         <div class="ps-identity"><div><p class="ps-eyebrow">${tr('공식 순위', 'Official rank')} #${n(player.rank)}</p><h2>${esc(player.account)}</h2><p class="ps-muted">Fleet ${entityLink('fleet', player.fleet)} &nbsp;·&nbsp; Squadron ${entityLink('squadron', player.squadron, player.fleet)}</p></div><a class="btn btn-outline-secondary btn-sm ps-button" href="#rating-reference">${tr('그래프에서 내 위치 보기 ↓', 'View position in charts ↓')}</a></div>
         <div class="ps-score-grid">${scoreCard('xRating', rating?.xRating, rating?.xRating, rating ? tr(`상위 약 ${n(100 - rating.xRating, 2)}% · 종합 백분위`, `Top ~${n(100 - rating.xRating, 2)}% · overall percentile`) : tr(`${data.minBattles}전 이상부터 산정`, `Requires ${data.minBattles}+ battles`), true)}
             ${scoreCard('xWin', rating?.xWin, rating?.xWin, tr('승률의 백분위', 'Win rate percentile'))}
@@ -94,12 +114,27 @@ function renderPlayer(player) {
             <div><dt>${tr('평균 주요함급 격침 · AvgSunk', 'Average major ships sunk')}</dt><dd>${n(player.avgSunk, 3)}</dd><small>CV+BB+SS · ${tr('격침수/판', 'sunk/battle')}</small></div>
             <div><dt>${tr('누적 주요함급 격침', 'Total major ships sunk')}</dt><dd>${n(player.majorSunk)}</dd><small>CV+BB+SS · ${tr('격침수', 'sunk')}</small></div></dl>
         <p class="ps-muted mb-0">${tr('공식 갱신일', 'Issue date')} ${esc(data.issueDate)} &nbsp;·&nbsp; ${tr('마지막 접속', 'Last connected')} ${esc(player.lastConnected || tr('기록 없음', 'Unknown'))} &nbsp;·&nbsp; ${esc(data.server)}</p>
-        </div></section><section class="card sailor-card ps-panel"><details class="ps-detail" open><summary class="card-header">${tr('공식 전적 상세 정보', 'Detailed official statistics')}</summary><div class="card-body"><div class="ps-detail-grid">
+        </div></section>${renderRecent(player)}<section class="card sailor-card ps-panel"><details class="ps-detail" open><summary class="card-header">${tr('공식 전적 상세 정보', 'Detailed official statistics')}</summary><div class="card-body"><div class="ps-detail-grid">
             <div><span>${tr('공식 순위', 'Official rank')}</span><strong>${n(player.rank)}</strong></div><div><span>${tr('Overall Rankings 점수', 'Overall score')}</span><strong>${n(player.overallScore)}</strong></div><div><span>Tonnage Sunken</span><strong>${n(player.tonnageSunken)}</strong></div></div>
             <h3 class="h6 mb-3">${tr('함종별 격침 수', 'Ships sunk by class')}</h3><div class="ps-sunk-grid">${['ff','dd','cl','ca','cv','bb','ss'].map(kind => `<div><span>${kind.toUpperCase()} Sunk</span><strong>${n(player[`${kind}Sunk`])}</strong></div>`).join('')}</div>
             ${player.tonnageSunken < 0 ? `<p class="ps-muted mt-3">${tr('Tonnage Sunken의 음수는 공식 표시값을 보존한 것이며 레이팅에 사용하지 않습니다.', 'Negative tonnage is preserved from the official source and is not used in ratings.')}</p>` : ''}
             <p class="mt-3 mb-0"><a href="${esc(officialUrl)}" target="_blank" rel="noopener">${tr('공식 홈페이지 전적 보기 ↗', 'View official statistics ↗')}</a></p></div></details></section>`;
     document.title = `${player.account} · ${tr('NF 전적 검색', 'NF Player Statistics')}`;
+}
+
+function renderRecent(player) {
+    const stats = player.recent, scope = data.modes.recent, rating = stats.rating;
+    return `<section id="recent-statistics" class="card sailor-card ps-panel"><h3 class="card-header">Recent · ${tr('기간 전적', 'Period statistics')}</h3><div class="card-body">
+        <p class="ps-muted">${esc(scopeDescription('recent'))}</p>
+        <div class="ps-score-grid">${scoreCard('xRating', rating?.xRating, rating?.xRating, tr('최근 종합 백분위', 'Recent overall percentile'), true)}
+        ${scoreCard('xWin', rating?.xWin, rating?.xWin, tr('최근 승률 백분위', 'Recent win rate percentile'))}
+        ${scoreCard('xSunk', rating?.xSunk, rating?.xSunk, tr('최근 평균 격침 백분위', 'Recent average sunk percentile'))}</div>
+        ${rating ? '' : `<p class="ps-muted mt-3">${esc(recentReason(stats.status, scope.minBattles))}</p>`}
+        <dl class="ps-major-grid"><div><dt>${tr('승률 · WinRate', 'Win rate')}</dt><dd>${n(stats.winRate, 2)}${stats.winRate == null ? '' : '%'}</dd><small>${n(stats.win)}${tr('승', ' wins')}</small></div>
+        <div><dt>${tr('전투 수 · Battles', 'Battles')}</dt><dd>${n(stats.battles)}</dd><small>${tr('기간 내 증가 전투', 'Additional battles in period')}</small></div>
+        <div><dt>${tr('평균 주요함급 격침', 'Average major ships sunk')}</dt><dd>${n(stats.avgSunk, 3)}</dd><small>CV+BB+SS · ${tr('격침수/판', 'sunk/battle')}</small></div>
+        <div><dt>${tr('기간 주요함급 격침', 'Major ships sunk in period')}</dt><dd>${n(stats.majorSunk)}</dd><small>CV+BB+SS</small></div></dl>
+        <p class="ps-muted mb-0">${tr('Overall과 Recent는 각각의 평가 대상 안에서 백분위를 계산합니다.', 'Overall and Recent percentiles are calculated within their respective eligible cohorts.')}</p></div></section>`;
 }
 
 const columns = [
@@ -112,7 +147,7 @@ function sortValue(player, key) {
 
 function renderGroup(entry) {
     currentGroup = entry;
-    const members = [...entry.members].sort((a, b) => {
+    const members = entry.members.map(player => modePlayer(player)).sort((a, b) => {
         const av = sortValue(a, sortKey), bv = sortValue(b, sortKey);
         if (av == null && bv != null) return 1;
         if (bv == null && av != null) return -1;
@@ -120,20 +155,20 @@ function renderGroup(entry) {
         return order * sortDirection || a.account.localeCompare(b.account);
     });
     const rated = members.filter(player => player.rating).length;
-    result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-header">${typeLabels[entry.type]} · ${tr('소속 계정 전적', 'Member statistics')}</div><div class="card-body"><div class="ps-identity"><div><p class="ps-eyebrow">${typeLabels[entry.type].toUpperCase()}</p><h2>${esc(entry.name)}</h2><p class="ps-muted">${entry.type === 'squadron' ? `Fleet ${entityLink('fleet', entry.fleet)} · ` : ''}${tr(`소속 ${n(members.length)}개 Account · 레이팅 산정 ${n(rated)}개`, `${n(members.length)} accounts · ${n(rated)} rated`)}</p></div></div>
+    result.innerHTML = `<section class="card sailor-card ps-panel"><div class="card-header">${typeLabels[entry.type]} · ${tr('소속 계정 전적', 'Member statistics')} · ${getRatingMode() === 'recent' ? 'Recent' : 'Overall'}</div><div class="card-body"><div class="ps-identity"><div><p class="ps-eyebrow">${typeLabels[entry.type].toUpperCase()}</p><h2>${esc(entry.name)}</h2><p class="ps-muted">${entry.type === 'squadron' ? `Fleet ${entityLink('fleet', entry.fleet)} · ` : ''}${tr(`소속 ${n(members.length)}개 Account · 레이팅 산정 ${n(rated)}개`, `${n(members.length)} accounts · ${n(rated)} rated`)}</p><p class="ps-muted">${esc(scopeDescription())}</p></div></div>
         <div class="ps-table-toolbar"><p class="ps-muted mb-0">${tr('소속 계정을 모두 표시합니다. 표 제목으로 정렬하고 계정명을 선택해 상세 전적을 확인하세요.', 'All members are shown. Select a column to sort or an account to view details.')}</p></div>
         <div class="ps-table-wrap"><table class="table table-bordered table-sm ps-table"><caption>${esc(entry.name)} · ${tr('소속 계정 주요 전적 · 평균 주요함급 격침은 CV+BB+SS 격침수/판', 'Member statistics · AvgSunk = CV+BB+SS sunk/battle')}</caption><thead><tr>${columns.map(([key,label]) => `<th scope="col" aria-sort="${sortKey === key ? (sortDirection === 1 ? 'ascending' : 'descending') : 'none'}"><button type="button" data-sort="${key}">${key === 'battles' ? tr('전투 수', label) : key === 'winRate' ? tr('승률', label) : key === 'avgSunk' ? tr('평균 주요함급 격침', label) : key === 'lastConnected' ? tr('마지막 접속', label) : label}${sortKey === key ? sortDirection === 1 ? ' ↑' : ' ↓' : ''}</button></th>`).join('')}</tr></thead><tbody>${members.map(player => `<tr>
             <td><a href="${searchHref('account', player.account)}">${esc(player.account)}</a></td><td>${entityLink('fleet', player.fleet)}</td><td>${entityLink('squadron', player.squadron, player.fleet)}</td><td>${n(player.battles)}</td><td>${n(player.winRate, 2)}${player.winRate == null ? '' : '%'}</td><td>${n(player.avgSunk, 3)}</td>
             ${['xRating','xWin','xSunk'].map(key => `<td class="ps-rating-cell">${n(player.rating?.[key], 2)}${key === 'xRating' ? `<br>${tierBadge(player.rating?.xRating, data.tiers)}` : ''}</td>`).join('')}
             <td>${esc(player.lastConnected || '—')}</td></tr>`).join('')}</tbody></table></div>
-        <p class="ps-muted mb-0">${tr('공식 갱신일', 'Issue date')} ${esc(data.issueDate)} · ${tr(`${data.minBattles}전 미만은 레이팅 미산정입니다. 티어는 xRating 기준입니다.`, `Accounts below ${data.minBattles} battles are unrated. Tiers use xRating.`)}</p></div></section>`;
+        <p class="ps-muted mb-0">${tr('공식 갱신일', 'Issue date')} ${esc(data.issueDate)} · ${tr(`${data.modes[getRatingMode()].minBattles}전 미만은 레이팅 미산정입니다. 티어는 xRating 기준입니다.`, `Accounts below ${data.modes[getRatingMode()].minBattles} battles are unrated. Tiers use xRating.`)}</p></div></section>`;
     document.title = `${entry.name} · NF ${typeLabels[entry.type]}`;
 }
 
 function renderSelection(entry) {
     selection = entry;
     if (entry.type === 'account') renderPlayer(entry.members[0]); else renderGroup(entry);
-    updateReference(data, entry.type === 'account' ? entry.members[0] : null, entry.type === 'account' ? null : entry);
+    refreshReference();
 }
 
 input.addEventListener('input', showSuggestions);
@@ -174,14 +209,25 @@ result.addEventListener('click', event => {
 window.addEventListener('popstate', () => { closeSuggestions(); if (data) renderFromUrl(); });
 
 document.addEventListener('click', event => {
+    const modeButton = event.target.closest('[data-rating-mode]');
+    if (modeButton && data) {
+        setRatingMode(modeButton.dataset.ratingMode);
+        const url = new URL(location.href);
+        if (getRatingMode() === 'recent') url.searchParams.set('mode', 'recent'); else url.searchParams.delete('mode');
+        history.pushState(null, '', url);
+        updateModeControls();
+        if (selection) renderSelection(selection); else renderFromUrl();
+        return;
+    }
     const button = event.target.closest('[data-language]');
     if (button) {
         setLanguage(button.dataset.language); translatePage(); closeSuggestions(); updateStatus();
         if (!data) return;
         if (selection) {
             if (selection.type === 'account') renderPlayer(selection.members[0]); else renderGroup(selection);
-            updateReference(data, selection.type === 'account' ? selection.members[0] : null, selection.type === 'account' ? null : selection);
+            refreshReference();
         } else renderFromUrl();
+        updateModeControls();
         return;
     }
     if (event.button || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -199,8 +245,8 @@ window.addEventListener('nf-select-account', event => {
 
 function updateStatus() {
     if (data) status.textContent = tr(
-        `${data.server} · 공식 갱신일 ${data.issueDate} · ${n(data.accountCount)}개 Account · ${data.minBattles}전 이상 ${n(data.ratedAccountCount)}개 평가`,
-        `${data.server} · Issue date ${data.issueDate} · ${n(data.accountCount)} accounts · ${n(data.ratedAccountCount)} rated (${data.minBattles}+ battles)`);
+        `${data.server} · 공식 갱신일 ${data.issueDate} · ${n(data.accountCount)}개 Account · Overall ${n(data.ratedAccountCount)}개 (${data.minBattles}전 이상) · Recent ${n(data.modes.recent.ratedAccountCount)}개 (${data.modes.recent.minBattles}전 이상)`,
+        `${data.server} · Issue date ${data.issueDate} · ${n(data.accountCount)} accounts · Overall ${n(data.ratedAccountCount)} (${data.minBattles}+ battles) · Recent ${n(data.modes.recent.ratedAccountCount)} (${data.modes.recent.minBattles}+ battles)`);
     else status.textContent = document.getElementById('retry-data').hidden
         ? tr('공식 전적과 레이팅 데이터를 불러오는 중입니다.', 'Loading official statistics and ratings…')
         : tr('전적 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.', 'Unable to load statistics. Please try again.');
@@ -218,7 +264,8 @@ async function start() {
         input.disabled = false;
         document.getElementById('search-submit').disabled = false;
         renderFromUrl();
-    } catch {
+    } catch (error) {
+        console.error('Unable to initialize player statistics:', error);
         status.classList.add('ps-error');
         retry.hidden = false;
         updateStatus();

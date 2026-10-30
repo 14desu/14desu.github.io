@@ -3,6 +3,9 @@
 .ps-header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:.75rem; margin-bottom:1rem; }
 .ps-header h2 { margin-bottom:.5rem; }
 .ps-header-actions { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+.ps-scope-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:.75rem; margin:1rem 0; }
+.ps-scope-toolbar .btn.active { color:#fff; background:#0d6efd; border-color:#0d6efd; }
+.ps-scope-toolbar .btn:not(.active) { color:#0d6efd; background:#fff; }
 .ps-eyebrow { color:#6c757d; font-size:.75rem; font-weight:600; margin:0 0 .35rem; }
 .ps-panel { margin-bottom:1rem; }
 .ps-panel>.card-header,.ps-detail>.card-header { font-size:1rem; margin:0; }

@@ -1,4 +1,4 @@
-export const CATALOG_VERSION = "20260910-1";
+export const CATALOG_VERSION = "20261030-1";
 export const API_URL = `https://navyfield-simulator-api.14desu.workers.dev/catalog/global_player_statistics.json?v=${CATALOG_VERSION}`;
 let pending;
 const preferredLanguage = globalThis.navigator?.languages?.[0] || globalThis.navigator?.language || '';
@@ -9,6 +9,20 @@ try {
 } catch { /* Use browser language when storage is unavailable. */ }
 export const getLanguage = () => language;
 export const tr = (ko, en) => language === 'en' ? en : ko;
+let ratingMode = new URLSearchParams(globalThis.location?.search || '').get('mode') === 'recent' ? 'recent' : 'overall';
+export const getRatingMode = () => ratingMode;
+export function setRatingMode(value) { ratingMode = value === 'recent' ? 'recent' : 'overall'; }
+export function modePlayer(player, mode = ratingMode) {
+    if (mode !== 'recent') return player;
+    return { ...player, ...player.recent, rating: player.recent?.rating ?? null,
+        recentStatus: player.recent?.status || 'no_baseline' };
+}
+export function recentReason(status, minimum) {
+    return status === 'no_baseline' ? tr('이전 전적이 없어 비교할 수 없습니다.', 'No previous record to compare.')
+        : status === 'invalid_delta' ? tr('누적 수치 감소 또는 불일치로 비교에서 제외했습니다.', 'Excluded because cumulative counters decreased or changed inconsistently.')
+        : status === 'no_battles' ? tr('비교 기간에 증가한 전투가 없습니다.', 'No additional battles in this period.')
+        : tr(`기간 내 ${minimum}전 이상부터 산정합니다.`, `Requires ${minimum}+ battles in this period.`);
+}
 export function setLanguage(value) {
     language = value === 'en' ? 'en' : 'ko';
     try { globalThis.localStorage?.setItem('nfPlayersLanguage', language); } catch { /* Keep the session preference. */ }
@@ -31,12 +45,13 @@ export const tierFor = (value, tiers) => value == null ? null : [...tiers].rever
 
 export function loadStatistics() {
     if (!pending) pending = (async () => {
-        const response = await fetch(API_URL);
+        const response = await fetch(API_URL, { cache: 'no-cache' });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         if (data.schemaVersion !== 1 || data.catalogVersion !== CATALOG_VERSION
             || !Array.isArray(data.players) || data.players.length !== data.accountCount
-            || !Array.isArray(data.tiers) || data.tiers.length !== 8) throw new Error("전적 데이터의 버전이 맞지 않습니다.");
+            || !Array.isArray(data.tiers) || data.tiers.length !== 8
+            || !data.modes?.overall || !data.modes?.recent) throw new Error("전적 데이터의 버전이 맞지 않습니다.");
         return data;
     })().catch(error => { pending = null; throw error; });
     return pending;
@@ -44,6 +59,7 @@ export function loadStatistics() {
 
 export function searchHref(type, value, fleet) {
     const query = new URLSearchParams({ type, q: value });
+    if (ratingMode === 'recent') query.set('mode', 'recent');
     if (type === "squadron") query.set("fleet", fleet ?? "");
     return `global_player_statistics.html?${query}`;
 }
@@ -96,7 +112,7 @@ export function legend(tiers) {
 }
 
 export async function initializeShell() {
-    const stylesheetUrl = new URL('./players_statistics.css?v=20261023-1', import.meta.url);
+    const stylesheetUrl = new URL('./players_statistics.css?v=20261030-2', import.meta.url);
     let stylesheet = [...document.querySelectorAll('link[rel="stylesheet"]')]
         .find(link => new URL(link.href).pathname === stylesheetUrl.pathname);
     if (!stylesheet) {
@@ -107,7 +123,7 @@ export async function initializeShell() {
     if (stylesheet.href !== stylesheetUrl.href) stylesheet.href = stylesheetUrl.href;
     for (const [id, file] of [["navbar", "navbar.html"], ["sidenavAccordion", "sidebar.html"]]) {
         try {
-            const response = await fetch(`../common/${file}?v=20261023-1`, { cache: 'no-cache' });
+            const response = await fetch(`../common/${file}?v=20261030-2`, { cache: 'no-cache' });
             if (response.ok) document.getElementById(id).innerHTML = await response.text();
         } catch { /* The record page remains usable if shared navigation is unavailable. */ }
     }

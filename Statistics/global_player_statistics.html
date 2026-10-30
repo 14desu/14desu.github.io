@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../common/styles.css?v=20261018-1">
     <link rel="stylesheet" href="../common/site.css?v=20261018-1">
     <link rel="stylesheet" href="../common/calculators.css?v=20261018-1">
-    <link rel="stylesheet" href="./players_statistics.css?v=20261023-1">
+    <link rel="stylesheet" href="./players_statistics.css?v=20261030-2">
 </head>
 <body class="sb-nav-fixed nf-tool-page nf-player-statistics">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -32,6 +32,7 @@
                 <p class="ps-muted ps-source-note"><span data-ko="공식 랭킹 데이터를 기반으로 집계한 통계와 자체 산정한 레이팅을 제공합니다." data-en="These statistics and ratings are calculated directly from official ranking data.">공식 랭킹 데이터를 기반으로 집계한 통계와 자체 산정한 레이팅을 제공합니다.</span> <a id="official-ranking-link" href="https://www.navyfield.com/Community/Ranking/List.aspx" target="_blank" rel="noopener" data-ko="공식 랭킹 페이지 ↗" data-en="Official ranking page ↗">공식 랭킹 페이지 ↗</a></p>
                 <button id="retry-data" type="button" class="btn btn-outline-secondary btn-sm" hidden data-ko="다시 불러오기" data-en="Retry">다시 불러오기</button></div>
             </section>
+            <div class="ps-scope-toolbar"><span data-ko="표·그래프 기준" data-en="Table &amp; chart scope">표·그래프 기준</span><div class="btn-group btn-group-sm" role="group" aria-label="Rating scope"><button class="btn btn-outline-primary active" type="button" data-rating-mode="overall" aria-pressed="true">Overall</button><button class="btn btn-outline-primary" type="button" data-rating-mode="recent" aria-pressed="false">Recent</button></div><span id="rating-scope-status" class="ps-muted" aria-live="polite"></span></div>
             <section id="search-result" aria-live="polite"></section>
             <section id="rating-reference" class="card sailor-card ps-panel">
                 <h3 class="card-header" data-ko="레이팅 기준 그래프 / Rating Reference" data-en="Rating Reference / 레이팅 기준 그래프">레이팅 기준 그래프 / Rating Reference</h3><div class="card-body">
@@ -44,7 +45,7 @@
                     </div>
                     <p class="ps-muted" data-ko="xSunk는 항상 전투당 평균 CV+BB+SS 격침의 백분위입니다. 누적 격침으로 바꿔도 가로축은 유지됩니다. 로그 축은 log(1+y)이며 실제 값은 그대로 표시합니다." data-en="xSunk always ranks average CV+BB+SS sunk per battle. Switching to totals keeps the same X axis. Log scale uses log(1+y); displayed values remain unchanged.">xSunk는 항상 전투당 평균 CV+BB+SS 격침의 백분위입니다. 누적 격침으로 바꿔도 가로축은 유지됩니다. 로그 축은 log(1+y)이며 실제 값은 그대로 표시합니다.</p>
                     <h4 class="h6" data-ko="전투 수와 레이팅" data-en="Battles and ratings">전투 수와 레이팅</h4>
-                    <p class="ps-muted" data-ko="가로축은 누적 전투 수(Battles), 세로축은 각 레이팅(0~100점)입니다. 점과 가로 배경 띠의 색상은 세로축 레이팅의 티어를 나타냅니다." data-en="X: lifetime battles. Y: the respective rating (0–100). Point colors and horizontal bands show tiers for the rating on the Y axis.">가로축은 누적 전투 수(Battles), 세로축은 각 레이팅(0~100점)입니다. 점과 가로 배경 띠의 색상은 세로축 레이팅의 티어를 나타냅니다.</p>
+                    <p class="ps-muted" data-ko="가로축은 선택한 범위의 전투 수(Battles), 세로축은 각 레이팅(0~100점)입니다. 점과 가로 배경 띠의 색상은 세로축 레이팅의 티어를 나타냅니다." data-en="X: battles in the selected scope. Y: the respective rating (0–100). Point colors and horizontal bands show tiers for the rating on the Y axis.">가로축은 선택한 범위의 전투 수(Battles), 세로축은 각 레이팅(0~100점)입니다. 점과 가로 배경 띠의 색상은 세로축 레이팅의 티어를 나타냅니다.</p>
                     <div class="ps-chart-grid ps-battles-chart-grid">
                         <section class="ps-chart-panel"><h4>Battles ↔ xRating</h4><div class="ps-chart-wrap"><canvas id="battles-rating-chart" tabindex="0" aria-label="전투 수와 xRating 분포" data-aria-ko="전투 수와 xRating 분포" data-aria-en="Battles versus xRating distribution"></canvas></div><label class="ps-slider-label" for="battles-rating-percentile"><span data-ko="전투 수 살펴보기" data-en="Inspect battles">전투 수 살펴보기</span><input id="battles-rating-percentile" type="range" min="0" max="100" value="50" step="1"></label><div class="ps-point-info" id="battles-rating-point" aria-live="polite"></div></section>
                         <section class="ps-chart-panel"><h4>Battles ↔ xWin</h4><div class="ps-chart-wrap"><canvas id="battles-win-chart" tabindex="0" aria-label="전투 수와 xWin 분포" data-aria-ko="전투 수와 xWin 분포" data-aria-en="Battles versus xWin distribution"></canvas></div><label class="ps-slider-label" for="battles-win-percentile"><span data-ko="전투 수 살펴보기" data-en="Inspect battles">전투 수 살펴보기</span><input id="battles-win-percentile" type="range" min="0" max="100" value="50" step="1"></label><div class="ps-point-info" id="battles-win-point" aria-live="polite"></div></section>
@@ -61,6 +62,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" defer crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" defer crossorigin="anonymous"></script>
     <script src="../common/scripts.js?v=20261018-1" defer></script>
-    <script type="module" src="./players_statistics.js?v=20261023-4"></script>
+    <script type="module" src="./players_statistics.js?v=20261030-2"></script>
 </body>
 </html>
