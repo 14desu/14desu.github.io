@@ -4,8 +4,10 @@ import {
     calculateShipEngineOverheat,
     calculateShipOverheatSpeed,
     calculateShipRepairSpeedDetails,
+    calculateSailorWeightKg,
+    calculateShipSailorWeightKg,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20261014-v4";
+} from "./sailor-performance/index.js?v=20261031-v1";
 
 (() => {
     "use strict";
@@ -112,6 +114,8 @@ import {
             shipEquipmentTGun2: "T mount 함포 2", shipAddTGun: "T mount 함포 추가",
             shipVeteranBulk: "사관 일괄 입력", shipVeteranRatePlaceholder: "예) 180", carrierAircraftModeF: "F · 전투기", carrierAircraftModeA: "A · 뇌격기", carrierAircraftModeB: "B · 급폭기",
             shipTargetGuideline: "목표 가이드라인", shipRGunRangeTarget: "R mount 함포 사거리 대체", shipGuidelineAdjustCaptain: "목표 가이드라인 함장 수병수 조절", shipPerformanceTitle: "함선 성능", shipRepairSpeed: "함선 수리속도 [/s]", shipOverheatSpeed: "함선 오버힛속도", shipOverheatTime: "함선 오버힛시간 [s]", shipPerformanceSeat: "좌석", shipReloadEfficiency: "연사 성능", shipImplementedReload: "12회 구현 연사시간", shipGuidelineAdjustmentResult: "목표 가이드라인 함장 수병수 조절", shipGuidelineAdjustmentDisabled: "조절 불가", shipGuidelineAdjustmentNotRequired: "조절 불필요", shipGuidelineAdjustmentApplied: "함장 수병 구성에 적용",
+            sailorWeight: "수병무게 [t]", shipSailorWeight: "탑승 수병무게 [t]",
+            submarineSailorWeight: "잠수함 반영: 수병무게 합계 × 12%",
             shipRepairBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `함선 ${shipValue} + 수병 ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `함선 기본속도 ${value} · 유저수동입력`,
@@ -154,6 +158,8 @@ import {
             shipEquipmentTGun2: "T mount gun 2", shipAddTGun: "Add T mount gun",
             shipVeteranBulk: "Veteran batch input", shipVeteranRatePlaceholder: "e.g. 100", carrierAircraftModeF: "F · Fighter", carrierAircraftModeA: "A · Torpedo bomber", carrierAircraftModeB: "B · Dive bomber",
             shipTargetGuideline: "Target guideline", shipRGunRangeTarget: "Use R mount gun range", shipGuidelineAdjustCaptain: "Adjust Bridge sailor count to target guideline", shipPerformanceTitle: "Ship performance", shipRepairSpeed: "Ship repair speed [/s]", shipOverheatSpeed: "Ship overheat speed", shipOverheatTime: "Ship overheat time [s]", shipPerformanceSeat: "Sailor slot", shipReloadEfficiency: "Reload performance", shipImplementedReload: "12-shot implemented reload time", shipGuidelineAdjustmentResult: "Bridge sailor adjustment for target guideline", shipGuidelineAdjustmentDisabled: "Adjustment unavailable", shipGuidelineAdjustmentNotRequired: "No adjustment needed", shipGuidelineAdjustmentApplied: "Applied to Bridge sailor composition",
+            sailorWeight: "Sailor weight [t]", shipSailorWeight: "Total sailor weight [t]",
+            submarineSailorWeight: "Submarine: 12% of combined sailor weight",
             shipRepairBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatTimeBreakdown: (shipValue, sailorValue) => `Ship ${shipValue} + Sailor ${sailorValue}`,
             shipOverheatSpeedBaseBreakdown: (value) => `Base ship speed ${value} · User manual input`,
@@ -193,7 +199,7 @@ import {
     const CATALOG_BASE = `${API_BASE}/catalog`;
     const STATIC_CATALOG_VERSIONS = {
         "sailor-catalog.json": "20261002-1",
-        "gun-shipyard-catalog.json": "20261002-1",
+        "gun-shipyard-catalog.json": "20261031-1",
         "fcs-catalog.json": "20261002-1",
         "ship-catalog.json": "20261002-1",
         "engine-catalog.json": "20261002-1",
@@ -325,9 +331,19 @@ import {
         const version = STATIC_CATALOG_VERSIONS[name];
         const schemaVersion = STATIC_CATALOG_SCHEMAS[name];
         const versionQuery = version ? `?v=${encodeURIComponent(version)}` : "";
-        const response = await fetch(`${CATALOG_BASE}/${name}${versionQuery}`, { cache: "default" });
-        if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
-        const catalog = await response.json();
+        const url = `${CATALOG_BASE}/${name}${versionQuery}`;
+        const readCatalog = async (requestUrl, cache) => {
+            const response = await fetch(requestUrl, { cache });
+            if (!response.ok) throw new Error(`${name}: HTTP ${response.status}`);
+            return response.json();
+        };
+        let catalog = await readCatalog(url, "default");
+        if (version && catalog.catalogVersion !== version) {
+            // A new version URL may have been cached before the API deployment.
+            // Bypass both browser and CDN entries once, retaining strict validation.
+            const freshUrl = `${url}${versionQuery ? "&" : "?"}_refresh=${Date.now()}`;
+            catalog = await readCatalog(freshUrl, "no-store");
+        }
         if (version && catalog.catalogVersion !== version) {
             throw new Error(`${name}: expected catalog ${version}, received ${catalog.catalogVersion || "unversioned"}`);
         }
@@ -569,6 +585,8 @@ import {
         updateLanguageSwitch();
         el("#active-sailor-layer").setAttribute("aria-label", t().selectSailorLayer);
         const labels = {
+            "#ship-sailor-weight-label": "shipSailorWeight",
+            "#performance-sailor-weight-heading": "sailorWeight",
             "#ship-guideline-length-label": "shipGuidelineLength",
             "#ship-equipment-t-gun-2-label": "shipEquipmentTGun2", "#ship-add-t-gun-label": "shipAddTGun",
             "#sailor-subtitle": "subtitle", "#settings-title": "settingsTitle", "#ship-roster-title": "shipRosterTitle", "#ship-equipment-title": "shipEquipmentTitle", "#ship-equipment-fcs-label": "shipEquipmentFcs", "#ship-equipment-engine-label": "shipEquipmentEngine", "#ship-equipment-r-gun-label": "shipEquipmentRGun", "#ship-equipment-t-gun-label": "shipEquipmentTGun", "#ship-base-speed-label": "shipBaseSpeed", "#ship-target-guideline-label": "shipTargetGuideline", "#ship-r-gun-range-target-label": "shipRGunRangeTarget", "#ship-guideline-adjust-captain-label": "shipGuidelineAdjustCaptain", "#ship-performance-title": "shipPerformanceTitle", "#ship-repair-speed-label": "shipRepairSpeed", "#ship-overheat-speed-label": "shipOverheatSpeed", "#ship-overheat-time-label": "shipOverheatTime", "#ship-r-seat-heading": "shipPerformanceSeat", "#ship-t-seat-heading": "shipPerformanceSeat", "#ship-r-efficiency-heading": "shipReloadEfficiency", "#ship-t-efficiency-heading": "shipReloadEfficiency", "#ship-r-reload-heading": "shipImplementedReload", "#ship-t-reload-heading": "shipImplementedReload", "#server-help": "serverHelp", "#tree-title": "treeTitle", "#class-change-help": "classChangeHelp",
@@ -1045,8 +1063,12 @@ import {
         const currentCrew = performanceCurrentCrew(composition);
         const countCell = el(`#performance-input-body [data-crew-count="${index}"]`);
         const rateCell = el(`#performance-input-body [data-crew-rate="${index}"]`);
+        const weightCell = el(`#performance-input-body [data-sailor-weight="${index}"]`);
         if (countCell) countCell.textContent = `${currentCrew} / ${performanceCrewCount}`;
         if (rateCell) rateCell.textContent = `${(performanceCrewCount > 0 ? currentCrew / performanceCrewCount * 100 : 0).toFixed(1)}%`;
+        if (weightCell) weightCell.textContent = formatSailorWeight(
+            calculateSailorWeightKg(Number(nation.value), currentCrew),
+        );
     }
     function renderPerformanceInputs(crewCount) {
         if (performanceCrewCount !== crewCount || performanceServer !== server.value || performanceCompositions.length !== 5) {
@@ -1092,7 +1114,9 @@ import {
             countCell.dataset.crewCount = String(index);
             const rateCell = document.createElement("td");
             rateCell.dataset.crewRate = String(index);
-            row.append(countCell, rateCell);
+            const weightCell = document.createElement("td");
+            weightCell.dataset.sailorWeight = String(index);
+            row.append(countCell, rateCell, weightCell);
             body.append(row);
             updatePerformanceCrewDisplay(index);
         });
@@ -3366,13 +3390,21 @@ import {
         if (isMissing) input.setAttribute("aria-invalid", "true");
         else input.removeAttribute("aria-invalid");
     }
+    function formatSailorWeight(weightKg) {
+        return weightKg === null ? "-" : (weightKg / 1000).toLocaleString(
+            language() === "ko" ? "ko-KR" : "en-US",
+            { maximumFractionDigits: 3 },
+        );
+    }
     function resetShipPerformance() {
+        el("#ship-sailor-weight").textContent = "-";
         el("#ship-guideline-length").textContent = "-";
         el("#ship-repair-speed").textContent = "-";
         el("#ship-overheat-speed").textContent = "-";
         el("#ship-overheat-speed").classList.remove("ship-overheat-speed-required");
         el("#ship-overheat-time").textContent = "-";
         for (const id of [
+            "#ship-sailor-weight-detail",
             "#ship-guideline-length-detail",
             "#ship-repair-speed-detail",
             "#ship-overheat-speed-base-detail",
@@ -3748,6 +3780,24 @@ import {
             shipLayerFieldValue(layer, index, "sailor-preset") !== ""
         );
         const completeResults = occupiedLayers.every((layer) => layerResults.has(layer));
+        const submarine = String(ship.ShipType || "").toUpperCase() === "SS";
+        const weightInputs = occupiedLayers.map((layer) => {
+            const summary = shipLayerSummary(layer);
+            return {
+                nationId: summary.performanceContext?.nationId,
+                currentCrew: summary.performanceCondition
+                    ? performanceCurrentCrew(summary.performanceCondition) : null,
+            };
+        });
+        const weight = weightInputs.every(({ nationId, currentCrew }) =>
+            Number.isInteger(nationId) && Number.isInteger(currentCrew)
+        )
+            ? calculateShipSailorWeightKg(weightInputs, { submarine })
+            : null;
+        el("#ship-sailor-weight").textContent = formatSailorWeight(weight);
+        const weightDetail = el("#ship-sailor-weight-detail");
+        weightDetail.textContent = submarine && weight !== null ? t().submarineSailorWeight : "";
+        weightDetail.hidden = !weightDetail.textContent;
         const totalRepairAbility = [...layerResults.values()].reduce(
             (sum, result) => sum + (Number(result.seamanAdjAbilities?.repair) || 0),
             0,

@@ -22,7 +22,8 @@
     <meta name="gun-range-api-base"
         content="https://navyfield-simulator-api.14desu.workers.dev" />
     <title>Navyfield Gun Range Simulator</title>
-    <link href="./common/styles.css" rel="stylesheet" />
+    <link href="common/styles.css?v=20261018-1" rel="stylesheet">
+    <link href="common/site.css?v=20261018-1" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -36,87 +37,11 @@
         });
     </script>
 
-    <style>
-        .gun-range-card {
-            border: 1px solid #aeb8c2;
-            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
-        }
-
-        .gun-range-card .card-header {
-            background: linear-gradient(180deg, #203a53, #101d29);
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .gun-range-label {
-            font-weight: 700;
-        }
-
-        .gun-range-number {
-            color: #0d6efd;
-            margin-right: 0.35rem;
-        }
-
-        .gun-range-result {
-            height: 100%;
-            padding: 1rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.35rem;
-            background: #f8f9fa;
-        }
-
-        .gun-range-result-label {
-            display: block;
-            margin-bottom: 0.35rem;
-            color: #5f6b76;
-            font-size: 0.875rem;
-        }
-
-        .gun-range-result output {
-            color: #14283b;
-            font-size: clamp(1.5rem, 4vw, 2.25rem);
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .gun-range-chart-wrap {
-            min-height: 380px;
-            padding: 1rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.35rem;
-            background: #101b27;
-        }
-
-        #gun-range-chart {
-            display: block;
-            width: 100%;
-            height: 340px;
-        }
-
-        .gun-range-table-wrap {
-            max-height: 380px;
-            overflow: auto;
-            border: 1px solid #ced4da;
-            border-radius: 0.35rem;
-        }
-
-        .gun-range-table-wrap thead th {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-        }
-
-        #gun-range-status {
-            min-height: 1.5rem;
-        }
-
-        [hidden] {
-            display: none !important;
-        }
-    </style>
+    <link href="./common/calculators.css?v=20261018-1" rel="stylesheet">
+    <link href="./gun_range_simulator.css?v=20261018-1" rel="stylesheet">
 </head>
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed nf-tool-page nf-page-gun-range-simulator">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
@@ -222,7 +147,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script src="./common/scripts.js"></script>
-    <script src="./gun_range_simulator.js?v=20261002-catalog-v1"></script>
+    <script src="./gun_range_simulator.js?v=20261031-catalog-v1"></script>
 </body>
 
 </html>

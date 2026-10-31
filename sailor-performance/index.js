@@ -7,3 +7,4 @@ export {
 } from "./calculate.js?v=20261014-v4";
 
 export * from "./formulas/index.js?v=20261014-v4";
+export { calculateSailorWeightKg, calculateShipSailorWeightKg } from "./formulas/sailor-weight.js?v=20261031-v1";
