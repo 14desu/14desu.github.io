@@ -21,7 +21,8 @@
   <meta name="author" content="" />
   <meta name="keywords" content="Navyfield,Laboratory,네이비필드,계산기,g_dori">
   <title>네이비필드 사관심사확률 계산기</title>
-  <link href="./common/styles.css" rel="stylesheet" />
+  <link href="common/styles.css?v=20261018-1" rel="stylesheet">
+    <link href="common/site.css?v=20261101-navbar-v1" rel="stylesheet">
 
   <!-- jQuery load -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -36,50 +37,12 @@
       $("#sidenavAccordion").load("./common/sidebar.html");
     });
   </script>
-  <style>
-    .veteran-card {
-      max-width: 1040px;
-      border: 1px solid #aeb8c2;
-      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.08);
-    }
-    .veteran-card .card-header {
-      background: linear-gradient(180deg, #203a53, #101d29);
-      color: #fff;
-      font-weight: 700;
-    }
-    .veteran-step-number {
-      color: #0d6efd;
-      margin-right: 0.35rem;
-    }
-    .veteran-table-wrap {
-      max-height: 620px;
-      overflow: auto;
-      border: 1px solid #ced4da;
-      border-radius: 0.35rem;
-    }
-    #VETERANOUPUTTABLE {
-      min-width: 720px;
-      font-variant-numeric: tabular-nums;
-    }
-    #VETERANOUPUTTABLE thead th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      background: #e9ecef;
-      text-align: center;
-      vertical-align: middle;
-    }
-    #VETERANOUPUTTABLE td {
-      text-align: right;
-      vertical-align: middle;
-    }
-    #VETERANOUPUTTABLE td:first-child { text-align: center; }
-    .veteran-direct-input { min-width: 5.5rem; }
-  </style>
+  <link href="./common/calculators.css?v=20261018-1" rel="stylesheet">
+    <link href="./veteran_probability_simulator.css?v=20261018-1" rel="stylesheet">
 
 </head>
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed nf-tool-page nf-page-veteran-probability-simulator">
 
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
@@ -88,10 +51,9 @@
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="https://14desu.github.io/">Navyfield Simulator</a>
+    <a class="navbar-brand ps-3 brand-bilingual" href="https://14desu.github.io/"><span>네이비필드 수병계산기</span><span class="brand-en">Navyfield Simulator</span></a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-        class="fas fa-bars"></i></button>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="사이드바 열기/닫기"><svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/></svg></button>
     <!-- Navbar // common/navbar.html에서 로딩 -->
     <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
     </ul>
