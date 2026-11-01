@@ -5,7 +5,6 @@
 .nf-resize-page .resize-main :is(a, button, summary):focus-visible { outline: 3px solid #efab32; outline-offset: 4px; }
 .nf-resize-page .resize-skip { position: fixed; top: -70px; left: 16px; z-index: 1100; background: white; color: #172f45; padding: 12px; }
 .nf-resize-page .resize-skip:focus { top: 8px; }
-.nf-resize-page .resize-home { margin: 0 24px 0 auto; font-size: 13px; text-decoration: none; color: #e3ebf2; }
 .nf-resize-page .resize-page-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
 .nf-resize-page .resize-breadcrumb { display: flex; gap: 12px; font-size: 12px; color: var(--resize-muted); }
 .nf-resize-page .resize-language { display: flex; border: 1px solid #bccbd7; border-radius: 4px; overflow: hidden; }
