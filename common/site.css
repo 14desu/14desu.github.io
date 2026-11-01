@@ -7,7 +7,13 @@
     --nf-step-color: #0d6efd;
 }
 
-/* 공통 브랜드, 안내문, 모바일 메뉴. */
+/* simulator.html 기준의 공통 상단 메뉴. 페이지별 CSS에서 재정의하지 않습니다. */
+.sb-topnav.navbar {
+  font-family: var(--bs-body-font-family);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
 .sb-topnav .navbar-brand.brand-bilingual,
 .sb-topnav .navbar-brand:not(.brand-bilingual) {
   display: flex;
@@ -15,6 +21,7 @@
   justify-content: center;
   gap: 2px;
   line-height: 0.9;
+  font-weight: 400;
 }
 .sb-topnav .navbar-brand.brand-bilingual .brand-en {
   font-size: 0.94rem;
@@ -37,20 +44,6 @@
   content: "Navyfield Simulator";
   font-size: 0.94rem;
 }
-.calculator-notice .notice-item {
-  margin-bottom: 0.2rem;
-}
-.calculator-notice .notice-en {
-  margin-top: -4px;
-  padding-left: 3.3rem;
-}
-.renewal-message .translation {
-  margin-top: -4px;
-  padding-left: 2rem;
-}
-.renewal-message {
-  margin-bottom: 1rem;
-}
 .sb-topnav.navbar-dark #sidebarToggle {
   color: rgba(255, 255, 255, 0.75);
 }
@@ -64,11 +57,26 @@
   justify-content: center;
   min-width: 2rem;
   min-height: 2rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 .sb-topnav #sidebarToggle .sidebar-toggle-icon {
   display: block;
   width: 1rem;
   height: 1rem;
+}
+.sb-topnav .nf-topnav-home {
+  margin-left: auto;
+  margin-right: 1.5rem;
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+  text-decoration: none;
+}
+.sb-topnav .nf-topnav-home:hover,
+.sb-topnav .nf-topnav-home:focus {
+  color: rgba(255, 255, 255, 0.75);
 }
 @media (max-width: 575.98px) {
   .sb-topnav .navbar-brand {
@@ -88,4 +96,24 @@
     margin-right: 0.25rem !important;
     margin-left: 0 !important;
   }
+  .sb-topnav .nf-topnav-home {
+    flex: 0 0 auto;
+    margin-right: 0.25rem;
+  }
+}
+
+/* 공통 안내문. */
+.calculator-notice .notice-item {
+  margin-bottom: 0.2rem;
+}
+.calculator-notice .notice-en {
+  margin-top: -4px;
+  padding-left: 3.3rem;
+}
+.renewal-message .translation {
+  margin-top: -4px;
+  padding-left: 2rem;
+}
+.renewal-message {
+  margin-bottom: 1rem;
 }
