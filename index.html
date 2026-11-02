@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
-
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
@@ -13,146 +11,223 @@
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-W4SDTS7');</script>
     <!-- End Google Tag Manager -->
-
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <meta name="keywords" content="Navyfield,Simulator,네이비필드,수병계산기,g_dori">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="네이비필드 계산기, NF resize, NF 연구실과 전적 검색. 수병 능력 계산, 화면 설정, 게임 자료와 플레이어 전적을 찾아보세요.">
+    <meta name="keywords" content="Navyfield,Simulator,NF resize,네이비필드,수병계산기,연구실,g_dori">
     <title>네이비필드 수병계산기 / 연구실</title>
     <link href="common/styles.css?v=20261018-1" rel="stylesheet">
     <link href="common/site.css?v=20261101-navbar-v1" rel="stylesheet">
-
-    <!-- jQuery load -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- icon load -->
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Googld Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462"
-        crossorigin="anonymous"></script>
-
-    <!-- index load -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#nf_theory_index").load("./NFLab/nf_theory_index.html");
-            $("#nf_setting_index").load("./NFLab/nf_setting_index.html");
-            $("#nf_general_index").load("./NFLab/nf_general_index.html");
-            $("#sailor_general_index").load("./NFLab/sailor_general_index.html");
-            $("#sailor_build_index").load("./NFLab/sailor_build_index.html");            
-        });
-    </script>
-
+    <link href="index.css?v=20261102-calculator-buttons-1" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous" defer></script>
+    <script src="homepage.js?v=20261102-menu-2" defer></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6857135903814462" crossorigin="anonymous"></script>
 </head>
-
-<body class="sb-nav-fixed">
-
+<body class="sb-nav-fixed hub-page">
+    <a class="hub-skip" href="#hub-main">본문으로 건너뛰기 / <span lang="en">Skip to content</span></a>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4SDTS7" height="0" width="0"
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3 brand-bilingual" href="https://14desu.github.io/"><span>네이비필드 수병계산기</span><span class="brand-en">Navyfield Simulator</span></a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="사이드바 열기/닫기"><svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/></svg></button>
-        <!-- Navbar // common/navbar.html에서 로딩 -->
-        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        </ul>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" aria-label="상단 메뉴">
+        <a class="navbar-brand ps-3 brand-bilingual" href="/"><span>네이비필드 수병계산기</span><span class="brand-en">Navyfield Simulator</span></a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="사이드바 열기/닫기" aria-controls="layoutSidenav_nav" aria-expanded="true"><svg class="sidebar-toggle-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M1 3h14v2H1zM1 7h14v2H1zM1 11h14v2H1z"/></svg></button>
+        <ul id="navbar" class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4"><li class="nav-item"><a class="nav-link" href="https://nfsim.blogspot.com/">NF BLOG <span aria-hidden="true">↗</span></a></li></ul>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <!-- Sidebar // common/sidebar.html에서 로딩 -->
-            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion" aria-label="서비스 및 연구실 메뉴">
+<!-- navigation:sidebar:start -->
+<!-- Generated from tools/navigation.json by Build-Homepage.ps1. -->
+<div class="sb-sidenav-menu"><div class="nav">
+<div class="sb-sidenav-menu-heading" style="padding:.75rem 1rem .3rem">Simulator</div>
+<a class="nav-link" href="/simulator.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-calculator" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">수병 계산기</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">Sailor Simulator</small></span></a>
+<a class="nav-link" href="/global_reload_cap_simulator.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">연사상한 계산기</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">Reload Cap Simulator</small></span></a>
+<a class="nav-link" href="/sonar_cap_simulator.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">음탐상한 계산기</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">Sonar Cap Simulator</small></span></a>
+<a class="nav-link" href="/veteran_probability_simulator.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-percent" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">사관심사확률 계산기</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">Veteran Probability Simulator</small></span></a>
+<div class="sb-sidenav-menu-heading" style="padding:.75rem 1rem .3rem">RATING</div>
+<a class="nav-link" href="/Statistics/global_player_statistics.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">전적 검색 &amp; 레이팅</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">Player Statistics &amp; Rating</small></span></a>
+<div class="sb-sidenav-menu-heading" style="padding:.75rem 1rem .3rem">NF resize</div>
+<a class="nav-link" href="/NFLab/nf_resize.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">화면 크기 조절 도구</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">NF resize</small></span></a>
+<div class="sb-sidenav-menu-heading" style="padding:.75rem 1rem .3rem">NF Lab</div>
+<a class="nav-link" href="/#nflab" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-school" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">NF 연구실</span></span></a>
+<a class="nav-link collapsed" href="#collapseNFTheory" style="padding-top:.4rem;padding-bottom:.4rem" data-bs-toggle="collapse" data-bs-target="#collapseNFTheory" aria-expanded="false" aria-controls="collapseNFTheory"><div class="sb-nav-link-icon"><i class="fa-solid fa-school" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">게임이론</span></span><div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div></a>
+<div class="collapse" id="collapseNFTheory" data-bs-parent="#sidenavAccordion"><nav class="sb-sidenav-menu-nested nav" aria-label="게임이론">
+<a class="nav-link" href="/NFLab/nf_theory_sailor_performance.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">수병 능력 개념</span></span></a>
+<a class="nav-link" href="/NFLab/nf_theory_gun_reload.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함포 연사속도 개념</span></span></a>
+<a class="nav-link" href="/NFLab/nf_theory_accuracy.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함포 명중 개념</span></span></a>
+<a class="nav-link" href="/NFLab/nf_theory_ship_speed.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함선 속도 개념</span></span></a>
+<a class="nav-link" href="/NFLab/nf_theory_ss_oxygen_charge.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">잠수함 산소충전 개념</span></span></a>
+</nav></div>
+<a class="nav-link collapsed" href="#collapseNFSettings" style="padding-top:.4rem;padding-bottom:.4rem" data-bs-toggle="collapse" data-bs-target="#collapseNFSettings" aria-expanded="false" aria-controls="collapseNFSettings"><div class="sb-nav-link-icon"><i class="fa-solid fa-sliders" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">게임설정</span></span><div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div></a>
+<div class="collapse" id="collapseNFSettings" data-bs-parent="#sidenavAccordion"><nav class="sb-sidenav-menu-nested nav" aria-label="게임설정">
+<a class="nav-link" href="/NFLab/force_shutdown.html#autobat-forceshutdown" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">강종Bat파일</span></span></a>
+<a class="nav-link" href="/NFLab/window_mode.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">창모드 설정가이드</span></span></a>
+</nav></div>
+<a class="nav-link collapsed" href="#collapseNFGeneral" style="padding-top:.4rem;padding-bottom:.4rem" data-bs-toggle="collapse" data-bs-target="#collapseNFGeneral" aria-expanded="false" aria-controls="collapseNFGeneral"><div class="sb-nav-link-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">게임일반</span></span><div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div></a>
+<div class="collapse" id="collapseNFGeneral" data-bs-parent="#sidenavAccordion"><nav class="sb-sidenav-menu-nested nav" aria-label="게임일반">
+<a class="nav-link" href="/NFLab/aircraft_info.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함재기정보/비교툴</span></span></a>
+<a class="nav-link" href="/NFLab/nf_general_belt_armor_1.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">측면장갑 0.2인치</span></span></a>
+<a class="nav-link" href="/NFLab/nf_general_accuracy_bonus_gun_list.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">명중보너스 적용함포</span></span></a>
+<a class="nav-link" href="/NFLab/nf_general_ss_divetime.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">잠수함 잠항시간</span></span></a>
+</nav></div>
+<a class="nav-link collapsed" href="#collapseSailorGeneral" style="padding-top:.4rem;padding-bottom:.4rem" data-bs-toggle="collapse" data-bs-target="#collapseSailorGeneral" aria-expanded="false" aria-controls="collapseSailorGeneral"><div class="sb-nav-link-icon"><i class="fa-solid fa-user-gear" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">수병일반</span></span><div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div></a>
+<div class="collapse" id="collapseSailorGeneral" data-bs-parent="#sidenavAccordion"><nav class="sb-sidenav-menu-nested nav" aria-label="수병일반">
+<a class="nav-link" href="https://nfsim.blogspot.com/2025/05/blog-post.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">초기어빌리티</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_exp.html#experience_table" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">경험치표</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_exp.html#get_experience" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">경험치획득</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_general.html#sailor-related-ability" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">병종별 관련어빌</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_general.html#event-sailor-hidden-ability" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">이벤트수병 히든어빌</span></span></a>
+<a class="nav-link" href="/NFLab/force_shutdown.html#veterandie-forceshutdown" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">사관사망과 강제종료</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_general.html#sailor_weight" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">수병무게</span></span></a>
+<a class="nav-link" href="https://nfsim.blogspot.com/2022/01/blog-post_30.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">갑판병 어빌</span></span></a>
+<a class="nav-link" href="https://nfsim.blogspot.com/2022/01/blog-post_10.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">영국 구갑/반구갑</span></span></a>
+<a class="nav-link" href="/NFLab/force_shutdown.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">사관사망/강제종료</span></span></a>
+</nav></div>
+<a class="nav-link collapsed" href="#collapseSailorLeveling" style="padding-top:.4rem;padding-bottom:.4rem" data-bs-toggle="collapse" data-bs-target="#collapseSailorLeveling" aria-expanded="false" aria-controls="collapseSailorLeveling"><div class="sb-nav-link-icon"><i class="fa-solid fa-seedling" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">수병육성</span></span><div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down" aria-hidden="true"></i></div></a>
+<div class="collapse" id="collapseSailorLeveling" data-bs-parent="#sidenavAccordion"><nav class="sb-sidenav-menu-nested nav" aria-label="수병육성">
+<a class="nav-link" href="/NFLab/sailor_build_gunner_recommend.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">주포병+갑판병 국적별 추천조합</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_gunner_accuracy_EBB115_compare.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">EBB LV115 집탄비교</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_build_torpedo_recommend.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">어뢰병+갑판병 국적별 추천조합</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_build_gunner_rn.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">영국 포병육성</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_gunner_accuracy_rn.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">영국 집탄모음</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_build_operator_rn_abroad.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">영국유학 함장</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_build_skip_rookiepilot.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함재기훈련병 건너뛰기</span></span></a>
+<a class="nav-link" href="https://nfsim.blogspot.com/2021/05/1.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">늦전직일반론</span></span></a>
+<a class="nav-link" href="/NFLab/sailor_build_km_AAgunner.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">독일 대공포병 늦전직육성</span></span></a>
+<a class="nav-link" href="https://nfsim.blogspot.com/2021/10/2.html" style="padding-top:.4rem;padding-bottom:.4rem"><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">일본양용포병</span></span></a>
+</nav></div>
+<a class="nav-link" href="/#database" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i></div>자료 · 비교 도구</a>
+<a class="nav-link" href="/data/naval_gun_shell_range_comparator.html" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">함포 포탄 사거리 비교</span></span></a>
+<div class="sb-sidenav-menu-heading" style="padding:.75rem 1rem .3rem">Navyfield Information</div>
+<a class="nav-link" href="https://nfsim.blogspot.com/" style="padding-top:.4rem;padding-bottom:.4rem"><div class="sb-nav-link-icon"><i class="fa-solid fa-square-rss" aria-hidden="true"></i></div><span class="hub-bilingual" style="display:block;min-width:0;overflow-wrap:anywhere;line-height:1.15"><span lang="ko">g_dori의 NF 블로그</span><small lang="en" style="display:block;font-size:.7rem;line-height:1.15;margin-top:1px">g_dori&#x27;s NF BLOG</small></span></a>
+</div></div><div class="sb-sidenav-footer" style="font-size:.75rem;white-space:nowrap">Provided by g_dori<br>Korea : fscoolxi / DCinside<br>Global : fv304 / TEAM PRO BOTS</div>
+<!-- navigation:sidebar:end -->
             </nav>
         </div>
         <div id="layoutSidenav_content">
-            <span id="test"></span>
-            <main>
-                <div class="container-fluid px-3">
-                    <br>
-                    <h2 class="mt-2"><i class="fa-solid fa-calculator"></i> 수병 계산기 / Sailor Simulator</h2>
-                    <br>
+            <main class="hub-main" id="hub-main" tabindex="-1">
+                <h1 class="visually-hidden">네이비필드 도구</h1>
+                <section class="hub-services" aria-label="주요 서비스">
+<!-- navigation:services:start -->
+<article class="hub-service hub-service-simulator"><div class="hub-service-top"><span class="hub-icon"><i class="fa-solid fa-calculator" aria-hidden="true"></i></span></div><h2 lang="en">Simulator</h2><p class="hub-service-subtitle" lang="ko">네이비필드 계산기</p><p class="hub-service-description"><span class="hub-bilingual"><span lang="ko">수병 능력과 각종 상한·확률을 계산하세요.</span><small lang="en">Calculate sailor abilities, performance caps and probabilities.</small></span></p>
+<nav class="hub-simulator-actions" aria-label="계산기 선택 / Simulators">
+<a class="hub-calculator-button" href="/simulator.html"><span class="hub-calculator-icon"><i class="fa-solid fa-calculator" aria-hidden="true"></i></span><span class="hub-bilingual"><span lang="ko">수병 계산기</span><small lang="en">Sailor Simulator</small></span></a>
+<a class="hub-calculator-button" href="/global_reload_cap_simulator.html"><span class="hub-calculator-icon"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="hub-bilingual"><span lang="ko">연사상한 계산기</span><small lang="en">Reload Cap Simulator</small></span></a>
+<a class="hub-calculator-button" href="/sonar_cap_simulator.html"><span class="hub-calculator-icon"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i></span><span class="hub-bilingual"><span lang="ko">음탐상한 계산기</span><small lang="en">Sonar Cap Simulator</small></span></a>
+<a class="hub-calculator-button" href="/veteran_probability_simulator.html"><span class="hub-calculator-icon"><i class="fa-solid fa-percent" aria-hidden="true"></i></span><span class="hub-bilingual"><span lang="ko">사관심사확률 계산기</span><small lang="en">Veteran Probability Simulator</small></span></a>
+</nav>
+</article>
+<article class="hub-service hub-service-statistics"><div class="hub-service-top"><span class="hub-icon"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span></div><h2 lang="en">Player Statistics &amp; Rating</h2><p class="hub-service-subtitle" lang="ko">전적 검색</p><p class="hub-service-description"><span class="hub-bilingual"><span lang="ko">글로벌 서버 플레이어의 전적과 레이팅을 확인하세요.</span><small lang="en">Look up Global server player statistics and ratings.</small></span></p>
+<a class="hub-service-action" href="/Statistics/global_player_statistics.html"><span class="hub-bilingual"><span lang="ko">전적 검색하기</span><small lang="en">Search Player Statistics</small></span> <span aria-hidden="true">→</span></a>
+</article>
+<article class="hub-service hub-service-resize"><div class="hub-service-top"><span class="hub-icon"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i></span></div><h2 lang="en">NF resize</h2><p class="hub-service-subtitle" lang="ko">화면 크기 조절 도구</p><p class="hub-service-description"><span class="hub-bilingual"><span lang="ko">게임 화면을 원하는 크기와 비율로 조절하세요.</span><small lang="en">Adjust the scale and aspect ratio of your game window.</small></span></p>
+<a class="hub-service-action" href="/NFLab/nf_resize.html"><span class="hub-bilingual"><span lang="ko">사용법 · 다운로드</span><small lang="en">Guide &amp; Download</small></span> <span aria-hidden="true">→</span></a>
+<div class="hub-service-secondary">
+<a href="/NFLab/nf_resize.html"><span class="hub-bilingual"><span lang="ko">화면 확대 · 비율 변경 · 전체화면</span><small lang="en">Scaling · Aspect ratio · Full screen</small></span></a>
+</div>
+</article>
+<article class="hub-service hub-service-lab"><div class="hub-service-top"><span class="hub-icon"><i class="fa-solid fa-school" aria-hidden="true"></i></span></div><h2 lang="en">NF Lab</h2><p class="hub-service-subtitle" lang="ko">NF 연구실</p><p class="hub-service-description"><span class="hub-bilingual"><span lang="ko">게임이론부터 수병 육성까지, 필요한 정보를 찾아보세요.</span></span></p>
+<a class="hub-service-action" href="/#nflab"><span class="hub-bilingual"><span lang="ko">연구실 목록 보기</span></span> <span aria-hidden="true">→</span></a>
+<div class="hub-service-secondary">
+<a href="/#nflab"><span class="hub-bilingual"><span lang="ko">게임이론 · 설정 · 수병 육성</span></span></a>
+</div>
+</article>
+<!-- navigation:services:end -->
+                </section>
 
-                    <h4>
-                        <i class="fa-solid fa-arrow-right-to-bracket"></i> 입장안내 / How to Access
-                    </h4>
-                    <p>
-                        　　<a href="https://14desu.github.io/simulator.html" class="btn btn-outline-dark btn-sm"><i
-                                class="fa-solid fa-calculator"></i> 수병 계산기 / Sailor Simulator</a>　<i
-                            class="fa-regular fa-circle-left"></i>　<i class="fa-solid fa-computer-mouse"></i> Click<br>
-                        　　<i class="fa-solid fa-list"></i> Sidebar　<i class="fa-regular fa-circle-left"></i>　<i
-                            class="fa-solid fa-calculator"></i> 수병 계산기 / Sailor Simulator　<i class="fa-regular fa-circle-left"></i>　<i
-                            class="fa-solid fa-computer-mouse"></i> Click<br>
-                    </p>
-                    <h4>
-                        <i class="fa-solid fa-triangle-exclamation"></i> 주의사항 / Notice
-                    </h4>
-                    <div class="calculator-notice">
-                        <div class="notice-item">
-                            　　<i class="fa-solid fa-person-digging"></i> 현재 수병 계산기 리뉴얼을 진행 중이며, 일부 콘텐츠는 차차 업데이트될 예정입니다.
-                            <div class="notice-en">The Sailor Simulator is currently being renewed, and some content will be updated gradually.</div>
-                        </div>
-                        <div class="notice-item">
-                            　　<i class="fa-solid fa-flask"></i> 본 사이트의 정보는 플레이어들의 직접 실험 및 데이터 추론을 기반으로 하며, 실제 인게임 결과와 다를 수 있습니다
-                            <div class="notice-en">The information on this site is based on player testing and estimates. Actual in-game results might be a bit different</div>
-                        </div>
-                        <div class="notice-item">
-                            　　<i class="fa-solid fa-user-shield"></i> 모든 정보는 참고용으로만 활용하시고, 이용에 따른 판단과 책임은 사용자 본인에게 있습니다.
-                            <div class="notice-en">Please use this information for reference only. You are solely responsible for any decisions made based on it.</div>
-                        </div>
-                    </div>
+                <nav class="hub-jump-nav" aria-label="페이지 내 바로가기">
+                    <span>바로 찾기 / <span lang="en">Quick links</span></span><a href="#calculators"><span class="hub-bilingual">계산기<small lang="en">Simulators</small></span></a><a href="/Statistics/global_player_statistics.html"><span class="hub-bilingual">전적 검색<small lang="en">Player Statistics</small></span></a><a href="/NFLab/nf_resize.html">NF resize</a><a href="#nflab">NF 연구실</a><a href="#notice"><span class="hub-bilingual">공지 · 문의<small lang="en">Notice & contact</small></span></a>
+                </nav>
 
-                    <h4>
-                        <i class="fa-solid fa-screwdriver-wrench"></i> 버그제보/수정요청 / Bug Reports &amp; Correction Requests
-                    </h4>
-                    <p>
-                        　　<i class="fa-brands fa-discord"></i> Discord : <a
-                            href="https://discordapp.com/users/304627355731886080">g_dori</a><br>
-                        　　<i class="fa-solid fa-comments"></i> Open KakaoTalk : <a
-                            href="https://open.kakao.com/me/g_dori">g_dori</a><br>
-                    </p>
+                <section class="hub-section" id="calculators" aria-labelledby="calculators-title">
+                    <div class="hub-section-heading"><div><p class="hub-eyebrow">01 / SIMULATOR</p><h2 id="calculators-title">계산기 모아보기<span class="hub-title-en" lang="en">All simulators</span></h2></div><p>필요한 계산기로 바로 이동하세요.<small lang="en">Go straight to the calculator you need.</small></p></div>
+                    <div class="hub-tool-grid">
+<!-- navigation:calculators:start -->
+<a class="hub-tool" href="/simulator.html"><span class="hub-tool-icon"><i class="fa-solid fa-calculator" aria-hidden="true"></i></span><span class="hub-tool-copy"><span class="hub-bilingual"><span lang="ko">수병 계산기</span><small lang="en">Sailor Simulator</small></span><span class="hub-tool-description"><span class="hub-bilingual"><span lang="ko">수병의 능력과 함선 성능을 계산합니다.</span><small lang="en">Calculate sailor abilities and ship performance.</small></span></span></span><span class="hub-tool-arrow" aria-hidden="true">↗</span></a>
+<a class="hub-tool" href="/global_reload_cap_simulator.html"><span class="hub-tool-icon"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span><span class="hub-tool-copy"><span class="hub-bilingual"><span lang="ko">연사상한 계산기</span><small lang="en">Reload Cap Simulator</small></span><span class="hub-tool-description"><span class="hub-bilingual"><span lang="ko">글로벌 서버의 함포 연사상한을 계산합니다.</span><small lang="en">Calculate gun reload caps on the Global server.</small></span></span></span><span class="hub-tool-arrow" aria-hidden="true">↗</span></a>
+<a class="hub-tool" href="/sonar_cap_simulator.html"><span class="hub-tool-icon"><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i></span><span class="hub-tool-copy"><span class="hub-bilingual"><span lang="ko">음탐상한 계산기</span><small lang="en">Sonar Cap Simulator</small></span><span class="hub-tool-description"><span class="hub-bilingual"><span lang="ko">음탐 수병의 성능과 상한을 확인합니다.</span><small lang="en">Check sonar sailor performance and caps.</small></span></span></span><span class="hub-tool-arrow" aria-hidden="true">↗</span></a>
+<a class="hub-tool" href="/veteran_probability_simulator.html"><span class="hub-tool-icon"><i class="fa-solid fa-percent" aria-hidden="true"></i></span><span class="hub-tool-copy"><span class="hub-bilingual"><span lang="ko">사관심사확률 계산기</span><small lang="en">Veteran Probability Simulator</small></span><span class="hub-tool-description"><span class="hub-bilingual"><span lang="ko">사관심사의 성공 확률을 계산합니다.</span><small lang="en">Calculate veteran conversion success probabilities.</small></span></span></span><span class="hub-tool-arrow" aria-hidden="true">↗</span></a>
+<!-- navigation:calculators:end -->
+                    </div>
+                </section>
 
-                </div>
-                <br>
-                <div class="container-fluid px-3" id="nflab">
-                    <h2 class="mt-2"><i class="fa-solid fa-school"></i> 연구실</h2>
-                    <br>
-                    <div class="row g-0">
-                        <div id="nf_theory_index" class="container-fluid px-3">
-                        </div>
+                <section class="hub-section" id="nflab" aria-labelledby="nflab-title">
+                    <div class="hub-section-heading"><div><p class="hub-eyebrow">02 / NF LAB</p><h2 id="nflab-title">NF 연구실</h2></div><p>게임이론부터 국적별 수병 육성까지.</p></div>
+                    <div class="hub-lab-grid">
+<!-- navigation:lab:start -->
+<article class="hub-lab-group" id="nf_theory_index"><div class="hub-lab-title"><i class="fa-solid fa-school" aria-hidden="true"></i><h3>게임이론</h3></div><p><span class="hub-bilingual"><span lang="ko">수병 능력부터 함포 연사·명중, 함선 속도까지</span></span></p><ul>
+<li><a href="/NFLab/nf_theory_sailor_performance.html"><span class="hub-bilingual"><span lang="ko">수병 능력 개념</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_theory_gun_reload.html"><span class="hub-bilingual"><span lang="ko">함포 연사속도 개념</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_theory_accuracy.html"><span class="hub-bilingual"><span lang="ko">함포 명중 개념</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_theory_ship_speed.html"><span class="hub-bilingual"><span lang="ko">함선 속도 개념</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_theory_ss_oxygen_charge.html"><span class="hub-bilingual"><span lang="ko">잠수함 산소충전 개념</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+</ul></article>
+<article class="hub-lab-group" id="nf_setting_index"><div class="hub-lab-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i><h3>게임설정</h3></div><p><span class="hub-bilingual"><span lang="ko">창모드 설정과 플레이 환경 가이드</span></span></p><ul>
+<li><a href="/NFLab/force_shutdown.html#autobat-forceshutdown"><span class="hub-bilingual"><span lang="ko">강종Bat파일</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/window_mode.html"><span class="hub-bilingual"><span lang="ko">창모드 설정가이드</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+</ul></article>
+<article class="hub-lab-group" id="nf_general_index"><div class="hub-lab-title"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><h3>게임일반</h3></div><p><span class="hub-bilingual"><span lang="ko">함재기 비교, 장갑과 잠수함 정보</span></span></p><ul>
+<li><a href="/NFLab/nf_resize.html"><span class="hub-bilingual"><span lang="ko">NF resize · 다운로드</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/aircraft_info.html"><span class="hub-bilingual"><span lang="ko">함재기정보/비교툴</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_general_belt_armor_1.html"><span class="hub-bilingual"><span lang="ko">측면장갑 0.2인치</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_general_accuracy_bonus_gun_list.html"><span class="hub-bilingual"><span lang="ko">명중보너스 적용함포</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/nf_general_ss_divetime.html"><span class="hub-bilingual"><span lang="ko">잠수함 잠항시간</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+</ul></article>
+<article class="hub-lab-group" id="sailor_general_index"><div class="hub-lab-title"><i class="fa-solid fa-user-gear" aria-hidden="true"></i><h3>수병일반</h3></div><p><span class="hub-bilingual"><span lang="ko">어빌리티, 경험치와 수병의 기본 정보</span></span></p><ul>
+<li><a href="https://nfsim.blogspot.com/2025/05/blog-post.html"><span class="hub-bilingual"><span lang="ko">초기어빌리티</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_exp.html#experience_table"><span class="hub-bilingual"><span lang="ko">경험치표</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_exp.html#get_experience"><span class="hub-bilingual"><span lang="ko">경험치획득</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_general.html#sailor-related-ability"><span class="hub-bilingual"><span lang="ko">병종별 관련어빌</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_general.html#event-sailor-hidden-ability"><span class="hub-bilingual"><span lang="ko">이벤트수병 히든어빌</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/force_shutdown.html#veterandie-forceshutdown"><span class="hub-bilingual"><span lang="ko">사관사망과 강제종료</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_general.html#sailor_weight"><span class="hub-bilingual"><span lang="ko">수병무게</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="https://nfsim.blogspot.com/2022/01/blog-post_30.html"><span class="hub-bilingual"><span lang="ko">갑판병 어빌</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="https://nfsim.blogspot.com/2022/01/blog-post_10.html"><span class="hub-bilingual"><span lang="ko">영국 구갑/반구갑</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/force_shutdown.html"><span class="hub-bilingual"><span lang="ko">사관사망/강제종료</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+</ul></article>
+<article class="hub-lab-group" id="sailor_build_index"><div class="hub-lab-title"><i class="fa-solid fa-seedling" aria-hidden="true"></i><h3>수병육성</h3></div><p><span class="hub-bilingual"><span lang="ko">병종·국적별 조합과 육성 방법</span></span></p><ul>
+<li><a href="/NFLab/sailor_build_gunner_recommend.html"><span class="hub-bilingual"><span lang="ko">주포병+갑판병 국적별 추천조합</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_gunner_accuracy_EBB115_compare.html"><span class="hub-bilingual"><span lang="ko">EBB LV115 집탄비교</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_build_torpedo_recommend.html"><span class="hub-bilingual"><span lang="ko">어뢰병+갑판병 국적별 추천조합</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_build_gunner_rn.html"><span class="hub-bilingual"><span lang="ko">영국 포병육성</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_gunner_accuracy_rn.html"><span class="hub-bilingual"><span lang="ko">영국 집탄모음</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_build_operator_rn_abroad.html"><span class="hub-bilingual"><span lang="ko">영국유학 함장</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_build_skip_rookiepilot.html"><span class="hub-bilingual"><span lang="ko">함재기훈련병 건너뛰기</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="https://nfsim.blogspot.com/2021/05/1.html"><span class="hub-bilingual"><span lang="ko">늦전직일반론</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="/NFLab/sailor_build_km_AAgunner.html"><span class="hub-bilingual"><span lang="ko">독일 대공포병 늦전직육성</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+<li><a href="https://nfsim.blogspot.com/2021/10/2.html"><span class="hub-bilingual"><span lang="ko">일본양용포병</span></span><span class="hub-list-arrow" aria-hidden="true">→</span></a></li>
+</ul></article>
+<!-- navigation:lab:end -->
                     </div>
-                    <div class="row g-0">
-                        <div id="nf_setting_index" class="container-fluid px-3">
-                        </div>
+                    <section class="hub-section" id="database" aria-labelledby="database-title">
+                    <div class="hub-section-heading"><div><h3 id="database-title">자료 · 비교 도구</h3></div><p>함포 사거리 등 게임 데이터를 비교하세요.</p></div>
+                    <div class="hub-tool-grid">
+<!-- navigation:database:start -->
+<a class="hub-tool" href="/data/naval_gun_shell_range_comparator.html"><span class="hub-tool-icon"><i class="fa-solid fa-chart-bar" aria-hidden="true"></i></span><span class="hub-tool-copy"><span class="hub-bilingual"><span lang="ko">함포 포탄 사거리 비교</span></span><span class="hub-tool-description"><span class="hub-bilingual"><span lang="ko">함포와 포탄의 사거리를 비교합니다.</span></span></span></span><span class="hub-tool-arrow" aria-hidden="true">↗</span></a>
+<!-- navigation:database:end -->
                     </div>
-                    <div class="row g-0">
-                        <div id="nf_general_index" class="container-fluid px-3">
+                    </section>
+                </section>
+
+                <section class="hub-section hub-notice" id="notice" aria-labelledby="notice-title">
+                    <div class="hub-section-heading"><div><p class="hub-eyebrow">INFORMATION</p><h2 id="notice-title">공지 · 문의<span class="hub-title-en" lang="en">Notice & contact</span></h2></div></div>
+                    <div class="hub-info-grid">
+                        <div class="hub-notice-copy"><h3><i class="fa-solid fa-circle-info" aria-hidden="true"></i> 이용 안내 <small lang="en">Notice</small></h3>
+                            <p>현재 수병 계산기 리뉴얼을 진행 중이며, 일부 콘텐츠는 차차 업데이트될 예정입니다.<small lang="en">The Sailor Simulator is being renewed. Some content will be updated gradually.</small></p>
+                            <p>본 사이트의 정보는 플레이어들의 직접 실험 및 데이터 추론을 기반으로 하며, 실제 인게임 결과와 다를 수 있습니다.<small lang="en">Information is based on player testing and estimates. In-game results may differ.</small></p>
+                            <p>모든 정보는 참고용으로 활용하시고, 이용에 따른 판단과 책임은 사용자 본인에게 있습니다.<small lang="en">Please use this information for reference. You are responsible for decisions based on it.</small></p>
                         </div>
+                        <aside class="hub-contact" aria-labelledby="contact-title"><h3 id="contact-title">버그 제보 · 수정 요청</h3><p lang="en">Bug reports & correction requests</p>
+                            <a href="https://discordapp.com/users/304627355731886080"><i class="fa-brands fa-discord" aria-hidden="true"></i><span>Discord <strong>g_dori</strong></span><span aria-hidden="true">↗</span></a>
+                            <a href="https://open.kakao.com/me/g_dori"><i class="fa-solid fa-comments" aria-hidden="true"></i><span>Open KakaoTalk <strong>g_dori</strong></span><span aria-hidden="true">↗</span></a>
+                        </aside>
                     </div>
-                    <div class="row g-0">
-                        <div id="sailor_general_index" class="container-fluid px-3">
-                        </div>
-                    </div>
-                    <div class="row g-0">
-                        <div id="sailor_build_index" class="container-fluid px-3">
-                        </div>
-                    </div>
-                </div>
+                </section>
             </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; g_dori</div>
-                    </div>
-                </div>
-            </footer>
+            <footer class="hub-footer"><span>Provided by g_dori<br>Korea : fscoolxi / DCinside<br>Global : fv304 / TEAM PRO BOTS</span><a href="#hub-main">맨 위로 / <span lang="en">Back to top</span> <span aria-hidden="true">↑</span></a></footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="https://14desu.github.io/common/scripts.js"></script>
 </body>
-
 </html>
