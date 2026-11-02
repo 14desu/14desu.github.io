@@ -83,7 +83,7 @@
         "packageNote": "Includes the EXE and a Manual in Korean, English, and Japanese.",
         "usageTitle": "About this utility",
         "windowsFeatures": "The utility uses only built-in Windows features for functions such as display scaling, window management, and pointer control.",
-        "gmNotice": "The Korea server GM has advised that this utility may be used at the user's own risk.",
+        "gmNotice": "The operators of the Korea and Global servers have confirmed that NF resize may be used at the user's own risk.",
         "faqTitle": "Before you start",
         "faq1Title": "Does choosing 16:9 or 21:9 extend the field of view?",
         "faq1": "No. It displays the original image at the selected aspect ratio, changing its shape. It does not increase game resolution or field of view. Keep the default 4:3 to preserve the original proportions.",
