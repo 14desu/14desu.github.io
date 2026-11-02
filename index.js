@@ -1,46 +1,41 @@
-import { REPAIR_SPEED_FORMULAS } from "./repair-speed.js";
-import { STRUCTURAL_DEFENSE_FORMULAS } from "./structural-defense.js";
-
-export { calculateAbilityStages } from "./ability-stages.js?v=20260923-rank-terms-v11";
-export { calculateSeamanAdjustmentPercent } from "./seaman-adjustment.js?v=20261007-seaman-v1";
-export {
-    calculateEngineOverheat,
-    calculateShipEngineOverheat,
-    calculateShipOverheatSpeed,
-} from "./engine-overheat.js";
-export { calculateGlobalGunReload, calculateKoreaGunReload } from "./gun-reload.js";
-export { calculateGuidelineLength, findGuidelinePersonnelAdjustment } from "./guideline.js?v=20260923-rank-terms-v11";
-export {
-    calculateSonarCapProgressPercent,
-    calculateSonarPerformance,
-    calculateSonarSailorRangePercent,
-    SONAR_ABILITY_CAP,
-    SONAR_RANGE_BASE_PERCENT,
-    SONAR_RANGE_MIN_ABILITY,
-} from "./sonar-performance.js";
-export {
-    calculateShipRepairSpeed,
-    calculateShipRepairSpeedDetails,
-    SHIP_BASE_REPAIR_SPEED,
-    SHIP_REPAIR_SPEED_CAP,
-} from "./repair-speed.js";
-
-export const PERFORMANCE_FORMULAS = {
-    korea: {
-        repairSpeedPerSecond: REPAIR_SPEED_FORMULAS.korea,
-        structuralDefense: STRUCTURAL_DEFENSE_FORMULAS.korea,
-    },
-    global: {
-        repairSpeedPerSecond: REPAIR_SPEED_FORMULAS.global,
-        structuralDefense: STRUCTURAL_DEFENSE_FORMULAS.global,
-    },
-};
-
-export function calculateRepairAndStructuralDefense(server, seamanAdjAbilityByType) {
-    const formulas = PERFORMANCE_FORMULAS[server];
-    if (!formulas) throw new Error("unsupported performance server");
-    return {
-        repairSpeedPerSecond: formulas.repairSpeedPerSecond(seamanAdjAbilityByType.repair),
-        structuralDefense: formulas.structuralDefense(seamanAdjAbilityByType.restore),
+/* All service links and the sidebar are delivered as static HTML. */
+(() => {
+    const toggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('layoutSidenav_nav');
+    const desktop = window.matchMedia('(min-width: 992px)');
+    const updateMenuState = () => {
+        const toggled = document.body.classList.contains('sb-sidenav-toggled');
+        const open = desktop.matches ? !toggled : toggled;
+        toggle.setAttribute('aria-expanded', String(open));
+        sidebar.inert = !open;
     };
-}
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('sb-sidenav-toggled');
+        updateMenuState();
+    });
+    desktop.addEventListener('change', updateMenuState);
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !desktop.matches && toggle.getAttribute('aria-expanded') === 'true') {
+            document.body.classList.remove('sb-sidenav-toggled');
+            updateMenuState();
+            toggle.focus();
+        }
+    });
+    sidebar.addEventListener('click', event => {
+        const link = event.target.closest('a');
+        if (link && !link.hasAttribute('data-bs-toggle') && !desktop.matches) {
+            document.body.classList.remove('sb-sidenav-toggled');
+            updateMenuState();
+        }
+    });
+    updateMenuState();
+
+    if (location.protocol === 'file:') return;
+    fetch('./common/navbar.html')
+        .then(response => {
+            if (!response.ok) throw new Error('Navbar unavailable');
+            return response.text();
+        })
+        .then(html => { document.getElementById('navbar').innerHTML = html; })
+        .catch(() => { /* Keep the static blog link when the common navbar is unavailable. */ });
+})();
