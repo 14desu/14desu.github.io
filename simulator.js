@@ -1,4 +1,5 @@
 import {
+    calculateAbilityStages,
     calculateSailorPerformance,
     calculateSeamanAdjustmentPercent,
     calculateShipEngineOverheat,
@@ -74,6 +75,7 @@ import {
     ];
     const GLOBAL_SAILOR_TYPES = [
         { id: "normal", en: "Normal sailor" },
+        { id: "santaSailor", ko: "산타 수병 Lv12", en: "Santa sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(19), ability: level12Abilities(258) },
         { id: "nfXSailor", en: "NF X Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(18), ability: level12Abilities(251), source: "https://www.navyfield.com/Store/View.aspx?num=333&category=C&page=1" },
         { id: "advancedHero", en: "Advanced Hero Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(16), ability: level12Abilities(212), source: "https://www.navyfield.com/Store/View.aspx?num=400&category=C&page=1" },
         { id: "heroSailor", en: "Hero Sailor Lv12", initialLevel: 12, initialGrowth: initialGrowthValues(14), ability: level12Abilities(184) },
@@ -264,6 +266,7 @@ import {
     let globalShipSpecialtyMode = "repair";
     let carrierAircraftMode = server.value === "korea" ? "B" : "F";
     let shipVeteranBulkScope = "all";
+    let shipRosterAbilityView = "ability";
     let resultView = "all";
     let activeShipLayer = 0;
     const layerSets = {
@@ -2132,13 +2135,13 @@ import {
             premiumPotential: "잠재플미", premiumAccuracy: "명중플미", premiumReload: "연사플미",
             premiumTorpedo: "어뢰플미", premiumRepair: "수리플미", premiumRestore: "보수플미",
             premiumEngine: "기관플미", premiumFighter: "전투플미", premiumBomber: "폭격플미",
-            nfXSailor: "X 수병", advancedHero: "어드밴스드 히어로", heroSailor: "히어로",
+            santaSailor: "산타 수병", nfXSailor: "X 수병", advancedHero: "어드밴스드 히어로", heroSailor: "히어로",
             elitePotential: "엘리트 잠재", eliteAccuracy: "엘리트 명중", eliteReload: "엘리트 연사", eliteTorpedo: "엘리트 어뢰", eliteRepair: "엘리트 수리", eliteRestore: "엘리트 보수", eliteEngine: "엘리트 기관", eliteFighter: "엘리트 전투", eliteBomber: "엘리트 폭격",
             superElitePotential: "슈퍼 엘리트 잠재", superEliteAccuracy: "슈퍼 엘리트 명중", superEliteReload: "슈퍼 엘리트 연사", superEliteTorpedo: "슈퍼 엘리트 어뢰", superEliteRepair: "슈퍼 엘리트 수리", superEliteRestore: "슈퍼 엘리트 보수", superEliteEngine: "슈퍼 엘리트 기관", superEliteFighter: "슈퍼 엘리트 전투", superEliteBomber: "슈퍼 엘리트 폭격",
             advancedEliteAccuracy: "어드밴스드 엘리트 명중", advancedEliteReload: "어드밴스드 엘리트 연사", advancedEliteTorpedo: "어드밴스드 엘리트 어뢰", advancedEliteRepair: "어드밴스드 엘리트 수리", advancedEliteRestore: "어드밴스드 엘리트 보수", advancedEliteEngine: "어드밴스드 엘리트 기관", advancedEliteFighter: "어드밴스드 엘리트 전투", advancedEliteBomber: "어드밴스드 엘리트 폭격",
         };
         if (language() === "ko") return koreanNames[typeId] || typeId || "-";
-        const globalNames = { normal: "Normal", nfXSailor: "X Sailor", advancedHero: "Advanced Hero", heroSailor: "Hero Sailor" };
+        const globalNames = { normal: "Normal", santaSailor: "Santa sailor", nfXSailor: "X Sailor", advancedHero: "Advanced Hero", heroSailor: "Hero Sailor" };
         if (globalNames[typeId]) return globalNames[typeId];
         const match = String(typeId || "").match(/^(advancedElite|superElite|elite)(Potential|Accuracy|Reload|Torpedo|Repair|Restore|Engine|Fighter|Bomber)$/);
         if (!match) return typeId || "-";
@@ -2151,7 +2154,7 @@ import {
             return [["attendanceLegend", "개근전설"], ["premium", "플미"]];
         }
         return [
-            ["nfX", "X"], ["advancedHero", "AE Hero"], ["hero", "Hero"],
+            ["santa", "Santa"], ["nfX", "X"], ["advancedHero", "AE Hero"], ["hero", "Hero"],
             ["advancedElite", "AE"], ["superElite", "SE"], ["elite", "E"],
         ];
     }
@@ -2340,7 +2343,7 @@ import {
                 : (specialty === "antiAir" ? "Reload" : `${specialty[0].toUpperCase()}${specialty.slice(1)}`);
             return `premium${premiumSpecialty}`;
         }
-        const fixedTypes = { nfX: "nfXSailor", advancedHero: "advancedHero", hero: "heroSailor" };
+        const fixedTypes = { santa: "santaSailor", nfX: "nfXSailor", advancedHero: "advancedHero", hero: "heroSailor" };
         if (fixedTypes[group]) return fixedTypes[group];
         if (group === "advancedElite" && specialty === "potential") return "advancedHero";
         const gradePrefix = { advancedElite: "advancedElite", superElite: "superElite", elite: "elite" }[group];
@@ -2580,7 +2583,7 @@ import {
             if (typeId === "attendance" || /^legend/.test(typeId)) return "attendanceLegend";
             return null;
         }
-        const fixedGroups = { nfXSailor: "nfX", advancedHero: "advancedHero", heroSailor: "hero" };
+        const fixedGroups = { santaSailor: "santa", nfXSailor: "nfX", advancedHero: "advancedHero", heroSailor: "hero" };
         return fixedGroups[typeId] || globalShipPresetGroupForType(typeId);
     }
     function isGunnerShipPreset(pathIndex) {
@@ -2887,6 +2890,18 @@ import {
         calculatePerformance();
     }
     function renderShipLayerTabs() {
+        document.querySelectorAll("[data-roster-ability-view]").forEach((button) => {
+            const weighted = button.dataset.rosterAbilityView === "weighted";
+            button.textContent = language() === "ko"
+                ? (weighted ? "가중어빌리티" : "어빌리티")
+                : (weighted ? "Weighted ability" : "Ability");
+            button.title = weighted
+                ? (language() === "ko" ? "사관·숙련병, 충원율, 서버 및 갑판병 보정 적용 (소수점 이하 버림)" : "Veteran/expert, crew ratio, server and seaman adjustments applied (rounded down)")
+                : "";
+            const active = button.dataset.rosterAbilityView === shipRosterAbilityView;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+        });
         const tabs = el("#ship-layer-tabs");
         tabs.replaceChildren();
         const layerBar = tabs.closest(".ship-layer-bar");
@@ -2952,6 +2967,7 @@ import {
             const rosterFcs = selectedShipEquipment("#ship-equipment-fcs", "fcs");
             const rosterRGun = selectedShipEquipment("#ship-equipment-r-gun", "guns");
             const rosterTGun = selectedShipEquipment("#ship-equipment-t-gun", "guns");
+            const rosterSeamanAdjustment = seamanAdjustmentContext();
             shipLayers.forEach((layer, index) => {
                 const summary = shipLayerSummary(layer);
                 const presetValue = shipLayerFieldValue(layer, index, "sailor-preset");
@@ -3002,7 +3018,7 @@ import {
                 const levelInput = document.createElement("input");
                 levelInput.className = "form-control form-control-sm ship-roster-control ship-roster-level";
                 levelInput.type = "number";
-                levelInput.min = "1";
+                levelInput.min = String(selectedInitialLevel(layerSailorType));
                 levelInput.max = level.max;
                 levelInput.value = levelValue;
                 levelInput.setAttribute("aria-label", t().rosterLevel);
@@ -3121,12 +3137,33 @@ import {
                     return key === "repair" || key === layerSpecialtyAbility;
                 };
                 const abilityCells = rosterAbilityColumns.map(([key]) => {
-                    const cell = resultCell(summary.abilityByType?.[key], showRosterAbility(key));
+                    let ability = summary.abilityByType?.[key];
+                    if (shipRosterAbilityView === "weighted") {
+                        const context = summary.performanceContext;
+                        ability = context?.abilityByType && summary.performanceCondition
+                            ? Math.floor(calculateAbilityStages({
+                                server: server.value,
+                                ability: context.abilityByType[key],
+                                crewCount: context.crewCount,
+                                condition: {
+                                    ...summary.performanceCondition,
+                                    seamanAdjustmentPercent: rosterSeamanAdjustment.rateByAbility[key],
+                                },
+                                isSonarPotential: key === "potential" && (server.value === "korea"
+                                    ? /^음파 탐지(?:병|장|관)$/.test(context.sailorClass)
+                                    : /^(?:2nd|1st|Chief) Sonarman$/i.test(context.sailorClass)),
+                            }).seamanAdjAbility)
+                            : null;
+                    }
+                    const cell = resultCell(ability, showRosterAbility(key));
+                    cell.dataset.rosterAbility = key;
                     if (!showRosterAbility(key)) return cell;
                     if (key === "potential") {
                         appendResultDetail(cell, layerPerformance?.guidelineLength);
                     } else if (key === "repair") {
                         appendResultDetail(cell, layerPerformance?.repairSpeedPerSecond, { suffix: "/s" });
+                    } else if (key === "engine") {
+                        appendResultDetail(cell, layerPerformance?.engineOverheatTimeOneSailorSeconds, { suffix: "s" });
                     } else if (key === "reload") {
                         if (server.value === "global") {
                             const capProgress = layerPerformance?.gunReloadAbilityCapProgressPercent;
@@ -4238,7 +4275,7 @@ import {
         const shipSection = el("#ship-selection-section");
         const shipEquipmentSection = el("#ship-equipment-section");
         const rosterSection = el("#ship-roster-section");
-        const rosterTitle = el("#ship-roster-title");
+        const rosterHeader = el("#ship-roster-header");
         const rosterBody = el("#ship-roster-card-body");
         const shipSailorPresetControls = el("#ship-sailor-preset-controls");
         const layerControls = el("#ship-layer-controls");
@@ -4252,7 +4289,7 @@ import {
             rosterSection.hidden = !showLayerControls;
             rosterSection.className = shipMode ? "card sailor-card mb-3" : "mb-3";
         }
-        if (rosterTitle) rosterTitle.hidden = !shipMode;
+        if (rosterHeader) rosterHeader.hidden = !shipMode;
         if (rosterBody) rosterBody.className = shipMode ? "card-body compact-card-body" : "";
         if (shipSailorPresetControls) shipSailorPresetControls.hidden = !shipMode;
         if (layerControls) layerControls.hidden = !showLayerControls;
@@ -4387,11 +4424,28 @@ import {
         rosterSection.id = "ship-roster-section";
         rosterSection.className = "mb-3";
         rosterSection.hidden = true;
-        const rosterTitle = document.createElement("div");
+        const rosterHeader = document.createElement("div");
+        rosterHeader.id = "ship-roster-header";
+        rosterHeader.className = "card-header d-flex flex-wrap align-items-center gap-2";
+        rosterHeader.hidden = true;
+        const rosterTitle = document.createElement("span");
         rosterTitle.id = "ship-roster-title";
-        rosterTitle.className = "card-header";
         rosterTitle.textContent = "함선 수병 설정";
-        rosterTitle.hidden = true;
+        const rosterAbilityButtons = document.createElement("div");
+        rosterAbilityButtons.className = "btn-group btn-group-sm";
+        rosterAbilityButtons.setAttribute("role", "group");
+        for (const view of ["ability", "weighted"]) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "btn btn-outline-light";
+            button.dataset.rosterAbilityView = view;
+            button.addEventListener("click", () => {
+                shipRosterAbilityView = view;
+                renderShipLayerTabs();
+            });
+            rosterAbilityButtons.append(button);
+        }
+        rosterHeader.append(rosterTitle, rosterAbilityButtons);
         const rosterBody = document.createElement("div");
         rosterBody.id = "ship-roster-card-body";
         const shipSailorPresetControls = document.createElement("div");
@@ -4453,7 +4507,7 @@ import {
             shipVeteranBulkControls,
         );
         rosterBody.append(shipSailorPresetControls, layerControls);
-        rosterSection.append(rosterTitle, rosterBody);
+        rosterSection.append(rosterHeader, rosterBody);
         el("#ship-equipment-section").after(rosterSection);
         el("#preset-label").closest(".col-12").className = "col-12";
         el("#level-label").closest(".col-12").className = "col-12 col-md-3 col-lg-2";
