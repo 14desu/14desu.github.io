@@ -2278,6 +2278,11 @@ import {
         return ["potential", "reload", "accuracy", "torpedo", "repair", "restore", "engine", "fighter", "bomber", "aircraft"]
             .reduce((best, key) => scores[key] > scores[best] ? key : best, "potential");
     }
+    function rosterAbilityForPath(pathIndex) {
+        const finalName = paths[Number(pathIndex)]?.at(-1)?.name || "";
+        if (server.value === "global" && /\bRecon\b/i.test(finalName)) return "aircraft";
+        return specializedAbilityForPath(pathIndex);
+    }
     function isSeamanSailorPath(pathIndex) {
         const path = paths[Number(pathIndex)] || [];
         return path.some((stage) => server.value === "korea"
@@ -2926,7 +2931,7 @@ import {
             const fixedAbilityKeys = new Set(["potential", "repair", "engine"]);
             const embarkedSpecialtyKeys = new Set(shipLayers.map((layer, index) => {
                 const pathIndex = shipLayerFieldValue(layer, index, "sailor-preset");
-                return pathIndex === "" ? null : specializedAbilityForPath(pathIndex);
+                return pathIndex === "" ? null : rosterAbilityForPath(pathIndex);
             }).filter(Boolean));
             if (shipLayers.some((layer) => layer.role === "gunner")) {
                 embarkedSpecialtyKeys.add("accuracy");
@@ -2934,7 +2939,7 @@ import {
             }
             const rosterAbilityOrder = [
                 "potential", "accuracy", "reload", "torpedo",
-                "repair", "engine", "fighter", "bomber",
+                "repair", "engine", "aircraft", "fighter", "bomber",
             ];
             const rosterAbilityColumns = rosterAbilityOrder
                 .filter((key) => fixedAbilityKeys.has(key) || embarkedSpecialtyKeys.has(key))
@@ -3127,7 +3132,7 @@ import {
                 }
                 const layerSpecialtyAbility = presetValue === ""
                     ? null
-                    : specializedAbilityForPath(presetValue);
+                    : rosterAbilityForPath(presetValue);
                 const layerIsSeaman = presetValue !== "" && isSeamanSailorPath(presetValue);
                 const showRosterAbility = (key) => {
                     if (layerIsSeaman) return true;
