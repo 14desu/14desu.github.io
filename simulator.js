@@ -8,7 +8,7 @@ import {
     calculateSailorWeightKg,
     calculateShipSailorWeightKg,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20261031-v1";
+} from "./sailor-performance/index.js?v=20261109-v1";
 
 (() => {
     "use strict";
@@ -2308,12 +2308,17 @@ import {
                 layer,
                 index,
                 abilityByType: context.abilityByType,
+                enhanced: shipLayerFieldValue(layer, index, "sailor-boost", "") === "all:20",
             };
         }).filter(Boolean)
             .slice(0, server.value === "global" ? undefined : 3);
         const rateByAbility = Object.fromEntries(SEAMAN_ADJ_ABILITIES.map(([key]) => [
             key,
-            calculateSeamanAdjustmentPercent(server.value, seamen.map((sailor) => sailor.abilityByType[key])),
+            calculateSeamanAdjustmentPercent(
+                server.value,
+                seamen.map((sailor) => sailor.abilityByType[key]),
+                seamen.map((sailor) => sailor.enhanced),
+            ),
         ]));
         return {
             rateByAbility,
@@ -2902,7 +2907,7 @@ import {
                 : (weighted ? "Weighted ability" : "Ability");
             button.title = weighted
                 ? (language() === "ko" ? "사관·숙련병, 충원율, 서버 및 갑판병 보정 적용 (소수점 이하 버림)" : "Veteran/expert, crew ratio, server and seaman adjustments applied (rounded down)")
-                : "";
+                : (language() === "ko" ? "탑승한 갑판병 보정 적용 (소수점 이하 버림)" : "Embarked seaman adjustments applied (rounded down)");
             const active = button.dataset.rosterAbilityView === shipRosterAbilityView;
             button.classList.toggle("active", active);
             button.setAttribute("aria-pressed", String(active));
@@ -3159,6 +3164,8 @@ import {
                                     : /^(?:2nd|1st|Chief) Sonarman$/i.test(context.sailorClass)),
                             }).seamanAdjAbility)
                             : null;
+                    } else if (ability !== null && ability !== undefined) {
+                        ability = Math.floor(ability * (1 + (rosterSeamanAdjustment.rateByAbility[key] ?? 0) / 100));
                     }
                     const cell = resultCell(ability, showRosterAbility(key));
                     cell.dataset.rosterAbility = key;
