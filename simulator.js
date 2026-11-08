@@ -8,7 +8,7 @@ import {
     calculateSailorWeightKg,
     calculateShipSailorWeightKg,
     SHIP_BASE_REPAIR_SPEED,
-} from "./sailor-performance/index.js?v=20261109-v1";
+} from "./sailor-performance/index.js?v=20261109-v2";
 
 (() => {
     "use strict";
