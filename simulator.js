@@ -3110,11 +3110,11 @@ import {
                         : "-";
                     return cell;
                 };
-                const appendResultDetail = (cell, value, { prefix = "", suffix = "" } = {}) => {
+                const appendResultDetail = (cell, value, { prefix = "", suffix = "", format = displayGunNumber } = {}) => {
                     if (!Number.isFinite(Number(value)) || value === null) return;
                     const detail = document.createElement("small");
                     detail.className = "ship-roster-result-detail";
-                    detail.textContent = `${prefix}${displayGunNumber(value)}${suffix}`;
+                    detail.textContent = `${prefix}${format(value)}${suffix}`;
                     cell.append(detail);
                 };
                 let layerPerformance = null;
@@ -3147,6 +3147,20 @@ import {
                     return key === "repair" || key === layerSpecialtyAbility;
                 };
                 const abilityCells = rosterAbilityColumns.map(([key]) => {
+                    if (layerIsSeaman) {
+                        const cell = resultCell(rosterSeamanAdjustment.rateByAbility[key] ?? 0, true, "%");
+                        cell.dataset.rosterAbility = key;
+                        cell.title = language() === "ko"
+                            ? "함선 전체 갑판병의 복수탑승 보정률"
+                            : "Combined adjustment rate of all embarked seamen";
+                        if (key === "repair") {
+                            appendResultDetail(cell, layerPerformance?.repairSpeedPerSecond, {
+                                suffix: "/s",
+                                format: (value) => Number(value).toFixed(1),
+                            });
+                        }
+                        return cell;
+                    }
                     let ability = summary.abilityByType?.[key];
                     if (shipRosterAbilityView === "weighted") {
                         const context = summary.performanceContext;
@@ -3565,7 +3579,21 @@ import {
                 };
             }
         }
-        return calculateSailorPerformance(input).results[0] || null;
+        const result = calculateSailorPerformance(input).results[0] || null;
+        const pathIndex = shipLayerFieldValue(layer, shipLayers.indexOf(layer), "sailor-preset");
+        if (!result || pathIndex === "" || !isSeamanSailorPath(pathIndex)) return result;
+        // 갑판병의 직접 성능은 수리·보수뿐이다. 다른 어빌은 함선 보정률의 원천으로만 사용한다.
+        return {
+            ...result,
+            seamanAdjAbilities: {
+                repair: result.seamanAdjAbilities.repair,
+                restore: result.seamanAdjAbilities.restore,
+            },
+            performance: {
+                repairSpeedPerSecond: result.performance.repairSpeedPerSecond,
+                structuralDefense: result.performance.structuralDefense,
+            },
+        };
     }
     function shipGunPerformanceEntries(mount, gun, layerResults, includeWithoutGun = false) {
         if (!gun && !includeWithoutGun) return [];
