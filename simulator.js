@@ -1354,9 +1354,10 @@ import {
             : "\uD0D1\uC2B9 \uAE30\uAD00\uBCD1 \uC218";
     }
     function fitPerformanceComposition(composition, changedField, previousComposition = null) {
+        const wasFullCrew = previousComposition
+            && performanceCurrentCrew(previousComposition) === performanceCrewCount;
         if (changedField === "veterans"
-            && previousComposition
-            && performanceCurrentCrew(previousComposition) === performanceCrewCount) {
+            && wasFullCrew) {
             const veteranIncrease = composition.veterans - previousComposition.veterans;
             composition.experts = Math.max(0, previousComposition.experts - veteranIncrease);
             composition.rookies = previousComposition.rookies;
@@ -1368,8 +1369,8 @@ import {
         };
         let overflow = composition.veterans + composition.experts + composition.rookies - performanceCrewCount;
         if (overflow <= 0) {
-            const keepZeroRookies = changedField === "experts" && composition.rookies === 0;
-            if (changedField !== "rookies" && !keepZeroRookies) composition.rookies += -overflow;
+            const fillRookies = changedField === "experts" ? wasFullCrew : changedField !== "rookies";
+            if (fillRookies) composition.rookies += -overflow;
             return;
         }
         for (const field of reductionOrder[changedField]) {
