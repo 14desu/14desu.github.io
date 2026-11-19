@@ -31,8 +31,8 @@ import {
             [5, "프랑스"], [6, "소련"], [7, "이탈리아"],
         ],
         global: [
-            [1, "United States"], [2, "United Kingdom"], [3, "Japan"], [4, "Germany"],
-            [5, "France"], [6, "Soviet Union"], [7, "Italy"], [8, "China"],
+            [1, "US Navy"], [2, "Royal Navy"], [3, "Imperial Navy"], [4, "Kriegsmarine"],
+            [5, "Marine Nationale"], [6, "Soviet Navy"], [7, "Regia Marina"], [8, "China Navy"],
         ],
     };
     function initialGrowthValues(base, overrides = {}) {
@@ -282,7 +282,7 @@ import {
     const localizedNationName = (serverId, nationId, fallback = "") => {
         const names = {
             ko: { 1: "미국", 2: "영국", 3: "일본", 4: "독일", 5: "프랑스", 6: "소련", 7: "이탈리아", 8: "중국" },
-            en: { 1: "United States", 2: "United Kingdom", 3: "Japan", 4: "Germany", 5: "France", 6: "Soviet Union", 7: "Italy", 8: "China" },
+            en: Object.fromEntries(NATIONS.global),
         };
         return names[language()]?.[Number(nationId)] || fallback || `${t().nation} ${nationId}`;
     };
@@ -1749,7 +1749,33 @@ import {
                 [t().performanceGuidelineLength, "guidelineLength", (value) => String(value)],
                 ...reloadRows,
             ].filter(([, valueKey]) => Object.hasOwn(performanceResult.results[0]?.performance || {}, valueKey));
+            const performanceAbilityKeys = {
+                repairSpeedPerSecond: "repair",
+                structuralDefense: "restore",
+                sonarAbilityCapProgressPercent: "potential",
+                engineOverheatTimeOneSailorSeconds: "engine",
+                appliedSeamanAdjustmentPercent: "reload",
+                guidelineLength: "potential",
+                gunReloadEfficiencyChangePercent: "reload",
+            };
+            const displayedWeightAbilities = new Set();
             for (const [label, valueKey, formatValue] of performanceRows) {
+                const abilityKey = performanceAbilityKeys[valueKey];
+                if (abilityKey && !displayedWeightAbilities.has(abilityKey)) {
+                    const abilityRow = document.createElement("tr");
+                    abilityRow.dataset.performanceWeightAbility = abilityKey;
+                    const abilityHeading = document.createElement("th");
+                    abilityHeading.scope = "row";
+                    abilityHeading.textContent = `${abilityLabel(ABILITIES.find(([key]) => key === abilityKey))} Weight Ability`;
+                    abilityRow.append(abilityHeading);
+                    performanceResult.results.forEach((result) => {
+                        const cell = document.createElement("td");
+                        cell.textContent = Math.floor(result.seamanAdjAbilities[abilityKey]).toLocaleString(language());
+                        abilityRow.append(cell);
+                    });
+                    resultBody.append(abilityRow);
+                    displayedWeightAbilities.add(abilityKey);
+                }
                 const row = document.createElement("tr");
                 const heading = document.createElement("th");
                 heading.scope = "row";
